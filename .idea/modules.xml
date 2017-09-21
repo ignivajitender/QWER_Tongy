@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/QWER.iml" filepath="$PROJECT_DIR$/QWER.iml" />
+      <module fileurl="file://$PROJECT_DIR$/QWER_Tongy.iml" filepath="$PROJECT_DIR$/QWER_Tongy.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
