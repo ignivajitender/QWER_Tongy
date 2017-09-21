@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:rsb="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/grey_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20dp"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_10dp"
+            android:paddingRight="@dimen/_10dp">
+
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set "
+                android:textColor="@color/text_dark_grey"
+                android:textSize="@dimen/_24sp" />
+
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preferrences"
+                android:textColor="@color/bg_blue"
+                android:textSize="@dimen/_24sp" />
+        </LinearLayout>
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="This is the dummy text for subheading"
+            android:textColor="@color/text_medium_grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:orientation="vertical"
+            android:padding="@dimen/_15dp">
+
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2dp"
+                android:layout_marginRight="@dimen/_2dp"
+                android:text="@string/language_you_speak"
+                android:textColor="@color/text_medium_grey" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_lang_i_speak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2dp"
+                android:layout_marginRight="@dimen/_2dp"
+                android:layout_marginTop="@dimen/_5dp"
+                android:background="@drawable/edit_text_white_rounded_corners"
+                android:elevation="@dimen/_2dp"
+                android:hint="@string/choose_language"
+                android:padding="@dimen/_5dp"
+                android:textColor="@color/text_light_grey"
+                android:textColorHint="@color/text_light_grey"
+                android:textSize="@dimen/_12sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_language_speak"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100dp"
+                android:visibility="gone" />
+            <!--<EditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="@dimen/_2dp"-->
+            <!--android:layout_marginRight="@dimen/_2dp"-->
+            <!--android:layout_marginTop="@dimen/_5dp"-->
+            <!--android:background="@drawable/edit_text_white_rounded_corners"-->
+            <!--android:elevation="@dimen/_2dp"-->
+            <!--android:hint="@string/choose_language"-->
+            <!--android:padding="@dimen/_5dp"-->
+            <!--android:textColor="@color/text_light_grey"-->
+            <!--android:textColorHint="@color/text_light_grey" />-->
+
+
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2dp"
+                android:layout_marginRight="@dimen/_2dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:text="@string/language_you_want_To_learn"
+                android:textColor="@color/text_medium_grey"
+                android:textColorHint="@color/text_light_grey" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_lang_i_learn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2dp"
+                android:layout_marginRight="@dimen/_2dp"
+                android:layout_marginTop="@dimen/_2dp"
+                android:background="@drawable/edit_text_white_rounded_corners"
+                android:elevation="@dimen/_4dp"
+                android:hint="@string/choose_language"
+                android:padding="@dimen/_5dp"
+                android:textColor="@color/text_light_grey"
+                android:textColorHint="@color/text_light_grey" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_language_to_learn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100dp"
+                android:visibility="gone" />
+            <!--<EditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="@dimen/_2dp"-->
+            <!--android:layout_marginRight="@dimen/_2dp"-->
+
+            <!--android:layout_marginTop="@dimen/_2dp"-->
+            <!--android:background="@drawable/edit_text_white_rounded_corners"-->
+            <!--android:elevation="@dimen/_4dp"-->
+            <!--android:hint="@string/choose_language"-->
+            <!--android:padding="@dimen/_5dp"-->
+            <!--android:textColor="@color/text_light_grey"-->
+            <!--android:textColorHint="@color/text_light_grey" />-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+
+                android:layout_marginTop="@dimen/_15dp"
+                android:background="@color/text_light_grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6dp"
+                android:orientation="horizontal">
+
+                <com.igniva.qwer.ui.views.TextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_2dp"
+                    android:text="@string/gender"
+                    android:textColor="@color/text_medium_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="@dimen/_2dp"
+                    android:layout_marginRight="@dimen/_2dp"
+                    android:gravity="right">
+
+
+                    <ImageView
+
+                        android:id="@+id/iv_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/male_unselected" />
+
+                    <ImageView
+                        android:id="@+id/iv_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/female_unselected" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+
+                android:layout_marginTop="@dimen/_6dp"
+                android:background="@color/text_light_grey" />
+
+
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2dp"
+                android:layout_marginRight="@dimen/_2dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:text="@string/preferred_age"
+                android:textColor="@color/text_medium_grey" />
+
+            <!--<org.florescu.android.rangeseekbar.RangeSeekBar-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:textAboveThumbsColor="@color/text_dark_grey"-->
+            <!--rsb:absoluteMaxValue="150"-->
+            <!--rsb:absoluteMinValue="20" />-->
+
+            <com.igniva.qwer.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                android:id="@+id/seekbar_preferred_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5dp"
+                android:layout_marginTop="@dimen/_5dp"
+                app:bar_color="@color/bg_white"
+
+                app:bar_highlight_color="@color/bg_blue"
+                app:data_type="_integer"
+                app:left_thumb_color="@color/bg_blue"
+                app:max_value="66"
+                app:min_value="16"
+                app:right_thumb_color="@color/bg_blue" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2dp"
+                android:orientation="horizontal">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:id="@+id/tv_preferred_age_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="0"
+                    android:textColor="@color/text_medium_grey" />
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:id="@+id/tv_preferred_age_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="@dimen/_2dp"
+                    android:text="0"
+                    android:textColor="@color/text_medium_grey" />
+
+            </RelativeLayout>
+
+
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2dp"
+                android:layout_marginRight="@dimen/_2dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:text="@string/preferred_area"
+                android:textColor="@color/text_medium_grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_2dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+
+                <RadioGroup
+                    android:id="@+id/rbg_preferred_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RadioButton
+                        android:id="@+id/rb_nearby_me"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/bg_blue"
+                        android:checked="true"
+                        android:text="@string/nearby_me"
+                        android:textColor="@color/text_dark_grey"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/rb_world_wide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/bg_blue"
+                        android:text="@string/world_wide"
+                        android:textColor="@color/text_dark_grey"
+                        android:textStyle="bold" />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/ll_nearby_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:orientation="vertical">
+
+                    <com.igniva.qwer.crystalrangeseekbar.widgets.CrystalSeekbar
+                        android:id="@+id/seekbar_nearby_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:bar_color="@color/bg_white"
+                        app:bar_highlight_color="@color/bg_blue"
+                        app:data_type="_integer"
+                        app:left_thumb_color="@color/bg_blue"
+                        app:max_value="100"
+                        app:min_value="0"
+                        app:steps="5" />
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:id="@+id/tv_nearby_area_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0 km"
+                        android:textColor="@color/text_medium_grey" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/blue_round_button"
+                        android:paddingBottom="@dimen/_10dp"
+                        android:paddingLeft="@dimen/_30dp"
+                        android:paddingRight="@dimen/_30dp"
+                        android:paddingTop="@dimen/_10dp"
+                        android:text="@string/lets_learn"
+                        android:textColor="@color/bg_white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
