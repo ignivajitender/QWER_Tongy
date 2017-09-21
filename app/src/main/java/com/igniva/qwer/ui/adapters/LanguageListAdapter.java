@@ -9,6 +9,7 @@
 //
 //import com.igniva.qwer.R;
 //
+//import java.util.ArrayList;
 //import java.util.List;
 //
 //import butterknife.BindView;
@@ -19,6 +20,7 @@
 //
 //public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapter.MyViewHolder> {
 //
+//    ArrayList<String>
 //
 //
 //    public class MyViewHolder extends RecyclerView.ViewHolder {
