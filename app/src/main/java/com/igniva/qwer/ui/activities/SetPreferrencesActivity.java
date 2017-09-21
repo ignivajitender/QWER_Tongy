@@ -1,7 +1,10 @@
 package com.igniva.qwer.ui.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -57,6 +60,11 @@ public class SetPreferrencesActivity extends BaseActivity {
     AutoCompleteTextView mActvLangISpeak;
     @BindView(R.id.actv_lang_i_learn)
     AutoCompleteTextView mActvLangILearn;
+    @BindView(R.id.rv_language_speak)
+    RecyclerView mRvLanguageSpeak;
+    @BindView(R.id.rv_language_to_learn)
+    RecyclerView mRvLanguageToLearn;
+    Context context=SetPreferrencesActivity.this;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +78,7 @@ public class SetPreferrencesActivity extends BaseActivity {
     @Override
     protected void setUpLayout() {
         final String[] countries = getResources().getStringArray(R.array.languages);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.auto_complete_tv_item,R.id.tv_languagename, countries);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.auto_complete_tv_item, R.id.tv_languagename, countries);
         mActvLangISpeak.setAdapter(adapter);
         mActvLangILearn.setAdapter(adapter);
         mActvLangISpeak.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -87,10 +95,14 @@ public class SetPreferrencesActivity extends BaseActivity {
         mActvLangILearn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selection = (String)adapterView.getItemAtPosition(i);
-                Toast.makeText(SetPreferrencesActivity.this, "ho gea "+" pos: "+i+selection, Toast.LENGTH_SHORT).show();
+                String selection = (String) adapterView.getItemAtPosition(i);
+                Toast.makeText(SetPreferrencesActivity.this, "ho gea " + " pos: " + i + selection, Toast.LENGTH_SHORT).show();
             }
         });
+
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
+//        LanguageListAdapter
+//        mRvLanguageSpeak
 
     }
 
