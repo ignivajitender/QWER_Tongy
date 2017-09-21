@@ -30,8 +30,7 @@ public  class CallProgressWheel {
                     return;
                 }
             }
-
-            progressDialog = new ProgressDialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+             progressDialog = new ProgressDialog(context, android.R.style.Theme_Translucent_NoTitleBar);
             progressDialog.show();
             WindowManager.LayoutParams layoutParams = progressDialog.getWindow().getAttributes();
             layoutParams.dimAmount = 0.5f;
