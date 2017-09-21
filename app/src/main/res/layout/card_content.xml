@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="200dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16dp">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_margin="@dimen/_8dp">
+
+            </android.support.v4.view.ViewPager>
+
+            <ImageButton
+                android:id="@+id/iv_request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginRight="@dimen/_16dp"
+                android:layout_marginTop="@dimen/_30dp"
+                android:background="@drawable/request" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|left"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_8dp"
+                android:text="Matthew Hammon"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_8dp">
+
+                <TextView
+                    android:id="@+id/tv_age_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableLeft="@drawable/male"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:text="Age: "
+                    android:textSize="@dimen/_12sp" />
+
+                <TextView
+                    android:id="@+id/tv_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="24 Years"
+                    android:textSize="@dimen/_12sp" />
+                <TextView
+                    android:id="@+id/tv_radius"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="39 km away"
+                    android:paddingLeft="@dimen/_16dp"
+                    android:textSize="@dimen/_12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/content8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+
+            <TextView
+                android:id="@+id/content7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+
+            <TextView
+                android:id="@+id/content6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+
+            <TextView
+                android:id="@+id/content5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+
+            <TextView
+                android:id="@+id/content4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+
+            <TextView
+                android:id="@+id/content3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+
+            <TextView
+                android:id="@+id/content2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+
+            <TextView
+                android:id="@+id/content1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

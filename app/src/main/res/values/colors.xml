@@ -7,7 +7,7 @@
     <color name="text_color">#252b33</color>
     <color name="color_et_hint">#8a959e</color>
 
- <!-- color code by desinger -->
+    <!-- color code by desinger -->
     <!-- color code forr backgrounds -->
     <color name="bg_blue">#90cbf6</color>
     <color name="bg_off_white">#f5f6fa</color>
@@ -19,14 +19,10 @@
     <!-- color code forr backgrounds -->
 
     <!-- color code forr text -->
-
     <color name="text_dark_grey">#333333</color>
     <color name="text_medium_grey">#767676</color>
     <color name="text_light_grey">#c0c0c0</color>
 
-
- <!-- color code by desinger -->
-
-
+    <!-- color code by desinger -->
 
 </resources>
