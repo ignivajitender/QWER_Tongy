@@ -23,16 +23,16 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
         this.context=context;
     }
     int[] mResources = {
+            R.drawable.d,
+            R.drawable.e,
             R.drawable.busesgallery03,
             R.drawable.busesgallery03,
             R.drawable.busesgallery03,
-            R.drawable.busesgallery03,
-            R.drawable.busesgallery03,
-            R.drawable.ic_launcher,
-            R.drawable.ic_launcher,
-            R.drawable.ic_launcher,
-            R.drawable.ic_launcher,
-            R.drawable.ic_launcher
+            R.drawable.f,
+            R.drawable.g,
+            R.drawable.f,
+            R.drawable.g,
+            R.drawable.f
     };
 
     @Override

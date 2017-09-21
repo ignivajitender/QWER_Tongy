@@ -85,42 +85,51 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"
     // RETROFIT
     compile "com.squareup.retrofit2:retrofit:${retrofit}"
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    compile 'com.jakewharton.retrofit:retrofit1-okhttp3-client:1.1.0'
     // IMAGE UTILS
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
     // GOOGLE PLAY SERVICES
     compile "com.google.android.gms:play-services:${gmsVersion}"
     compile "com.google.firebase:firebase-core:${gmsVersion}"
     compile "com.google.firebase:firebase-crash:${gmsVersion}"
     // MEMORY LEAKS
+
     // BUTTER KNIFE
     compile "com.jakewharton:butterknife:${butterknifeVersion}"
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
 
     // shimmer effect
 //    compile 'com.github.rasoulmiri:Skeleton:v1.0.0'
+
     // range seekbar
+//    compile 'com.crystal:crystalrangeseekbar:1.1.1'
+//    compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
+
 
     // runtime permissions
+    compile 'com.karumi:dexter:4.1.0'
 
-    // collapsing toolbar
 
-    //fresco dependency
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
-    compile 'com.squareup.okhttp3:okhttp:3.1.2'
-    compile 'com.jakewharton.retrofit:retrofit1-okhttp3-client:1.1.0'
-    compile 'com.google.code.gson:gson:2.6.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.jaredrummler:material-spinner:1.1.0'
+    // collapsing toolbar  //fresco dependency
+    compile 'com.facebook.fresco:fresco:0.9.0'
+
+    // card stack
     compile 'com.github.wenchaojiang:AndroidSwipeableCardStack:0.1.4'
     compile 'link.fls:swipestack:0.3.0'
-    compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
-    compile 'com.crystal:crystalrangeseekbar:1.1.1'
-    compile 'com.karumi:dexter:4.1.0'
-    compile 'com.facebook.fresco:fresco:0.9.0'
+
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.code.gson:gson:2.6.1'
+    compile 'com.jaredrummler:material-spinner:1.1.0'
+
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:+'
 }
 // Add to the bottom of the file

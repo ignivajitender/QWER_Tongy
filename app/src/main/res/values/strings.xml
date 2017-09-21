@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">QWER</string>
+    <string name="app_name">Tongy</string>
     <string name="button1">Button 1</string>
     <string name="button2">Button 2</string>
     <string name="forgot_your_password">Forgot Your Password</string>
@@ -32,6 +32,36 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="beginer">Beginner</string>
     <string name="intermediate">Intermediate</string>
     <string name="professional">Professional</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="verify_password">Verify Password</string>
+    <string name="okay">OKAY</string>
+    <string name="success">Success!!</string>
+    <string name="thanks">Thanks!</string>
+    <string name="thanks_message">Thanks for contact. We ll be in touch soon.</string>
+    <string name="error_email_activation">Your email is not verified yet!. Please check your mail for verification link or resend link again</string>
+    <string name="resend_link">Resend link again</string>
+    <string name="language_you_speak">LANGUAGE YOU SPEAK</string>
+    <string name="language_you_want_To_learn">LANGUAGE YOU WANT TO LEARN</string>
+    <string name="gender">Preferred Gender</string>
+    <string name="preferred_age">PREFERRED AGE</string>
+    <string name="preferred_area">PREFERRED AREA</string>
+    <string name="nearby_me">Nearby Me</string>
+    <string name="world_wide">World Wide</string>
+    <string name="lets_learn">LET\'S LEARN</string>
+    <string name="choose_language">choose language here</string>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>French</item>
+        <item>Spanish</item>
+        <item>Hindi</item>
+        <item>Arabic</item>
+        <item>Tamil</item>
+        <item>Punjabi</item>
+        <item>Malallayalam</item>
+    </string-array>
+
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
