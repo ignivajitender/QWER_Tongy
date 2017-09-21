@@ -7,53 +7,50 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!--GCM PERMISSIONS END -->
-
+    <!-- GCM PERMISSIONS END -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
         <activity
-            android:screenOrientation="portrait"
-            android:name="com.igniva.qwer.ui.activities.SetPreferrencesActivity"
-            android:label="@string/app_name">
+            android:name=".ui.activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.igniva.qwer.ui.activities.LoginActivity"/>
-        <activity android:name="com.igniva.qwer.ui.activities.MainActivity"/>
+        <activity android:name=".ui.activities.LoginActivity" />
+        <activity android:name=".ui.activities.PrivacyPolicyActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <!-- GCM END-->
+        <!-- GCM END -->
 
-        <!--
-          Defining Services
-      -->
-        <service
-            android:name="com.igniva.qwer.utils.fcm.MyFirebaseMessagingService">
+
+        <!--           Defining Services -->
+        <service android:name=".utils.fcm.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".utils.fcm.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <service
-            android:name="com.igniva.qwer.utils.fcm.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
+        <activity
+            android:name=".ui.activities.HomeActivity"
+            android:label="@string/title_activity_bottom_navigation"></activity>
     </application>
 
 </manifest>

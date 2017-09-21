@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
@@ -93,115 +92,117 @@ public class AllPopUps extends AppCompatActivity {
 //
 //
 //    }
-
-    public void callActivationErrorPopUp() {
-
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-
-        dialog.setContentView(R.layout.email_activation_error_pop_up);
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
-
-        dialog.setTitle("Custom Dialog");
-
-
-        dialog.show();
-
-
-    }
-
-    public void callThanksPopUp() {
-
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-
-        dialog.setContentView(R.layout.thanks_pop_up);
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
-
-        dialog.setTitle("Custom Dialog");
-
-
-        dialog.show();
-
-
-    }
-
-    public void callSuccessPopUp() {
-
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-
-        dialog.setContentView(R.layout.succuess_pop_up);
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
-
-        dialog.setTitle("Custom Dialog");
-
-
-        dialog.show();
-
-
-    }
-
-    public void callVerifyPassPopUp() {
-
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(this,
-                R.style.Theme_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-
-        dialog.setContentView(R.layout.update_email_verify_pass_pop_up);
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
-
-        dialog.setTitle("Custom Dialog");
-
-
-        dialog.show();
-
-
-    }
 //
-    public void callSetPrefPopUp() {
-
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(this,
-                R.style.Theme_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-
-        dialog.setContentView(R.layout.set_preferences_pop_up);
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.setTitle("Custom Dialog");
-        dialog.show();
-    }
+//    public void createDisputeRequest() {
+//
+//        // Create custom dialog object
+//        final Dialog dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.setCancelable(true);
+//        dialog.setCanceledOnTouchOutside(true);
+//
+//        dialog.setContentView(R.layout.raise_dispute_pop_up);
+////        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//
+//
+//        dialog.setTitle("Custom Dialog");
+//
+//
+//        dialog.show();
+//
+//
+//    }
+//
+//    public void createDriversNote() {
+//
+//        // Create custom dialog object
+//        final Dialog dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.setCancelable(true);
+//        dialog.setCanceledOnTouchOutside(true);
+//
+//        dialog.setContentView(R.layout.drivers_notes);
+////        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//
+//
+//        dialog.setTitle("Custom Dialog");
+//
+//
+//        dialog.show();
+//
+//
+//    }
+//
+//    public void createRatingPopUp() {
+//
+//        // Create custom dialog object
+//        final Dialog dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.setCancelable(true);
+//        dialog.setCanceledOnTouchOutside(true);
+//
+//        dialog.setContentView(R.layout.rating_popup);
+////        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//
+//
+//        dialog.setTitle("Custom Dialog");
+//
+//
+//        dialog.show();
+//
+//
+//    }
+//
+//    public void createYournote() {
+//
+//        // Create custom dialog object
+//        final Dialog dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.setCancelable(true);
+//        dialog.setCanceledOnTouchOutside(true);
+//
+//        dialog.setContentView(R.layout.yournote_pop_up);
+////        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//
+//
+//        dialog.setTitle("Custom Dialog");
+//
+//
+//        dialog.show();
+//
+//
+//    }
+//
+//    public void createSuccessPopUP() {
+//
+//        // Create custom dialog object
+//        final Dialog dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.setCancelable(true);
+//        dialog.setCanceledOnTouchOutside(true);
+//
+//        dialog.setContentView(R.layout.success_pop_up);
+////        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//
+//
+//        dialog.setTitle("Custom Dialog");
+//
+//
+//        dialog.show();
+//
+//
+//    }
 //
 //
     @OnClick({R.id.btn_set_prefernce, R.id.btn_remove_post, R.id.btn_report_post, R.id.btn_delete_account, R.id.btn_verify_pass, R.id.btn_repost_user, R.id.btn_success, R.id.btn_thanks, R.id.btn_activation})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_set_prefernce:
-                callSetPrefPopUp();
                 break;
             case R.id.btn_remove_post:
                 break;
@@ -210,18 +211,14 @@ public class AllPopUps extends AppCompatActivity {
             case R.id.btn_delete_account:
                 break;
             case R.id.btn_verify_pass:
-                callVerifyPassPopUp();
                 break;
             case R.id.btn_repost_user:
                 break;
             case R.id.btn_success:
-                callSuccessPopUp();
                 break;
             case R.id.btn_thanks:
-                callThanksPopUp();
                 break;
             case R.id.btn_activation:
-                callActivationErrorPopUp();
                 break;
         }
     }

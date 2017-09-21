@@ -2,22 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/upper_half_round_background_offwhite"
-        android:paddingBottom="@dimen/_10dp"
-        android:paddingTop="@dimen/_10dp">
+        android:background="@drawable/upper_half_round_background_offwhite">
 
-        <com.igniva.qwer.ui.views.TextViewRegular
-            android:textColor="@color/text_dark_grey"
-            android:textSize="@dimen/_20sp"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-
+            android:layout_marginBottom="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:padding="@dimen/_10dp"
             android:text="@string/filipino" />
     </LinearLayout>
 
@@ -26,10 +24,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_half_round_background_white"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/_24dp"
-        android:paddingTop="@dimen/_24dp"
-        android:paddingRight="@dimen/_10dp"
-        android:paddingLeft="@dimen/_10dp"
         android:weightSum="3">
 
         <LinearLayout
@@ -44,13 +38,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/beginner" />
 
-            <com.igniva.qwer.ui.views.TextViewRegular
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/_5dp"
-                android:paddingRight="@dimen/_5dp"
-                android:text="@string/beginer"
-                android:textColor="@color/text_dark_grey" />
+                android:text="@string/beginer" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,13 +56,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/intermediate" />
 
-            <com.igniva.qwer.ui.views.TextViewRegular
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/_5dp"
-                android:paddingRight="@dimen/_5dp"
-                android:text="@string/intermediate"
-                android:textColor="@color/text_dark_grey" />
+                android:text="@string/intermediate" />
         </LinearLayout>
 
         <LinearLayout
@@ -86,12 +74,9 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/professional" />
 
-            <com.igniva.qwer.ui.views.TextViewRegular
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/_5dp"
-                android:paddingRight="@dimen/_5dp"
-
                 android:text="@string/professional" />
         </LinearLayout>
 
