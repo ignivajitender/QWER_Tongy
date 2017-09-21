@@ -1,0 +1,53 @@
+<resources>
+
+    <dimen name="_1dp">1.40dp</dimen>
+    <dimen name="_2dp">2.80dp</dimen>
+    <dimen name="_3dp">4.20dp</dimen>
+    <dimen name="_4dp">5.60dp</dimen>
+    <dimen name="_5dp">7.00dp</dimen>
+    <dimen name="_6dp">8.40dp</dimen>
+    <dimen name="_8dp">11.20dp</dimen>
+    <dimen name="_10dp">14.00dp</dimen>
+    <dimen name="_12dp">16.80dp</dimen>
+    <dimen name="_15dp">21.00dp</dimen>
+    <dimen name="_16dp">22.40dp</dimen>
+    <dimen name="_20dp">28.00dp</dimen>
+    <dimen name="_25dp">35.00dp</dimen>
+    <dimen name="_30dp">42.00dp</dimen>
+    <dimen name="_35dp">49.00dp</dimen>
+    <dimen name="_36dp">50.40dp</dimen>
+    <dimen name="_37dp">51.80dp</dimen>
+    <dimen name="_38dp">53.20dp</dimen>
+    <dimen name="_40dp">56.00dp</dimen>
+    <dimen name="_45dp">63.00dp</dimen>
+    <dimen name="_50dp">70.00dp</dimen>
+    <dimen name="_60dp">84.00dp</dimen>
+    <dimen name="_80dp">112.00dp</dimen>
+    <dimen name="_100dp">140.00dp</dimen>
+    <dimen name="_110dp">154.00dp</dimen>
+    <dimen name="_120dp">168.00dp</dimen>
+    <dimen name="_150dp">210.00dp</dimen>
+    <dimen name="_180dp">252.00dp</dimen>
+    <dimen name="_200dp">280.00dp</dimen>
+    <dimen name="_240dp">336.00dp</dimen>
+    <dimen name="_300dp">420.00dp</dimen>
+
+    <dimen name="_10sp">14.00sp</dimen>
+    <dimen name="_11sp">15.40sp</dimen>
+    <dimen name="_12sp">16.80sp</dimen>
+    <dimen name="_13sp">18.20sp</dimen>
+    <dimen name="_14sp">19.60sp</dimen>
+    <dimen name="_16sp">22.40sp</dimen>
+    <dimen name="_18sp">25.20sp</dimen>
+    <dimen name="_20sp">28.00sp</dimen>
+    <dimen name="_24sp">33.60sp</dimen>
+    <dimen name="_26sp">36.40sp</dimen>
+    <dimen name="_30sp">42.00sp</dimen>
+    <dimen name="_36sp">50.40sp</dimen>
+    <dimen name="_22sp" >28.00sp</dimen>
+    <dimen name="seekbartext" >55.00sp</dimen>
+    <!--<dimen name="margin_seekbartext" >75.00dp</dimen>-->
+
+    <dimen name="test_size_under_drawable">15sp</dimen>
+    <dimen name="center_pic">-50dp</dimen>
+</resources>

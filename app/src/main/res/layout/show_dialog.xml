@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_set_prefernce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set Preferences pop up" />
+
+        <Button
+            android:id="@+id/btn_remove_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remove Post" />
+
+        <Button
+            android:id="@+id/btn_report_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Report Post" />
+
+        <Button
+            android:id="@+id/btn_delete_account"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:text="Delete Account" />
+
+        <Button
+            android:id="@+id/btn_verify_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify Password " />
+
+        <Button
+            android:id="@+id/btn_repost_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Report user" />
+
+        <Button
+            android:id="@+id/btn_success"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Success" />
+
+        <Button
+            android:id="@+id/btn_thanks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thanks " />
+
+        <Button
+            android:id="@+id/btn_activation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Activation" />
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_drivers_notes"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="drivers note" />-->
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_rating"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Rating " />-->
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_yournote"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Your note " />-->
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_success"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Success Pop up " />-->
+    </LinearLayout>
+</ScrollView>

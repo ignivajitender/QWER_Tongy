@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPink">#ff3366</color>
+    <color name="text_color">#252b33</color>
+    <color name="color_et_hint">#8a959e</color>
+
+ <!-- color code by desinger -->
+    <!-- color code forr backgrounds -->
+    <color name="bg_blue">#90cbf6</color>
+    <color name="bg_off_white">#f5f6fa</color>
+    <color name="bg_white">#ffffff</color>
+    <color name="bg_red">#f62d4f</color>
+    <color name="bg_orange">#fab136</color>
+    <color name="bg_light_grey">#eaecee</color>
+
+    <!-- color code forr backgrounds -->
+
+    <!-- color code forr text -->
+
+    <color name="text_dark_grey">#333333</color>
+    <color name="text_medium_grey">#767676</color>
+    <color name="text_light_grey">#c0c0c0</color>
+
+
+ <!-- color code by desinger -->
+
+
+
+</resources>

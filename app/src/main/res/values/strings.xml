@@ -1,0 +1,65 @@
+<resources>
+
+    <string name="app_name">Tongy</string>
+    <string name="button1">Button 1</string>
+    <string name="button2">Button 2</string>
+    <string name="forgot_your_password">Forgot Your Password</string>
+    <string name="forgot_password_inst">Enter your email address below and we’ll\nsend you password reset instruction</string>
+    <string name="enter_your_email_address">Enter Your Email Address</string>
+    <string name="send_password">Send Password</string>
+    <string name="back_to_login">Back To Login</string>h
+    <string name="login_with_manager">Login with a Manager</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="no_internet_title">No Internt Connection</string>
+    <string name="no_internet">Your mobile is not connected to the internet. Please connect to an active internet connection.</string>
+    <string name="invalid_session">Invalid Session</string>
+    <string name="logout_device">Your session has been expired, Please login again to continue.</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="something_went_wrong">Something went wrong, Please try again later.</string>
+    <string name="textdata">A Privacy Policy is a legal statement that specifies what the business owner does with the personal data collected from users, along with how the data is processed and why.
+
+In 1968, Council of Europe did studies on the threat of the Internet expansion as they were concerned with the effects of technology on human rights. This lead to the development of policies that were to be developed to protect personal data.
+
+This marks the start of what we know now as a “Privacy Policy”. While the name “Privacy Policy” refers to the legal agreement, the concept of privacy and protecting user data is closely related.</string>
+    <string name="filipino">Filipino</string>
+    <string name="beginer">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="professional">Professional</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="verify_password">Verify Password</string>
+    <string name="okay">OKAY</string>
+    <string name="success">Success!!</string>
+    <string name="thanks">Thanks!</string>
+    <string name="thanks_message">Thanks for contact. We ll be in touch soon.</string>
+    <string name="error_email_activation">Your email is not verified yet!. Please check your mail for verification link or resend link again</string>
+    <string name="resend_link">Resend link again</string>
+    <string name="language_you_speak">LANGUAGE YOU SPEAK</string>
+    <string name="language_you_want_To_learn">LANGUAGE YOU WANT TO LEARN</string>
+    <string name="gender">Preferred Gender</string>
+    <string name="preferred_age">PREFERRED AGE</string>
+    <string name="preferred_area">PREFERRED AREA</string>
+    <string name="nearby_me">Nearby Me</string>
+    <string name="world_wide">World Wide</string>
+    <string name="lets_learn">LET\'S LEARN</string>
+    <string name="choose_language">choose language here</string>
+
+        <string-array name="languages">
+            <item>English</item>
+            <item>French</item>
+            <item>Spanish</item>
+            <item>Hindi</item>
+            <item>Arabic</item>
+            <item>Tamil</item>
+            <item>Punjabi</item>
+            <item>Malallayalam</item>
+        </string-array>
+
+</resources>
