@@ -12,13 +12,13 @@
         android:paddingTop="@dimen/_10dp">
 
         <com.igniva.qwer.ui.views.TextViewRegular
-            android:textColor="@color/text_dark_grey"
-            android:textSize="@dimen/_20sp"
+            android:id="@+id/tv_lang_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-
-            android:text="@string/filipino" />
+            android:text="@string/filipino"
+            android:textColor="@color/text_dark_grey"
+            android:textSize="@dimen/_20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -27,12 +27,13 @@
         android:background="@drawable/bottom_half_round_background_white"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/_24dp"
-        android:paddingTop="@dimen/_24dp"
-        android:paddingRight="@dimen/_10dp"
         android:paddingLeft="@dimen/_10dp"
+        android:paddingRight="@dimen/_10dp"
+        android:paddingTop="@dimen/_24dp"
         android:weightSum="3">
 
         <LinearLayout
+            android:id="@+id/ll_beginner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -54,10 +55,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_intermediate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+
             android:orientation="vertical">
 
             <ImageView
@@ -79,6 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ll_professional"
+
             android:orientation="vertical">
 
             <ImageView

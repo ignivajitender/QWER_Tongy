@@ -66,5 +66,12 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="country">Country</string>
+    <string name="city">City/State</string>
+    <string name="pincode">Pin Code</string>
+    <string name="age">Age</string>
+    <string name="iam">I am</string>
+    <string name="about">About</string>
+    <string name="letstart">LET\'S START</string>
 
 </resources>
