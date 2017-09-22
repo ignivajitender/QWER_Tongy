@@ -10,15 +10,16 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_30dp"
         android:orientation="vertical"
-        android:padding="@dimen/_8dp"
-
+        android:paddingTop="@dimen/_5dp"
+        android:paddingLeft="@dimen/_8dp"
+        android:layout_marginTop="-10dp"
+        android:paddingRight="@dimen/_8dp"
         android:layout_centerInParent="true">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="@dimen/_4dp"
             android:src="@drawable/learn_lessons" />
 
 
@@ -63,7 +64,7 @@
             android:textColor="@color/text_color"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginTop="@dimen/_12dp"
+            android:layout_marginTop="@dimen/_10dp"
             android:textSize="@dimen/_10sp" />
     </LinearLayout>
 

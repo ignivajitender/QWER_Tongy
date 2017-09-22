@@ -13,6 +13,7 @@
     <color name="bg_off_white">#f5f6fa</color>
     <color name="bg_white">#ffffff</color>
     <color name="bg_red">#f62d4f</color>
+    <color name="bg_red_transparent">#6ef62d4f</color>
     <color name="bg_orange">#fab136</color>
     <color name="bg_light_grey">#eaecee</color>
 

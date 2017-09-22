@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingTop="@dimen/_5dp"
+    android:id="@+id/ll_outer_layout"
     android:weightSum="2">
 
     <LinearLayout
@@ -15,6 +16,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/iv_banner"
             android:layout_gravity="center"
             android:src="@drawable/professional" />
 
@@ -24,7 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="@dimen/_2dp"
-            android:text="English" />
+            android:text="English"
+            android:textColor="@color/text_dark_grey" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-
+                android:textColor="@color/text_medium_grey"
                 android:gravity="center"
                 android:text="Professional" />
         </LinearLayout>
@@ -64,6 +67,7 @@
                 android:background="@color/text_light_grey" />
 
             <ImageView
+                android:id="@+id/iv_remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/_8dp"

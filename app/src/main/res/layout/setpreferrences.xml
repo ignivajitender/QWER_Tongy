@@ -76,7 +76,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_language_speak"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100dp"
+                android:layout_height="wrap_content"
                 android:visibility="gone" />
             <!--<EditText-->
             <!--android:layout_width="match_parent"-->
@@ -118,9 +118,10 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_language_to_learn"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100dp"
+                android:layout_height="wrap_content"
                 android:visibility="gone" />
             <!--<EditText-->
+
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_marginLeft="@dimen/_2dp"-->
@@ -329,6 +330,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/tv_lets_learn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

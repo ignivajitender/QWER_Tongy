@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -102,7 +103,7 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_back, R.id.ll_myProfile, R.id.ll_changePassword, R.id.ll_changeEmail, R.id.ll_aboutQwer, R.id.ll_DeleteAccount, R.id.ll_contactUs, R.id.ll_rate_us, R.id.ll_pushNotifications, R.id.ll_voiceCall, R.id.ll_videoCall, R.id.ll_logout, R.id.ll_termsPrivacy})
+    @OnClick({R.id.iv_back,R.id.tv_tandC, R.id.tv_privacyPolicy,R.id.ll_back, R.id.ll_myProfile, R.id.ll_changePassword, R.id.ll_changeEmail, R.id.ll_aboutQwer, R.id.ll_DeleteAccount, R.id.ll_contactUs, R.id.ll_rate_us, R.id.ll_pushNotifications, R.id.ll_voiceCall, R.id.ll_videoCall, R.id.ll_logout, R.id.ll_termsPrivacy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_back:
@@ -114,6 +115,8 @@ public class SettingsActivity extends BaseActivity {
             case R.id.ll_changeEmail:
                 break;
             case R.id.ll_aboutQwer:
+                Intent intentAbout = new Intent(SettingsActivity.this, AboutTongyActivity.class);
+                startActivity(intentAbout);
                 break;
             case R.id.ll_DeleteAccount:
                 break;
@@ -130,9 +133,22 @@ public class SettingsActivity extends BaseActivity {
             case R.id.ll_logout:
                 break;
             case R.id.ll_termsPrivacy:
+
+                break;
+            case R.id.tv_tandC:
+                Intent intentTandC = new Intent(SettingsActivity.this, TermsandConditionsActivity.class);
+                startActivity(intentTandC);
+                break;
+            case R.id.tv_privacyPolicy:
+                Intent intentPrivacy = new Intent(SettingsActivity.this, PrivacyPolicyActivity.class);
+                startActivity(intentPrivacy);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
             default:
                 break;
         }
     }
+
 }

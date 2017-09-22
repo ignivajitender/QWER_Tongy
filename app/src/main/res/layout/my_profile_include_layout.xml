@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_off_white"
+    android:orientation="vertical"
+    android:padding="@dimen/_10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/add_image" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/image_placeholder" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/image_placeholder" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/image_placeholder" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_10dp"
+        android:paddingTop="@dimen/_10dp">
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/country"
+            android:textColor="@color/text_medium_grey" />
+
+        <EditText
+            android:id="@+id/et_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/text_light_grey"
+            android:text="Iceland"
+            android:textColor="@color/text_dark_grey" />
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city"
+            android:textColor="@color/text_medium_grey" />
+
+        <EditText
+            android:id="@+id/et_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/text_light_grey"
+            android:text="Vogar"
+            android:textColor="@color/text_dark_grey" />
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pincode"
+            android:textColor="@color/text_medium_grey" />
+
+        <EditText
+            android:id="@+id/et_pincode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/text_light_grey"
+            android:inputType="number"
+            android:text="123-459"
+            android:textColor="@color/text_dark_grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/_8dp"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="@dimen/_5dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age"
+                    android:textColor="@color/text_medium_grey" />
+
+                <EditText
+                    android:id="@+id/et_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/text_light_grey"
+                    android:inputType="number"
+                    android:text="23"
+                    android:textColor="@color/text_dark_grey" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="@dimen/_5dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/iam"
+                    android:textColor="@color/text_medium_grey" />
+
+                <EditText
+                    android:id="@+id/et_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/text_light_grey"
+                    android:text="Male"
+                    android:textColor="@color/text_dark_grey" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about"
+            android:textColor="@color/text_medium_grey" />
+
+        <EditText
+            android:id="@+id/et_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/text_light_grey"
+            android:text="lorame loram lorama loramloa  loar mloaoo rlooer, lomem loow looowmkklioow loooo alllllia llooo"
+            android:textColor="@color/text_dark_grey" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/blue_round_button"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_8dp"
+                android:paddingLeft="@dimen/_15dp"
+                android:paddingRight="@dimen/_15dp"
+                android:paddingTop="@dimen/_8dp"
+                android:text="@string/letstart" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

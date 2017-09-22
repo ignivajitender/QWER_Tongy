@@ -4,7 +4,7 @@
     <size
         android:width="@dimen/_60dp"
         android:height="@dimen/_60dp" />
-    <solid android:color="@color/colorPrimary"
+    <solid android:color="@color/bg_red"
  />
 
     <corners
