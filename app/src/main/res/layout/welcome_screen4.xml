@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_30dp"
+        android:orientation="vertical"
+        android:padding="@dimen/_8dp"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/_4dp"
+            android:src="@drawable/make_your_post" />
+
+
+        <TextView
+            android:id="@+id/tv_Search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/makeyourPost"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/_20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+
+       <!-- <TextView
+            android:id="@+id/tv_Book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/book"
+            android:textAllCaps="true"
+            android:textColor="@color/greenSearch"
+            android:textSize="@dimen/_40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_Enjoy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enjoy"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_40sp"
+            android:textStyle="bold" />-->
+
+        <TextView
+            android:id="@+id/tv_mainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dummyText"
+            android:textColor="@color/text_color"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_12dp"
+            android:textSize="@dimen/_10sp"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
