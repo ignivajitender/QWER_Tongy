@@ -4,7 +4,7 @@
     android:id="@+id/llMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blue_skyline"
+    android:background="@drawable/blue_bg"
     android:orientation="vertical">
 
 
@@ -12,8 +12,7 @@
         android:id="@+id/ll_back"
         android:layout_width="@dimen/_60dp"
         android:layout_height="@dimen/_60dp"
-        android:background="@drawable/quarter_circle"
-        >
+        android:background="@drawable/back_black">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -22,9 +21,33 @@
             android:layout_gravity="center"
             android:paddingBottom="@dimen/_4dp"
             android:paddingRight="@dimen/_8dp"
-            android:src="@drawable/back" />
+           />
+
 
     </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_28dp"
+        android:paddingRight="@dimen/_28dp"
+        android:text="@string/joinUs"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_12dp"
+        android:paddingLeft="@dimen/_28dp"
+        android:paddingRight="@dimen/_12dp"
+        android:paddingTop="@dimen/_4dp"
+        android:text="@string/taps_text"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_10sp"
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,91 +59,125 @@
             android:orientation="vertical">
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8dp"
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8dp"
-            android:orientation="vertical">
-
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_16dp">
+                    android:layout_margin="@dimen/_8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/et_name"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:src="@drawable/name" />
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/white"
+                            android:hint="@string/prompt_name"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@android:color/white"
+                            android:textStyle="bold" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:src="@drawable/email" />
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/white"
+                            android:hint="@string/prompt_email"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@android:color/white"
+                            android:textStyle="bold" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4dp"
+                        android:src="@drawable/password" />
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/white"
-                        android:drawableLeft="@drawable/email"
-                        android:drawablePadding="@dimen/_4dp"
-                        android:hint="@string/prompt_name"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        android:textStyle="bold" />
 
-                </android.support.design.widget.TextInputLayout>
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@android:color/white">
 
+                        <EditText
+                            android:id="@+id/et_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/white"
+                            android:hint="@string/prompt_password"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@android:color/white"
+                            android:textStyle="bold" />
 
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16dp">
-
-                <EditText
-                    android:id="@+id/et_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/white"
-                    android:drawableLeft="@drawable/email"
-                    android:drawablePadding="@dimen/_4dp"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
-                    android:textStyle="bold" />
-
-            </android.support.design.widget.TextInputLayout>
-
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16dp">
-
-                <EditText
-                    android:id="@+id/et_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/white"
-                    android:drawableLeft="@drawable/email"
-                    android:drawablePadding="@dimen/_4dp"
-                    android:hint="@string/prompt_password"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
-                    android:textStyle="bold" />
-
-            </android.support.design.widget.TextInputLayout>
-
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
             </LinearLayout>
 
 
@@ -131,16 +188,14 @@
                 android:layout_marginLeft="@dimen/_12dp"
                 android:layout_marginRight="@dimen/_12dp"
                 android:orientation="horizontal"
-                android:padding="@dimen/_10dp">
-
+                android:padding="@dimen/_8dp">
 
 
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/tv_changePassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:buttonTint="@color/bg_off_white"
-                    />
+                    app:buttonTint="@color/bg_off_white" />
 
                 <TextView
                     android:id="@+id/tv_TandC"
@@ -148,10 +203,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tandCAgree"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/_12dp"  />
+                    android:textSize="@dimen/_10sp" />
 
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -160,7 +214,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_12dp"
                 android:layout_marginRight="@dimen/_12dp"
-                android:padding="@dimen/_10dp">
+                android:padding="@dimen/_8dp">
 
 
                 <Button
@@ -180,31 +234,29 @@
                     android:textSize="@dimen/_10sp"></Button>
 
 
-
             </LinearLayout>
-
 
 
             <LinearLayout
                 android:id="@+id/ll_fbSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_48dp"
-                android:padding="@dimen/_12dp"
                 android:layout_gravity="center_horizontal|bottom"
                 android:layout_marginLeft="@dimen/_48dp"
                 android:layout_marginRight="@dimen/_48dp"
                 android:layout_marginTop="@dimen/_12dp"
                 android:layout_weight="3.05"
                 android:background="@drawable/ripple_button_background_fb"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="@dimen/_12dp">
 
                 <ImageView
                     android:id="@+id/iv_fb"
                     android:layout_width="0dp"
-                    android:foregroundGravity="left"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_vertical"
                     android:layout_weight="1"
+                    android:foregroundGravity="left"
                     android:padding="@dimen/_4dp"
                     android:src="@drawable/ms__arrow" />
 
@@ -220,16 +272,16 @@
                     android:padding="@dimen/_4dp"></View>
 
                 <TextView
-                    android:layout_weight="2"
                     android:id="@+id/tv_fb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
                     android:gravity="right"
                     android:padding="@dimen/_8dp"
-                    android:text="@string/signUpFacebook"
+                    android:text="@string/signInFacebook"
                     android:textAllCaps="true"
-                    android:textColor="@color/bg_off_white"
+                    android:textColor="@color/bg_white"
                     android:textSize="@dimen/_10sp" />
             </LinearLayout>
 

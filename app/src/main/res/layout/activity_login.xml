@@ -73,15 +73,14 @@
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@android:color/white"
                                 android:hint="@string/prompt_email"
-                                android:padding="@dimen/_6dp"
                                 android:inputType="textEmailAddress"
                                 android:maxLines="1"
+                                android:padding="@dimen/_6dp"
                                 android:singleLine="true"
                                 android:textAllCaps="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@android:color/white"
-                                android:textColorHint="@android:color/white"
-                                android:textStyle="bold" />
+                                android:textColorHint="@android:color/white" />
 
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
@@ -114,10 +113,10 @@
                                 android:backgroundTint="@android:color/white"
                                 android:hint="@string/prompt_password"
                                 android:imeActionId="@+id/login"
-                                android:padding="@dimen/_6dp"
                                 android:imeOptions="actionUnspecified"
                                 android:inputType="textPassword"
                                 android:maxLines="1"
+                                android:padding="@dimen/_6dp"
                                 android:singleLine="true"
                                 android:textAllCaps="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
@@ -270,9 +269,10 @@
 
                 <TextView
                     android:id="@+id/tv_SignUp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/_60dp"
+                    android:layout_height="@dimen/_30dp"
                     android:layout_gravity="top"
+                    android:textAlignment="center"
                     android:background="@drawable/rounded_background_translucent"
                     android:gravity="center_vertical"
                     android:padding="@dimen/_4dp"

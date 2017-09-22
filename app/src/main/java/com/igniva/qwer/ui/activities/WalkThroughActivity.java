@@ -103,7 +103,7 @@ public class WalkThroughActivity extends BaseActivity implements View.OnClickLis
     private void launchHomeScreen() {
         // startActivity(new Intent(WalkThroughActivity.this, LoginActivity.class));
         // Utility.showToastMessageLong(WalkThroughActivity.this,"Login");
-        startActivity(new Intent(WalkThroughActivity.this, MainActivity.class));
+        startActivity(new Intent(WalkThroughActivity.this, LoginActivity.class));
 
     }
 

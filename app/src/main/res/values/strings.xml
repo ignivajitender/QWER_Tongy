@@ -92,7 +92,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="signup">Sign Up</string>
     <string name="or">OR</string>
     <string name="signInFacebook">Sign in with Facebook</string>
-    <string name="prompt_name">Name</string>
+    <string name="prompt_name">NAME</string>
     <string name="tandCAgree">I agree with all terms and conditions.</string>
     <string name="signUpFacebook">Sign Up with Facebook</string>
 
@@ -103,5 +103,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="iam">I am</string>
     <string name="about">About</string>
     <string name="letstart">LET\'S START</string>
+    <string name="joinUs">Join Us!</string>
+    <string name="taps_text">A few key taps, and you\'ll  enjoy free!</string>
 
 </resources>
