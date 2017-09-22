@@ -15,4 +15,9 @@ public class Constants {
     public static final String PROFESSIONAL = "PROFESSIONAL";
 
 
+
+    public static final String MYPROFILE = "MYPROFILE";
+    public static final String INNER_PROFILE = "INNER_PROFILE";
+
+
 }

@@ -50,6 +50,8 @@ public class AboutTongyActivity extends BaseActivity implements AppBarLayout.OnO
     TextView mTvText;
     @BindView(R.id.back_arrow)
     ImageView mBackArrow;
+    @BindView(R.id.tv_heading)
+    TextView mTvHeading;
 
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
@@ -66,6 +68,8 @@ public class AboutTongyActivity extends BaseActivity implements AppBarLayout.OnO
 
     @Override
     public void setUpLayout() {
+        mTvHeading.setText("About Tongy");
+        mTextviewTitle.setText("About Tongy");
         mToolbar.setTitle("");
         mAppbar.addOnOffsetChangedListener(this);
 

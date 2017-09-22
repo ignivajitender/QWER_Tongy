@@ -17,9 +17,11 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.igniva.qwer.R;
+import com.igniva.qwer.utils.fcm.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by karanveer on 21/9/17.
@@ -58,7 +60,26 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     Toolbar mToolbar;
     @BindView(R.id.avatar)
     SimpleDraweeView mAvatar1;
-
+    @BindView(R.id.iv_edit_profile)
+    ImageView mIvEditProfile;
+    @BindView(R.id.iv_add_pic)
+    ImageView mIvAddPic;
+    @BindView(R.id.iv_proile_pic1)
+    ImageView mIvProilePic1;
+    @BindView(R.id.iv_proile_pic2)
+    ImageView mIvProilePic2;
+    @BindView(R.id.iv_proile_pic3)
+    ImageView mIvProilePic3;
+    @BindView(R.id.tv_lets_start)
+    TextView mTvLetsStart;
+    @BindView(R.id.ll_lets_start)
+    LinearLayout mLlLetsStart;
+    @BindView(R.id.cross_icon1)
+    ImageView mCrossIcon1;
+    @BindView(R.id.cross_icon2)
+    ImageView mCrossIcon2;
+    @BindView(R.id.cross_icon3)
+    ImageView mCrossIcon3;
 
 
     private boolean mIsTheTitleVisible = false;
@@ -78,6 +99,22 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     @Override
     protected void setUpLayout() {
+
+
+        if (getIntent().hasExtra(Constants.MYPROFILE)) {
+            mIvEditProfile.setVisibility(View.VISIBLE);
+            mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.make_your_post));
+            mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.set_preferences));
+            mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.select_connections));
+            mLlLetsStart.setVisibility(View.GONE);
+
+        } else {
+            mIvEditProfile.setVisibility(View.GONE);
+            mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+            mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+            mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+            mLlLetsStart.setVisibility(View.VISIBLE);
+        }
         mToolbar.setTitle("");
         mAppbar.addOnOffsetChangedListener(this);
 
@@ -178,4 +215,29 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     protected void setUpToolbar() {
 
     }
+
+    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3, R.id.iv_edit_profile})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.cross_icon1:
+                mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+                mCrossIcon1.setVisibility(View.GONE);
+                break;
+            case R.id.cross_icon2:
+                mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+                mCrossIcon2.setVisibility(View.GONE);
+                break;
+            case R.id.cross_icon3:
+                mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+                mCrossIcon3.setVisibility(View.GONE);
+                break;
+            case R.id.iv_edit_profile:
+                mCrossIcon1.setVisibility(View.VISIBLE);
+                mCrossIcon2.setVisibility(View.VISIBLE);
+                mCrossIcon3.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 }
+
+

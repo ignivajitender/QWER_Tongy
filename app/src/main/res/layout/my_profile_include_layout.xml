@@ -2,39 +2,88 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_off_white"
+    android:layout_marginTop="@dimen/_20dp"
     android:orientation="vertical"
-    android:padding="@dimen/_10dp">
+    android:paddingTop="@dimen/_10dp"
+    android:paddingLeft="@dimen/_10dp"
+    android:paddingRight="@dimen/_10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="top"
         android:weightSum="4">
 
         <ImageView
+            android:id="@+id/iv_add_pic"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/imge_thumb_height"
             android:layout_weight="1"
             android:src="@drawable/add_image" />
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/image_placeholder" />
+            android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/image_placeholder" />
+            <ImageView
+                android:id="@+id/iv_proile_pic1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/imge_thumb_height"
+                android:src="@drawable/image_placeholder" />
 
-        <ImageView
+            <ImageView
+                android:id="@+id/cross_icon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/image_placeholder" />
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_proile_pic2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/imge_thumb_height"
+                android:src="@drawable/image_placeholder" />
+
+            <ImageView
+                android:id="@+id/cross_icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_proile_pic3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/imge_thumb_height"
+                android:src="@drawable/image_placeholder" />
+
+            <ImageView
+                android:id="@+id/cross_icon3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -158,12 +207,14 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_lets_start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10dp"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_lets_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
