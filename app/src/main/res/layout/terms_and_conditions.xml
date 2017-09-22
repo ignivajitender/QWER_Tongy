@@ -5,7 +5,8 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="wrap_content"    android:background="@drawable/grey_bg"
+
     android:orientation="vertical"
     tools:ignore="HardcodedText">
 
@@ -39,7 +40,7 @@
                 <FrameLayout
                     android:id="@+id/framelayout_title"
                     android:layout_width="match_parent"
-                    android:layout_height="125dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:orientation="vertical"
                     app:layout_collapseMode="pin"
@@ -58,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:gravity="bottom|center"
-                            android:text="Privacy Policy"
+                            android:text="Terms &amp; Conditions"
 
                             android:textColor="@android:color/white"
                             android:textSize="30sp"
@@ -110,7 +111,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dp"
                         android:gravity="center_vertical"
-                        android:text="Privacy Policy"
+                        android:text="Terms &amp; Conditions"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
 

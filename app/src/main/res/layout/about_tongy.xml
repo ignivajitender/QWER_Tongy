@@ -6,7 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/grey_bg"
     android:orientation="vertical"
+
+
     tools:ignore="HardcodedText">
 
     <android.support.design.widget.CoordinatorLayout
@@ -39,7 +42,7 @@
                 <FrameLayout
                     android:id="@+id/framelayout_title"
                     android:layout_width="match_parent"
-                    android:layout_height="125dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:orientation="vertical"
                     app:layout_collapseMode="pin"

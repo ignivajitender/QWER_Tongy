@@ -65,6 +65,8 @@ public class TermsandConditionsActivity extends BaseActivity implements AppBarLa
 
     @Override
     public void setUpLayout() {
+//        mTextviewTitle.setText("Terms & Conditions");
+//        mtv.setText("Terms & Conditions");
         mToolbar.setTitle("");
         mAppbar.addOnOffsetChangedListener(this);
 

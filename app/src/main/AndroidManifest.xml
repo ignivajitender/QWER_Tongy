@@ -75,6 +75,12 @@
         <activity
             android:name=".ui.activities.SignUpActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.ChangePasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.ChangeEmailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
