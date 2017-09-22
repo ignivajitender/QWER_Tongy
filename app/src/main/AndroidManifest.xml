@@ -9,17 +9,15 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!--GCM PERMISSIONS END -->
-
+    <!-- GCM PERMISSIONS END -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
         <activity
-            android:name=".ui.activities.SetPreferrencesActivity"
+            android:name=".ui.activities.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -28,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.LoginActivity" />
         <activity android:name=".ui.activities.PrivacyPolicyActivity" />
 
         <meta-data
@@ -50,11 +47,30 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".ui.activities.HomeActivity"
-            android:label="@string/title_activity_bottom_navigation"></activity>
+
         <activity
             android:name=".ui.activities.MyProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.WalkThroughActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.TermsandConditionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.AboutTongyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.SetPreferrencesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.SettingsActivity"
             android:screenOrientation="portrait" />
     </application>
 

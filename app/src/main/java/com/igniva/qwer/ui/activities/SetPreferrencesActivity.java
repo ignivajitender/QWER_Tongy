@@ -314,7 +314,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 mIvFemale.setImageDrawable(getResources().getDrawable(R.drawable.female_selected));
                 break;
             case R.id.tv_lets_learn:
-             Intent intent=new Intent(SetPreferrencesActivity.this,MyProfileActivity.class);
+                Intent intent = new Intent(SetPreferrencesActivity.this, MyProfileActivity.class);
                 startActivity(intent);
                 break;
         }

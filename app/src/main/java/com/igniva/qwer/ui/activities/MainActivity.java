@@ -1,9 +1,11 @@
 package com.igniva.qwer.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class MainActivity extends BaseActivity {
@@ -90,6 +93,19 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void setUpToolbar() {
 
+    }
+
+    @OnClick(R.id.cross_icon)
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.cross_icon:
+                Intent intentAbout = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intentAbout);
+                break;
+
+            default:
+                break;
+        }
     }
 }
 
