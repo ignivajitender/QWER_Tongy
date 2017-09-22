@@ -1,5 +1,10 @@
 package com.igniva.qwer.ui.activities;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
@@ -84,6 +89,38 @@ public class SignUpActivity extends BaseActivity {
 
     }
 
+    public void callSuccessPopUp(Context context, String message) {
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        dialog.setContentView(R.layout.succuess_pop_up);
+        TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
+        TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
+        text_message.setText(message);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        mBtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent intent = new Intent(SignUpActivity.this, SetPreferrencesActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        dialog.setTitle("Custom Dialog");
+
+
+        dialog.show();
+
+
+    }
+
 
     @OnClick({R.id.ll_back, R.id.btn_signUp, R.id.ll_fbSignUp})
     public void onViewClicked(View view) {
@@ -92,6 +129,7 @@ public class SignUpActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_signUp:
+                callSuccessPopUp(this, getResources().getString(R.string.emailVerification));
                 break;
             case R.id.ll_fbSignUp:
                 break;

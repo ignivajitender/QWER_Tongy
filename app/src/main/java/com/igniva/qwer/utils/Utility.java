@@ -2,13 +2,18 @@ package com.igniva.qwer.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
@@ -135,6 +140,8 @@ public class Utility {
 		}
 	}
 
+
+
     public void showInvalidSessionDialog(final Activity mContext) {
         try {
 
@@ -174,6 +181,29 @@ public class Utility {
 			}
 		});
 		builder.show();
+	}
+
+	public static void callSuccessPopUp(Context context, String message) {
+
+		// Create custom dialog object
+		final Dialog dialog = new Dialog(context);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		dialog.setCancelable(true);
+		dialog.setCanceledOnTouchOutside(true);
+
+		dialog.setContentView(R.layout.succuess_pop_up);
+		TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
+		text_message.setText(message);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+
+		dialog.setTitle("Custom Dialog");
+
+
+		dialog.show();
+
+
 	}
 
 	public interface OnAlertOkClickListener {

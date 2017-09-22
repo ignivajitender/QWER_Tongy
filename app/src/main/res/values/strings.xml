@@ -113,5 +113,6 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="update_email">UPDATE EMAIL</string>
     <string name="joinUs">Join Us!</string>
     <string name="taps_text">A few key taps, and you\'ll  enjoy free!</string>
+    <string name="emailVerification"><![CDATA[Please verify the link sent to your email & Proceed with login]]></string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -216,7 +217,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     }
 
-    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3, R.id.iv_edit_profile})
+    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3, R.id.iv_edit_profile, R.id.tv_lets_start})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cross_icon1:
@@ -235,6 +236,12 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 mCrossIcon1.setVisibility(View.VISIBLE);
                 mCrossIcon2.setVisibility(View.VISIBLE);
                 mCrossIcon3.setVisibility(View.VISIBLE);
+                break;
+            case R.id.tv_lets_start:
+               Intent intent=new Intent(this,MainActivity.class);
+                startActivity(intent);
+                finish();
+
                 break;
         }
     }

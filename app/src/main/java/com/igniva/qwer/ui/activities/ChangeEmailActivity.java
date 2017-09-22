@@ -25,6 +25,7 @@ import butterknife.OnClick;
 
 public class ChangeEmailActivity extends BaseActivity {
 
+
     @BindView(R.id.iv_back)
     ImageView mIvBack;
     @BindView(R.id.et_cuurent_pass)
@@ -34,13 +35,12 @@ public class ChangeEmailActivity extends BaseActivity {
     @BindView(R.id.tv_change_email)
     TextViewBold mTvChangeEmail;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_email_activity);
         ButterKnife.bind(this);
+
     }
 
     @Override
@@ -72,8 +72,8 @@ public class ChangeEmailActivity extends BaseActivity {
         dialog.setContentView(R.layout.update_email_verify_pass_pop_up);
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
-        Button btn_confirm=(Button)findViewById(R.id.btn_confirm);
-        Button btn_cancel=(Button)findViewById(R.id.btn_cancel);
+        Button btn_confirm = (Button) findViewById(R.id.btn_confirm);
+        Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -166,48 +166,48 @@
             <LinearLayout
                 android:id="@+id/ll_fbSignUp"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_48dp"
-                android:layout_gravity="center_horizontal|bottom"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/_30dp"
                 android:layout_marginRight="@dimen/_30dp"
                 android:layout_marginTop="@dimen/_12dp"
-                android:layout_weight="3.05"
                 android:background="@drawable/ripple_button_background_fb"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="3.05">
 
                 <ImageView
                     android:id="@+id/iv_fb"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_vertical"
-                    android:layout_weight="1"
                     android:foregroundGravity="left"
                     android:padding="@dimen/_4dp"
                     android:src="@drawable/ms__arrow" />
 
 
                 <View
-                    android:layout_width="0dp"
+                    android:layout_width="0.5dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="@dimen/_8dp"
                     android:layout_marginTop="@dimen/_8dp"
-                    android:layout_weight="0.05"
                     android:background="@color/bg_off_white"
                     android:padding="@dimen/_4dp"></View>
 
                 <TextView
                     android:id="@+id/tv_fb"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:gravity="right"
-                    android:padding="@dimen/_8dp"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8dp"
+                    android:paddingBottom="@dimen/_10dp"
+                    android:paddingTop="@dimen/_10dp"
+                    android:paddingRight="@dimen/_8dp"
                     android:text="@string/signInFacebook"
                     android:textAllCaps="true"
-                    android:textColor="@color/bg_off_white"
-                    android:textSize="@dimen/_10sp" />
+                    android:textColor="@color/bg_white"
+                    android:textSize="@dimen/_9sp" />
             </LinearLayout>
 
 

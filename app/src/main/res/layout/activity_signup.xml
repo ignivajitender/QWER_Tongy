@@ -20,8 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingBottom="@dimen/_4dp"
-            android:paddingRight="@dimen/_8dp"
-           />
+            android:paddingRight="@dimen/_8dp" />
 
 
     </FrameLayout>
@@ -51,11 +50,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
+
+        android:paddingBottom="@dimen/_10dp"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_30dp"
+
             android:orientation="vertical">
 
 
@@ -194,11 +197,13 @@
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/tv_changePassword"
                     android:layout_width="wrap_content"
+                    android:padding="@dimen/_4dp"
                     android:layout_height="wrap_content"
                     app:buttonTint="@color/bg_off_white" />
 
                 <TextView
                     android:id="@+id/tv_TandC"
+                    android:padding="@dimen/_4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tandCAgree"
@@ -221,17 +226,18 @@
                     android:id="@+id/btn_signUp"
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_48dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_30dp"
                     android:layout_marginRight="@dimen/_30dp"
                     android:background="@drawable/ripple_button_background_white"
                     android:gravity="center"
+
                     android:text="@string/signup"
                     android:textAllCaps="true"
                     android:textColor="@color/fb_blue_color"
-                    android:textSize="@dimen/_10sp"></Button>
+                    android:textSize="@dimen/_9sp"></Button>
 
 
             </LinearLayout>
@@ -239,35 +245,32 @@
 
             <LinearLayout
                 android:id="@+id/ll_fbSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_48dp"
-                android:layout_gravity="center_horizontal|bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/_48dp"
                 android:layout_marginRight="@dimen/_48dp"
                 android:layout_marginTop="@dimen/_12dp"
-                android:layout_weight="3.05"
                 android:background="@drawable/ripple_button_background_fb"
                 android:orientation="horizontal"
-                android:padding="@dimen/_12dp">
+                android:weightSum="3.05">
 
                 <ImageView
                     android:id="@+id/iv_fb"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_vertical"
-                    android:layout_weight="1"
                     android:foregroundGravity="left"
                     android:padding="@dimen/_4dp"
                     android:src="@drawable/ms__arrow" />
 
 
                 <View
-                    android:layout_width="0dp"
+                    android:layout_width="0.5dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="@dimen/_8dp"
                     android:layout_marginTop="@dimen/_8dp"
-                    android:layout_weight="0.05"
                     android:background="@color/bg_off_white"
                     android:padding="@dimen/_4dp"></View>
 
@@ -276,13 +279,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:gravity="right"
-                    android:padding="@dimen/_8dp"
+                    android:gravity="center"
+                  android:padding="@dimen/_10dp"
                     android:text="@string/signInFacebook"
                     android:textAllCaps="true"
                     android:textColor="@color/bg_white"
-                    android:textSize="@dimen/_10sp" />
+                    android:textSize="@dimen/_9sp" />
             </LinearLayout>
 
 
