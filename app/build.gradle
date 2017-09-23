@@ -10,38 +10,26 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            useProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard/proguard-project.pro',
-                    'proguard/proguard-google-play-services.pro'
-        }
         release {
-            //  signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'),
-                    getDefaultProguardFile('proguard-android-optimize.txt'),
-                    'proguard/proguard-project.pro',
-                    'proguard/proguard-google-play-services.pro'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    productFlavors {
-        free {
-            applicationId "com.igniva.qwer"
-            dimension "default"
-        }
-        pro {
-            applicationIdSuffix ".pro"
-            dimension "default"
-        }
-    }
+    /*   productFlavors {
+           free {
+               applicationId "com.igniva.qwer"
+               dimension "default"
+           }
+           pro {
+               applicationIdSuffix ".pro"
+               dimension "default"
+           }
+       }*/
 //    signingConfigs {
 //        release {
 //            storeFile file("igniva.jks")
@@ -50,17 +38,19 @@ android {
 //            keyPassword "igniva@123"
 //        }
 //    }
-
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/DEPENDENCIES'
     }
-    lintOptions {
-        abortOnError false
-    }
-    aaptOptions {
-        noCompress 'apk'
-    }
+    /*  lintOptions {
+          abortOnError false
+      }
+      aaptOptions {
+          noCompress 'apk'
+      }*/
 }
 
 repositories {
@@ -72,7 +62,6 @@ ext {
     supportLibVersion = '25.2.0'
     gmsVersion = '11.0.1'
     retrofit = '2.3.0'
-
     butterknifeVersion = '8.8.1'
 }
 
@@ -96,7 +85,7 @@ dependencies {
     compile "com.google.firebase:firebase-core:${gmsVersion}"
     compile "com.google.firebase:firebase-crash:${gmsVersion}"
     // MEMORY LEAKS
-
+    compile 'com.android.support:multidex:1.0.1'
     // BUTTER KNIFE
     compile "com.jakewharton:butterknife:${butterknifeVersion}"
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -122,10 +111,10 @@ dependencies {
     compile 'com.github.wenchaojiang:AndroidSwipeableCardStack:0.1.4'
     compile 'link.fls:swipestack:0.3.0'
 
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.jaredrummler:material-spinner:1.1.0'
+
 
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
@@ -133,6 +122,6 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:+'
 }
 // Add to the bottom of the file
-if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {
+//if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {
     apply plugin: 'com.google.gms.google-services'
-}
+//}

@@ -144,28 +144,30 @@
 
                 </LinearLayout>
 
-                <Button
+                <com.igniva.qwer.ui.views.TextViewRegular
                     android:id="@+id/btn_login"
                     style="?android:textAppearanceSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="@dimen/_30dp"
-                    android:layout_marginRight="@dimen/_30dp"
+                    android:layout_gravity="center|bottom"
                     android:background="@drawable/ripple_button_background"
                     android:gravity="center"
+                    android:paddingBottom="@dimen/_10dp"
+                    android:paddingLeft="@dimen/_50dp"
+                    android:paddingRight="@dimen/_50dp"
+                    android:paddingTop="@dimen/_10dp"
                     android:text="@string/login"
                     android:textAllCaps="true"
                     android:textColor="@color/bg_off_white"
-                    android:textSize="@dimen/_10sp"></Button>
+                    android:textSize="@dimen/_10sp"></com.igniva.qwer.ui.views.TextViewRegular>
 
 
             </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/ll_fbSignUp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/_30dp"
@@ -200,10 +202,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:paddingLeft="@dimen/_8dp"
                     android:paddingBottom="@dimen/_10dp"
-                    android:paddingTop="@dimen/_10dp"
+                    android:paddingLeft="@dimen/_8dp"
                     android:paddingRight="@dimen/_8dp"
+                    android:paddingTop="@dimen/_10dp"
                     android:text="@string/signInFacebook"
                     android:textAllCaps="true"
                     android:textColor="@color/bg_white"
@@ -272,11 +274,11 @@
                     android:layout_width="@dimen/_60dp"
                     android:layout_height="@dimen/_30dp"
                     android:layout_gravity="top"
-                    android:textAlignment="center"
                     android:background="@drawable/rounded_background_translucent"
                     android:gravity="center_vertical"
                     android:padding="@dimen/_4dp"
                     android:text="@string/signup"
+                    android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/bg_off_white"
                     android:textSize="@dimen/_10sp" />
