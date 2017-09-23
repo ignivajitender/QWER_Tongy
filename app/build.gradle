@@ -10,29 +10,17 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            useProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard/proguard-project.pro',
-                    'proguard/proguard-google-play-services.pro'
-        }
         release {
-            //  signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'),
-                    getDefaultProguardFile('proguard-android-optimize.txt'),
-                    'proguard/proguard-project.pro',
-                    'proguard/proguard-google-play-services.pro'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    productFlavors {
+ /*   productFlavors {
         free {
             applicationId "com.igniva.qwer"
             dimension "default"
@@ -41,7 +29,7 @@ android {
             applicationIdSuffix ".pro"
             dimension "default"
         }
-    }
+    }*/
 //    signingConfigs {
 //        release {
 //            storeFile file("igniva.jks")
@@ -55,12 +43,12 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/DEPENDENCIES'
     }
-    lintOptions {
+  /*  lintOptions {
         abortOnError false
     }
     aaptOptions {
         noCompress 'apk'
-    }
+    }*/
 }
 
 repositories {

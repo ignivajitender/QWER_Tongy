@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -42,7 +43,14 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
 
         viewPager=(ViewPager)contentView.findViewById(R.id.view_pager);
 
-     CustomPagerAdapter   mCustomPagerAdapter = new CustomPagerAdapter(context);
+        viewPager.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                return true;
+            }
+        });
+
+        CustomPagerAdapter   mCustomPagerAdapter = new CustomPagerAdapter(context);
 
 //        mViewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(mCustomPagerAdapter);
