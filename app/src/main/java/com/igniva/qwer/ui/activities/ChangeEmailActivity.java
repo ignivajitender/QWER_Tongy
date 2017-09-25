@@ -41,6 +41,7 @@ public class ChangeEmailActivity extends BaseActivity {
         setContentView(R.layout.update_email_activity);
         ButterKnife.bind(this);
 
+
     }
 
     @Override
@@ -72,8 +73,8 @@ public class ChangeEmailActivity extends BaseActivity {
         dialog.setContentView(R.layout.update_email_verify_pass_pop_up);
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
-        Button btn_confirm = (Button) findViewById(R.id.btn_confirm);
-        Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
+        Button btn_confirm = (Button) dialog.findViewById(R.id.btn_confirm);
+        Button btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +97,7 @@ public class ChangeEmailActivity extends BaseActivity {
 
 
     }
+
 
     @OnClick({R.id.iv_back, R.id.tv_change_email})
     public void onViewClicked(View view) {

@@ -11,13 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:minHeight="200dp"
         android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16dp">
+            android:layout_marginTop="@dimen/_8dp">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
@@ -41,27 +40,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_8dp"
+            android:layout_marginBottom ="@dimen/_8dp"
+            android:layout_marginLeft="@dimen/_8dp"
             android:layout_gravity="center_horizontal|left"
             android:orientation="vertical">
 
 
-            <TextView
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_8dp"
+                android:paddingLeft="@dimen/_8dp"
                 android:text="Matthew Hammon"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/_16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/_8dp">
+                android:paddingLeft="@dimen/_8dp">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewLight
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:id="@+id/tv_age_heading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,81 +72,204 @@
                     android:drawableLeft="@drawable/male"
                     android:drawablePadding="@dimen/_4dp"
                     android:text="Age: "
-                    android:textSize="@dimen/_12sp" />
+                    />
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewLight
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:id="@+id/tv_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="24 Years"
-                    android:textSize="@dimen/_12sp" />
-                <TextView
+                    />
+                <com.igniva.qwer.ui.views.TextViewLight
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:id="@+id/tv_radius"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="39 km away"
-                    android:paddingLeft="@dimen/_16dp"
-                    android:textSize="@dimen/_12sp" />
+                    android:paddingLeft="@dimen/_16dp" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/content8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout_language"
+                style="@style/TabLayoutStyleText"
+                app:tabTextColor="@color/text_medium_grey"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:elevation="6dp"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 
-            <TextView
-                android:id="@+id/content7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager_language_card"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                android:background="@color/bg_light_grey"
+               />
 
-            <TextView
-                android:id="@+id/content6"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_Speaks"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/_12dp"
+                android:paddingLeft="@dimen/_4dp"
+                android:paddingRight="@dimen/_4dp"
+                android:paddingTop="@dimen/_12dp"
+                android:weightSum="3">
 
-            <TextView
-                android:id="@+id/content5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+                <LinearLayout
+                    android:id="@+id/ll_beginner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/content4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/beginner" />
 
-            <TextView
-                android:id="@+id/content3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:id="@+id/tv_language_beginner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_5dp"
+                        android:paddingRight="@dimen/_5dp"
+                        android:text="@string/french"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/text_color" />
 
-            <TextView
-                android:id="@+id/content2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_5dp"
+                        android:paddingRight="@dimen/_5dp"
+                        android:text="@string/beginer" />
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/content1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="bajgasgjagjkgajgahgajgagjkagajhgajgajhga" />
+                <LinearLayout
+                    android:id="@+id/ll_intermediate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/intermediate" />
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:id="@+id/tv_language_Intermediate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_5dp"
+                        android:paddingRight="@dimen/_5dp"
+                        android:text="@string/dutch"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/text_color" />
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_5dp"
+                        android:paddingRight="@dimen/_5dp"
+                        android:text="@string/intermediate" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_professional"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/professional" />
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:id="@+id/tv_language_Professional"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_5dp"
+                        android:paddingRight="@dimen/_5dp"
+                        android:text="@string/english"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/text_color" />
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_5dp"
+                        android:paddingRight="@dimen/_5dp"
+                        android:text="@string/professional" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_About"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/_12dp"
+                    android:paddingLeft="@dimen/_4dp"
+                    android:paddingRight="@dimen/_4dp"
+                    android:paddingTop="@dimen/_12dp"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.igniva.qwer.ui.views.TextViewRegular
+                            android:id="@+id/tv_about_heading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/_5dp"
+                            android:paddingRight="@dimen/_5dp"
+                            android:text="I am from "
+                            android:textStyle="bold"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_medium_grey" />
+
+                        <com.igniva.qwer.ui.views.TextViewRegular
+                            android:id="@+id/tv_about_From"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/_5dp"
+                            android:paddingRight="@dimen/_5dp"
+                            android:textAllCaps="true"
+                            android:text="Iceland"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPrimary" />
+                    </LinearLayout>
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:id="@+id/tv_about"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_5dp"
+                        android:paddingRight="@dimen/_5dp"
+                        android:text="@string/dummyText" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

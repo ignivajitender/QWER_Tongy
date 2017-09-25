@@ -44,7 +44,8 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10dp">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                     android:id="@+id/tv_myProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -53,7 +54,7 @@
                     android:drawableRight="@drawable/setting_my_profile"
                     android:text="@string/myProfile"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/_12dp" />
+                     />
 
             </LinearLayout>
 
@@ -67,7 +68,8 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10dp">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                     android:id="@+id/tv_changePassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,7 +77,7 @@
                     android:drawableRight="@drawable/setting_password"
                     android:text="@string/changePassword"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/_12dp" />
+                   />
 
 
             </LinearLayout>
@@ -89,7 +91,8 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10dp">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                     android:id="@+id/tv_changeEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,7 +100,7 @@
                     android:drawableRight="@drawable/setting_email"
                     android:text="@string/changeEmail"
                     android:textColor="@color/text_dark_grey"
-                    android:textSize="@dimen/_12dp" />
+                   />
 
 
             </LinearLayout>
@@ -112,7 +115,8 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10dp">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                     android:id="@+id/tv_aboutQwer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -120,7 +124,7 @@
                     android:drawableRight="@drawable/setting_about"
                     android:text="@string/aboutQwer"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/_12dp" />
+                    />
 
 
             </LinearLayout>
@@ -134,7 +138,8 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10dp">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                     android:id="@+id/tv_DeleteAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,7 +147,7 @@
                     android:drawableRight="@drawable/setting_account"
                     android:text="@string/deleteAccount"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/_12sp" />
+                    />
 
 
             </LinearLayout>
@@ -156,15 +161,16 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10dp">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
                     android:id="@+id/tv_ContactUs"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_4dp"
                     android:drawableRight="@drawable/setting_contact"
                     android:text="@string/contactUs"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/_12sp" />
+                     />
 
 
             </LinearLayout>
@@ -179,15 +185,16 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10dp">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
                     android:id="@+id/tv_RateUs"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_4dp"
                     android:drawableRight="@drawable/setting_rate"
                     android:text="@string/rateUs"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/_12sp" />
+                   />
 
                 <View
                     android:layout_width="match_parent"
@@ -215,7 +222,7 @@
                     android:orientation="horizontal"
                     android:weightSum="10">
 
-                    <TextView
+                    <com.igniva.qwer.ui.views.TextViewRegular
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="8"
@@ -250,7 +257,7 @@
                     android:orientation="horizontal"
                     android:weightSum="10">
 
-                    <TextView
+                    <com.igniva.qwer.ui.views.TextViewRegular
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="8"
@@ -286,7 +293,7 @@
                     android:orientation="horizontal"
                     android:weightSum="10">
 
-                    <TextView
+                    <com.igniva.qwer.ui.views.TextViewRegular
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="8"
@@ -321,7 +328,7 @@
                     android:orientation="horizontal"
                     android:weightSum="10">
 
-                    <TextView
+                    <com.igniva.qwer.ui.views.TextViewRegular
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="10"
@@ -350,7 +357,7 @@
                     android:orientation="horizontal"
                     android:weightSum="10">
 
-                    <TextView
+                    <com.igniva.qwer.ui.views.TextViewRegular
                         android:id="@+id/tv_tandC"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -367,7 +374,7 @@
                         android:background="@color/text_color"
                         android:padding="@dimen/_4dp"></View>
 
-                    <TextView
+                    <com.igniva.qwer.ui.views.TextViewRegular
                         android:id="@+id/tv_privacyPolicy"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

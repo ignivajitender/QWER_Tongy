@@ -21,15 +21,16 @@
             android:src="@drawable/select_connections" />
 
 
-        <TextView
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:id="@+id/tv_Search"
+            android:textStyle="bold"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/selectConnections"
             android:textAllCaps="false"
-            android:textStyle="bold"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/_20sp"
             android:layout_gravity="center"
             android:gravity="center"
             />
@@ -54,14 +55,14 @@
             <!--android:textSize="@dimen/_40sp"-->
             <!--android:textStyle="bold" />-->
 
-        <TextView
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:id="@+id/tv_mainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dummyText"
             android:textColor="@color/text_color"
             android:layout_marginTop="@dimen/_12dp"
-            android:textSize="@dimen/_10sp"
             android:layout_gravity="center"
             android:gravity="center"
             />

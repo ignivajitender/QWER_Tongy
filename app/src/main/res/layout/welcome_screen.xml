@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
 
     >
 
@@ -9,18 +10,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="@dimen/_30dp"
-        android:layout_marginTop="-10dp"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/_8dp"
-        android:paddingRight="@dimen/_8dp"
-        android:paddingTop="@dimen/_5dp">
+        android:padding="@dimen/_8dp"
+
+        >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/learn_lessons" />
+            android:padding="@dimen/_4dp"
+            android:src="@drawable/welcome_screen_phone" />
 
 
         <com.igniva.qwer.ui.views.TextViewBold
@@ -28,11 +28,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="@dimen/_12dp"
             android:gravity="center"
-            android:text="@string/learnLessons"
+            android:text="@string/setPreferncesWelcome"
             android:textAllCaps="false"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textColor="@color/text_color"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/bg_white"
             android:textStyle="bold" />
 
         <!-- <TextView
@@ -41,7 +42,7 @@
              android:layout_height="wrap_content"
              android:text="@string/book"
              android:textAllCaps="true"
-             android:textColor="@color/greenSearch"
+             android:textColor="@color/translucentEnjoy"
              android:textSize="@dimen/_40sp"
              android:textStyle="bold" />
 
@@ -51,20 +52,21 @@
              android:layout_height="wrap_content"
              android:text="@string/enjoy"
              android:textAllCaps="true"
-             android:textColor="@color/white"
+             android:textColor="@color/translucentEnjoy"
              android:textSize="@dimen/_40sp"
              android:textStyle="bold" />-->
 
-        <com.igniva.qwer.ui.views.TextViewRegular
+        <Button
             android:id="@+id/tv_mainText"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_180dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_10dp"
+            android:layout_margin="@dimen/_24dp"
+            android:background="@drawable/ripple_button_background_white"
             android:gravity="center"
-            android:text="@string/dummyText"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="@color/text_color" />
+            android:text="@string/letstart"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
     </LinearLayout>
 
 

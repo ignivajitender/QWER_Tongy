@@ -121,11 +121,12 @@ public class WalkThroughActivity extends BaseActivity implements View.OnClickLis
             addBottomDots(position);
 
             if (position == 3) {
-                launchHomeScreen();
 //              handler.removeCallbacks(update);
                 swipeTimer.cancel();
                 swipeTimer.purge();
                 handler = null;
+                launchHomeScreen();
+
             }
 
 

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.ui.views.TextViewRegular;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.PreferenceHandler;
 
@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.email_login_form)
     LinearLayout mEmailLoginForm;
     @BindView(R.id.btn_login)
-    Button mBtnLogin;
+    TextViewRegular mBtnLogin;
     @BindView(R.id.iv_fb)
     ImageView mIvFb;
     @BindView(R.id.tv_fb)
