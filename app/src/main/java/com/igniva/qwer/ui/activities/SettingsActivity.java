@@ -1,10 +1,14 @@
 package com.igniva.qwer.ui.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -88,7 +92,48 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
+    public void callConfirmDeletionPopUp() {
 
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        dialog.setContentView(R.layout.delete_account_pop_up);
+
+       Button mBtnConfirm=(Button)dialog.findViewById(R.id.btn_confirm);
+       Button mBtnCancel=(Button)dialog.findViewById(R.id.btn_cancel);
+
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                finishAffinity();
+                Intent intent=new Intent(SettingsActivity.this,LoginActivity.class);
+                startActivity(intent);
+
+
+            }
+        });
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+
+            }
+        });
+        dialog.setTitle("Custom Dialog");
+
+
+        dialog.show();
+
+
+    }
     @Override
     protected void setUpLayout() {
 
@@ -104,7 +149,10 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_back,R.id.tv_tandC, R.id.tv_privacyPolicy,R.id.ll_back, R.id.ll_myProfile, R.id.ll_changePassword, R.id.ll_changeEmail, R.id.ll_aboutQwer, R.id.ll_DeleteAccount, R.id.ll_contactUs, R.id.ll_rate_us, R.id.ll_pushNotifications, R.id.ll_voiceCall, R.id.ll_videoCall, R.id.ll_logout, R.id.ll_termsPrivacy})
+    @OnClick({R.id.iv_back,R.id.tv_tandC, R.id.tv_privacyPolicy,R.id.ll_back, R.id.ll_myProfile,
+            R.id.ll_changePassword, R.id.ll_changeEmail, R.id.ll_aboutQwer, R.id.ll_DeleteAccount,
+            R.id.ll_contactUs, R.id.ll_rate_us, R.id.ll_pushNotifications, R.id.ll_voiceCall,
+            R.id.ll_videoCall, R.id.ll_logout, R.id.ll_termsPrivacy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_back:
@@ -127,6 +175,7 @@ public class SettingsActivity extends BaseActivity {
                 startActivity(intentAbout);
                 break;
             case R.id.ll_DeleteAccount:
+                callConfirmDeletionPopUp();
                 break;
             case R.id.ll_contactUs:
                 break;

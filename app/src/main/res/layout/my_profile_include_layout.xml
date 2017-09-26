@@ -3,32 +3,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/_8dp"
+    android:paddingRight="@dimen/_8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8dp"
         android:gravity="top"
-        android:layout_marginTop="@dimen/_10dp"
         android:orientation="horizontal"
         android:weightSum="4">
-
-        <ImageView
-            android:id="@+id/iv_add_pic"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/imge_thumb_height"
-            android:layout_weight="1"
-            android:src="@drawable/add_image" />
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
+            <ImageView
+                android:id="@+id/iv_add_pic"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/imge_thumb_height"
+                android:layout_weight="1"
+                android:src="@drawable/add_image" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
 
             <ImageView
                 android:id="@+id/iv_proile_pic1"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/imge_thumb_height"
+                android:layout_height="match_parent"
+
                 android:src="@drawable/image_placeholder" />
 
             <ImageView
@@ -42,13 +55,15 @@
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
 
             <ImageView
                 android:id="@+id/iv_proile_pic2"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/imge_thumb_height"
+                android:layout_height="match_parent"
                 android:src="@drawable/image_placeholder" />
 
             <ImageView
@@ -62,13 +77,15 @@
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
 
             <ImageView
                 android:id="@+id/iv_proile_pic3"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/imge_thumb_height"
+                android:layout_height="match_parent"
                 android:src="@drawable/image_placeholder" />
 
             <ImageView
@@ -235,8 +252,8 @@
             android:id="@+id/ll_lets_start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_10dp"
             android:layout_marginBottom="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_10dp"
             android:gravity="center">
 
             <TextView
@@ -251,6 +268,21 @@
                 android:paddingRight="@dimen/_15dp"
                 android:paddingTop="@dimen/_8dp"
                 android:text="@string/letstart" />
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/blue_round_button"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_8dp"
+                android:paddingLeft="@dimen/_15dp"
+                android:paddingRight="@dimen/_15dp"
+                android:textColor="@color/bg_white"
+                android:paddingTop="@dimen/_8dp"
+                android:text="@string/save_update"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout><!--</ScrollView>-->

@@ -124,5 +124,12 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="english">English</string>
     <string name="save_andlook_again">SAVE &amp; START LOOKING</string>
     <string name="forgot_pass">Forgot Password!</string>
+    <string name="forgot_pass_text">Please submit your registered Email to regenerate a new password</string>
+    <string name="email">Email</string>
+    <string name="submit">SUBMIT</string>
+    <string name="save_update">SAVE &amp; UPDATE</string>
+    <string name="profile_updated_successfully">Your Profile is updated successfully</string>
+    <string name="deleteAccount_text">If you agreed the account will be  deleted permanently</string>
+    <string name="agree">Agree</string>
 
 </resources>

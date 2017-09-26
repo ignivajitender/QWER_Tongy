@@ -81,6 +81,10 @@
         <activity
             android:name=".ui.activities.ChangeEmailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -105,7 +105,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.btn_login, R.id.ll_fbSignUp, R.id.tv_SignUp, R.id.ll_NewSignUp})
+    @OnClick({R.id.btn_login, R.id.ll_fbSignUp, R.id.tv_SignUp, R.id.ll_NewSignUp, R.id.tv_ForgotPassword})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
@@ -119,6 +119,10 @@ public class LoginActivity extends BaseActivity {
             case R.id.tv_SignUp:
                 Intent signUpIntent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(signUpIntent);
+                break;
+            case R.id.tv_ForgotPassword:
+                Intent forgot_intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(forgot_intent);
                 break;
             case R.id.ll_NewSignUp:
                 break;

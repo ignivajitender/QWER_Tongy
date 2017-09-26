@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/upper_half_round_background_offwhite"
+        android:paddingBottom="@dimen/_10dp"
+        android:paddingTop="@dimen/_10dp">
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:gravity="center"
+            android:text="@string/deleteAccount"
+            android:textColor="@color/text_dark_grey"
+            android:textSize="@dimen/_20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_half_round_background_white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_24dp"
+        android:paddingLeft="@dimen/_10dp"
+        android:paddingRight="@dimen/_10dp"
+
+        android:paddingTop="@dimen/_24dp">
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:gravity="center"
+            android:text="@string/deleteAccount_text"
+            android:textColor="@color/text_dark_grey" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_marginRight="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_5dp"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/password"
+            android:padding="@dimen/_8dp"
+            android:textColor="@color/text_medium_grey"
+            android:textColorHint="@color/text_medium_grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8dp"
+            android:layout_marginRight="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_5dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_weight="1"
+                android:background="@drawable/red_round_button"
+                android:text="@string/cancel"
+                android:textColor="@color/bg_white"
+                android:textSize="@dimen/_15sp" />
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_10dp"
+                android:layout_marginLeft="@dimen/_5dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_weight="1"
+                android:background="@drawable/blue_round_button"
+                android:text="@string/agree"
+                android:textColor="@color/bg_white"
+                android:textSize="@dimen/_15sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
