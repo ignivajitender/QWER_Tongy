@@ -95,18 +95,23 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.cross_icon)
+    @OnClick({R.id.cross_icon,R.id.edit_pref_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cross_icon:
                 Intent intentAbout = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intentAbout);
                 break;
+            case R.id.edit_pref_icon:
+                Intent intent=new Intent(MainActivity.this,SetPreferrencesActivity.class);
+                startActivity(intent);
 
             default:
                 break;
         }
     }
+
+
 }
 
 
