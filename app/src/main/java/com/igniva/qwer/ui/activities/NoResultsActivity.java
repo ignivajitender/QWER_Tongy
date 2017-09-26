@@ -2,9 +2,14 @@ package com.igniva.qwer.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.widget.LinearLayout;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.ui.views.TextViewBold;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -13,30 +18,23 @@ import com.igniva.qwer.R;
 
 public class NoResultsActivity extends BaseActivity {
 
-    private static int TIME_OUT = 3000;
-    Handler handler = new Handler();
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @BindView(R.id.textViewBold)
+    TextViewBold mTextViewBold;
+    @BindView(R.id.tv_SetPreferences)
+    TextViewBold mTvSetPreferences;
+    @BindView(R.id.llMain)
+    LinearLayout mLlMain;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_noresults);
+        ButterKnife.bind(this);
 
-        handler.postDelayed(runnable, TIME_OUT);
     }
 
-    private void launchSetPreferencesScreen() {
-
-        startActivity(new Intent(NoResultsActivity.this, SetPreferrencesActivity.class));
-        finish();
-    }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            launchSetPreferencesScreen();
-
-        }
-    };
 
     @Override
     public void setUpLayout() {
@@ -52,5 +50,10 @@ public class NoResultsActivity extends BaseActivity {
     }
 
 
+    @OnClick(R.id.tv_SetPreferences)
+    public void onViewClicked() {
+        startActivity(new Intent(NoResultsActivity.this, SetPreferrencesActivity.class));
+        finish();
+    }
 }
 

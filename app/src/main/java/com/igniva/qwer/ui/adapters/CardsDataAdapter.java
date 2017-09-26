@@ -100,22 +100,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
         tabLayoutLangage.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("CardsDataAdapter", "onTabSelected: " +position);
-                switch (tab.getPosition()) {
-                    case 0:
-                        mLayout_speaks.setVisibility(View.VISIBLE);
-                        mLayout_about.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        mLayout_speaks.setVisibility(View.GONE);
-                        mLayout_about.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        break;
-                }
-                mView_pager_language.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
@@ -129,7 +114,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             }
         });
 
-      /*  mView_pager_language.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+       mView_pager_language.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.d("CardsDataAdapter", "onPageScrolled: ");
@@ -138,25 +123,14 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             @Override
             public void onPageSelected(int position) {
                 Log.d("CardsDataAdapter", "onPageSelected: "+position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                Log.d("CardsDataAdapter", "onPageScrollStateChanged: ");
-            }
-        });*/
-/*
-        tabLayoutLangage.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
+                switch (position) {
                     case 0:
                         mLayout_speaks.setVisibility(View.VISIBLE);
                         mLayout_about.setVisibility(View.GONE);
                         break;
                     case 1:
+                        mLayout_speaks.setVisibility(View.VISIBLE);
+                        mLayout_about.setVisibility(View.GONE);
                         break;
                     case 2:
                         mLayout_speaks.setVisibility(View.GONE);
@@ -165,19 +139,16 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
                     default:
                         break;
                 }
-                mView_pager_language.setCurrentItem(tab.getPosition());
+                mView_pager_language.setCurrentItem(position);
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
+            public void onPageScrollStateChanged(int state) {
+                Log.d("CardsDataAdapter", "onPageScrollStateChanged: ");
             }
+        });
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });*/
 
         CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(context);
 

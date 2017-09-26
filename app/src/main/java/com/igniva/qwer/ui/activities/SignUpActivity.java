@@ -18,8 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.utils.Constants;
-import com.igniva.qwer.utils.PreferenceHandler;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,18 +109,10 @@ public class SignUpActivity extends BaseActivity {
             public void onClick(View v) {
                 dialog.dismiss();
 
-                boolean alreadyLogin = PreferenceHandler.readBoolean(SignUpActivity.this, Constants.IS_ALREADY_LOGIN, false);
-                if (alreadyLogin) {
-                    Intent intent = new Intent(SignUpActivity.this, SetPreferrencesActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }else{
 
-                    Intent intent = new Intent(SignUpActivity.this, NoResultsActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
-
+                Intent intent = new Intent(SignUpActivity.this, NoResultsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
         dialog.setTitle("Custom Dialog");
