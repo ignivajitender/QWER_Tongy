@@ -114,12 +114,13 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.jaredrummler:material-spinner:1.1.0'
-
+    compile 'com.github.clans:fab:1.6.4'
 
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:+'
+
 }
 // Add to the bottom of the file
 //if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {
