@@ -36,7 +36,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="cancel">Cancel</string>
     <string name="verify_password">Verify Password</string>
     <string name="okay">OKAY</string>
-    <string name="success">Success!!</string>
+    <string name="success">Success!</string>
     <string name="thanks">Thanks!</string>
     <string name="thanks_message">Thanks for contact. We ll be in touch soon.</string>
     <string name="error_email_activation">Your email is not verified yet!. Please check your mail for verification link or resend link again</string>
@@ -74,7 +74,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="myProfile">My Profile</string>
     <string name="changePassword">Change Password</string>
     <string name="changeEmail">Change Email Address</string>
-    <string name="aboutQwer">About Qwer</string>
+    <string name="aboutQwer">About QWER</string>
     <string name="deleteAccount">Delete Account</string>
     <string name="contactUs">Contact Us</string>
     <string name="rateUs">Rate Us</string>
@@ -114,5 +114,13 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="joinUs">Join Us!</string>
     <string name="taps_text">A few key taps, and you\'ll  enjoy free!</string>
     <string name="emailVerification"><![CDATA[Please verify the link sent to your email & Proceed with login]]></string>
+    <string name="setPreferncesWelcome">Set Preferences to look for your connection followed by filling up of your profile to help some one find you.</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="speaks">SPEAKS</string>
+    <string name="learn">LEARN</string>
+    <string name="aboutTab">ABOUT</string>
+    <string name="french">French</string>
+    <string name="dutch">Dutch</string>
+    <string name="english">English</string>
 
 </resources>

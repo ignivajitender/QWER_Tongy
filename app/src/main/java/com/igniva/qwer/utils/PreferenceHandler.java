@@ -9,6 +9,10 @@ import android.content.SharedPreferences.Editor;
  * 
  */
 public class PreferenceHandler {
+	SharedPreferences pref;
+	SharedPreferences.Editor editor;
+	Context _context;
+	int PRIVATE_MODE = 0;
 
 	public static final String PREF_NAME = "APPFRAMEWORK_PREFERENCES";
 	public static final int MODE = Context.MODE_PRIVATE;
@@ -18,6 +22,14 @@ public class PreferenceHandler {
 	public static final String PREF_KEY_USER_EMAIL = "PREF_KEY_USER_EMAIL";
 	public static final String PREF_KEY_USER_MOBILE = "PREF_KEY_USER_MOBILE";
 	public static final String PREF_KEY_GCMID = "PREF_KEY_GCMID";
+
+
+
+	public PreferenceHandler(Context context) {
+		this._context = context;
+		pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+		editor = pref.edit();
+	}
 
 	public static void writeBoolean(Context context, String key, boolean value) {
 		getEditor(context).putBoolean(key, value).commit();

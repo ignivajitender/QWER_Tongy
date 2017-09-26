@@ -20,9 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-
-            >
+            android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -88,7 +86,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_16dp"
+                        android:layout_marginLeft="@dimen/_16dp"
+                        android:layout_marginRight="@dimen/_16dp"
+                        android:layout_marginTop="@dimen/_16dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -116,7 +116,9 @@
                                 android:imeOptions="actionUnspecified"
                                 android:inputType="textPassword"
                                 android:maxLines="1"
-                                android:padding="@dimen/_6dp"
+                                android:paddingLeft="@dimen/_6dp"
+                                android:paddingRight="@dimen/_6dp"
+                                android:paddingTop="@dimen/_6dp"
                                 android:singleLine="true"
                                 android:textAllCaps="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
@@ -128,16 +130,15 @@
 
                     </LinearLayout>
 
-                    <TextView
+                    <com.igniva.qwer.ui.views.TextViewLight
                         android:id="@+id/tv_ForgotPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="right"
-                        android:layout_marginBottom="16dp"
                         android:layout_marginLeft="@dimen/_16dp"
                         android:layout_marginRight="@dimen/_16dp"
-                        android:padding="@dimen/_4dp"
+                        android:padding="4dp"
                         android:text="@string/forgot_Password"
                         android:textColor="@android:color/white" />
 
@@ -146,8 +147,7 @@
 
                 <com.igniva.qwer.ui.views.TextViewRegular
                     android:id="@+id/btn_login"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="center|bottom"
@@ -159,15 +159,14 @@
                     android:paddingTop="@dimen/_10dp"
                     android:text="@string/login"
                     android:textAllCaps="true"
-                    android:textColor="@color/bg_off_white"
-                    android:textSize="@dimen/_10sp"></com.igniva.qwer.ui.views.TextViewRegular>
+                    android:textColor="@color/bg_off_white"></com.igniva.qwer.ui.views.TextViewRegular>
 
 
             </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/ll_fbSignUp"
-                android:layout_width="wrap_content"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/_30dp"
@@ -196,9 +195,9 @@
                     android:background="@color/bg_off_white"
                     android:padding="@dimen/_4dp"></View>
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
                     android:id="@+id/tv_fb"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
@@ -208,17 +207,15 @@
                     android:paddingTop="@dimen/_10dp"
                     android:text="@string/signInFacebook"
                     android:textAllCaps="true"
-                    android:textColor="@color/bg_white"
-                    android:textSize="@dimen/_9sp" />
+                    android:textColor="@color/bg_white" />
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/_16dp"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:layout_height="@dimen/_20dp"
+                android:layout_margin="@dimen/_8dp"
+                android:orientation="horizontal">
 
 
                 <View
@@ -229,9 +226,10 @@
                     android:background="@color/text_medium_grey"
                     android:padding="@dimen/_4dp"></View>
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:text="@string/or"
                     android:textAlignment="center"
@@ -249,7 +247,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/ll_NewSignUp"
                 android:layout_width="wrap_content"
@@ -259,29 +256,29 @@
                 android:layout_weight="3"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
                     android:id="@+id/tv_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:padding="@dimen/_4dp"
                     android:text="@string/no_Account"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/_10sp" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/text_color" />
 
-                <TextView
+                <com.igniva.qwer.ui.views.TextViewRegular
                     android:id="@+id/tv_SignUp"
-                    android:layout_width="@dimen/_60dp"
-                    android:layout_height="@dimen/_30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:background="@drawable/rounded_background_translucent"
                     android:gravity="center_vertical"
-                    android:padding="@dimen/_4dp"
+                    android:padding="@dimen/_8dp"
                     android:text="@string/signup"
                     android:textAlignment="center"
                     android:textAllCaps="true"
-                    android:textColor="@color/bg_off_white"
-                    android:textSize="@dimen/_10sp" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/bg_off_white" />
             </LinearLayout>
 
 

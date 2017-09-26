@@ -65,6 +65,18 @@
         <item name="tabSelectedTextColor">@android:color/holo_blue_dark</item>
     </style>
 
+    <style name="TabLayoutStyleText" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/holo_blue_dark</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">8dp</item>
+        <item name="tabPaddingEnd">8dp</item>
+
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabSelectedTextColor">@android:color/holo_blue_dark</item>
+    </style>
+
+
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
     </style>
