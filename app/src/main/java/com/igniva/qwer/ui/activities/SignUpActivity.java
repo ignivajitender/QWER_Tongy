@@ -108,7 +108,9 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(SignUpActivity.this, SetPreferrencesActivity.class);
+
+
+                Intent intent = new Intent(SignUpActivity.this, NoResultsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llMain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@color/bg_off_white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/no_connection"
+        android:gravity="center"
+        android:orientation="vertical"></LinearLayout>
+
+    <com.igniva.qwer.ui.views.TextViewBold
+        android:id="@+id/textViewBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/_20dp"
+        android:gravity="center"
+        android:text="@string/norecommendations"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_light_grey" />
+
+    <com.igniva.qwer.ui.views.TextViewBold
+        android:id="@+id/tv_SetPreferences"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/_10dp"
+        android:gravity="center"
+        android:text="@string/setPreferncesAgain"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/text_medium_grey" />
+
+
+</LinearLayout>
