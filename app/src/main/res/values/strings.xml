@@ -122,5 +122,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="french">French</string>
     <string name="dutch">Dutch</string>
     <string name="english">English</string>
+    <string name="norecommendations">No Recommendations for your selected preferences.</string>
+    <string name="setPreferncesAgain">Set Preferences Again</string>
 
 </resources>
