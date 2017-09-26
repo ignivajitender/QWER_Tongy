@@ -123,5 +123,6 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="dutch">Dutch</string>
     <string name="english">English</string>
     <string name="save_andlook_again">SAVE &amp; START LOOKING</string>
+    <string name="forgot_pass">Forgot Password!</string>
 
 </resources>

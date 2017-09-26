@@ -15,10 +15,13 @@ public class Constants {
     public static final String PROFESSIONAL = "PROFESSIONAL";
 
 
-
     public static final String MYPROFILEEDITABLE = "MYPROFILEEDITABLE";
     public static final String INNER_PROFILE = "INNER_PROFILE";
 
 
     public static final String TO_EDIT_PREFERENCES = "TO_EDIT_PREFERENCES";
+
+    public static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.7f;
+    public static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.69f;
+    public static final int ALPHA_ANIMATIONS_DURATION = 200;
 }

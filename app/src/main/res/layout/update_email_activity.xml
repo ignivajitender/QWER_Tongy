@@ -72,6 +72,7 @@
             android:layout_marginTop="@dimen/_2dp"
             android:background="@drawable/edit_text_white_rounded_corners"
             android:hint="Enter Here"
+            android:maxLines="1"
             android:padding="@dimen/_4dp" />
 
         <com.igniva.qwer.ui.views.TextViewBold
@@ -88,6 +89,7 @@
             android:layout_marginTop="@dimen/_2dp"
             android:background="@drawable/edit_text_white_rounded_corners"
             android:hint="Enter Here"
+            android:maxLines="1"
 
             android:padding="@dimen/_4dp" />
 
@@ -104,8 +106,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/blue_round_button"
                 android:paddingBottom="@dimen/_10dp"
-                android:paddingLeft="@dimen/_15dp"
-                android:paddingRight="@dimen/_15dp"
+                android:paddingLeft="@dimen/_25dp"
+                android:paddingRight="@dimen/_25dp"
                 android:paddingTop="@dimen/_10dp"
                 android:text="@string/update_email"
                 android:textColor="@color/bg_white" />

@@ -121,6 +121,7 @@ public class SettingsActivity extends BaseActivity {
             case R.id.ll_changeEmail:
                 Intent intentchange_email = new Intent(SettingsActivity.this, ChangeEmailActivity.class);
                 startActivity(intentchange_email);
+                break;
             case R.id.ll_aboutQwer:
                 Intent intentAbout = new Intent(SettingsActivity.this, AboutTongyActivity.class);
                 startActivity(intentAbout);

@@ -24,15 +24,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.igniva.qwer.utils.fcm.Constants.ALPHA_ANIMATIONS_DURATION;
+import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_HIDE_TITLE_DETAILS;
+import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR;
+
 /**
  * Created by karanveer on 21/9/17.
  */
 
 public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
-    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.7f;
-    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.69f;
-    private static final int ALPHA_ANIMATIONS_DURATION = 200;
+
+
     @BindView(R.id.imageview_placeholder)
     ImageView mImageviewPlaceholder;
     @BindView(R.id.linearlayout_title)
