@@ -89,6 +89,9 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
     LanguageListAdapter mAdapterLanLearn;
     @BindView(R.id.tv_lets_learn)
     TextView mTvLetsLearn;
+    Boolean isEditable = false;
+    @BindView(R.id.tv_start_looking_again)
+    TextView mTvStartLookingAgain;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +107,14 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
 
     @Override
     protected void setUpLayout() {
+        if (getIntent().hasExtra(Constants.TO_EDIT_PREFERENCES)) {
+            if (getIntent().getStringExtra(Constants.TO_EDIT_PREFERENCES).equalsIgnoreCase("Yes")) {
+                isEditable = true;
+                mTvStartLookingAgain.setVisibility(View.VISIBLE);
+                mTvLetsLearn.setVisibility(View.GONE);
+            }
+
+        }
         mAlLangListSpeak = new ArrayList<>();
         mAlLangListLearn = new ArrayList<>();
         final String[] countries = getResources().getStringArray(R.array.languages);
@@ -128,9 +139,9 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selection = (String) adapterView.getItemAtPosition(i);
-//                Log.e("prinvalue", i + "   " + selection);
+                Log.e("prinvalue", i + "   " + selection);
                 mLanguageSpeakSelection = selection;
-                mAlLangListSpeak.add(selection);
+                mAlLangListLearn.add(selection);
 //                Log.e("prinvalue", i + "   " + selection);
 //                Toast.makeText(SetPreferrencesActivity.this, "ho gea " + " pos: " + i + selection, Toast.LENGTH_SHORT).show();
                 callSetPrefPopUp(mLanguageSpeakSelection, Constants.LANGUAGE_LEARN);
@@ -147,6 +158,9 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
         mRvLanguageSpeak.setLayoutManager(linearLayoutManager);
         mRvLanguageSpeak.setItemAnimator(new DefaultItemAnimator());
         mRvLanguageSpeak.setAdapter(mAdapterLangSpeak);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRvLanguageSpeak.getContext(),linearLayoutManager.getOrientation());
+//        mRvLanguageSpeak.addItemDecoration(dividerItemDecoration);
+
 
         mRvLanguageToLearn.setLayoutManager(linearLayoutManager1);
         mRvLanguageToLearn.setItemAnimator(new DefaultItemAnimator());
@@ -300,7 +314,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                  break;
          }
      }*/
-    @OnClick({R.id.rb_nearby_me, R.id.rb_world_wide, R.id.iv_male, R.id.iv_female, R.id.tv_lets_learn})
+    @OnClick({R.id.rb_nearby_me, R.id.rb_world_wide, R.id.iv_male, R.id.iv_female, R.id.tv_lets_learn, R.id.tv_start_looking_again})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rb_nearby_me:
@@ -321,6 +335,10 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 Intent intent = new Intent(SetPreferrencesActivity.this, MyProfileActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.tv_start_looking_again:
+                Intent intentlookagain = new Intent(SetPreferrencesActivity.this, MainActivity.class);
+                startActivity(intentlookagain);
+                break;
         }
     }
 
@@ -329,13 +347,25 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
         switch (type) {
             case Constants.LANGUAGE_SPEAK:
                 mHashMapLangSpeak.remove(hashmap_key);
-                mAdapterLangSpeak.notifyItemRemoved(position);
+//                mAdapterLangSpeak.notifyItemRemoved(position);
+                mAdapterLangSpeak.notifyDataSetChanged();
+                if (mHashMapLangSpeak.size() == 0) {
+                    mRvLanguageSpeak.setVisibility(View.GONE);
+                }
+                ;
 //                mAdapterLangSpeak.notifyItemRemoved(position);
                 break;
             case Constants.LANGUAGE_LEARN:
                 mHashMapLangLearn.remove(hashmap_key);
-                mAdapterLanLearn.notifyItemChanged(position);
+                mAdapterLanLearn.notifyDataSetChanged();
+                if (mHashMapLangLearn.size() == 0) {
+                    mRvLanguageToLearn.setVisibility(View.GONE);
+                }
+                ;
+//
                 break;
         }
     }
+
+
 }

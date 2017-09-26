@@ -62,7 +62,7 @@
                 android:paddingLeft="@dimen/_30dp"
                 android:paddingRight="@dimen/_30dp"
                 android:paddingTop="@dimen/_5dp"
-                android:text="@string/okay"
+                android:text="@string/ok"
                 android:textColor="@color/bg_white"
                 android:textSize="@dimen/_15sp" />
 

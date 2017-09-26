@@ -16,8 +16,9 @@ public class Constants {
 
 
 
-    public static final String MYPROFILE = "MYPROFILE";
+    public static final String MYPROFILEEDITABLE = "MYPROFILEEDITABLE";
     public static final String INNER_PROFILE = "INNER_PROFILE";
 
 
+    public static final String TO_EDIT_PREFERENCES = "TO_EDIT_PREFERENCES";
 }

@@ -30,8 +30,8 @@ import butterknife.OnClick;
 
 public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
-    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
-    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
+    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.7f;
+    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.69f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
     @BindView(R.id.imageview_placeholder)
     ImageView mImageviewPlaceholder;
@@ -102,12 +102,13 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     protected void setUpLayout() {
 
 
-        if (getIntent().hasExtra(Constants.MYPROFILE)) {
+        if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
             mIvEditProfile.setVisibility(View.VISIBLE);
             mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.make_your_post));
             mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.set_preferences));
             mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.select_connections));
             mLlLetsStart.setVisibility(View.GONE);
+            mImageviewPlaceholder.setImageResource(R.drawable.busesgallery03);
 
         } else {
             mIvEditProfile.setVisibility(View.GONE);
@@ -115,6 +116,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
             mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
             mLlLetsStart.setVisibility(View.VISIBLE);
+            mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
         }
         mToolbar.setTitle("");
         mAppbar.addOnOffsetChangedListener(this);
@@ -127,7 +129,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         //set avatar and cover
         mAvatar1.setImageDrawable(getResources().getDrawable(R.drawable.learn_lessons));
 //        avatar.setImageURI(imageUri);
-        mImageviewPlaceholder.setImageResource(R.drawable.busesgallery03);
+
 
 
         mToolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);

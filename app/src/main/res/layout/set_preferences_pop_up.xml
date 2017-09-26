@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/_5dp"
                 android:paddingRight="@dimen/_5dp"
-
+                android:textColor="@color/text_dark_grey"
                 android:text="@string/professional" />
         </LinearLayout>
 

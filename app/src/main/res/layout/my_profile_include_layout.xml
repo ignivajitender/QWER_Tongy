@@ -1,18 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--&gt;-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/_20dp"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/_10dp"
-    android:paddingLeft="@dimen/_10dp"
-    android:paddingRight="@dimen/_10dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="top"
+        android:layout_marginTop="@dimen/_10dp"
+        android:orientation="horizontal"
         android:weightSum="4">
 
         <ImageView
@@ -90,26 +88,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/_10dp"
+        android:paddingLeft="@dimen/_5dp"
         android:paddingTop="@dimen/_10dp">
 
         <com.igniva.qwer.ui.views.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_3dp"
             android:text="@string/country"
             android:textColor="@color/text_medium_grey" />
+
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginTop="@dimen/_10dp"-->
+        <!--android:layout_height="wrap_content">-->
 
         <EditText
             android:id="@+id/et_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/text_light_grey"
-            android:text="Iceland"
-            android:textColor="@color/text_dark_grey" />
+            android:hint="@string/country"
+            android:maxLines="1"
+
+            android:textColor="@color/text_dark_grey"
+            android:textColorHint="@color/text_dark_grey" />
+
+        <!--</android.support.design.widget.TextInputLayout>-->
+
 
         <com.igniva.qwer.ui.views.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_3dp"
+            android:paddingTop="@dimen/_5dp"
             android:text="@string/city"
             android:textColor="@color/text_medium_grey" />
 
@@ -118,12 +130,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/text_light_grey"
+            android:maxLines="1"
             android:text="Vogar"
+
             android:textColor="@color/text_dark_grey" />
 
         <com.igniva.qwer.ui.views.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_3dp"
+            android:paddingTop="@dimen/_5dp"
             android:text="@string/pincode"
             android:textColor="@color/text_medium_grey" />
 
@@ -133,6 +149,8 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/text_light_grey"
             android:inputType="number"
+            android:maxLines="1"
+
             android:text="123-459"
             android:textColor="@color/text_dark_grey" />
 
@@ -140,19 +158,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/_8dp"
+            android:paddingTop="@dimen/_5dp"
             android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="@dimen/_5dp">
+                android:orientation="vertical">
 
                 <com.igniva.qwer.ui.views.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_3dp"
+                    android:paddingTop="@dimen/_2dp"
                     android:text="@string/age"
                     android:textColor="@color/text_medium_grey" />
 
@@ -171,12 +190,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="@dimen/_5dp">
+                android:orientation="vertical">
 
                 <com.igniva.qwer.ui.views.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_3dp"
+                    android:paddingTop="@dimen/_2dp"
                     android:text="@string/iam"
                     android:textColor="@color/text_medium_grey" />
 
@@ -185,6 +205,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/text_light_grey"
+                    android:maxLines="1"
                     android:text="Male"
                     android:textColor="@color/text_dark_grey" />
 
@@ -194,6 +215,8 @@
         <com.igniva.qwer.ui.views.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_3dp"
+            android:paddingTop="@dimen/_2dp"
             android:text="@string/about"
             android:textColor="@color/text_medium_grey" />
 
@@ -202,6 +225,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/text_light_grey"
+
+            android:maxLines="4"
             android:text="lorame loram lorama loramloa  loar mloaoo rlooer, lomem loow looowmkklioow loooo alllllia llooo"
             android:textColor="@color/text_dark_grey" />
 
@@ -209,8 +234,9 @@
         <LinearLayout
             android:id="@+id/ll_lets_start"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_10dp"
+            android:layout_marginBottom="@dimen/_10dp"
             android:gravity="center">
 
             <TextView
@@ -227,4 +253,4 @@
                 android:text="@string/letstart" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</LinearLayout><!--</ScrollView>-->

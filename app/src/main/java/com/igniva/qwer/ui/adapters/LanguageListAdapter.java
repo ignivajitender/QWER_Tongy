@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.callbacks.MyCallBack;
 import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.fcm.Constants;
@@ -53,6 +52,12 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
         if (mHashmapLangList.size() == 0) {
             holder.mLlOuterLayout.setVisibility(View.GONE);
         } else {
+            if (position == (mHashmapLangList.size() - 1)) {
+                holder.mViewItemDivider.setVisibility(View.GONE);
+
+            } else {
+                holder.mViewItemDivider.setVisibility(View.VISIBLE);
+            }
             holder.mLlOuterLayout.setVisibility(View.VISIBLE);
 
             Log.e("sjahjshajhaj", mHashmapLangList.keySet().toArray()[position].toString());
@@ -76,6 +81,8 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
                 public void onClick(View view) {
                     switch (type) {
                         case Constants.LANGUAGE_SPEAK:
+                            Log.e("pos", position + "");
+                            ;
                             callBack.removeItemFromHashMap(Constants.LANGUAGE_SPEAK, mHashmapLangList.keySet().toArray()[position].toString(), position);
                             break;
                         case Constants.LANGUAGE_LEARN:
@@ -118,6 +125,9 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
         ImageView mIvRemove;
         @BindView(R.id.ll_outer_layout)
         LinearLayout mLlOuterLayout;
+        @BindView(R.id.view_item_divider)
+        View mViewItemDivider;
+
 //        @OnClick(R.id.iv_remove)
 //        public void onViewClicked() {
 //

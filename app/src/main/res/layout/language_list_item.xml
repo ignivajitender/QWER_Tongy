@@ -1,79 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingTop="@dimen/_5dp"
-    android:id="@+id/ll_outer_layout"
-    android:weightSum="2">
+    android:orientation="vertical"
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:paddingLeft="@dimen/_10dp">
+    android:padding="@dimen/_5dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/iv_banner"
-            android:layout_gravity="center"
-            android:src="@drawable/professional" />
-
-        <TextView
-            android:id="@+id/tv_language_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="@dimen/_2dp"
-            android:text="English"
-            android:textColor="@color/text_dark_grey" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_outer_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:weightSum="10">
+
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="7">
+            android:layout_weight="0.8">
 
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/text_light_grey" />
+            <ImageView
+                android:id="@+id/iv_banner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/professional" />
 
-            <TextView
-                android:id="@+id/tv_language_proficiency"
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:id="@+id/tv_language_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/text_medium_grey"
-                android:gravity="center"
-                android:text="Professional" />
+                android:paddingLeft="@dimen/_2dp"
+                android:text="English"
+                android:textColor="@color/text_dark_grey"
+                android:textSize="@dimen/_10sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3">
+            android:layout_weight="1.2"
+            android:weightSum="10">
 
-            <View
-                android:layout_width="0.5dp"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/text_light_grey" />
+                android:layout_weight="8">
 
-            <ImageView
-                android:id="@+id/iv_remove"
-                android:layout_width="wrap_content"
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_light_grey" />
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:id="@+id/tv_language_proficiency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+
+                    android:text="Professional"
+                    android:textColor="@color/text_medium_grey"
+                    android:textSize="@dimen/_10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/_8dp"
-                android:src="@drawable/remove" />
+                android:layout_weight="2">
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_light_grey" />
+
+                <ImageView
+                    android:id="@+id/iv_remove"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_8dp"
+                    android:src="@drawable/remove" />
+            </LinearLayout>
+
+
         </LinearLayout>
-
-
     </LinearLayout>
+
+    <View
+        android:id="@+id/view_item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:background="@color/text_light_grey" />
 </LinearLayout>

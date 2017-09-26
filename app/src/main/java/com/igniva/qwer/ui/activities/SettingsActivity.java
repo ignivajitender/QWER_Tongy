@@ -111,7 +111,7 @@ public class SettingsActivity extends BaseActivity {
                 break;
             case R.id.ll_myProfile:
                 Intent intentprofile = new Intent(SettingsActivity.this, MyProfileActivity.class);
-                intentprofile.putExtra(Constants.MYPROFILE,Constants.INNER_PROFILE);
+                intentprofile.putExtra(Constants.MYPROFILEEDITABLE,Constants.INNER_PROFILE);
                 startActivity(intentprofile);
                 break;
             case R.id.ll_changePassword:

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
+import com.igniva.qwer.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,6 +105,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.edit_pref_icon:
                 Intent intent=new Intent(MainActivity.this,SetPreferrencesActivity.class);
+                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.TO_EDIT_PREFERENCES,"Yes");
                 startActivity(intent);
 
             default:
