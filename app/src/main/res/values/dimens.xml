@@ -89,6 +89,8 @@
     <dimen name="_28dp">28dp</dimen>
     <dimen name="imge_thumb_height">75dp</dimen>
     <dimen name="_160dp">160dp</dimen>
+    <dimen name="_140dp">140dp</dimen>
+    <dimen name="_130dp">130dp</dimen>
 
 
 </resources>
