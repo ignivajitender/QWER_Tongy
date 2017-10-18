@@ -1,4 +1,4 @@
-package com.igniva.qwer.crystalrangeseekbar.interfaces;
+package com.igniva.qwer.utils.crystalrangeseekbar.interfaces;
 
 /**
  * Created by owais.ali on 7/14/2016.

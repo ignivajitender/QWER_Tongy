@@ -133,5 +133,13 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="agree">Agree</string>
     <string name="norecommendations">No Recommendations for your selected preferences.</string>
     <string name="setPreferncesAgain">Set Preferences Again</string>
+    <string name="please_check_internet_connection">Please check internet connection</string>
+
+    <string name="please_enter_name">Please enter Name</string>
+    <string name="please_enter_valid_email">Please enter a valid email</string>
+    <string name="please_enter_pass">Please enter password</string>
+    <string name="please_pass_length">Password length should be more than 6 characters</string>
+    <string name="please_enter_email">Please enter Email</string>
+    <string name="please_agree_terms_and_condition">Please agree terms and conditions</string>
 
 </resources>

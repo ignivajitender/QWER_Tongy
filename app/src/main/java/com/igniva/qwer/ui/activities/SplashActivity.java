@@ -19,7 +19,7 @@ public class SplashActivity extends BaseActivity {
 
     //private PREFERENCES prefs;
     // SplashActivity screen timer
-    private static int SPLASH_TIME_OUT = 3000         ;
+    private static int SPLASH_TIME_OUT = 3000;
 
     // Shared Preferences
 

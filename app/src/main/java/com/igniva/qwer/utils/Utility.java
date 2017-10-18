@@ -36,7 +36,6 @@ public class Utility {
 	public static boolean isInternetConnection(Context context) {
 		boolean HaveConnectedWifi = false;
 		boolean HaveConnectedMobile = false;
-
 		try {
 
 			ConnectivityManager cm = (ConnectivityManager) context
@@ -54,7 +53,13 @@ public class Utility {
 			e.printStackTrace();
 		}
 
-		return HaveConnectedWifi || HaveConnectedMobile;
+		if(HaveConnectedWifi || HaveConnectedMobile){
+			return true;
+		}else{
+			Toast.makeText(context,context.getString(R.string.please_check_internet_connection), Toast.LENGTH_SHORT).show();
+			return false;
+		}
+
 	}
 
 	/**

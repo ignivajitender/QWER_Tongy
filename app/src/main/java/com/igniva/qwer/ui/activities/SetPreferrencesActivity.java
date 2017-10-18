@@ -23,10 +23,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
-import com.igniva.qwer.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
-import com.igniva.qwer.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
-import com.igniva.qwer.crystalrangeseekbar.widgets.CrystalSeekbar;
+import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
+import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalSeekbar;
 import com.igniva.qwer.ui.adapters.LanguageListAdapter;
 import com.igniva.qwer.ui.callbacks.MyCallBack;
 import com.igniva.qwer.ui.views.TextViewRegular;

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.view.Window;
@@ -16,12 +17,25 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.controller.RetrofitClient;
+import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.Utility;
+import com.igniva.qwer.utils.Validation;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * A login screen that offers login via email/password.
@@ -57,6 +71,12 @@ public class SignUpActivity extends BaseActivity {
     LinearLayout mLlFbSignUp;
     @BindView(R.id.llMain)
     LinearLayout mLlMain;
+    @BindView(R.id.til_name)
+    TextInputLayout mTilName;
+    @BindView(R.id.til_email)
+    TextInputLayout mTilEmail;
+    @BindView(R.id.til_pass)
+    TextInputLayout mTilPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +110,6 @@ public class SignUpActivity extends BaseActivity {
     }
 
     public void callSuccessPopUp(Context context, String message) {
-
         // Create custom dialog object
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -108,16 +127,12 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-
-
                 Intent intent = new Intent(SignUpActivity.this, NoResultsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
         dialog.setTitle("Custom Dialog");
-
-
         dialog.show();
 
 
@@ -131,7 +146,30 @@ public class SignUpActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_signUp:
-                callSuccessPopUp(this, getResources().getString(R.string.emailVerification));
+                if (Validation.isValidatedSignup(this, mEtName, mTilName, mEtEmail, mTilEmail, mEtPassword, mTilPass, mTvChangePassword)) {
+                    if (Utility.isInternetConnection(this)) {
+                        ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                        CallProgressWheel.showLoadingDialog(this, "Loading...");
+                        HashMap<String, String> signupHash = new HashMap<>();
+                        signupHash.put(Constants.Name, mEtName.getText().toString());
+                        signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
+                        signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
+                        mWebApi.signup(signupHash, new Callback<ResponsePojo>() {
+                            @Override
+                            public void success(ResponsePojo responsePojo, Response response) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                callSuccessPopUp(SignUpActivity.this, getResources().getString(R.string.emailVerification));
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(SignUpActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
                 break;
             case R.id.ll_fbSignUp:
                 break;

@@ -2,9 +2,13 @@ package com.igniva.qwer.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.igniva.qwer.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -179,5 +183,75 @@ public class Validation {
     public static void showKeyBoard(EditText edittext){
 
     }
+
+    // to validation of signup field
+
+    public static boolean isValidatedSignup (Activity activity, EditText mName, TextInputLayout mTextInputLayoutName, EditText mEmail, TextInputLayout mTextInputLayoutEmail, EditText mPassword, TextInputLayout mTextInputLayoutPass,AppCompatCheckBox appCompatCheckBox) {
+        mTextInputLayoutName.setError(null);
+        mTextInputLayoutEmail.setError(null);
+        mTextInputLayoutPass.setError(null);
+        if (FieldValidators.isNullOrEmpty(mName)) {
+            mName.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mName, InputMethodManager.SHOW_IMPLICIT);
+            mName.requestFocus();
+            mTextInputLayoutName.setError(activity.getString(R.string.please_enter_name));
+            return false;
+        } else if (!Validation.isValidEmail(mEmail.getText().toString())) {
+            mEmail.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEmail, InputMethodManager.SHOW_IMPLICIT);
+            mEmail.requestFocus();
+            mTextInputLayoutEmail.setError(activity.getString(R.string.please_enter_valid_email));
+            return false;
+        } else if (FieldValidators.isNullOrEmpty(mPassword)) {
+            mPassword.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mPassword, InputMethodManager.SHOW_IMPLICIT);
+            mPassword.requestFocus();
+            mTextInputLayoutPass.setError(activity.getString(R.string.please_enter_pass));
+            return false;
+        } else if (mPassword.length() < 6) {
+            mPassword.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mPassword, InputMethodManager.SHOW_IMPLICIT);
+            mPassword.requestFocus();
+            mTextInputLayoutPass.setError(activity.getString(R.string.please_pass_length));
+            return false;
+        }else if(!appCompatCheckBox.isChecked()){
+            appCompatCheckBox.setError(activity.getString(R.string.please_agree_terms_and_condition));
+            return false;
+        }
+        return true;
+    }
+
+
+    public static boolean isValidatedLogin (Activity activity, EditText mEmail, TextInputLayout mTextInputLayoutEmail, EditText mPassword, TextInputLayout mTextInputLayoutPass) {
+        mTextInputLayoutEmail.setError(null);
+        mTextInputLayoutPass.setError(null);
+         if (!Validation.isValidEmail(mEmail.getText().toString())) {
+            mEmail.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEmail, InputMethodManager.SHOW_IMPLICIT);
+            mEmail.requestFocus();
+            mTextInputLayoutEmail.setError(activity.getString(R.string.please_enter_valid_email));
+            return false;
+        } else if (FieldValidators.isNullOrEmpty(mPassword)) {
+            mPassword.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mPassword, InputMethodManager.SHOW_IMPLICIT);
+            mPassword.requestFocus();
+            mTextInputLayoutPass.setError(activity.getString(R.string.please_enter_pass));
+            return false;
+        }
+        return true;
+    }
+
 
 }

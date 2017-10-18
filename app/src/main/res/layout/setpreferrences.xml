@@ -211,7 +211,7 @@
             <!--rsb:absoluteMaxValue="150"-->
             <!--rsb:absoluteMinValue="20" />-->
 
-            <com.igniva.qwer.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+            <com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                 android:id="@+id/seekbar_preferred_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
                     android:layout_marginTop="@dimen/_8dp"
                     android:orientation="vertical">
 
-                    <com.igniva.qwer.crystalrangeseekbar.widgets.CrystalSeekbar
+                    <com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalSeekbar
                         android:id="@+id/seekbar_nearby_area"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

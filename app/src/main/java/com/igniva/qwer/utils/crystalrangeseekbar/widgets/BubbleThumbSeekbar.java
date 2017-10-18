@@ -1,4 +1,4 @@
-package com.igniva.qwer.crystalrangeseekbar.widgets;
+package com.igniva.qwer.utils.crystalrangeseekbar.widgets;
 
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;

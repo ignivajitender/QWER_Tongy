@@ -15,9 +15,7 @@ import retrofit2.http.Url;
 
 public interface ApiInterface {
 
-    @FormUrlEncoded
-    @POST("/api/Manager/login")
-    public void login(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
 
     @FormUrlEncoded
     @Headers({
@@ -36,6 +34,16 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/v1/Admin/searchArticle")
     void article(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
+
+    @FormUrlEncoded
+    @POST("/api/signup")
+    void signup(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
+    @FormUrlEncoded
+    @POST("/api/login")
+    void login(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
 
 
 }

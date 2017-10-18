@@ -28,19 +28,19 @@ public class Config {
 
         switch (appMode) {
             case DEV:
-                BASE_URL = " http://donatemate.ignivastaging.com";
+                BASE_URL = "http://tongy.ignivastaging.com";
 //                GCM_PROJECT_NUMBER = "563232976573";
                 break;
 
             case TEST:
                // BASE_URL="http://shootitdev.ignivastaging.com";
-                BASE_URL="http://unijob.ignivastaging.com:8010";
+                BASE_URL="http://tongy.ignivastaging.com";
                 //BASE_URL = "http://app.guildist.com:8001";
 //                GCM_PROJECT_NUMBER = "563232976573";
                 break;
 
             case LIVE:
-                BASE_URL = " http://donatemate.ignivastaging.com";
+                BASE_URL = "";
 //                GCM_PROJECT_NUMBER = "563232976573";
                 break;
         }
