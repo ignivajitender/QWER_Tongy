@@ -1,5 +1,8 @@
 <resources>
 
+
+    <string name="facebook_app_id">151336828938111</string>
+    <string name="fb_login_protocol_scheme">fb151336828938111</string>
     <string name="app_name">Tongy</string>
     <string name="button1">Button 1</string>
     <string name="button2">Button 2</string>
@@ -109,6 +112,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="update_password">UPDATE PASSWORD</string>
     <string name="pass_update_success">Your password is updated successfully</string>
     <string name="current_email">CURRENT EMAIL ADDRESS</string>
+    <string name="title">TITLE</string>
     <string name="new_email">NEW EMAIL ADDRESS</string>
     <string name="update_email">UPDATE EMAIL</string>
     <string name="joinUs">Join Us!</string>
@@ -141,5 +145,6 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="please_pass_length">Password length should be more than 6 characters</string>
     <string name="please_enter_email">Please enter Email</string>
     <string name="please_agree_terms_and_condition">Please agree terms and conditions</string>
+    <string name="text_fb_error">Sorry! We are unable to get your email. Kindly signup through Tongy general signup process</string>
 
 </resources>

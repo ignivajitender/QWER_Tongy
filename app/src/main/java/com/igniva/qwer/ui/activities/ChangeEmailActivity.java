@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.views.TextViewBold;
+import com.igniva.qwer.utils.Validation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,12 +29,12 @@ public class ChangeEmailActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
     ImageView mIvBack;
-    @BindView(R.id.et_cuurent_pass)
-    EditText mEtCuurentPass;
-    @BindView(R.id.et_new_pass)
-    EditText mEtNewPass;
     @BindView(R.id.tv_change_email)
     TextViewBold mTvChangeEmail;
+    @BindView(R.id.et_current_email)
+    EditText etCurrentEmail;
+    @BindView(R.id.et_new_email)
+    EditText etNewEmail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class ChangeEmailActivity extends BaseActivity {
 
     }
 
-    public void callVerifyPassPopUp() {
+    public void callVerifyPassPopUp(final EditText etCurrentEmail, final EditText etNewEmail) {
 
         // Create custom dialog object
         final Dialog dialog = new Dialog(this,
@@ -75,6 +76,7 @@ public class ChangeEmailActivity extends BaseActivity {
 
         Button btn_confirm = (Button) dialog.findViewById(R.id.btn_confirm);
         Button btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
+        final EditText et_verify_password = (EditText) dialog.findViewById(R.id.et_verify_password);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +88,9 @@ public class ChangeEmailActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                finish();
+
+                    callChangeEmailApi(etCurrentEmail, etNewEmail,et_verify_password);
+
             }
         });
 
@@ -98,6 +102,13 @@ public class ChangeEmailActivity extends BaseActivity {
 
     }
 
+    /**
+     * Call api to change the current email
+     */
+
+    private void callChangeEmailApi(EditText currentEmail, EditText etCurrentEmail, EditText etNewEmail) {
+    }
+
 
     @OnClick({R.id.iv_back, R.id.tv_change_email})
     public void onViewClicked(View view) {
@@ -106,7 +117,10 @@ public class ChangeEmailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_change_email:
-                callVerifyPassPopUp();
+                if (Validation.validateNewEmail(ChangeEmailActivity.this, etCurrentEmail, etNewEmail)) {
+                    callVerifyPassPopUp(etCurrentEmail, etNewEmail);
+                }
+
                 break;
         }
     }

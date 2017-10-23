@@ -44,6 +44,23 @@ public interface ApiInterface {
     @POST("/api/login")
     void login(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
 
+    @FormUrlEncoded
+    @POST("/api/socialSignup")
+    void loginFaceBook(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
+    @FormUrlEncoded
+    @POST("/api/users/status")
+    void deleteAccount(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
+    @FormUrlEncoded
+    @POST("/api/users/contact")
+    void contactUs(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
+    @FormUrlEncoded
+    @POST("/api/users/changeEmail")
+    void changeEmail(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
+
 
 
 }

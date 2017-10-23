@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -22,9 +21,13 @@ import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.ui.views.TextViewRegular;
 import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
+import com.igniva.qwer.utils.facebookSignIn.FacebookHelper;
+import com.igniva.qwer.utils.facebookSignIn.FacebookResponse;
+import com.igniva.qwer.utils.facebookSignIn.FacebookUser;
 
 import java.util.HashMap;
 
@@ -39,7 +42,7 @@ import retrofit.client.Response;
  * Created by igniva-andriod-11 on 7/11/16.
  */
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements FacebookResponse, Utility.OnAlertOkClickListener {
 
 
     @BindView(R.id.tv_ForgotPassword)
@@ -61,7 +64,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.iv_logo)
     ImageView mIvLogo;
     @BindView(R.id.et_email)
-    EditText mEtEmail;
+    TextInputEditText mEtEmail;
     @BindView(R.id.et_password)
     TextInputEditText mEtPassword;
     @BindView(R.id.email_login_form)
@@ -87,6 +90,9 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.til_pass)
     TextInputLayout mTilPass;
 
+    // facebook helper init
+    FacebookHelper mFbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /*requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -95,6 +101,10 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+
+        /**
+         * Init all the methods and butter knife injection
+         * */
         ButterKnife.bind(this);
         setUpLayout();
         setUpToolbar();
@@ -104,6 +114,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void setUpLayout() {
         mTvForgotPassword.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        mFbHelper = new FacebookHelper(LoginActivity.this, "id,name,email,gender,birthday,picture,cover", LoginActivity.this);
 
     }
 
@@ -115,6 +126,10 @@ public class LoginActivity extends BaseActivity {
     protected void setUpToolbar() {
     }
 
+
+    /**
+     * On activity back press
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -122,38 +137,22 @@ public class LoginActivity extends BaseActivity {
     }
 
 
+    /**
+     * View click event
+     */
     @OnClick({R.id.btn_login, R.id.ll_fbSignUp, R.id.tv_SignUp, R.id.ll_NewSignUp, R.id.tv_ForgotPassword})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if (Validation.isValidatedLogin(this, mEtEmail, mTilEmail, mEtPassword, mTilPass)) {
-                    if (Utility.isInternetConnection(this)) {
-                        ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
-                        CallProgressWheel.showLoadingDialog(this, "Loading...");
-                        HashMap<String, String> signupHash = new HashMap<>();
-                        signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
-                        signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
-                        mWebApi.login(signupHash, new Callback<ResponsePojo>() {
-                            @Override
-                            public void success(ResponsePojo responsePojo, Response response) {
-                                CallProgressWheel.dismissLoadingDialog();
-                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }
+                loginWithoutFacebook();
+
 
                 break;
             case R.id.ll_fbSignUp:
+
+                loginWithFacebook();
+
                 break;
             case R.id.tv_SignUp:
                 Intent signUpIntent = new Intent(LoginActivity.this, SignUpActivity.class);
@@ -168,5 +167,152 @@ public class LoginActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    /**
+     * Login with facebook
+     */
+    private void loginWithFacebook() {
+        if (Utility.isInternetConnection(LoginActivity.this)) {
+            mFbHelper.performSignIn(this);
+        } else {
+            Toast.makeText(this, Constants.NOINTERNET, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    /**
+     * Login with-out facebook
+     */
+    private void loginWithoutFacebook() {
+        try {
+            if (Validation.isValidatedLogin(this, mEtEmail, mTilEmail, mEtPassword, mTilPass)) {
+                if (Utility.isInternetConnection(this)) {
+                    ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                    CallProgressWheel.showLoadingDialog(this, "Loading...");
+                    HashMap<String, String> signupHash = new HashMap<>();
+                    signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
+                    signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
+                    mWebApi.login(signupHash, new Callback<ResponsePojo>() {
+                        @Override
+                        public void success(ResponsePojo responsePojo, Response response) {
+
+                            if (responsePojo.getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+
+                            } else if (responsePojo.getStatus() == 400) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onFbSignInFail() {
+        Toast.makeText(this, "Facebook sign in fail", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFbSignInSuccess() {
+        Toast.makeText(this, "Facebook sign in success", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFbProfileReceived(FacebookUser facebookUser) {
+        Toast.makeText(this, "Facebook user data: name= " + facebookUser.name + " email= " + facebookUser.email, Toast.LENGTH_SHORT).show();
+
+        Log.e("Person name: ", facebookUser.name + "");
+        Log.e("Person gender: ", facebookUser.gender + "");
+        Log.e("Person email: ", facebookUser.email + "");
+        Log.e("Person image: ", facebookUser.profilePic + "");
+        Log.e("Person dob: ", facebookUser.facebookID + "");
+
+        HashMap<String, String> signInFacebook = new HashMap<>();
+        signInFacebook.put(Constants.SOCIAL_ID, facebookUser.facebookID);
+        signInFacebook.put(Constants.EMAIL, facebookUser.email);
+        signInFacebook.put(Constants.GENDER, facebookUser.gender);
+        signInFacebook.put(Constants.NAME, facebookUser.name);
+        signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
+
+
+            callSinInFacebookApi(signInFacebook);
+
+
+
+    }
+
+    private void callSinInFacebookApi(HashMap<String, String> signInFacebook) {
+        try {
+
+                if (Utility.isInternetConnection(this)) {
+
+                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                CallProgressWheel.showLoadingDialog(this, "Loading...");
+                mWebApi.loginFaceBook(signInFacebook, new Callback<ResponsePojo>() {
+                    @Override
+                    public void success(ResponsePojo responsePojo, Response response) {
+                        if (responsePojo.getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, false);
+                        Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void onFBSignOut() {
+        Toast.makeText(this, "Facebook sign out success", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mFbHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onOkButtonClicked() {
+        startActivity(new Intent(this, SignUpActivity.class));
     }
 }

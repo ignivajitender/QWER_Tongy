@@ -1,6 +1,7 @@
 package com.igniva.qwer.utils;
 
 
+import com.facebook.FacebookSdk;
 
 public class MyApplication extends android.app.Application {
 
@@ -8,11 +9,13 @@ public class MyApplication extends android.app.Application {
     private static MyApplication app;
 
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
         prefs = new PreferenceHandler(this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
 

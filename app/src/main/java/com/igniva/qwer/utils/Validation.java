@@ -164,7 +164,7 @@ public class Validation {
 
         } else if (dateOfBirth.isEmpty()) {
 
-            Utility.showToastMessageLong(activity,"Please choose your date of birth");
+            Utility.showToastMessageLong(activity, "Please choose your date of birth");
         } else if (FieldValidators.isNullOrEmpty(desc)) {
 
             Utility.showToastMessageLong(activity, "Please enter description");
@@ -173,20 +173,20 @@ public class Validation {
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(firstname, InputMethodManager.SHOW_IMPLICIT);
             desc.requestFocus();
-        }else {
+        } else {
             return "validated";
         }
         return null;
     }
 
 
-    public static void showKeyBoard(EditText edittext){
+    public static void showKeyBoard(EditText edittext) {
 
     }
 
     // to validation of signup field
 
-    public static boolean isValidatedSignup (Activity activity, EditText mName, TextInputLayout mTextInputLayoutName, EditText mEmail, TextInputLayout mTextInputLayoutEmail, EditText mPassword, TextInputLayout mTextInputLayoutPass,AppCompatCheckBox appCompatCheckBox) {
+    public static boolean isValidatedSignup(Activity activity, EditText mName, TextInputLayout mTextInputLayoutName, EditText mEmail, TextInputLayout mTextInputLayoutEmail, EditText mPassword, TextInputLayout mTextInputLayoutPass, AppCompatCheckBox appCompatCheckBox) {
         mTextInputLayoutName.setError(null);
         mTextInputLayoutEmail.setError(null);
         mTextInputLayoutPass.setError(null);
@@ -222,7 +222,7 @@ public class Validation {
             mPassword.requestFocus();
             mTextInputLayoutPass.setError(activity.getString(R.string.please_pass_length));
             return false;
-        }else if(!appCompatCheckBox.isChecked()){
+        } else if (!appCompatCheckBox.isChecked()) {
             appCompatCheckBox.setError(activity.getString(R.string.please_agree_terms_and_condition));
             return false;
         }
@@ -230,10 +230,10 @@ public class Validation {
     }
 
 
-    public static boolean isValidatedLogin (Activity activity, EditText mEmail, TextInputLayout mTextInputLayoutEmail, EditText mPassword, TextInputLayout mTextInputLayoutPass) {
+    public static boolean isValidatedLogin(Activity activity, EditText mEmail, TextInputLayout mTextInputLayoutEmail, EditText mPassword, TextInputLayout mTextInputLayoutPass) {
         mTextInputLayoutEmail.setError(null);
         mTextInputLayoutPass.setError(null);
-         if (!Validation.isValidEmail(mEmail.getText().toString())) {
+        if (!Validation.isValidEmail(mEmail.getText().toString())) {
             mEmail.setFocusable(true);
             InputMethodManager imm = (InputMethodManager) activity
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -252,6 +252,92 @@ public class Validation {
         }
         return true;
     }
+
+
+    /**
+     * check for Title and description
+     */
+
+    public static boolean validateDescription(Activity activity, EditText etContactUsTitle,
+                                              EditText etContactUsDescription) {
+        String subject = null;
+        String message = null;
+        subject = etContactUsTitle.getText().toString();
+        message = etContactUsDescription.getText().toString();
+
+        if (FieldValidators.isNullOrEmpty(etContactUsTitle)
+                && FieldValidators.isNullOrEmpty(etContactUsDescription)) {
+            Utility.showToastMessageLong(activity, "Please enter subject and message");
+            etContactUsTitle.setFocusable(true);
+            etContactUsTitle.requestFocus();
+            return false;
+        } else if (FieldValidators.isNullOrEmpty(etContactUsTitle)) {
+            Utility.showToastMessageLong(activity, "Please enter subject");
+            etContactUsTitle.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(etContactUsTitle, InputMethodManager.SHOW_IMPLICIT);
+            etContactUsTitle.requestFocus();
+            return false;
+        } else if (FieldValidators.isNullOrEmpty(etContactUsDescription)) {
+            Utility.showToastMessageLong(activity, "Please enter message");
+            etContactUsDescription.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(etContactUsDescription, InputMethodManager.SHOW_IMPLICIT);
+            etContactUsDescription.requestFocus();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean validateNewEmail(Activity activity, EditText etCurrentEmail, EditText etNewEmail) {
+        String subject = null;
+        String message = null;
+        subject = etCurrentEmail.getText().toString();
+        message = etNewEmail.getText().toString();
+
+        if (FieldValidators.isNullOrEmpty(etCurrentEmail)
+                && FieldValidators.isNullOrEmpty(etNewEmail)) {
+            Utility.showToastMessageLong(activity, "Please enter current and new email.");
+            etCurrentEmail.setFocusable(true);
+            etCurrentEmail.requestFocus();
+            return false;
+        } else if (FieldValidators.isNullOrEmpty(etCurrentEmail)) {
+            Utility.showToastMessageLong(activity, "Please enter current email.");
+            etCurrentEmail.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(etCurrentEmail, InputMethodManager.SHOW_IMPLICIT);
+            etCurrentEmail.requestFocus();
+            return false;
+        } else if (FieldValidators.isNullOrEmpty(etNewEmail)) {
+            Utility.showToastMessageLong(activity, "Please enter new email.");
+            etNewEmail.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(etNewEmail, InputMethodManager.SHOW_IMPLICIT);
+            etNewEmail.requestFocus();
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public static boolean validatePassword(Activity activity, EditText etCurrentEmail) {
+        String password = null;
+        password = etCurrentEmail.getText().toString();
+
+        if (FieldValidators.isNullOrEmpty(etCurrentEmail)) {
+            Utility.showToastMessageLong(activity, "Please enter current and new email.");
+            etCurrentEmail.setFocusable(true);
+            etCurrentEmail.requestFocus();
+            return false;
+        }  else {
+            return true;
+        }
+    }
+
 
 
 }

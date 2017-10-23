@@ -11,6 +11,7 @@
 
     <!-- GCM PERMISSIONS END -->
     <application
+        android:name=".utils.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/tongy_logo"
         android:label="@string/app_name"
@@ -19,13 +20,7 @@
         <activity
             android:name=".ui.activities.SplashActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.activities.PrivacyPolicyActivity" />
 
         <meta-data
@@ -45,7 +40,23 @@
             </intent-filter>
         </service>
 
+        <!-- Facebook provider -->
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider151336828938111"
+            android:exported="true" />
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <!-- Facebook activity -->
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ui.activities.MyProfileActivity"
             android:screenOrientation="portrait" />
@@ -66,7 +77,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:screenOrientation="portrait" />
@@ -82,7 +99,8 @@
         <activity
             android:name=".ui.activities.ForgotPasswordActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activities.ContactUsActivity"></activity>
     </application>
 
 </manifest>

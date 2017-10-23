@@ -9,17 +9,30 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.controller.RetrofitClient;
+import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.PreferenceHandler;
+import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.fcm.Constants;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class SettingsActivity extends BaseActivity {
@@ -103,19 +116,22 @@ public class SettingsActivity extends BaseActivity {
 
         dialog.setContentView(R.layout.delete_account_pop_up);
 
-       Button mBtnConfirm=(Button)dialog.findViewById(R.id.btn_confirm);
-       Button mBtnCancel=(Button)dialog.findViewById(R.id.btn_cancel);
+        Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
+        Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
+        EditText delete_account_password = (EditText) dialog.findViewById(R.id.delete_account_password);
 
+        final String password = delete_account_password.getText().toString();
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         mBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
-                finishAffinity();
-                Intent intent=new Intent(SettingsActivity.this,LoginActivity.class);
-                startActivity(intent);
-
+                if (!password.isEmpty() && password.length() > 0) {
+                    dialog.dismiss();
+                    HashMap<String, String> deleteAccount = new HashMap<>();
+                    deleteAccount.put(com.igniva.qwer.utils.Constants.PASSWORD,password);
+                    callDeleteMyAccountApi(deleteAccount);
+                }
 
             }
         });
@@ -134,6 +150,47 @@ public class SettingsActivity extends BaseActivity {
 
 
     }
+
+    /**
+     * Call Delete my account api
+     *
+     * @param password
+     */
+
+    private void callDeleteMyAccountApi(HashMap<String, String> password) {
+
+        try {
+            if (Utility.isInternetConnection(this)) {
+                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                CallProgressWheel.showLoadingDialog(this, "Loading...");
+                mWebApi.deleteAccount(password, new Callback<ResponsePojo>() {
+                    @Override
+                    public void success(ResponsePojo responsePojo, Response response) {
+                        if(responsePojo.getStatus() == 200){
+                            finishAffinity();
+                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.Constants.IS_ALREADY_LOGIN, false);
+                            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+
+    }
+
     @Override
     protected void setUpLayout() {
 
@@ -149,7 +206,7 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_back,R.id.tv_tandC, R.id.tv_privacyPolicy,R.id.ll_back, R.id.ll_myProfile,
+    @OnClick({R.id.iv_back, R.id.tv_tandC, R.id.tv_privacyPolicy, R.id.ll_back, R.id.ll_myProfile,
             R.id.ll_changePassword, R.id.ll_changeEmail, R.id.ll_aboutQwer, R.id.ll_DeleteAccount,
             R.id.ll_contactUs, R.id.ll_rate_us, R.id.ll_pushNotifications, R.id.ll_voiceCall,
             R.id.ll_videoCall, R.id.ll_logout, R.id.ll_termsPrivacy})
@@ -159,7 +216,7 @@ public class SettingsActivity extends BaseActivity {
                 break;
             case R.id.ll_myProfile:
                 Intent intentprofile = new Intent(SettingsActivity.this, MyProfileActivity.class);
-                intentprofile.putExtra(Constants.MYPROFILEEDITABLE,Constants.INNER_PROFILE);
+                intentprofile.putExtra(Constants.MYPROFILEEDITABLE, Constants.INNER_PROFILE);
                 startActivity(intentprofile);
                 break;
             case R.id.ll_changePassword:
@@ -178,6 +235,7 @@ public class SettingsActivity extends BaseActivity {
                 callConfirmDeletionPopUp();
                 break;
             case R.id.ll_contactUs:
+
                 break;
             case R.id.ll_rate_us:
                 break;
