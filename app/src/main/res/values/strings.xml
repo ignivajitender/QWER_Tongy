@@ -146,5 +146,8 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="please_enter_email">Please enter Email</string>
     <string name="please_agree_terms_and_condition">Please agree terms and conditions</string>
     <string name="text_fb_error">Sorry! We are unable to get your email. Kindly signup through Tongy general signup process</string>
-
+    <string name="please_enter_current_pass">Please enter current password</string>
+    <string name="please_enter_new_pass" >Please enter new password</string>
+    <string name="please_enter_confirm_pass">Please enter confirm password</string>
+    <string name="resend_Link">Resend link</string>
 </resources>

@@ -1,13 +1,18 @@
 package com.igniva.qwer.ui.activities;
 
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -92,6 +97,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
     // facebook helper init
     FacebookHelper mFbHelper;
+    private String TAG1="LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,10 +150,8 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-
+                Utility.hideSoftKeyboard(LoginActivity.this);
                 loginWithoutFacebook();
-
-
                 break;
             case R.id.ll_fbSignUp:
 
@@ -201,13 +205,21 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                             if (responsePojo.getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                for (int i = 0; i < response.getHeaders().size(); i++) {
+                                    if (response.getHeaders().get(i).getName().equalsIgnoreCase("x-logintoken")) {
+                                        String loginToken = response.getHeaders().get(i).getValue();
+                                        Log.e(TAG1, loginToken);
+                                        PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
+                                    }
+                                }
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 
                             } else if (responsePojo.getStatus() == 400) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                callResendVerificationPopUp(LoginActivity.this,responsePojo.getDescription());
+                               // Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -315,4 +327,94 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
     public void onOkButtonClicked() {
         startActivity(new Intent(this, SignUpActivity.class));
     }
+
+    public void callResendVerificationPopUp(Activity activity, String description) {
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        dialog.setContentView(R.layout.succuess_pop_up);
+
+        TextView mtvDialogTitle=(TextView)dialog.findViewById(R.id.tvDialogTitle);
+        mtvDialogTitle.setText(activity.getString(R.string.resend_Link));
+        TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
+        mBtnOk.setText(getString(R.string.resend_Link));
+        TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
+        text_message.setText(description);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        mBtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                callResendVerificationLinkApi();
+                //finish();
+
+            }
+        });
+        dialog.setTitle("Custom Dialog");
+
+
+        dialog.show();
+
+
+    }
+
+    private void callResendVerificationLinkApi() {
+
+        try {
+            // check validations for current password,new password and confirm password
+
+            if (Utility.isInternetConnection(this)) {
+                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                CallProgressWheel.showLoadingDialog(this, "Loading...");
+                           /*
+                            payload
+                            {
+                                email:- mohit@yopmail.com
+                            }*/
+
+
+                HashMap<String, String> forgotPasswordHashMap = new HashMap<>();
+                forgotPasswordHashMap.put("email", mEtEmail.getText().toString().trim());
+
+
+                mWebApi.resendVerificationLink(forgotPasswordHashMap, new Callback<ResponsePojo>() {
+                    @Override
+                    public void success(ResponsePojo responsePojo, Response response) {
+
+                        if (responsePojo.getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            // callSuccessPopUp(LoginActivity.this, responsePojo.getDescription());
+                            Utility.showToastMessageShort(LoginActivity.this, responsePojo.getDescription());
+
+
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

@@ -9,6 +9,7 @@ import android.content.SharedPreferences.Editor;
  * 
  */
 public class PreferenceHandler {
+	public static final String PREF_KEY_LOGIN_USER_TOKEN = "PREF_KEY_LOGIN_USER_TOKEN";
 	SharedPreferences pref;
 	SharedPreferences.Editor editor;
 	Context _context;

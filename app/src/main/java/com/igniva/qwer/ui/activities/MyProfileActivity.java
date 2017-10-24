@@ -18,17 +18,27 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.controller.RetrofitClient;
+import com.igniva.qwer.model.ProfileResponsePojo;
+import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.fcm.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
+import static com.igniva.qwer.R.id.textview_title;
 import static com.igniva.qwer.utils.fcm.Constants.ALPHA_ANIMATIONS_DURATION;
 import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_HIDE_TITLE_DETAILS;
 import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR;
@@ -62,7 +72,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     EditText mEtGender;
     @BindView(R.id.et_about)
     EditText mEtAbout;
-    @BindView(R.id.textview_title)
+    @BindView(textview_title)
     TextView mTextviewTitle;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -90,7 +100,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     ImageView mCrossIcon3;
     @BindView(R.id.tv_save)
     TextView mTvSave;
-
+    @BindView(R.id.tvName)
+    TextView mtvName;
 
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
@@ -105,7 +116,66 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
         ButterKnife.bind(this);
         setUpLayout();
+        getProfileApi();
     }
+
+    private void getProfileApi() {
+
+
+        try {
+
+                if (Utility.isInternetConnection(this)) {
+                    ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                    CallProgressWheel.showLoadingDialog(this, "Loading...");
+                    mWebApi.getProfile(new Callback<ProfileResponsePojo>() {
+                        @Override
+                        public void success(ProfileResponsePojo responsePojo, Response response) {
+
+                            if (responsePojo.getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                //callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
+                                Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+                                setDataInView(responsePojo);
+
+                            } else if (responsePojo.getStatus() == 400) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setDataInView(ProfileResponsePojo responsePojo) {
+        mEtAbout.setText(responsePojo.getData().about);
+        mEtAge.setText(responsePojo.getData().age);
+        mEtCity.setText(responsePojo.getData().city);
+        mEtCountry.setText(responsePojo.getData().country);
+        mEtGender.setText(responsePojo.getData().gender);
+        mEtPincode.setText(responsePojo.getData().pincode);
+        mtvName.setText(responsePojo.getData().getName());
+        mTextviewTitle.setText(responsePojo.getData().getName());
+    }
+
 
     @Override
     protected void setUpLayout() {
@@ -225,6 +295,9 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     @Override
     protected void setDataInViewObjects() {
+
+
+
 
     }
     public void callSuccessPopUp() {

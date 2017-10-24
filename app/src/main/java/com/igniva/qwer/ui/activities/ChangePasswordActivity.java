@@ -2,6 +2,7 @@ package com.igniva.qwer.ui.activities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,13 +13,27 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.controller.RetrofitClient;
+import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.ui.views.TextViewBold;
+import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.PreferenceHandler;
+import com.igniva.qwer.utils.Utility;
+import com.igniva.qwer.utils.Validation;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by karanveer on 22/9/17.
@@ -79,6 +94,10 @@ public class ChangePasswordActivity extends BaseActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 finish();
+                PreferenceHandler.writeBoolean(ChangePasswordActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                Intent intent = new Intent(ChangePasswordActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
         dialog.setTitle("Custom Dialog");
@@ -101,7 +120,66 @@ public class ChangePasswordActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_change_pass:
-                callSuccessPopUp(this, getResources().getString(R.string.pass_update_success));
+                try {
+                    // check validations for current password,new password and confirm password
+                    if (Validation.validateChangePassword(this, mEtCuurentPass, mEtNewPass, mEtConfirmPass )) {
+                        if (Utility.isInternetConnection(this)) {
+                            ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                            CallProgressWheel.showLoadingDialog(this, "Loading...");
+                           /*
+                            payload
+                            {“old_password”:”test@yopmail.com”
+                              "new_password":"test@yopmail.comc",
+                              "confirm_new_password":"test@yopmail.comc"
+                            }*/
+
+
+
+                            HashMap<String, String> changePasswordHashMap = new HashMap<>();
+                            changePasswordHashMap.put("old_password", mEtCuurentPass.getText().toString().trim());
+                            changePasswordHashMap.put("new_password", mEtNewPass.getText().toString());
+                            changePasswordHashMap.put("confirm_new_password", mEtConfirmPass.getText().toString());
+
+
+
+                            mWebApi.changePassword(changePasswordHashMap, new Callback<ResponsePojo>() {
+                                @Override
+                                public void success(ResponsePojo responsePojo, Response response) {
+
+                                    if (responsePojo.getStatus() == 200) {
+                                        CallProgressWheel.dismissLoadingDialog();
+                                        callSuccessPopUp(ChangePasswordActivity.this, responsePojo.getDescription());
+                                       // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+
+
+                                    } else if (responsePojo.getStatus() == 400) {
+                                        CallProgressWheel.dismissLoadingDialog();
+                                        Toast.makeText(ChangePasswordActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        CallProgressWheel.dismissLoadingDialog();
+                                        Toast.makeText(ChangePasswordActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    CallProgressWheel.dismissLoadingDialog();
+                                    Toast.makeText(ChangePasswordActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                } catch (Exception e) {
+                    CallProgressWheel.dismissLoadingDialog();
+                    Toast.makeText(ChangePasswordActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+
+                //callSuccessPopUp(this, getResources().getString(R.string.pass_update_success));
                 break;
         }
     }

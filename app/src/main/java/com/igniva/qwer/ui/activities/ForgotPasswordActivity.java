@@ -1,24 +1,36 @@
 package com.igniva.qwer.ui.activities;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.controller.RetrofitClient;
+import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.Utility;
+import com.igniva.qwer.utils.Validation;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by karanveer on 26/9/17.
@@ -34,6 +46,11 @@ public class ForgotPasswordActivity extends BaseActivity {
     @BindView(R.id.ll_lets_start)
     LinearLayout mLlLetsStart;
 
+    @BindView(R.id.etEmail)
+    EditText metEmail;
+
+    @BindView(R.id.til_email)
+    TextInputLayout mtilEmail;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +73,7 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     }
 
-    public void callSuccessPopUp() {
+    public void callSuccessPopUp(ForgotPasswordActivity forgotPasswordActivity, String description) {
 
         // Create custom dialog object
         final Dialog dialog = new Dialog(this);
@@ -68,7 +85,8 @@ public class ForgotPasswordActivity extends BaseActivity {
         dialog.setContentView(R.layout.succuess_pop_up);
 
         TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
-
+        TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
+        text_message.setText(description);
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         mBtnOk.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +107,62 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     @OnClick(R.id.tv_submit)
     public void onViewClicked() {
-        callSuccessPopUp();
+        //callSuccessPopUp();
+
+        try {
+            // check validations for current password,new password and confirm password
+            if (Validation.validateForgotPassword(this, metEmail,mtilEmail )) {
+                if (Utility.isInternetConnection(this)) {
+                    ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                    CallProgressWheel.showLoadingDialog(this, "Loading...");
+                           /*
+                            payload
+                            {
+                                email:- mohit@yopmail.com
+                            }*/
+
+
+
+                    HashMap<String, String> forgotPasswordHashMap = new HashMap<>();
+                    forgotPasswordHashMap.put("email", metEmail.getText().toString().trim());
+
+
+
+                    mWebApi.forgotPassword(forgotPasswordHashMap, new Callback<ResponsePojo>() {
+                        @Override
+                        public void success(ResponsePojo responsePojo, Response response) {
+
+                            if (responsePojo.getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                callSuccessPopUp(ForgotPasswordActivity.this, responsePojo.getDescription());
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+
+
+                            } else if (responsePojo.getStatus() == 400) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(ForgotPasswordActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(ForgotPasswordActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(ForgotPasswordActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(ForgotPasswordActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
     }
 }

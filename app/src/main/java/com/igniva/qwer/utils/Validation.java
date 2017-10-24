@@ -338,6 +338,86 @@ public class Validation {
         }
     }
 
+    public static boolean validateChangePassword(Activity activity, EditText mEtCuurentPass, EditText mEtNewPass, EditText mEtConfirmPassword) {
 
 
+        if (FieldValidators.isNullOrEmpty(mEtCuurentPass)) {
+            mEtCuurentPass.setFocusable(true);
+
+            mEtCuurentPass.requestFocus();
+            mEtCuurentPass.setError(activity.getString(R.string.please_enter_current_pass));
+            return false;
+        }
+        else if (mEtCuurentPass.getText().toString().trim().length() < 6) {
+            mEtCuurentPass.setFocusable(true);
+//            InputMethodManager imm = (InputMethodManager) activity
+//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            mEtCuurentPass.requestFocus();
+            mEtCuurentPass.setError(activity.getString(R.string.please_pass_length));
+            return false;
+        }
+        if (FieldValidators.isNullOrEmpty(mEtNewPass)) {
+            mEtNewPass.setFocusable(true);
+//            InputMethodManager imm = (InputMethodManager) activity
+//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            mEtNewPass.requestFocus();
+            mEtNewPass.setError(activity.getString(R.string.please_enter_new_pass));
+            return false;
+        }
+        else if (mEtNewPass.getText().toString().trim().length() < 6) {
+            mEtNewPass.setFocusable(true);
+//            InputMethodManager imm = (InputMethodManager) activity
+//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            mEtNewPass.requestFocus();
+            mEtNewPass.setError(activity.getString(R.string.please_pass_length));
+            return false;
+        }
+        if (FieldValidators.isNullOrEmpty(mEtConfirmPassword)) {
+            mEtConfirmPassword.setFocusable(true);
+//            InputMethodManager imm = (InputMethodManager) activity
+//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            mEtConfirmPassword.requestFocus();
+            mEtConfirmPassword.setError(activity.getString(R.string.please_enter_confirm_pass));
+            return false;
+        }
+        else if (mEtConfirmPassword.getText().toString().trim().length() < 6) {
+            mEtConfirmPassword.setFocusable(true);
+//            InputMethodManager imm = (InputMethodManager) activity
+//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            mEtConfirmPassword.requestFocus();
+            mEtConfirmPassword.setError(activity.getString(R.string.please_pass_length));
+            return false;
+        }
+
+
+
+        else {
+            return true;
+        }
+    }
+
+    public static boolean validateForgotPassword(Activity activity, EditText metEmail, TextInputLayout mtilEmail) {
+
+        if (FieldValidators.isNullOrEmpty(metEmail)) {
+            metEmail.setFocusable(true);
+            metEmail.requestFocus();
+            mtilEmail.setError(activity.getString(R.string.please_enter_email));
+            return false;
+        }
+
+        else if (!Validation.isValidEmail(metEmail.getText().toString())) {
+            metEmail.setFocusable(true);
+
+            metEmail.requestFocus();
+            mtilEmail.setError(activity.getString(R.string.please_enter_valid_email));
+            return false;
+        }
+
+    return  true;
+    }
 }

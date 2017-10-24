@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -253,4 +254,12 @@ public class Utility {
 		return context.getResources().getConfiguration().smallestScreenWidthDp >= 600;
 	}
 
+	// Hide keyboard
+	public static void hideSoftKeyboard(Activity activity) {
+		try {
+			InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+		} catch (Exception exp) {
+		}
+	}
 }

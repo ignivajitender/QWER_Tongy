@@ -1,13 +1,16 @@
 package com.igniva.qwer.controller;
 
 
+import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -60,7 +63,19 @@ public interface ApiInterface {
     @POST("/api/users/changeEmail")
     void changeEmail(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
 
+    @FormUrlEncoded
+    @POST("/api/users/changePassword")
+    void changePassword(@FieldMap Map<String, String> params, Callback<ResponsePojo> callback);
+
+    @FormUrlEncoded
+    @POST("/api/users/forgotPassword")
+    void forgotPassword(@FieldMap HashMap<String, String> forgotPasswordHashMap, Callback<ResponsePojo> callback);
+
+    @FormUrlEncoded
+    @POST("/api/resendUserVerification")
+    void resendVerificationLink(@FieldMap HashMap<String, String> forgotPasswordHashMap, Callback<ResponsePojo> callback);
 
 
-
+    @GET("/api/users/getProfile")
+    void getProfile(Callback<ProfileResponsePojo> callback);
 }
