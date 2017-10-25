@@ -150,4 +150,12 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="please_enter_new_pass" >Please enter new password</string>
     <string name="please_enter_confirm_pass">Please enter confirm password</string>
     <string name="resend_Link">Resend link</string>
+    <string name="please_enter_current_email">Please enter current email</string>
+    <string name="please_enter_new_email">Please enter new email</string>
+    <string name="please_enter_pass_minimum">Password length should be more than 6 characters</string>
+    <string name="please_enter_country">Please enter country</string>
+    <string name="please_enter_city">Please enter city/state</string>
+    <string name="please_enter_pincode">Please enter pincode</string>
+    <string name="please_enter_age">Please enter age</string>
+    <string name="please_enter_about">Please enter about</string>
 </resources>

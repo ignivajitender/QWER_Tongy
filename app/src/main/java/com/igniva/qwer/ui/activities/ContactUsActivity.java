@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
@@ -59,8 +58,8 @@ public class ContactUsActivity extends BaseActivity {
     }
 
     /**
-     *  click event on
-    * */
+     * click event on
+     */
 
     @OnClick(R.id.ll_ContactUs_Post_Now)
     public void onViewClicked() {
@@ -83,15 +82,14 @@ public class ContactUsActivity extends BaseActivity {
                 mWebApi.contactUs(contact_us, new Callback<ResponsePojo>() {
                     @Override
                     public void success(ResponsePojo responsePojo, Response response) {
-
-                        if (responsePojo.getStatus() == 200) {
-                            Toast.makeText(ContactUsActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT);
-                        }
+                        CallProgressWheel.dismissLoadingDialog();
+                        Utility.showToastMessageShort(ContactUsActivity.this, responsePojo.getDescription());
+                        onBackPressed();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                        CallProgressWheel.dismissLoadingDialog();
                     }
                 });
 

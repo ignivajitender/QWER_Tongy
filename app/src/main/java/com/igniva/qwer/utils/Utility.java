@@ -7,11 +7,16 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Base64;
+import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -22,6 +27,8 @@ import com.igniva.qwer.R;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
 
@@ -189,7 +196,7 @@ public class Utility {
 		builder.show();
 	}
 
-	public static void callSuccessPopUp(Context context, String message) {
+	public static void callSuccessPopUp(final Context context, String message) {
 
 		// Create custom dialog object
 		final Dialog dialog = new Dialog(context);
@@ -202,7 +209,14 @@ public class Utility {
 		TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
 		text_message.setText(message);
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
+		TextView mBtnOk=(TextView)dialog.findViewById(R.id.btn_ok);
+		mBtnOk.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.dismiss();
+				((Activity)context).finish();
+			}
+		});
 
 		dialog.setTitle("Custom Dialog");
 
@@ -262,4 +276,38 @@ public class Utility {
 		} catch (Exception exp) {
 		}
 	}
+
+	//print Hash Key for facebook
+	public static String printKeyHash(Context context) {
+		PackageInfo packageInfo;
+		String key = null;
+		try {
+			//getting application package name, as defined in manifest
+			String packageName = context.getApplicationContext().getPackageName();
+
+			//Retriving package info
+			packageInfo = context.getPackageManager().getPackageInfo(packageName,
+					PackageManager.GET_SIGNATURES);
+
+			Log.e("Package Name=", context.getApplicationContext().getPackageName());
+
+			for (Signature signature : packageInfo.signatures) {
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				md.update(signature.toByteArray());
+				key = new String(Base64.encode(md.digest(), 0));
+
+				// String key = new String(Base64.encodeBytes(md.digest()));
+				Log.e("Key_Hash=", key);
+			}
+		} catch (PackageManager.NameNotFoundException e1) {
+			Log.e("Name not found", e1.toString());
+		} catch (NoSuchAlgorithmException e) {
+			Log.e("No such an algorithm", e.toString());
+		} catch (Exception e) {
+			Log.e("Exception", e.toString());
+		}
+		return key;
+	}
+
+
 }

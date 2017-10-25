@@ -78,4 +78,8 @@ public interface ApiInterface {
 
     @GET("/api/users/getProfile")
     void getProfile(Callback<ProfileResponsePojo> callback);
+
+    @FormUrlEncoded
+    @POST("/api/users/updateProfile")
+    void updateProfile(@FieldMap HashMap<String, String> updateProfilePayload, Callback<ResponsePojo> callback);
 }

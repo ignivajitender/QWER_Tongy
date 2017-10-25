@@ -27,9 +27,13 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ProfileResponsePojo;
+import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Utility;
+import com.igniva.qwer.utils.Validation;
 import com.igniva.qwer.utils.fcm.Constants;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -300,7 +304,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
 
     }
-    public void callSuccessPopUp() {
+    public void callSuccessPopUp(MyProfileActivity myProfileActivity, String description) {
 
         // Create custom dialog object
         final Dialog dialog = new Dialog(this);
@@ -363,7 +367,9 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 mTvSave.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_save:
-              callSuccessPopUp();
+             // callSuccessPopUp();
+                callSaveUpdateProfile();
+
                 break;
             case R.id.tv_lets_start:
                 Intent intent = new Intent(this, MainActivity.class);
@@ -373,6 +379,75 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 break;
         }
     }
+// method for Save Profile
+    private void callSaveUpdateProfile() {
+        try {
+            // check validations for save profile input
+            if (Validation.validateUpdateProfile(this, mEtCountry,mEtPincode,mEtAbout,mEtCity,mEtGender,mEtAge)) {
+                if (Utility.isInternetConnection(this)) {
+                    ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                    CallProgressWheel.showLoadingDialog(this, "Loading...");
+                           /*
+                            payload
+                            {“country”:”india”
+                              "city/state":"chandigarh",
+                              "gender":"male",”age”:”20”,”pincode”:”148002”,”about”:”tongy app”
+                            }
+                            */
+
+
+
+                    HashMap<String, String> updateProfilePayload = new HashMap<>();
+                    updateProfilePayload.put("country", mEtCountry.getText().toString().trim());
+                    updateProfilePayload.put("city", mEtCity.getText().toString().trim());
+                    updateProfilePayload.put("gender", mEtGender.getText().toString().trim());
+                    updateProfilePayload.put("pincode", mEtPincode.getText().toString().trim());
+                    updateProfilePayload.put("about", mEtAbout.getText().toString().trim());
+                    updateProfilePayload.put("age", mEtAge.getText().toString().trim());
+
+
+
+                    mWebApi.updateProfile(updateProfilePayload, new Callback<ResponsePojo>() {
+                        @Override
+                        public void success(ResponsePojo responsePojo, Response response) {
+
+                            if (responsePojo.getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
+                                 //Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+
+
+                            }
+                            else
+                            {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
 }
+
+
+
+
+
+
 
 

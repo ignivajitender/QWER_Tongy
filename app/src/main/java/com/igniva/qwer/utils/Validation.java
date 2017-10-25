@@ -304,7 +304,8 @@ public class Validation {
             etCurrentEmail.setFocusable(true);
             etCurrentEmail.requestFocus();
             return false;
-        } else if (FieldValidators.isNullOrEmpty(etCurrentEmail)) {
+        }
+        else if (FieldValidators.isNullOrEmpty(etCurrentEmail)) {
             Utility.showToastMessageLong(activity, "Please enter current email.");
             etCurrentEmail.setFocusable(true);
             InputMethodManager imm = (InputMethodManager) activity
@@ -312,7 +313,16 @@ public class Validation {
             imm.showSoftInput(etCurrentEmail, InputMethodManager.SHOW_IMPLICIT);
             etCurrentEmail.requestFocus();
             return false;
-        } else if (FieldValidators.isNullOrEmpty(etNewEmail)) {
+        }
+        else if (!Validation.isValidEmail(etCurrentEmail.getText().toString())) {
+            etCurrentEmail.setFocusable(true);
+
+            etCurrentEmail.requestFocus();
+            etCurrentEmail.setError(activity.getString(R.string.please_enter_valid_email));
+            return false;
+        }
+
+        else if (FieldValidators.isNullOrEmpty(etNewEmail)) {
             Utility.showToastMessageLong(activity, "Please enter new email.");
             etNewEmail.setFocusable(true);
             InputMethodManager imm = (InputMethodManager) activity
@@ -320,7 +330,15 @@ public class Validation {
             imm.showSoftInput(etNewEmail, InputMethodManager.SHOW_IMPLICIT);
             etNewEmail.requestFocus();
             return false;
-        } else {
+        }
+        else if (!Validation.isValidEmail(etNewEmail.getText().toString())) {
+            etNewEmail.setFocusable(true);
+
+            etNewEmail.requestFocus();
+            etNewEmail.setError(activity.getString(R.string.please_enter_valid_email));
+            return false;
+        }
+        else {
             return true;
         }
     }
@@ -350,45 +368,45 @@ public class Validation {
         }
         else if (mEtCuurentPass.getText().toString().trim().length() < 6) {
             mEtCuurentPass.setFocusable(true);
-//            InputMethodManager imm = (InputMethodManager) activity
-//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
             mEtCuurentPass.requestFocus();
             mEtCuurentPass.setError(activity.getString(R.string.please_pass_length));
             return false;
         }
         if (FieldValidators.isNullOrEmpty(mEtNewPass)) {
             mEtNewPass.setFocusable(true);
-//            InputMethodManager imm = (InputMethodManager) activity
-//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
             mEtNewPass.requestFocus();
             mEtNewPass.setError(activity.getString(R.string.please_enter_new_pass));
             return false;
         }
         else if (mEtNewPass.getText().toString().trim().length() < 6) {
             mEtNewPass.setFocusable(true);
-//            InputMethodManager imm = (InputMethodManager) activity
-//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
             mEtNewPass.requestFocus();
             mEtNewPass.setError(activity.getString(R.string.please_pass_length));
             return false;
         }
         if (FieldValidators.isNullOrEmpty(mEtConfirmPassword)) {
             mEtConfirmPassword.setFocusable(true);
-//            InputMethodManager imm = (InputMethodManager) activity
-//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
             mEtConfirmPassword.requestFocus();
             mEtConfirmPassword.setError(activity.getString(R.string.please_enter_confirm_pass));
             return false;
         }
         else if (mEtConfirmPassword.getText().toString().trim().length() < 6) {
             mEtConfirmPassword.setFocusable(true);
-//            InputMethodManager imm = (InputMethodManager) activity
-//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEtCuurentPass, InputMethodManager.SHOW_IMPLICIT);
             mEtConfirmPassword.requestFocus();
             mEtConfirmPassword.setError(activity.getString(R.string.please_pass_length));
             return false;
@@ -419,5 +437,43 @@ public class Validation {
         }
 
     return  true;
+    }
+
+
+    public static boolean validateUpdateProfile(Activity activity, EditText mEtCountry, EditText mEtPincode, EditText mEtAbout, EditText mEtCity, EditText mEtGender, EditText mEtAge) {
+
+        if(FieldValidators.isNullOrEmpty(mEtCountry)){
+            mEtCountry.setFocusable(true);
+            mEtCountry.requestFocus();
+            mEtCountry.setError(activity.getString(R.string.please_enter_country));
+            return false;
+        }
+       else if(FieldValidators.isNullOrEmpty(mEtCity)){
+            mEtCity.setFocusable(true);
+            mEtCity.requestFocus();
+            mEtCity.setError(activity.getString(R.string.please_enter_city));
+            return false;
+        }
+        if(FieldValidators.isNullOrEmpty(mEtPincode)){
+            mEtPincode.setFocusable(true);
+            mEtPincode.requestFocus();
+            mEtPincode.setError(activity.getString(R.string.please_enter_pincode));
+            return false;
+        }
+        if(FieldValidators.isNullOrEmpty(mEtAge)){
+            mEtAge.setFocusable(true);
+            mEtAge.requestFocus();
+            mEtAge.setError(activity.getString(R.string.please_enter_age));
+            return false;
+        }
+        if(FieldValidators.isNullOrEmpty(mEtAbout)){
+            mEtAbout.setFocusable(true);
+            mEtAbout.requestFocus();
+            mEtAbout.setError(activity.getString(R.string.please_enter_about));
+            return false;
+        }
+
+
+        return true;
     }
 }

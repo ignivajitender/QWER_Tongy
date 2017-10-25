@@ -95,6 +95,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
 
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
+        Utility.printKeyHash(getApplicationContext());
         setUpLayout();
         setUpToolbar();
         setDataInViewObjects();

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -118,21 +119,21 @@ public class SettingsActivity extends BaseActivity {
 
         Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
         Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
-        EditText delete_account_password = (EditText) dialog.findViewById(R.id.delete_account_password);
+       final EditText delete_account_password = (EditText) dialog.findViewById(R.id.delete_account_password);
 
-        final String password = delete_account_password.getText().toString();
+
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         mBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!password.isEmpty() && password.length() > 0) {
+                Log.e("Tag","Here----------"+delete_account_password.getText().toString());
+                if (!delete_account_password.getText().toString().isEmpty() && delete_account_password.getText().toString().length() > 0) {
                     dialog.dismiss();
                     HashMap<String, String> deleteAccount = new HashMap<>();
-                    deleteAccount.put(com.igniva.qwer.utils.Constants.PASSWORD,password);
+                    deleteAccount.put(com.igniva.qwer.utils.Constants.PASSWORD,delete_account_password.getText().toString());
                     callDeleteMyAccountApi(deleteAccount);
                 }
-
             }
         });
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +236,7 @@ public class SettingsActivity extends BaseActivity {
                 callConfirmDeletionPopUp();
                 break;
             case R.id.ll_contactUs:
-
+                   startActivity(new Intent(this,ContactUsActivity.class));
                 break;
             case R.id.ll_rate_us:
                 break;

@@ -112,6 +112,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
          * Init all the methods and butter knife injection
          * */
         ButterKnife.bind(this);
+        Utility.printKeyHash(getApplicationContext());
         setUpLayout();
         setUpToolbar();
         setDataInViewObjects();

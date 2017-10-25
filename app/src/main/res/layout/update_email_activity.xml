@@ -96,13 +96,14 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_change_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15dp"
             android:gravity="center">
 
             <com.igniva.qwer.ui.views.TextViewBold
-                android:id="@+id/tv_change_email"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/blue_round_button"

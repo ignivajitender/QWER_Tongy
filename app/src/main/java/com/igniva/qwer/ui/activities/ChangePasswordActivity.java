@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
-import com.igniva.qwer.ui.views.TextViewBold;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
@@ -49,8 +49,8 @@ public class ChangePasswordActivity extends BaseActivity {
     EditText mEtNewPass;
     @BindView(R.id.et_confirm_pass)
     EditText mEtConfirmPass;
-    @BindView(R.id.tv_change_pass)
-    TextViewBold mTvChangePass;
+    @BindView(R.id.ll_change_pass)
+    LinearLayout ll_change_pass;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class ChangePasswordActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_change_pass})
+    @OnClick({R.id.iv_back, R.id.ll_change_pass})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -119,22 +119,13 @@ public class ChangePasswordActivity extends BaseActivity {
 
                 finish();
                 break;
-            case R.id.tv_change_pass:
+            case R.id.ll_change_pass:
                 try {
                     // check validations for current password,new password and confirm password
                     if (Validation.validateChangePassword(this, mEtCuurentPass, mEtNewPass, mEtConfirmPass )) {
                         if (Utility.isInternetConnection(this)) {
                             ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
                             CallProgressWheel.showLoadingDialog(this, "Loading...");
-                           /*
-                            payload
-                            {“old_password”:”test@yopmail.com”
-                              "new_password":"test@yopmail.comc",
-                              "confirm_new_password":"test@yopmail.comc"
-                            }*/
-
-
-
                             HashMap<String, String> changePasswordHashMap = new HashMap<>();
                             changePasswordHashMap.put("old_password", mEtCuurentPass.getText().toString().trim());
                             changePasswordHashMap.put("new_password", mEtNewPass.getText().toString());
