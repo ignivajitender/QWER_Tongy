@@ -63,6 +63,7 @@ ext {
     gmsVersion = '11.0.1'
     retrofit = '2.3.0'
     butterknifeVersion = '8.8.1'
+    easypermissions = '1.0.0'
 }
 
 
@@ -120,6 +121,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:+'
+
+    // easy permissions
+    compile "pub.devrel:easypermissions:${easypermissions}"
 }
 // Add to the bottom of the file
 //if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {

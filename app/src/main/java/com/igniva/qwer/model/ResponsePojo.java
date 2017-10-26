@@ -7,7 +7,7 @@ public class ResponsePojo {
 
     private int status;
     private String description;
-    private DataPojo data;
+    private predictionsCountriesPojo data;
     private ErrorPojo error;
 
 
@@ -27,11 +27,11 @@ public class ResponsePojo {
         this.status = status;
     }
 
-    public DataPojo getData() {
+    public predictionsCountriesPojo getData() {
         return data;
     }
 
-    public void setData(DataPojo data) {
+    public void setData(predictionsCountriesPojo data) {
         this.data = data;
     }
 

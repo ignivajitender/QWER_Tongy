@@ -51,6 +51,15 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/remove_blue"
                 android:visibility="gone" />
+            <ImageView
+                android:id="@+id/ivaddImage1"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/add_image_post"
+                android:visibility="gone" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -72,6 +81,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ivaddImage2"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/add_image_post"
                 android:visibility="gone" />
         </RelativeLayout>
 
@@ -95,7 +113,14 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/remove_blue"
                 android:visibility="gone" />
-
+            <ImageView
+                android:id="@+id/ivaddImage3"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/add_image_post"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -129,11 +154,22 @@
             android:maxLines="1"
 
             android:textColor="@color/text_dark_grey"
-            android:textColorHint="@color/text_dark_grey" />
+            android:textColorHint="@color/text_dark_grey"
+            android:visibility="gone"
+            />
 
-        <!--</android.support.design.widget.TextInputLayout>-->
+      <!--  </android.support.design.widget.TextInputLayout>-->
+        <AutoCompleteTextView
+            android:id="@+id/autocomTextViewCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete|textAutoCorrect|textCapWords"
+            android:backgroundTint="@color/text_light_grey"
+            android:textColor="@color/text_dark_grey"
+            android:textColorHint="@color/text_dark_grey"
+            android:maxLines="1"
 
-
+            />
         <com.igniva.qwer.ui.views.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -217,15 +253,38 @@
                     android:text="@string/iam"
                     android:textColor="@color/text_medium_grey" />
 
-                <EditText
+               <!-- <EditText
                     android:id="@+id/et_gender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/text_light_grey"
                     android:maxLines="1"
                     android:text="Male"
-                    android:textColor="@color/text_dark_grey" />
+                    android:textColor="@color/text_dark_grey" />-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_28dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_5dp"
+                    android:layout_gravity="center"
 
+                    >
+
+                    <Spinner
+                        android:id="@+id/genderspinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+
+                        />
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/text_dark_grey"
+                    />
             </LinearLayout>
         </LinearLayout>
 
@@ -242,7 +301,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/text_light_grey"
-
+            android:maxLength="120"
             android:maxLines="4"
             android:text="lorame loram lorama loramloa  loar mloaoo rlooer, lomem loow looowmkklioow loooo alllllia llooo"
             android:textColor="@color/text_dark_grey" />

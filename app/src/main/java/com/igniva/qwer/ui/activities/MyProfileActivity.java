@@ -1,7 +1,9 @@
 package com.igniva.qwer.ui.activities;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,14 +11,20 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,20 +37,30 @@ import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.ImagePicker;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
 import com.igniva.qwer.utils.fcm.Constants;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
+import static com.igniva.qwer.R.id.genderspinner;
+import static com.igniva.qwer.R.id.iv_edit_profile;
 import static com.igniva.qwer.R.id.textview_title;
+import static com.igniva.qwer.utils.ImagePicker.PIC_CROP;
 import static com.igniva.qwer.utils.fcm.Constants.ALPHA_ANIMATIONS_DURATION;
 import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_HIDE_TITLE_DETAILS;
 import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR;
@@ -51,7 +69,7 @@ import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TO
  * Created by karanveer on 21/9/17.
  */
 
-public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
+public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,EasyPermissions.PermissionCallbacks, AdapterView.OnItemSelectedListener {
 
 
     @BindView(R.id.imageview_placeholder)
@@ -72,8 +90,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     EditText mEtPincode;
     @BindView(R.id.et_age)
     EditText mEtAge;
-    @BindView(R.id.et_gender)
-    EditText mEtGender;
+   /* @BindView(R.id.et_gender)
+    EditText mEtGender;*/
     @BindView(R.id.et_about)
     EditText mEtAbout;
     @BindView(textview_title)
@@ -82,7 +100,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     Toolbar mToolbar;
     @BindView(R.id.avatar)
     SimpleDraweeView mAvatar1;
-    @BindView(R.id.iv_edit_profile)
+    @BindView(iv_edit_profile)
     ImageView mIvEditProfile;
     @BindView(R.id.iv_add_pic)
     ImageView mIvAddPic;
@@ -107,6 +125,71 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     @BindView(R.id.tvName)
     TextView mtvName;
 
+    @BindView(R.id.autocomTextViewCountry)
+    AutoCompleteTextView mautocomTextViewCountry;
+
+    @BindView(R.id.ivaddImage1)
+    ImageView mivaddImage1;
+    @BindView(R.id.ivaddImage2)
+    ImageView mivaddImage2;
+    @BindView(R.id.ivaddImage3)
+    ImageView mivaddImage3;
+    private File outPutFile;
+    private int callFrom;
+
+    @BindView(genderspinner)
+    Spinner mgenderSpinner;
+    public String Gender;
+    private String selGender;
+
+    @OnClick(R.id.iv_edit_profile)
+    public void edit(){
+        mautocomTextViewCountry.setEnabled(true);
+        mEtCity.setEnabled(true);
+        mEtPincode.setEnabled(true);
+        mEtAge.setEnabled(true);
+        mgenderSpinner.setEnabled(true);
+        mEtAbout.setEnabled(true);
+    }
+    @OnClick(R.id.ivaddImage1)
+    public void pickImage(){
+        callFrom = 1;
+        changeImage();
+    }
+    @OnClick(R.id.ivaddImage2)
+    public void pickImage1(){
+        callFrom = 2;
+        changeImage();
+    }
+    @OnClick(R.id.ivaddImage3)
+    public void pickImage2(){
+        callFrom = 3;
+        changeImage();
+    }
+
+    private String[] gender = {"Male", "Female"};
+
+    private final int RC_CAMERA_PERM = 123;
+    private int IMAGE_REQUEST_CODE = 500;
+    @AfterPermissionGranted(RC_CAMERA_PERM)
+    public void changeImage() {
+        if (hasCameraPermission()) {
+            // Have permission, do the thing!
+            startActivityForResult(ImagePicker.getPickImageIntent(MyProfileActivity.this), IMAGE_REQUEST_CODE);
+
+        } else {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(
+                    this,
+                    getString(R.string.rationale_ask_again),
+                    RC_CAMERA_PERM,
+                    Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+    }
+    private boolean hasCameraPermission() {
+        return EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
     private boolean alreadyLogin;
@@ -121,8 +204,9 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         ButterKnife.bind(this);
         setUpLayout();
         getProfileApi();
+        setDataInViewObjects();
     }
-
+    // call get profile api
     private void getProfileApi() {
 
 
@@ -173,11 +257,28 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mEtAbout.setText(responsePojo.getData().about);
         mEtAge.setText(responsePojo.getData().age);
         mEtCity.setText(responsePojo.getData().city);
-        mEtCountry.setText(responsePojo.getData().country);
-        mEtGender.setText(responsePojo.getData().gender);
+        mautocomTextViewCountry.setText(responsePojo.getData().country);
+       // mEtGender.setText(responsePojo.getData().gender);
         mEtPincode.setText(responsePojo.getData().pincode);
         mtvName.setText(responsePojo.getData().getName());
         mTextviewTitle.setText(responsePojo.getData().getName());
+        if(responsePojo.getData().getUser_image()!=null && responsePojo.getData().getUser_image().size()>0){
+
+            if(responsePojo.getData().getUser_image().size()==1 && responsePojo.getData().getUser_image().get(0)!=null )
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mIvProilePic1);
+            if(responsePojo.getData().getUser_image().size()==2 && responsePojo.getData().getUser_image().get(1)!=null) {
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mIvProilePic1);
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(1).getImage()).into(mIvProilePic2);
+            }
+            if(responsePojo.getData().getUser_image().size()==3 && responsePojo.getData().getUser_image().get(2)!=null)
+            {
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mIvProilePic1);
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(1).getImage()).into(mIvProilePic2);
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(2).getImage()).into(mIvProilePic3);
+            }
+        }
+
+        Gender =responsePojo.getData().getGender();
     }
 
 
@@ -187,16 +288,20 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
         if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
             mIvEditProfile.setVisibility(View.VISIBLE);
-            Glide.with(this).load(R.drawable.pp4).into(mIvProilePic1);
-            Glide.with(this).load(R.drawable.pp1).into(mIvProilePic2);
-            Glide.with(this).load(R.drawable.pp2).into(mIvProilePic3);
+//            Glide.with(this).load(R.drawable.pp4).into(mIvProilePic1);
+//            Glide.with(this).load(R.drawable.pp1).into(mIvProilePic2);
+//            Glide.with(this).load(R.drawable.pp2).into(mIvProilePic3);
 //            mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.pp4));
 //            mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.pp1));
 //            mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.pp2));
             mTvLetsStart.setVisibility(View.GONE);
             Glide.with(this).load(R.drawable.pp4).into(mImageviewPlaceholder);
-
-
+            mautocomTextViewCountry.setEnabled(false);
+            mEtCity.setEnabled(false);
+            mEtPincode.setEnabled(false);
+            mEtAge.setEnabled(false);
+            mgenderSpinner.setEnabled(false);
+            mEtAbout.setEnabled(false);
         } else {
             mIvEditProfile.setVisibility(View.GONE);
 
@@ -205,6 +310,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
             mLlLetsStart.setVisibility(View.VISIBLE);
             mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
+
 
         }
         mToolbar.setTitle("");
@@ -228,6 +334,31 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 onBackPressed();
             }
         });
+
+        mgenderSpinner = (Spinner) findViewById(genderspinner);
+        ArrayAdapter<String> adapter_state = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, gender);
+        adapter_state
+                .setDropDownViewResource(R.layout.spinner_dropdown_item);
+        mgenderSpinner.setAdapter(adapter_state);
+        mgenderSpinner.setOnItemSelectedListener(this);
+
+        if (Gender != null) {
+            Log.e("Gender", Gender);
+            mgenderSpinner.setSelection(getIndex(mgenderSpinner, Gender));
+        }
+
+    }
+    private int getIndex(Spinner spinner, String myString) {
+
+        int index = 0;
+
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
+                index = i;
+            }
+        }
+        return index;
     }
 
     public static void startAlphaAnimation(View v, long duration, int visibility) {
@@ -299,6 +430,34 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     @Override
     protected void setDataInViewObjects() {
+        mautocomTextViewCountry.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+                    // call google place api to fetch addresses
+                    //Utility.callGoogleApi(MyProfileActivity.this, mautocomTextViewCountry, "");
+
+
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+               /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
+                    mbtnClearAddress.setVisibility(View.VISIBLE);
+                } else { //not include text
+                    mbtnClearAddress.setVisibility(View.GONE);
+                }*/
+            }
+        });
 
 
 
@@ -345,22 +504,25 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     }
 
-    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3, R.id.iv_edit_profile, R.id.tv_lets_start,R.id.tv_save})
+    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3, iv_edit_profile, R.id.tv_lets_start,R.id.tv_save})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cross_icon1:
                 mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
                 mCrossIcon1.setVisibility(View.GONE);
+                mivaddImage1.setVisibility(View.VISIBLE);
                 break;
             case R.id.cross_icon2:
                 mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
                 mCrossIcon2.setVisibility(View.GONE);
+                mivaddImage2.setVisibility(View.VISIBLE);
                 break;
             case R.id.cross_icon3:
                 mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
                 mCrossIcon3.setVisibility(View.GONE);
+                mivaddImage3.setVisibility(View.VISIBLE);
                 break;
-            case R.id.iv_edit_profile:
+            case iv_edit_profile:
                 mCrossIcon1.setVisibility(View.VISIBLE);
                 mCrossIcon2.setVisibility(View.VISIBLE);
                 mCrossIcon3.setVisibility(View.VISIBLE);
@@ -383,7 +545,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     private void callSaveUpdateProfile() {
         try {
             // check validations for save profile input
-            if (Validation.validateUpdateProfile(this, mEtCountry,mEtPincode,mEtAbout,mEtCity,mEtGender,mEtAge)) {
+            if (Validation.validateUpdateProfile(this, mautocomTextViewCountry,mEtPincode,mEtAbout,mEtCity,mEtAge)) {
                 if (Utility.isInternetConnection(this)) {
                     ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
                     CallProgressWheel.showLoadingDialog(this, "Loading...");
@@ -398,9 +560,9 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
 
                     HashMap<String, String> updateProfilePayload = new HashMap<>();
-                    updateProfilePayload.put("country", mEtCountry.getText().toString().trim());
+                    updateProfilePayload.put("country", mautocomTextViewCountry.getText().toString().trim());
                     updateProfilePayload.put("city", mEtCity.getText().toString().trim());
-                    updateProfilePayload.put("gender", mEtGender.getText().toString().trim());
+                    updateProfilePayload.put("gender", selGender);
                     updateProfilePayload.put("pincode", mEtPincode.getText().toString().trim());
                     updateProfilePayload.put("about", mEtAbout.getText().toString().trim());
                     updateProfilePayload.put("age", mEtAge.getText().toString().trim());
@@ -440,6 +602,144 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        mgenderSpinner.setSelection(position);
+        selGender = (String) mgenderSpinner.getSelectedItem();
+
+
+    }
+
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
+        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
+        // This will display a dialog directing them to enable the permission in app settings.
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+            String yes = getString(R.string.yes);
+            String no = getString(R.string.no);
+        } else if (requestCode == IMAGE_REQUEST_CODE && resultCode == -1) {
+            Bitmap bitmap = ImagePicker.getImageFromResult(MyProfileActivity.this, resultCode, data);
+            if (bitmap != null) {
+
+                ImagePicker.ImageCropFunction(MyProfileActivity.this);
+                outPutFile = ImagePicker.persistImage(bitmap);
+                Log.e("outputFile", outPutFile.length() + outPutFile.toString()+"");
+                if(callFrom==1)
+                    mIvProilePic1.setImageBitmap(bitmap);
+
+                else if(callFrom==2)
+                    mIvProilePic2.setImageBitmap(bitmap);
+                else if(callFrom==3)
+                    mIvProilePic3.setImageBitmap(bitmap);
+            }
+        }
+
+        //user is returning from cropping the image
+        else if (requestCode == PIC_CROP) {
+            //get the returned data
+            if (data != null) {
+                Bundle extras = data.getExtras();
+                //get the cropped bitmap
+                // Log.e("getPath", data.getData().getPath() + "");
+                Bitmap thePic = ImagePicker.getBitmapFromData(data);
+                if(thePic !=null) {
+                    if(callFrom==1) {
+                        mIvProilePic1.setImageBitmap(thePic);
+                        mCrossIcon1.setVisibility(View.VISIBLE);
+                        mivaddImage1.setVisibility(View.GONE);
+
+                    }
+                    else if(callFrom==2) {
+                        mIvProilePic2.setImageBitmap(thePic);
+                        mCrossIcon2.setVisibility(View.VISIBLE);
+                        mivaddImage2.setVisibility(View.GONE);
+
+                    }
+                    else if(callFrom==3){
+                        mIvProilePic3.setImageBitmap(thePic);
+                        mCrossIcon3.setVisibility(View.VISIBLE);
+                        mivaddImage3.setVisibility(View.GONE);
+                    }
+                }
+                outPutFile = ImagePicker.persistImage(thePic);
+            }
+            if (outPutFile != null) {
+                callUploadPictureApi(outPutFile);
+            }
+        }
+
+    }
+
+    private void callUploadPictureApi(File outPutFile) {
+        if (Utility.isInternetConnection(this)) {
+       /*     // create RequestBody instance from file
+            RequestBody fbody = RequestBody.create(MediaType.parse("multipart/form-data"), outPutFile);
+            // MultipartBody.Part is used to send also the actual file name
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("file", outPutFile.getName(), fbody);
+            //  RequestBody is_video = RequestBody.create(MediaType.parse("text/plain"), );
+*/
+            Log.e("outputFile==", outPutFile.length() + "===");
+
+            TypedFile typedFile = new TypedFile("multipart/form-data", outPutFile);
+
+            ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+            CallProgressWheel.showLoadingDialog(this, "Loading...");
+//
+//            HashMap<String, String> updateProfilePayload = new HashMap<>();
+//            updateProfilePayload.put("image", o);
+
+            mWebApi.uploadImage(typedFile, new Callback<ResponsePojo>() {
+                @Override
+                public void success(ResponsePojo responsePojo, Response response) {
+
+                    if (responsePojo.getStatus() == 200) {
+                        CallProgressWheel.dismissLoadingDialog();
+                       // callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
+                         Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+
+
+                    } else if (responsePojo.getStatus() == 400) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    CallProgressWheel.dismissLoadingDialog();
+                    Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
 }

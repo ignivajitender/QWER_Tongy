@@ -15,22 +15,33 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.util.Base64;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.controller.RetrofitClient;
+import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class Utility {
 	static final String[] BinaryPlaces = { "/data/bin/", "/system/bin/", "/system/xbin/", "/sbin/",
@@ -309,5 +320,87 @@ public class Utility {
 		return key;
 	}
 
+	public static void callGoogleApi(final Activity context, final AutoCompleteTextView mautocomTextviewDeliveryAddress, String address) {
 
+		if (Utility.isInternetConnection(context)) {
+			ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, context);
+			CallProgressWheel.showLoadingDialog(context, "Loading...");
+			mWebApi.getCountriesList(new Callback<ResponsePojo>() {
+				@Override
+				public void success(ResponsePojo responsePojo, Response response) {
+					CallProgressWheel.dismissLoadingDialog();
+					Utility.showToastMessageShort(context, responsePojo.getDescription());
+					//onBackPressed();
+					//showAddress(responsePojo.getData(),mautocomTextviewDeliveryAddress,context);
+				}
+
+				@Override
+				public void failure(RetrofitError error) {
+					CallProgressWheel.dismissLoadingDialog();
+				}
+			});
+
+		}
+
+		}
+
+	/*private static void showAddress(final ArrayList<predictionsCountriesPojo> predictionsPojo, final AutoCompleteTextView mautocomTextviewDeliveryAddress, final Activity context) {
+
+
+		if (languages == null)
+			languages = new ArrayList<>();
+		else
+			languages.clear();
+		android.util.Log.e("predictionsPojo", predictionsPojo.size() + "");
+		for (int i = 0; i < predictionsPojo.size(); i++) {
+			languages.add(predictionsPojo.get(i).getDescription());
+			Log.e("description", predictionsPojo.get(i).getDescription());
+		}
+
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+				(context, android.R.layout.spinner_dropdown_item, languages);
+
+		// dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mautocomTextviewDeliveryAddress.setThreshold(0);
+		mautocomTextviewDeliveryAddress.setAdapter(dataAdapter);
+		dataAdapter.notifyDataSetChanged();
+		mautocomTextviewDeliveryAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+//				address = mautocomTextviewDeliveryAddress.getText().toString().trim();
+//				placeId = predictionsPojo.get(arg2).getPlace_id();
+//				aaTemp = predictionsPojo.get(arg2).getDescription();
+//				latitude = 0.0;
+//				longitude = 0.0;
+//				//type = 1;
+//				mautocomTextviewDeliveryAddress.setSelection(mautocomTextviewDeliveryAddress.getText().length());
+//				Log.e("placeid", placeId);
+//				*//**//*if (context instanceof HomeActivity)
+//					searchCategories(context, null, null, placeId, aaTemp);
+/*//*//**//*
+//				//	Utility.hideKeyboard(context, mautocomTextviewDeliveryAddress);
+
+
+			}
+		});
+			}
+*/
+	public static File getFilePath(String fileName, String fileSuffix) {
+		File storageDir = new File(Environment.getExternalStorageDirectory(), "Tongy");
+		if (!storageDir.exists())
+			storageDir.mkdir();
+		File myPath = null;
+		try {
+			myPath = File.createTempFile(
+					fileName,  /* prefix */
+					fileSuffix,         /* suffix */
+					storageDir      /* directory */
+			);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return myPath;
+	}
 }

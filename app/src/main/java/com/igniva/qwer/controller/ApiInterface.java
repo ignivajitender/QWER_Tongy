@@ -12,8 +12,11 @@ import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Headers;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 import retrofit2.http.Url;
 
 public interface ApiInterface {
@@ -82,4 +85,11 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/api/users/updateProfile")
     void updateProfile(@FieldMap HashMap<String, String> updateProfilePayload, Callback<ResponsePojo> callback);
+
+    @GET("/api/country")
+    void getCountriesList(Callback<ResponsePojo> callback);
+
+    @Multipart
+    @POST("/api/users/imageUpload")
+    void uploadImage(@Part("image") TypedFile typedFile, Callback<ResponsePojo> callback);
 }
