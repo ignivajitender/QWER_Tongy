@@ -10,7 +10,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -83,14 +82,19 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
     @BindView(R.id.til_pass)
     TextInputLayout mTilPass;
 
+    @OnClick(R.id.iv_back)
+            public void back(){
+        Utility.hideSoftKeyboard(SignUpActivity.this);
+        onBackPressed();
+    }
     // facebook helper init
     FacebookHelper mFbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_signup);
@@ -111,6 +115,12 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
     @Override
     public void setDataInViewObjects() {
 
+        if(getIntent().getExtras()!=null && getIntent().getStringExtra("comingFrom").equalsIgnoreCase("login")){
+            if(getIntent().getStringExtra("name")!=null)
+                mEtName.setText(getIntent().getStringExtra("name"));
+            if(getIntent().getStringExtra("email")!=null)
+                mEtEmail.setText(getIntent().getStringExtra("email"));
+        }
     }
 
     @Override
@@ -123,8 +133,8 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
         dialog.setContentView(R.layout.succuess_pop_up);
         TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
@@ -184,6 +194,11 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                             CallProgressWheel.dismissLoadingDialog();
                             callSuccessPopUp(SignUpActivity.this, getResources().getString(R.string.emailVerification));
                         }
+                        else
+                        {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageShort(SignUpActivity.this,responsePojo.getDescription());
+                        }
                     }
 
                     @Override
@@ -222,7 +237,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
 
     @Override
     public void onFbProfileReceived(FacebookUser facebookUser) {
-        Toast.makeText(this, "Facebook user data: name= " + facebookUser.name + " email= " + facebookUser.email, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Facebook user data: name= " + facebookUser.name + " email= " + facebookUser.email, Toast.LENGTH_SHORT).show();
 
         Log.e("Person name: ", facebookUser.name + "");
         Log.e("Person gender: ", facebookUser.gender + "");
@@ -230,15 +245,26 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
         Log.e("Person dob: ", facebookUser.facebookID + "");
         Log.e("Person dob: ", facebookUser.profilePic + "");
 
-        HashMap<String, String> signInFacebook = new HashMap<>();
-        signInFacebook.put(Constants.SOCIAL_ID, facebookUser.facebookID);
-        signInFacebook.put(Constants.EMAIL, facebookUser.email);
-        signInFacebook.put(Constants.GENDER, facebookUser.gender);
-        signInFacebook.put(Constants.NAME, facebookUser.name);
-        signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
-        callSinInFacebookApi(signInFacebook);
 
+        if(facebookUser.name==null || facebookUser.email==null){
+          //  startActivity(new Intent(this,SignUpActivity.this).putExtra("comingFrom","facebook").p);
+            if(facebookUser.name!=null)
+            mEtName.setText(facebookUser.name);
+            if(facebookUser.email!=null)
+            mEtEmail.setText(facebookUser.email);
+        }
+        else {
+            HashMap<String, String> signInFacebook = new HashMap<>();
+            signInFacebook.put(Constants.SOCIAL_ID, facebookUser.facebookID);
+            signInFacebook.put(Constants.EMAIL, facebookUser.email);
+            signInFacebook.put(Constants.GENDER, facebookUser.gender);
+            signInFacebook.put(Constants.NAME, facebookUser.name);
+            signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
+            callSinInFacebookApi(signInFacebook);
+        }
     }
+
+
 
 
     /**
@@ -258,9 +284,23 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                         if (responsePojo.getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             PreferenceHandler.writeBoolean(SignUpActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                            for (int i = 0; i < response.getHeaders().size(); i++) {
+                                    if (response.getHeaders().get(i).getName().equalsIgnoreCase("x-logintoken")) {
+                                        String loginToken = response.getHeaders().get(i).getValue();
+                                        Log.e("loginActivity", loginToken);
+                                        PreferenceHandler.writeString(SignUpActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
+                                        PreferenceHandler.writeString(SignUpActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"true");
+                                    }
+                                }
+
+
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                        }
+                        else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageLong(SignUpActivity.this,responsePojo.getDescription());
                         }
                     }
 

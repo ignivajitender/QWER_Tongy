@@ -139,11 +139,11 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="setPreferncesAgain">Set Preferences Again</string>
     <string name="please_check_internet_connection">Please check internet connection</string>
 
-    <string name="please_enter_name">Please enter Name</string>
+    <string name="please_enter_name">Please enter name</string>
     <string name="please_enter_valid_email">Please enter a valid email</string>
     <string name="please_enter_pass">Please enter password</string>
     <string name="please_pass_length">Password length should be more than 6 characters</string>
-    <string name="please_enter_email">Please enter Email</string>
+    <string name="please_enter_email">Please enter email</string>
     <string name="please_agree_terms_and_condition">Please agree terms and conditions</string>
     <string name="text_fb_error">Sorry! We are unable to get your email. Kindly signup through Tongy general signup process</string>
     <string name="please_enter_current_pass">Please enter current password</string>
@@ -160,4 +160,11 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="please_enter_about">Please enter about</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="logoutAccount">Log out </string>
+    <string name="logoutAccount_text">Are you sure you want to Log out?</string>
+    <string name="please_pass_remove_spaces">Please remove spaces</string>
+    <string name="resend_verification_Link">Resend verification link</string>
+    <string name="yoour_message">YOUR MESSAGE</string>
+    <string name="your_message">YOUR MESSAGE</string>
+    <string name="please_name_length">Name should be more than 3 characters</string>
 </resources>

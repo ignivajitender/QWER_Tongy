@@ -49,6 +49,10 @@ public class ForgotPasswordActivity extends BaseActivity {
     @BindView(R.id.etEmail)
     EditText metEmail;
 
+    @OnClick(R.id.ll_back)
+    public void back(){
+        onBackPressed();
+    }
     @BindView(R.id.til_email)
     TextInputLayout mtilEmail;
     @Override
@@ -79,8 +83,8 @@ public class ForgotPasswordActivity extends BaseActivity {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
         dialog.setContentView(R.layout.succuess_pop_up);
 

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/grey_bg">
+    android:background="@drawable/grey_bg"
+    android:fillViewport="true"
+    >
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -79,13 +81,16 @@
             android:maxLines="1"
             android:inputType="text"
             android:textColorHint="@color/text_light_grey"
-            android:padding="@dimen/_4dp" />
+            android:padding="@dimen/_4dp"
+            android:maxLength="50"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
 
         <com.igniva.qwer.ui.views.TextViewBold
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10dp"
-            android:text="@string/new_email"
+            android:text="@string/your_message"
             android:textColor="@color/text_dark_grey" />
 
         <EditText
@@ -99,20 +104,25 @@
             android:gravity="start"
             android:inputType="textMultiLine"
             android:maxLength="300"
-            android:padding="@dimen/_8dp" />
+            android:padding="@dimen/_8dp"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
 
 
         <LinearLayout
             android:id="@+id/ll_ContactUs_Post_Now"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="@drawable/blue_round_button"
+            android:layout_gravity="center"
+            >
 
             <com.igniva.qwer.ui.views.TextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/blue_round_button"
+                android:background="?attr/selectableItemBackground"
                 android:paddingBottom="@dimen/_10dp"
                 android:paddingLeft="@dimen/_25dp"
                 android:paddingRight="@dimen/_25dp"
@@ -122,4 +132,4 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</ScrollView>

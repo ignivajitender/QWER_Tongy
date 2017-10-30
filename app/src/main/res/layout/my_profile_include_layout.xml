@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/_8dp"
         android:gravity="top"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="5">
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -123,6 +123,37 @@
                 android:visibility="gone" />
 
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
+
+            <ImageView
+                android:id="@+id/iv_proile_pic4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:src="@drawable/image_placeholder" />
+
+            <ImageView
+                android:id="@+id/cross_icon4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+            <ImageView
+                android:id="@+id/ivaddImage4"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/add_image_post"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -168,7 +199,8 @@
             android:textColor="@color/text_dark_grey"
             android:textColorHint="@color/text_dark_grey"
             android:maxLines="1"
-
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:imeOptions="actionNext"
             />
         <com.igniva.qwer.ui.views.TextViewRegular
             android:layout_width="match_parent"
@@ -185,8 +217,11 @@
             android:backgroundTint="@color/text_light_grey"
             android:maxLines="1"
             android:text="Vogar"
-
-            android:textColor="@color/text_dark_grey" />
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textColor="@color/text_dark_grey"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            />
 
         <com.igniva.qwer.ui.views.TextViewRegular
             android:layout_width="match_parent"
@@ -194,18 +229,24 @@
             android:paddingLeft="@dimen/_3dp"
             android:paddingTop="@dimen/_5dp"
             android:text="@string/pincode"
-            android:textColor="@color/text_medium_grey" />
+            android:textColor="@color/text_medium_grey"
+            android:singleLine="true"
+            android:maxLines="1"
+            />
 
         <EditText
             android:id="@+id/et_pincode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/text_light_grey"
-            android:inputType="number"
-            android:maxLines="1"
 
+            android:maxLines="1"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:text="123-459"
-            android:textColor="@color/text_dark_grey" />
+            android:textColor="@color/text_dark_grey"
+            android:maxLength="15"
+            android:imeOptions="actionNext"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -235,7 +276,13 @@
                     android:backgroundTint="@color/text_light_grey"
                     android:inputType="number"
                     android:text="23"
-                    android:textColor="@color/text_dark_grey" />
+                    android:textColor="@color/text_dark_grey"
+                    android:textCursorDrawable="@drawable/color_cursor"
+
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"
+                    />
 
             </LinearLayout>
 
@@ -274,7 +321,7 @@
                         android:id="@+id/genderspinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="start"
 
                         />
 
@@ -301,39 +348,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/text_light_grey"
-            android:maxLength="120"
-            android:maxLines="4"
+            android:maxLength="500"
             android:text="lorame loram lorama loramloa  loar mloaoo rlooer, lomem loow looowmkklioow loooo alllllia llooo"
-            android:textColor="@color/text_dark_grey" />
+            android:textColor="@color/text_dark_grey"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:isScrollContainer="true"
+            android:inputType="textMultiLine"
+            android:imeOptions="actionDone"
+            />
 
 
         <LinearLayout
             android:id="@+id/ll_lets_start"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/_10dp"
             android:layout_marginTop="@dimen/_10dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/blue_round_button"
+            >
 
             <TextView
                 android:id="@+id/tv_lets_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/blue_round_button"
+                android:background="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:paddingBottom="@dimen/_8dp"
                 android:paddingLeft="@dimen/_15dp"
                 android:paddingRight="@dimen/_15dp"
                 android:paddingTop="@dimen/_8dp"
-                android:text="@string/letstart" />
+                android:text="@string/letstart"
+
+                />
 
             <TextView
                 android:id="@+id/tv_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/blue_round_button"
+                android:background="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:paddingBottom="@dimen/_8dp"
                 android:paddingLeft="@dimen/_15dp"

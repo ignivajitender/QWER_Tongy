@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.igniva.qwer"
@@ -55,6 +55,7 @@ android {
 
 repositories {
     maven { url "https://jitpack.io" }
+    google()
 }
 
 
@@ -68,7 +69,7 @@ ext {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
     // NATIVE ANDROID
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
@@ -84,24 +85,27 @@ dependencies {
     compile "com.google.android.gms:play-services:${gmsVersion}"
     compile "com.google.firebase:firebase-core:${gmsVersion}"
     compile "com.google.firebase:firebase-crash:${gmsVersion}"
+
     // MEMORY LEAKS
+
     // BUTTER KNIFE
     compile "com.jakewharton:butterknife:${butterknifeVersion}"
 
     // shimmer effect
-//    compile 'com.github.rasoulmiri:Skeleton:v1.0.0'
+
+    //    compile 'com.github.rasoulmiri:Skeleton:v1.0.0'
 
     // range seekbar
-//    compile 'com.crystal:crystalrangeseekbar:1.1.1'
-//    compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
+
+    //    compile 'com.crystal:crystalrangeseekbar:1.1.1'
+
+    //    compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
 
     // runtime permissions
 
     // collapsing toolbar  //fresco dependency
 
     // card stack
-
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'

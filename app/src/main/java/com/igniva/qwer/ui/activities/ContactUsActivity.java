@@ -34,6 +34,11 @@ public class ContactUsActivity extends BaseActivity {
     @BindView(R.id.ll_ContactUs_Post_Now)
     LinearLayout llContactUsPostNow;
 
+    @OnClick(R.id.iv_back)
+    public  void back(){
+        Utility.hideSoftKeyboard(ContactUsActivity.this);
+        onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

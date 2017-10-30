@@ -104,7 +104,7 @@ public class WalkThroughActivity extends BaseActivity implements View.OnClickLis
         // startActivity(new Intent(WalkThroughActivity.this, LoginActivity.class));
         // Utility.showToastMessageLong(WalkThroughActivity.this,"Login");
         startActivity(new Intent(WalkThroughActivity.this, LoginActivity.class));
-
+        finish();
     }
 
 

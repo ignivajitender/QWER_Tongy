@@ -81,7 +81,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <activity
             android:name=".ui.activities.SetPreferrencesActivity"
             android:screenOrientation="portrait" />
@@ -97,21 +99,29 @@
         </activity>
         <activity
             android:name=".ui.activities.SettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <activity
             android:name=".ui.activities.SignUpActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <activity
             android:name=".ui.activities.ChangePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.ChangeEmailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <activity
             android:name=".ui.activities.ForgotPasswordActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activities.ContactUsActivity"></activity>
+           />
+        <activity android:name=".ui.activities.ContactUsActivity"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>

@@ -213,8 +213,8 @@ public class Utility {
 		final Dialog dialog = new Dialog(context);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-		dialog.setCancelable(true);
-		dialog.setCanceledOnTouchOutside(true);
+		dialog.setCancelable(false);
+		dialog.setCanceledOnTouchOutside(false);
 
 		dialog.setContentView(R.layout.succuess_pop_up);
 		TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);

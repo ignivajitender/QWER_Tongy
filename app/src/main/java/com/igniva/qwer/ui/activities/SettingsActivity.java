@@ -22,6 +22,7 @@ import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.fcm.Constants;
@@ -109,7 +110,7 @@ public class SettingsActivity extends BaseActivity {
     public void callConfirmDeletionPopUp() {
 
         // Create custom dialog object
-        final Dialog dialog = new Dialog(this);
+        final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(true);
@@ -127,13 +128,20 @@ public class SettingsActivity extends BaseActivity {
         mBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("Tag","Here----------"+delete_account_password.getText().toString());
-                if (!delete_account_password.getText().toString().isEmpty() && delete_account_password.getText().toString().length() > 0) {
-                    dialog.dismiss();
-                    HashMap<String, String> deleteAccount = new HashMap<>();
-                    deleteAccount.put(com.igniva.qwer.utils.Constants.PASSWORD,delete_account_password.getText().toString());
-                    callDeleteMyAccountApi(deleteAccount);
-                }
+               if(FieldValidators.isNullOrEmpty(delete_account_password)){
+                   delete_account_password.setError("Please enter password");
+                   delete_account_password.setFocusable(true);
+
+               }
+               else {
+                   Log.e("Tag", "Here----------" + delete_account_password.getText().toString());
+                   if (!delete_account_password.getText().toString().isEmpty() && delete_account_password.getText().toString().length() > 0) {
+                       dialog.dismiss();
+                       HashMap<String, String> deleteAccount = new HashMap<>();
+                       deleteAccount.put(com.igniva.qwer.utils.Constants.PASSWORD, delete_account_password.getText().toString());
+                       callDeleteMyAccountApi(deleteAccount);
+                   }
+               }
             }
         });
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +181,11 @@ public class SettingsActivity extends BaseActivity {
                             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
+                        else
+                        {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageLong(SettingsActivity.this,responsePojo.getDescription());
+                        }
                     }
 
                     @Override
@@ -194,7 +207,17 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void setUpLayout() {
-
+        String isSocialLogin=PreferenceHandler.readString(SettingsActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"false");
+    if(isSocialLogin.equalsIgnoreCase("true")){
+        mLlChangePassword.setVisibility(View.GONE);
+        mLlChangeEmail.setVisibility(View.GONE);
+        mLlDeleteAccount.setVisibility(View.GONE);
+    }
+    else {
+        mLlChangePassword.setVisibility(View.VISIBLE);
+        mLlChangeEmail.setVisibility(View.VISIBLE);
+        mLlDeleteAccount.setVisibility(View.VISIBLE);
+    }
     }
 
     @Override
@@ -247,6 +270,7 @@ public class SettingsActivity extends BaseActivity {
             case R.id.ll_videoCall:
                 break;
             case R.id.ll_logout:
+                callConfirmLogoutPopUp();
                 break;
             case R.id.ll_termsPrivacy:
 
@@ -265,6 +289,87 @@ public class SettingsActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void callConfirmLogoutPopUp() {
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        dialog.setContentView(R.layout.logout_account_pop_up);
+
+        Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
+        Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
+
+        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                callLogoutMyAccountApi();
+
+            }
+        });
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+
+            }
+        });
+        dialog.setTitle("Custom Dialog");
+
+
+        dialog.show();
+
+
+    }
+    // call logout api
+    private void callLogoutMyAccountApi() {
+        try {
+            if (Utility.isInternetConnection(this)) {
+                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+                CallProgressWheel.showLoadingDialog(this, "Loading...");
+                mWebApi.logoutAccount( new Callback<ResponsePojo>() {
+                    @Override
+                    public void success(ResponsePojo responsePojo, Response response) {
+                        if(responsePojo.getStatus() == 200){
+                            finishAffinity();
+                            Utility.showToastMessageShort(SettingsActivity.this,responsePojo.getDescription());
+                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.Constants.IS_ALREADY_LOGIN, false);
+                            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(responsePojo.getStatus()==1000)
+                        {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageShort(SettingsActivity.this,responsePojo.getMessage());
+                        }
+                        else
+                        {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageShort(SettingsActivity.this,responsePojo.getDescription());
+                        }
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
     }
 
 }

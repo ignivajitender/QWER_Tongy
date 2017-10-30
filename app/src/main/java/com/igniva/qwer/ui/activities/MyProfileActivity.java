@@ -110,6 +110,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     ImageView mIvProilePic2;
     @BindView(R.id.iv_proile_pic3)
     ImageView mIvProilePic3;
+    @BindView(R.id.iv_proile_pic4)
+    ImageView mIvProilePic4;
     @BindView(R.id.tv_lets_start)
     TextView mTvLetsStart;
     @BindView(R.id.ll_lets_start)
@@ -120,10 +122,13 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     ImageView mCrossIcon2;
     @BindView(R.id.cross_icon3)
     ImageView mCrossIcon3;
+    @BindView(R.id.cross_icon4)
+    ImageView mCrossIcon4;
+
     @BindView(R.id.tv_save)
     TextView mTvSave;
     @BindView(R.id.tvName)
-    TextView mtvName;
+    EditText mtvName;
 
     @BindView(R.id.autocomTextViewCountry)
     AutoCompleteTextView mautocomTextViewCountry;
@@ -134,6 +139,9 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     ImageView mivaddImage2;
     @BindView(R.id.ivaddImage3)
     ImageView mivaddImage3;
+    @BindView(R.id.ivaddImage4)
+    ImageView mivaddImage4;
+
     private File outPutFile;
     private int callFrom;
 
@@ -150,6 +158,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mEtAge.setEnabled(true);
         mgenderSpinner.setEnabled(true);
         mEtAbout.setEnabled(true);
+        mtvName.setEnabled(true);
     }
     @OnClick(R.id.ivaddImage1)
     public void pickImage(){
@@ -166,7 +175,11 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         callFrom = 3;
         changeImage();
     }
-
+    @OnClick(R.id.ivaddImage4)
+    public void pickImage3(){
+        callFrom = 4;
+        changeImage();
+    }
     private String[] gender = {"Male", "Female"};
 
     private final int RC_CAMERA_PERM = 123;
@@ -222,7 +235,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             if (responsePojo.getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 //callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
-                                Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+                               // Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
                                 setDataInView(responsePojo);
 
                             } else if (responsePojo.getStatus() == 400) {
@@ -276,9 +289,21 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(1).getImage()).into(mIvProilePic2);
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(2).getImage()).into(mIvProilePic3);
             }
+            if(responsePojo.getData().getUser_image().size()>=4 && responsePojo.getData().getUser_image().get(3)!=null)
+            {
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mIvProilePic1);
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(1).getImage()).into(mIvProilePic2);
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(2).getImage()).into(mIvProilePic3);
+                Glide.with(this).load(responsePojo.getData().getUser_image().get(3).getImage()).into(mIvProilePic4);
+            }
+
         }
 
         Gender =responsePojo.getData().getGender();
+        if (Gender != null) {
+            Log.e("Gender", Gender);
+            mgenderSpinner.setSelection(getIndex(mgenderSpinner, Gender));
+        }
     }
 
 
@@ -302,12 +327,15 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             mEtAge.setEnabled(false);
             mgenderSpinner.setEnabled(false);
             mEtAbout.setEnabled(false);
+            mtvName.setEnabled(false);
         } else {
             mIvEditProfile.setVisibility(View.GONE);
 
             mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
             mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
             mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+            mIvProilePic4.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+
             mLlLetsStart.setVisibility(View.VISIBLE);
             mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
 
@@ -343,10 +371,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mgenderSpinner.setAdapter(adapter_state);
         mgenderSpinner.setOnItemSelectedListener(this);
 
-        if (Gender != null) {
-            Log.e("Gender", Gender);
-            mgenderSpinner.setSelection(getIndex(mgenderSpinner, Gender));
-        }
+
 
     }
     private int getIndex(Spinner spinner, String myString) {
@@ -463,14 +488,14 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
 
     }
-    public void callSuccessPopUp(MyProfileActivity myProfileActivity, String description) {
+    public void callSuccessPopUp(final MyProfileActivity myProfileActivity, String description) {
 
         // Create custom dialog object
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
         dialog.setContentView(R.layout.succuess_pop_up);
 
@@ -484,11 +509,13 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mCrossIcon1.setVisibility(View.INVISIBLE);
+                myProfileActivity.finish();
+               /* mCrossIcon1.setVisibility(View.INVISIBLE);
                 mCrossIcon2.setVisibility(View.INVISIBLE);
                 mCrossIcon3.setVisibility(View.INVISIBLE);
+                mCrossIcon4.setVisibility(View.INVISIBLE);
                 mTvSave.setVisibility(View.INVISIBLE);
-
+*/
 
             }
         });
@@ -522,10 +549,16 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 mCrossIcon3.setVisibility(View.GONE);
                 mivaddImage3.setVisibility(View.VISIBLE);
                 break;
+            case R.id.cross_icon4:
+                mIvProilePic4.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+                mCrossIcon4.setVisibility(View.GONE);
+                mivaddImage4.setVisibility(View.VISIBLE);
+                break;
             case iv_edit_profile:
                 mCrossIcon1.setVisibility(View.VISIBLE);
                 mCrossIcon2.setVisibility(View.VISIBLE);
                 mCrossIcon3.setVisibility(View.VISIBLE);
+                mCrossIcon4.setVisibility(View.VISIBLE);
                 mTvSave.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_save:
@@ -545,7 +578,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     private void callSaveUpdateProfile() {
         try {
             // check validations for save profile input
-            if (Validation.validateUpdateProfile(this, mautocomTextViewCountry,mEtPincode,mEtAbout,mEtCity,mEtAge)) {
+            if (Validation.validateUpdateProfile(this, mautocomTextViewCountry,mEtPincode,mEtAbout,mEtCity,mEtAge,mtvName)) {
                 if (Utility.isInternetConnection(this)) {
                     ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
                     CallProgressWheel.showLoadingDialog(this, "Loading...");
@@ -566,6 +599,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                     updateProfilePayload.put("pincode", mEtPincode.getText().toString().trim());
                     updateProfilePayload.put("about", mEtAbout.getText().toString().trim());
                     updateProfilePayload.put("age", mEtAge.getText().toString().trim());
+                    updateProfilePayload.put("name", mtvName.getText().toString().trim());
 
 
 
@@ -648,11 +682,12 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 Log.e("outputFile", outPutFile.length() + outPutFile.toString()+"");
                 if(callFrom==1)
                     mIvProilePic1.setImageBitmap(bitmap);
-
                 else if(callFrom==2)
                     mIvProilePic2.setImageBitmap(bitmap);
                 else if(callFrom==3)
                     mIvProilePic3.setImageBitmap(bitmap);
+                else if(callFrom==4)
+                    mIvProilePic4.setImageBitmap(bitmap);
             }
         }
 
@@ -662,25 +697,27 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             if (data != null) {
                 Bundle extras = data.getExtras();
                 //get the cropped bitmap
-                // Log.e("getPath", data.getData().getPath() + "");
                 Bitmap thePic = ImagePicker.getBitmapFromData(data);
                 if(thePic !=null) {
                     if(callFrom==1) {
                         mIvProilePic1.setImageBitmap(thePic);
                         mCrossIcon1.setVisibility(View.VISIBLE);
                         mivaddImage1.setVisibility(View.GONE);
-
                     }
                     else if(callFrom==2) {
                         mIvProilePic2.setImageBitmap(thePic);
                         mCrossIcon2.setVisibility(View.VISIBLE);
                         mivaddImage2.setVisibility(View.GONE);
-
                     }
                     else if(callFrom==3){
                         mIvProilePic3.setImageBitmap(thePic);
                         mCrossIcon3.setVisibility(View.VISIBLE);
                         mivaddImage3.setVisibility(View.GONE);
+                    }
+                    else if(callFrom==4){
+                        mIvProilePic4.setImageBitmap(thePic);
+                        mCrossIcon4.setVisibility(View.VISIBLE);
+                        mivaddImage4.setVisibility(View.GONE);
                     }
                 }
                 outPutFile = ImagePicker.persistImage(thePic);
@@ -693,23 +730,14 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     }
 
     private void callUploadPictureApi(File outPutFile) {
+       // check internet connection
         if (Utility.isInternetConnection(this)) {
-       /*     // create RequestBody instance from file
-            RequestBody fbody = RequestBody.create(MediaType.parse("multipart/form-data"), outPutFile);
-            // MultipartBody.Part is used to send also the actual file name
-            MultipartBody.Part body =
-                    MultipartBody.Part.createFormData("file", outPutFile.getName(), fbody);
-            //  RequestBody is_video = RequestBody.create(MediaType.parse("text/plain"), );
-*/
             Log.e("outputFile==", outPutFile.length() + "===");
 
             TypedFile typedFile = new TypedFile("multipart/form-data", outPutFile);
 
             ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
             CallProgressWheel.showLoadingDialog(this, "Loading...");
-//
-//            HashMap<String, String> updateProfilePayload = new HashMap<>();
-//            updateProfilePayload.put("image", o);
 
             mWebApi.uploadImage(typedFile, new Callback<ResponsePojo>() {
                 @Override

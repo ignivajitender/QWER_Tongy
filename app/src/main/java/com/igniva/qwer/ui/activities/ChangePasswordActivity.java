@@ -2,7 +2,6 @@ package com.igniva.qwer.ui.activities;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -95,9 +94,9 @@ public class ChangePasswordActivity extends BaseActivity {
                 dialog.dismiss();
                 finish();
                 PreferenceHandler.writeBoolean(ChangePasswordActivity.this, Constants.IS_ALREADY_LOGIN, true);
-                Intent intent = new Intent(ChangePasswordActivity.this, MainActivity.class);
+              /*  Intent intent = new Intent(ChangePasswordActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
         dialog.setTitle("Custom Dialog");
@@ -121,6 +120,7 @@ public class ChangePasswordActivity extends BaseActivity {
                 break;
             case R.id.ll_change_pass:
                 try {
+                    Utility.hideSoftKeyboard(ChangePasswordActivity.this);
                     // check validations for current password,new password and confirm password
                     if (Validation.validateChangePassword(this, mEtCuurentPass, mEtNewPass, mEtConfirmPass )) {
                         if (Utility.isInternetConnection(this)) {

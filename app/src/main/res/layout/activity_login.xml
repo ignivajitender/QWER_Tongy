@@ -146,7 +146,9 @@
                         android:layout_marginRight="@dimen/_16dp"
                         android:padding="4dp"
                         android:text="@string/forgot_Password"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@android:color/white"
+                        android:background="?attr/selectableItemBackground"
+                        />
 
 
                 </LinearLayout>

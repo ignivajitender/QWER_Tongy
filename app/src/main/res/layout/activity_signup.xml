@@ -100,7 +100,9 @@
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                             android:textColor="@android:color/white"
                             android:textColorHint="@android:color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:maxLength="30"
+                            />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -179,7 +181,9 @@
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                             android:textColor="@android:color/white"
                             android:textColorHint="@android:color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:maxLength="30"
+                            />
 
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -282,8 +286,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                  android:padding="@dimen/_10dp"
-                    android:text="@string/signInFacebook"
+                     android:padding="@dimen/_10dp"
+                    android:text="@string/signUpFacebook"
                     android:textAllCaps="true"
                     android:textColor="@color/bg_white"
                     android:textSize="@dimen/_9sp" />

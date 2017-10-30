@@ -199,7 +199,27 @@ public class Validation {
             mName.requestFocus();
             mTextInputLayoutName.setError(activity.getString(R.string.please_enter_name));
             return false;
-        } else if (!Validation.isValidEmail(mEmail.getText().toString())) {
+        }
+        else if (mName.length() < 3) {
+            mName.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mPassword, InputMethodManager.SHOW_IMPLICIT);
+            mName.requestFocus();
+            mTextInputLayoutName.setError(activity.getString(R.string.please_name_length));
+            return false;
+        }
+        if (FieldValidators.isNullOrEmpty(mEmail)) {
+            mEmail.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mName, InputMethodManager.SHOW_IMPLICIT);
+            mEmail.requestFocus();
+            mTextInputLayoutEmail.setError(activity.getString(R.string.please_enter_email));
+            return false;
+        }
+
+        else if (!Validation.isValidEmail(mEmail.getText().toString())) {
             mEmail.setFocusable(true);
             InputMethodManager imm = (InputMethodManager) activity
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -223,8 +243,21 @@ public class Validation {
             mPassword.requestFocus();
             mTextInputLayoutPass.setError(activity.getString(R.string.please_pass_length));
             return false;
-        } else if (!appCompatCheckBox.isChecked()) {
-            appCompatCheckBox.setError(activity.getString(R.string.please_agree_terms_and_condition));
+        }
+        else if(mPassword.getText().toString().contains(" "))
+        {
+            mPassword.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mPassword, InputMethodManager.SHOW_IMPLICIT);
+            mPassword.requestFocus();
+            mTextInputLayoutPass.setError(activity.getString(R.string.please_pass_remove_spaces));
+            return false;
+        }
+
+        else if (!appCompatCheckBox.isChecked()) {
+            //appCompatCheckBox.setError(activity.getString(R.string.please_agree_terms_and_condition));
+            Utility.showToastMessageShort(activity,activity.getString(R.string.please_agree_terms_and_condition));
             return false;
         }
         return true;
@@ -234,7 +267,17 @@ public class Validation {
     public static boolean isValidatedLogin(Activity activity, EditText mEmail, TextInputLayout mTextInputLayoutEmail, EditText mPassword, TextInputLayout mTextInputLayoutPass) {
         mTextInputLayoutEmail.setError(null);
         mTextInputLayoutPass.setError(null);
-        if (!Validation.isValidEmail(mEmail.getText().toString())) {
+        if (FieldValidators.isNullOrEmpty(mEmail)) {
+            mEmail.setFocusable(true);
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEmail, InputMethodManager.SHOW_IMPLICIT);
+            mEmail.requestFocus();
+            mTextInputLayoutEmail.setError(activity.getString(R.string.please_enter_email));
+            return false;
+        }
+
+        else if (!Validation.isValidEmail(mEmail.getText().toString())) {
             mEmail.setFocusable(true);
             InputMethodManager imm = (InputMethodManager) activity
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -307,12 +350,13 @@ public class Validation {
             return false;
         }
         else if (FieldValidators.isNullOrEmpty(etCurrentEmail)) {
-            Utility.showToastMessageLong(activity, "Please enter current email.");
+            //Utility.showToastMessageLong(activity, "Please enter current email.");
             etCurrentEmail.setFocusable(true);
             InputMethodManager imm = (InputMethodManager) activity
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(etCurrentEmail, InputMethodManager.SHOW_IMPLICIT);
             etCurrentEmail.requestFocus();
+            etCurrentEmail.setError("Please enter current email.");
             return false;
         }
         else if (!Validation.isValidEmail(etCurrentEmail.getText().toString())) {
@@ -324,12 +368,13 @@ public class Validation {
         }
 
         else if (FieldValidators.isNullOrEmpty(etNewEmail)) {
-            Utility.showToastMessageLong(activity, "Please enter new email.");
+            //Utility.showToastMessageLong(activity, "Please enter new email.");
             etNewEmail.setFocusable(true);
             InputMethodManager imm = (InputMethodManager) activity
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(etNewEmail, InputMethodManager.SHOW_IMPLICIT);
             etNewEmail.requestFocus();
+            etNewEmail.setError("Please enter new email.");
             return false;
         }
         else if (!Validation.isValidEmail(etNewEmail.getText().toString())) {
@@ -441,8 +486,14 @@ public class Validation {
     }
 
 
-    public static boolean validateUpdateProfile(Activity activity, AutoCompleteTextView mEtCountry, EditText mEtPincode, EditText mEtAbout, EditText mEtCity, EditText mEtAge) {
+    public static boolean validateUpdateProfile(Activity activity, AutoCompleteTextView mEtCountry, EditText mEtPincode, EditText mEtAbout, EditText mEtCity, EditText mEtAge,EditText mName) {
 
+        if(FieldValidators.isNullOrEmpty(mName)){
+            mName.setFocusable(true);
+            mName.requestFocus();
+            mName.setError(activity.getString(R.string.please_enter_name));
+            return false;
+        }
         if(FieldValidators.isNullOrEmpty(mEtCountry)){
             mEtCountry.setFocusable(true);
             mEtCountry.requestFocus();

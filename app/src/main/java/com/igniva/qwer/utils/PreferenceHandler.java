@@ -10,7 +10,8 @@ import android.content.SharedPreferences.Editor;
  */
 public class PreferenceHandler {
 	public static final String PREF_KEY_LOGIN_USER_TOKEN = "PREF_KEY_LOGIN_USER_TOKEN";
-	SharedPreferences pref;
+    public static final String PREF_KEY_IS_SOCIAL_LOGIN ="PREF_KEY_IS_SOCIAL_LOGIN" ;
+    SharedPreferences pref;
 	SharedPreferences.Editor editor;
 	Context _context;
 	int PRIVATE_MODE = 0;

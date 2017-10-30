@@ -122,7 +122,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
     protected void setUpLayout() {
         mTvForgotPassword.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         mFbHelper = new FacebookHelper(LoginActivity.this, "id,name,email,gender,birthday,picture,cover", LoginActivity.this);
-
+        Utility.hideSoftKeyboard(LoginActivity.this);
     }
 
     @Override
@@ -141,6 +141,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.left_in, R.anim.left_out);
+        Utility.hideSoftKeyboard(LoginActivity.this);
     }
 
 
@@ -211,17 +212,23 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                                         String loginToken = response.getHeaders().get(i).getValue();
                                         Log.e(TAG1, loginToken);
                                         PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
+                                        PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"false");
                                     }
                                 }
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 
-                            } else if (responsePojo.getStatus() == 400) {
+                            } else if (responsePojo.getStatus() == 600) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 callResendVerificationPopUp(LoginActivity.this,responsePojo.getDescription());
                                // Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                             }
+                            else{
+                                CallProgressWheel.dismissLoadingDialog();
+                                Utility.showToastMessageShort(LoginActivity.this,responsePojo.getDescription());
+                            }
+
 
                         }
 
@@ -253,7 +260,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
     @Override
     public void onFbProfileReceived(FacebookUser facebookUser) {
-        Toast.makeText(this, "Facebook user data: name= " + facebookUser.name + " email= " + facebookUser.email, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Facebook user data: name= " + facebookUser.name + " email= " + facebookUser.email, Toast.LENGTH_SHORT).show();
 
         Log.e("Person name: ", facebookUser.name + "");
         Log.e("Person gender: ", facebookUser.gender + "");
@@ -261,16 +268,20 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
         Log.e("Person image: ", facebookUser.profilePic + "");
         Log.e("Person dob: ", facebookUser.facebookID + "");
 
-        HashMap<String, String> signInFacebook = new HashMap<>();
-        signInFacebook.put(Constants.SOCIAL_ID, facebookUser.facebookID);
-        signInFacebook.put(Constants.EMAIL, facebookUser.email);
-        signInFacebook.put(Constants.GENDER, facebookUser.gender);
-        signInFacebook.put(Constants.NAME, facebookUser.name);
-        signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
+        if(facebookUser.name==null || facebookUser.email==null){
+            //  startActivity(new Intent(this,SignUpActivity.this).putExtra("comingFrom","facebook").p);
+           startActivity(new Intent(LoginActivity.this,SignUpActivity.class).putExtra("name",facebookUser.name).putExtra("email",facebookUser.email).putExtra("comingFrom","login"));
+        }else {
+            HashMap<String, String> signInFacebook = new HashMap<>();
+            signInFacebook.put(Constants.SOCIAL_ID, facebookUser.facebookID);
+            signInFacebook.put(Constants.EMAIL, facebookUser.email);
+            signInFacebook.put(Constants.GENDER, facebookUser.gender);
+            signInFacebook.put(Constants.NAME, facebookUser.name);
+            signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
 
 
             callSinInFacebookApi(signInFacebook);
-
+        }
 
 
     }
@@ -288,9 +299,22 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                         if (responsePojo.getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                            for (int i = 0; i < response.getHeaders().size(); i++) {
+                                if (response.getHeaders().get(i).getName().equalsIgnoreCase("x-logintoken")) {
+                                    String loginToken = response.getHeaders().get(i).getValue();
+                                    Log.e("loginActivity", loginToken);
+                                    PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
+                                    PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"true");
+                                }
+                            }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                        }
+                        else
+                        {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageShort(LoginActivity.this,responsePojo.getDescription());
                         }
                     }
 
@@ -343,7 +367,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
         TextView mtvDialogTitle=(TextView)dialog.findViewById(R.id.tvDialogTitle);
         mtvDialogTitle.setText(activity.getString(R.string.resend_Link));
         TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
-        mBtnOk.setText(getString(R.string.resend_Link));
+        mBtnOk.setText(getString(R.string.resend_verification_Link));
         TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
         text_message.setText(description);
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;

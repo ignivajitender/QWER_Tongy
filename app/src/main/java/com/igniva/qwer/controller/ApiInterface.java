@@ -92,4 +92,7 @@ public interface ApiInterface {
     @Multipart
     @POST("/api/users/imageUpload")
     void uploadImage(@Part("image") TypedFile typedFile, Callback<ResponsePojo> callback);
+
+    @POST("/api/users/logout")
+    void logoutAccount(Callback<ResponsePojo> callback);
 }

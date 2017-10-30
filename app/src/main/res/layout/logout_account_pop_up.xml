@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10dp"
             android:gravity="center"
-            android:text="@string/deleteAccount"
+            android:text="@string/logoutAccount"
             android:textColor="@color/text_dark_grey"
             android:textSize="@dimen/_20sp" />
     </LinearLayout>
@@ -38,24 +38,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10dp"
             android:gravity="center"
-            android:text="@string/deleteAccount_text"
+            android:text="@string/logoutAccount_text"
             android:textColor="@color/text_dark_grey" />
 
-        <EditText
-            android:id="@+id/delete_account_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginRight="@dimen/_10dp"
-            android:layout_marginTop="@dimen/_5dp"
-            android:background="@drawable/edit_text_background"
-            android:hint="@string/password"
-            android:padding="@dimen/_8dp"
-            android:textColor="@color/text_medium_grey"
-            android:textColorHint="@color/text_medium_grey"
-            android:inputType="textPassword"
-            android:textCursorDrawable="@drawable/color_cursor"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,7 +73,7 @@
                 android:layout_marginTop="@dimen/_10dp"
                 android:layout_weight="1"
                 android:background="@drawable/blue_round_button"
-                android:text="@string/agree"
+                android:text="@string/ok"
                 android:textColor="@color/bg_white"
                 android:textSize="@dimen/_15sp" />
 

@@ -10,6 +10,15 @@ public class ResponsePojo {
     private predictionsCountriesPojo data;
     private ErrorPojo error;
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private String message;
 
     public String getDescription() {
         return description;

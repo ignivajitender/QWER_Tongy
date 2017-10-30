@@ -2,6 +2,7 @@ package com.igniva.qwer.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Wrapper class -  to wrap ant response from webservice
@@ -95,7 +96,16 @@ public class ProfileResponsePojo {
         public String country;
         public String pincode;
 
-        public ArrayList<UserImageData> getUser_image() {
+        public UserRoleBean getUser_role() {
+            return user_role;
+        }
+
+        public void setUser_role(UserRoleBean user_role) {
+            this.user_role = user_role;
+        }
+
+        private UserRoleBean user_role;
+        public List<UserImageData> getUser_image() {
             return user_image;
         }
 
@@ -103,7 +113,7 @@ public class ProfileResponsePojo {
             this.user_image = user_image;
         }
 
-        public ArrayList<UserImageData> user_image;
+        public List<UserImageData> user_image;
         public String getName() {
             return name;
         }
@@ -222,5 +232,31 @@ public class ProfileResponsePojo {
 
         public String is_cover_image;
 
+    }
+
+    public static class UserRoleBean {
+        /**
+         * id : 2
+         * name : user
+         */
+
+        private int id;
+        private String name;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }

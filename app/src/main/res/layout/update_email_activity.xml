@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/grey_bg"
@@ -25,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/changePassword"
+                android:text="@string/changeEmail"
                 android:textColor="@color/bg_white"
                 android:textSize="@dimen/_16sp" />
 
@@ -74,7 +79,9 @@
             android:hint="Enter Here"
             android:maxLines="1"
             android:inputType="textEmailAddress"
-            android:padding="@dimen/_4dp" />
+            android:padding="@dimen/_4dp"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
 
         <com.igniva.qwer.ui.views.TextViewBold
             android:layout_width="match_parent"
@@ -92,21 +99,26 @@
             android:hint="Enter Here"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:padding="@dimen/_4dp" />
+            android:padding="@dimen/_4dp"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
 
 
         <LinearLayout
             android:id="@+id/ll_change_email"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="@drawable/blue_round_button"
+            android:layout_gravity="center"
+            >
 
             <com.igniva.qwer.ui.views.TextViewBold
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/blue_round_button"
+                android:background="?attr/selectableItemBackground"
                 android:paddingBottom="@dimen/_10dp"
                 android:paddingLeft="@dimen/_25dp"
                 android:paddingRight="@dimen/_25dp"
@@ -117,3 +129,4 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
+</ScrollView>
