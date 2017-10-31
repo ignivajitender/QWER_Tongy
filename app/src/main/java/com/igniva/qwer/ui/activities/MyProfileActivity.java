@@ -159,6 +159,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mgenderSpinner.setEnabled(true);
         mEtAbout.setEnabled(true);
         mtvName.setEnabled(true);
+        mtvName.setSelection(mtvName.getText().length());
     }
     @OnClick(R.id.ivaddImage1)
     public void pickImage(){
@@ -240,12 +241,14 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
                             } else if (responsePojo.getStatus() == 400) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                Log.e("profile",responsePojo.getDescription());
+                               // Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
                                 CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                               // Log.e("profile",responsePojo.getDescription());
+                                //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -531,7 +534,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     }
 
-    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3, iv_edit_profile, R.id.tv_lets_start,R.id.tv_save})
+    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3,R.id.cross_icon4, iv_edit_profile, R.id.tv_lets_start,R.id.tv_save})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cross_icon1:
