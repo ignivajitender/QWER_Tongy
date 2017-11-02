@@ -13,26 +13,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
-import com.igniva.qwer.model.ResponsePojo;
-import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.PreferenceHandler;
-import com.igniva.qwer.utils.Utility;
-import com.igniva.qwer.utils.Validation;
-
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by karanveer on 22/9/17.
@@ -119,57 +108,7 @@ public class ChangePasswordActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.ll_change_pass:
-                try {
-                    Utility.hideSoftKeyboard(ChangePasswordActivity.this);
-                    // check validations for current password,new password and confirm password
-                    if (Validation.validateChangePassword(this, mEtCuurentPass, mEtNewPass, mEtConfirmPass )) {
-                        if (Utility.isInternetConnection(this)) {
-                            ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
-                            CallProgressWheel.showLoadingDialog(this, "Loading...");
-                            HashMap<String, String> changePasswordHashMap = new HashMap<>();
-                            changePasswordHashMap.put("old_password", mEtCuurentPass.getText().toString().trim());
-                            changePasswordHashMap.put("new_password", mEtNewPass.getText().toString());
-                            changePasswordHashMap.put("confirm_new_password", mEtConfirmPass.getText().toString());
-
-
-
-                            mWebApi.changePassword(changePasswordHashMap, new Callback<ResponsePojo>() {
-                                @Override
-                                public void success(ResponsePojo responsePojo, Response response) {
-
-                                    if (responsePojo.getStatus() == 200) {
-                                        CallProgressWheel.dismissLoadingDialog();
-                                        callSuccessPopUp(ChangePasswordActivity.this, responsePojo.getDescription());
-                                       // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
-
-
-                                    } else if (responsePojo.getStatus() == 400) {
-                                        CallProgressWheel.dismissLoadingDialog();
-                                        Toast.makeText(ChangePasswordActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
-                                    }
-                                    else
-                                    {
-                                        CallProgressWheel.dismissLoadingDialog();
-                                        Toast.makeText(ChangePasswordActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    CallProgressWheel.dismissLoadingDialog();
-                                    Toast.makeText(ChangePasswordActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                } catch (Exception e) {
-                    CallProgressWheel.dismissLoadingDialog();
-                    Toast.makeText(ChangePasswordActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-
-
+                ApiControllerClass.callChangePasswordApi(ChangePasswordActivity.this,mEtCuurentPass,mEtNewPass,mEtConfirmPass);
                 //callSuccessPopUp(this, getResources().getString(R.string.pass_update_success));
                 break;
         }

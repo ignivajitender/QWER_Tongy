@@ -111,4 +111,11 @@
         <item name="android:windowExitAnimation">@anim/slide_up_out</item>
     </style>
 
+    <style name="fabStyle">
+
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@android:color/transparent</item>
+
+    </style>
+
 </resources>

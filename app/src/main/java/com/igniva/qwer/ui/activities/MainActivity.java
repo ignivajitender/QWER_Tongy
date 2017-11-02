@@ -66,12 +66,12 @@ public class MainActivity extends BaseActivity {
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.home));
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.connections));
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
-//        tab_layout.setupWithViewPager(mViewPager);
+        //tab_layout.setupWithViewPager(mViewPager1);
 
         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                mViewPager.setCurrentItem(tab.getPosition());
+                mViewPager1.setCurrentItem(tab.getPosition());
             }
 
             @Override

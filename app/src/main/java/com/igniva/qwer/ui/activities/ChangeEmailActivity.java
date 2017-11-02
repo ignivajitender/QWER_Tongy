@@ -14,23 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
-import com.igniva.qwer.model.ResponsePojo;
-import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
-
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
-import static com.igniva.qwer.utils.Utility.callSuccessPopUp;
 
 /**
  * Created by karanveer on 22/9/17.
@@ -118,7 +108,7 @@ public class ChangeEmailActivity extends BaseActivity {
                 else {
 
                     dialog.dismiss();
-                    callChangeEmailApi(etCurrentEmail, etNewEmail, et_verify_password);
+                    ApiControllerClass.callChangeEmailApi(ChangeEmailActivity.this,etCurrentEmail, etNewEmail, et_verify_password);
                 }
 
             }
@@ -131,57 +121,6 @@ public class ChangeEmailActivity extends BaseActivity {
 
 
     }
-
-    /**
-     * Call api to change the current email
-     */
-
-    private void callChangeEmailApi(EditText etCurrentEmail, EditText etNewEmail,EditText verifyPassword) {
-        try {
-
-
-                if (Utility.isInternetConnection(this)) {
-
-                        HashMap<String, String> changeEmailpayload = new HashMap<>();
-                        changeEmailpayload.put("email", etCurrentEmail.getText().toString().trim());
-                        changeEmailpayload.put("new_email", etNewEmail.getText().toString().trim());
-                        changeEmailpayload.put("password", verifyPassword.getText().toString().trim());
-
-
-                        ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
-                        CallProgressWheel.showLoadingDialog(this, "Loading...");
-                        mWebApi.changeEmail(changeEmailpayload, new Callback<ResponsePojo>() {
-                            @Override
-                            public void success(ResponsePojo responsePojo, Response response) {
-                                if (responsePojo.getStatus() == 200) {
-                                    CallProgressWheel.dismissLoadingDialog();
-                                    callSuccessPopUp(ChangeEmailActivity.this, responsePojo.getDescription());
-                                    // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
-
-
-                                } else  {
-                                    CallProgressWheel.dismissLoadingDialog();
-                                    Utility.showToastMessageShort(ChangeEmailActivity.this,responsePojo.getDescription());
-                                }
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                CallProgressWheel.dismissLoadingDialog();
-                            }
-                        });
-
-                    }
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
 
     @OnClick({R.id.iv_back, R.id.ll_change_email})
     public void onViewClicked(View view) {

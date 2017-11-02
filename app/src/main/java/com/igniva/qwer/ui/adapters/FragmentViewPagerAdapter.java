@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.igniva.qwer.ui.fragments.HomeFragment;
+import com.igniva.qwer.ui.fragments.NewsFeedFragment;
 
 
 public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
@@ -16,7 +17,7 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int fragment_number) {
         switch (fragment_number) {
             case 0:
-                return new HomeFragment();
+                return new NewsFeedFragment();
             case 1:
                 return new HomeFragment();
             case 2 :

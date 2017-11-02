@@ -7,6 +7,7 @@ import android.support.multidex.MultiDexApplication;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.igniva.qwer.controller.AppModule;
 import com.igniva.qwer.controller.Config;
+import com.igniva.qwer.controller.DaggerNetComponent;
 import com.igniva.qwer.controller.NetComponent;
 import com.igniva.qwer.controller.NetModule;
 
