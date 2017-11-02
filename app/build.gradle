@@ -128,6 +128,12 @@ dependencies {
 
     // easy permissions
     compile "pub.devrel:easypermissions:${easypermissions}"
+    compile 'com.google.dagger:dagger:2.8'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okio:okio:1.7.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+
 }
 // Add to the bottom of the file
 //if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {

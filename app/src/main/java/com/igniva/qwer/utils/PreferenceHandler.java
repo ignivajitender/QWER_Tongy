@@ -9,9 +9,8 @@ import android.content.SharedPreferences.Editor;
  * 
  */
 public class PreferenceHandler {
-	public static final String PREF_KEY_LOGIN_USER_TOKEN = "PREF_KEY_LOGIN_USER_TOKEN";
-    public static final String PREF_KEY_IS_SOCIAL_LOGIN ="PREF_KEY_IS_SOCIAL_LOGIN" ;
-    SharedPreferences pref;
+
+	SharedPreferences pref;
 	SharedPreferences.Editor editor;
 	Context _context;
 	int PRIVATE_MODE = 0;
@@ -25,7 +24,9 @@ public class PreferenceHandler {
 	public static final String PREF_KEY_USER_MOBILE = "PREF_KEY_USER_MOBILE";
 	public static final String PREF_KEY_GCMID = "PREF_KEY_GCMID";
 
-
+	public static final String PREF_KEY_LOGIN_USER_TOKEN = "PREF_KEY_LOGIN_USER_TOKEN";
+	public static final String PREF_KEY_IS_SOCIAL_LOGIN ="PREF_KEY_IS_SOCIAL_LOGIN" ;
+	public static final String PREF_KEY_IS_USER_LOGIN = "PREF_KEY_IS_USER_LOGIN";
 
 	public PreferenceHandler(Context context) {
 		this._context = context;
