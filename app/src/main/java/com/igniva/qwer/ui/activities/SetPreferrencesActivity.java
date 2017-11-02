@@ -1,11 +1,18 @@
 package com.igniva.qwer.ui.activities;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -13,15 +20,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
-import com.igniva.qwer.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
-import com.igniva.qwer.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
-import com.igniva.qwer.crystalrangeseekbar.widgets.CrystalSeekbar;
+import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
+import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalSeekbar;
+import com.igniva.qwer.ui.adapters.LanguageListAdapter;
+import com.igniva.qwer.ui.callbacks.MyCallBack;
 import com.igniva.qwer.ui.views.TextViewRegular;
 import com.igniva.qwer.utils.Log;
+import com.igniva.qwer.utils.fcm.Constants;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +44,7 @@ import butterknife.OnClick;
  * Created by karanveer on 20/9/17.
  */
 
-public class SetPreferrencesActivity extends BaseActivity {
+public class SetPreferrencesActivity extends BaseActivity implements MyCallBack {
 
 
     @BindView(R.id.iv_male)
@@ -64,10 +77,27 @@ public class SetPreferrencesActivity extends BaseActivity {
     RecyclerView mRvLanguageSpeak;
     @BindView(R.id.rv_language_to_learn)
     RecyclerView mRvLanguageToLearn;
-    Context context=SetPreferrencesActivity.this;
+    Context context = SetPreferrencesActivity.this;
+    ArrayList<String> mAlLangListSpeak;
+    ArrayList<String> mAlLangListLearn;
+
+    String mLanguageSpeakSelection;
+    String mLanguageLearnSelection;
+    HashMap<String, String> mHashMapLangSpeak = new HashMap<String, String>();//put in it
+    HashMap<String, String> mHashMapLangLearn = new HashMap<String, String>();//put in it
+    LanguageListAdapter mAdapterLangSpeak;
+    LanguageListAdapter mAdapterLanLearn;
+    @BindView(R.id.tv_lets_learn)
+    TextView mTvLetsLearn;
+    Boolean isEditable = false;
+    @BindView(R.id.tv_start_looking_again)
+    TextView mTvStartLookingAgain;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setpreferrences);
         ButterKnife.bind(this);
@@ -77,33 +107,64 @@ public class SetPreferrencesActivity extends BaseActivity {
 
     @Override
     protected void setUpLayout() {
+        if (getIntent().hasExtra(Constants.TO_EDIT_PREFERENCES)) {
+            if (getIntent().getStringExtra(Constants.TO_EDIT_PREFERENCES).equalsIgnoreCase("Yes")) {
+                isEditable = true;
+                mTvStartLookingAgain.setVisibility(View.VISIBLE);
+                mTvLetsLearn.setVisibility(View.GONE);
+            }
+
+        }
+        mAlLangListSpeak = new ArrayList<>();
+        mAlLangListLearn = new ArrayList<>();
         final String[] countries = getResources().getStringArray(R.array.languages);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.auto_complete_tv_item, R.id.tv_languagename, countries);
         mActvLangISpeak.setAdapter(adapter);
-        mActvLangILearn.setAdapter(adapter);
-        mActvLangISpeak.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mActvLangISpeak.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selection = (String) adapterView.getItemAtPosition(i);
+//                Log.e("prinvalue", i + "   " + selection);
+                mLanguageSpeakSelection = selection;
+                mAlLangListSpeak.add(selection);
+//                Log.e("prinvalue", i + "   " + selection);
+//                Toast.makeText(SetPreferrencesActivity.this, "ho gea " + " pos: " + i + selection, Toast.LENGTH_SHORT).show();
+                callSetPrefPopUp(mLanguageSpeakSelection, Constants.LANGUAGE_SPEAK);
             }
         });
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, R.layout.auto_complete_tv_item, R.id.tv_languagename, countries);
+        mActvLangILearn.setAdapter(adapter1);
         mActvLangILearn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selection = (String) adapterView.getItemAtPosition(i);
-                Toast.makeText(SetPreferrencesActivity.this, "ho gea " + " pos: " + i + selection, Toast.LENGTH_SHORT).show();
+                Log.e("prinvalue", i + "   " + selection);
+                mLanguageSpeakSelection = selection;
+                mAlLangListLearn.add(selection);
+//                Log.e("prinvalue", i + "   " + selection);
+//                Toast.makeText(SetPreferrencesActivity.this, "ho gea " + " pos: " + i + selection, Toast.LENGTH_SHORT).show();
+                callSetPrefPopUp(mLanguageSpeakSelection, Constants.LANGUAGE_LEARN);
             }
         });
 
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
-//        LanguageListAdapter
-//        mRvLanguageSpeak
 
+        mAdapterLangSpeak = new LanguageListAdapter(context, mHashMapLangSpeak, Constants.LANGUAGE_SPEAK, this);
+        mAdapterLanLearn = new LanguageListAdapter(context, mHashMapLangLearn, Constants.LANGUAGE_LEARN, this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
+        mRvLanguageSpeak.setLayoutManager(linearLayoutManager);
+        mRvLanguageSpeak.setItemAnimator(new DefaultItemAnimator());
+        mRvLanguageSpeak.setAdapter(mAdapterLangSpeak);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRvLanguageSpeak.getContext(),linearLayoutManager.getOrientation());
+//        mRvLanguageSpeak.addItemDecoration(dividerItemDecoration);
+
+
+        mRvLanguageToLearn.setLayoutManager(linearLayoutManager1);
+        mRvLanguageToLearn.setItemAnimator(new DefaultItemAnimator());
+        mRvLanguageToLearn.setAdapter(mAdapterLanLearn);
     }
 
     protected void setupSeekbarListerns() {
@@ -151,7 +212,109 @@ public class SetPreferrencesActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rb_nearby_me, R.id.rb_world_wide})
+    public void callSetPrefPopUp(String selection, String type) {
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(SetPreferrencesActivity.this,
+                R.style.Theme_Dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.setContentView(R.layout.set_preferences_pop_up);
+
+
+        TextViewRegular mTv_lan_name = (TextViewRegular) dialog.findViewById(R.id.tv_lang_name);
+        mTv_lan_name.setText(selection);
+        LinearLayout mLlbeginer = (LinearLayout) dialog.findViewById(R.id.ll_beginner);
+        LinearLayout mLlintermediate = (LinearLayout) dialog.findViewById(R.id.ll_intermediate);
+        LinearLayout mLlprofessional = (LinearLayout) dialog.findViewById(R.id.ll_professional);
+
+        switch (type) {
+            case Constants.LANGUAGE_SPEAK:
+                mLlbeginer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mHashMapLangSpeak.put(mAlLangListSpeak.get(mAlLangListSpeak.size() - 1), Constants.BEGINNER);
+                        dialog.dismiss();
+                        mRvLanguageSpeak.setVisibility(View.VISIBLE);
+                        mAdapterLangSpeak.notifyDataSetChanged();
+
+                    }
+                });
+                mLlintermediate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mHashMapLangSpeak.put(mAlLangListSpeak.get(mAlLangListSpeak.size() - 1), Constants.INTERMEDIATE);
+                        dialog.dismiss();
+                        mRvLanguageSpeak.setVisibility(View.VISIBLE);
+                        mAdapterLangSpeak.notifyDataSetChanged();
+
+                    }
+                });
+                mLlprofessional.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mHashMapLangSpeak.put(mAlLangListSpeak.get(mAlLangListSpeak.size() - 1), Constants.PROFESSIONAL);
+                        dialog.dismiss();
+                        mRvLanguageSpeak.setVisibility(View.VISIBLE);
+                        mAdapterLangSpeak.notifyDataSetChanged();
+                    }
+                });
+                break;
+            case Constants.LANGUAGE_LEARN:
+                mLlbeginer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mHashMapLangLearn.put(mAlLangListLearn.get(mAlLangListLearn.size() - 1), Constants.BEGINNER);
+                        dialog.dismiss();
+                        mRvLanguageToLearn.setVisibility(View.VISIBLE);
+                        mAdapterLanLearn.notifyDataSetChanged();
+                    }
+                });
+                mLlintermediate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mHashMapLangLearn.put(mAlLangListLearn.get(mAlLangListLearn.size() - 1), Constants.INTERMEDIATE);
+                        dialog.dismiss();
+                        mRvLanguageToLearn.setVisibility(View.VISIBLE);
+                        mAdapterLanLearn.notifyDataSetChanged();
+                    }
+                });
+                mLlprofessional.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mHashMapLangLearn.put(mAlLangListLearn.get(mAlLangListLearn.size() - 1), Constants.PROFESSIONAL);
+                        dialog.dismiss();
+                        mRvLanguageToLearn.setVisibility(View.VISIBLE);
+                        mAdapterLanLearn.notifyDataSetChanged();
+                    }
+                });
+                break;
+        }
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.setTitle("Custom Dialog");
+        dialog.show();
+
+    }
+
+
+    /* public void removeItemFromHashMap(String type,String hashmap_key,int position){
+
+         switch (type){
+             case Constants.LANGUAGE_SPEAK:
+                 mHashMapLangSpeak.remove(hashmap_key);
+                 mAdapterLangSpeak.notifyItemRemoved(position);
+ //                mAdapterLangSpeak.notifyItemRemoved(position);
+                 break;
+             case Constants.LANGUAGE_LEARN:
+                 mHashMapLangLearn.remove(hashmap_key);
+                 mAdapterLanLearn.notifyItemChanged(position);
+                 break;
+         }
+     }*/
+    @OnClick({R.id.rb_nearby_me, R.id.rb_world_wide, R.id.iv_male, R.id.iv_female, R.id.tv_lets_learn, R.id.tv_start_looking_again})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rb_nearby_me:
@@ -160,6 +323,49 @@ public class SetPreferrencesActivity extends BaseActivity {
             case R.id.rb_world_wide:
                 mLlNearbyLayout.setVisibility(View.GONE);
                 break;
+            case R.id.iv_male:
+                mIvMale.setImageDrawable(getResources().getDrawable(R.drawable.male_selected));
+                mIvFemale.setImageDrawable(getResources().getDrawable(R.drawable.female_unselected));
+                break;
+            case R.id.iv_female:
+                mIvMale.setImageDrawable(getResources().getDrawable(R.drawable.male_unselected));
+                mIvFemale.setImageDrawable(getResources().getDrawable(R.drawable.female_selected));
+                break;
+            case R.id.tv_lets_learn:
+                Intent intent = new Intent(SetPreferrencesActivity.this, MyProfileActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_start_looking_again:
+                Intent intentlookagain = new Intent(SetPreferrencesActivity.this, MainActivity.class);
+                startActivity(intentlookagain);
+                break;
         }
     }
+
+    @Override
+    public void removeItemFromHashMap(String type, String hashmap_key, int position) {
+        switch (type) {
+            case Constants.LANGUAGE_SPEAK:
+                mHashMapLangSpeak.remove(hashmap_key);
+//                mAdapterLangSpeak.notifyItemRemoved(position);
+                mAdapterLangSpeak.notifyDataSetChanged();
+                if (mHashMapLangSpeak.size() == 0) {
+                    mRvLanguageSpeak.setVisibility(View.GONE);
+                }
+                ;
+//                mAdapterLangSpeak.notifyItemRemoved(position);
+                break;
+            case Constants.LANGUAGE_LEARN:
+                mHashMapLangLearn.remove(hashmap_key);
+                mAdapterLanLearn.notifyDataSetChanged();
+                if (mHashMapLangLearn.size() == 0) {
+                    mRvLanguageToLearn.setVisibility(View.GONE);
+                }
+                ;
+//
+                break;
+        }
+    }
+
+
 }

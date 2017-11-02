@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/grey_bg"
+    android:fillViewport="true"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_header_bg"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Contact Us"
+                android:textColor="@color/bg_white"
+                android:textSize="@dimen/_16sp" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_10dp"
+                android:src="@drawable/back" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/contact_us1" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10dp"
+        android:orientation="vertical"
+        android:padding="@dimen/_10dp">
+
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title"
+            android:textColor="@color/text_dark_grey" />
+
+        <EditText
+            android:id="@+id/et_contactUs_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2dp"
+            android:background="@drawable/edit_text_white_rounded_corners"
+            android:hint="Add subject here"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textColorHint="@color/text_light_grey"
+            android:padding="@dimen/_4dp"
+            android:maxLength="50"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
+
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:text="@string/your_message"
+            android:textColor="@color/text_dark_grey" />
+
+        <EditText
+            android:id="@+id/et_contactUs_description"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150dp"
+            android:layout_marginTop="@dimen/_2dp"
+            android:textColorHint="@color/text_light_grey"
+            android:background="@drawable/edit_text_white_rounded_corners"
+            android:hint="Say something here..."
+            android:gravity="start"
+            android:inputType="textMultiLine"
+            android:maxLength="300"
+            android:padding="@dimen/_8dp"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll_ContactUs_Post_Now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15dp"
+            android:gravity="center"
+            android:background="@drawable/blue_round_button"
+            android:layout_gravity="center"
+            >
+
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingBottom="@dimen/_10dp"
+                android:paddingLeft="@dimen/_25dp"
+                android:paddingRight="@dimen/_25dp"
+                android:paddingTop="@dimen/_10dp"
+                android:text="POST NOW"
+                android:textColor="@color/bg_white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

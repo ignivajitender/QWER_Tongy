@@ -54,7 +54,7 @@ public class HomeFragment extends BaseFragment  {
         mCardStack.setContentResource(R.layout.card_content);
         mCardStack.setStackMargin(20);
 
-        mCardAdapter = new CardsDataAdapter(getActivity());
+        mCardAdapter = new CardsDataAdapter(getActivity(),getFragmentManager());
         mCardAdapter.add("test1");
         mCardAdapter.add("test2");
         mCardAdapter.add("test3");

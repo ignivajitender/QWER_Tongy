@@ -2,22 +2,46 @@ package com.igniva.qwer.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
+import android.util.Base64;
+import android.view.View;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.controller.RetrofitClient;
+import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class Utility {
 	static final String[] BinaryPlaces = { "/data/bin/", "/system/bin/", "/system/xbin/", "/sbin/",
@@ -31,7 +55,6 @@ public class Utility {
 	public static boolean isInternetConnection(Context context) {
 		boolean HaveConnectedWifi = false;
 		boolean HaveConnectedMobile = false;
-
 		try {
 
 			ConnectivityManager cm = (ConnectivityManager) context
@@ -49,7 +72,13 @@ public class Utility {
 			e.printStackTrace();
 		}
 
-		return HaveConnectedWifi || HaveConnectedMobile;
+		if(HaveConnectedWifi || HaveConnectedMobile){
+			return true;
+		}else{
+			Toast.makeText(context,context.getString(R.string.please_check_internet_connection), Toast.LENGTH_SHORT).show();
+			return false;
+		}
+
 	}
 
 	/**
@@ -135,6 +164,8 @@ public class Utility {
 		}
 	}
 
+
+
     public void showInvalidSessionDialog(final Activity mContext) {
         try {
 
@@ -174,6 +205,36 @@ public class Utility {
 			}
 		});
 		builder.show();
+	}
+
+	public static void callSuccessPopUp(final Context context, String message) {
+
+		// Create custom dialog object
+		final Dialog dialog = new Dialog(context);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		dialog.setCancelable(false);
+		dialog.setCanceledOnTouchOutside(false);
+
+		dialog.setContentView(R.layout.succuess_pop_up);
+		TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
+		text_message.setText(message);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+		TextView mBtnOk=(TextView)dialog.findViewById(R.id.btn_ok);
+		mBtnOk.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.dismiss();
+				((Activity)context).finish();
+			}
+		});
+
+		dialog.setTitle("Custom Dialog");
+
+
+		dialog.show();
+
+
 	}
 
 	public interface OnAlertOkClickListener {
@@ -218,4 +279,128 @@ public class Utility {
 		return context.getResources().getConfiguration().smallestScreenWidthDp >= 600;
 	}
 
+	// Hide keyboard
+	public static void hideSoftKeyboard(Activity activity) {
+		try {
+			InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+		} catch (Exception exp) {
+		}
+	}
+
+	//print Hash Key for facebook
+	public static String printKeyHash(Context context) {
+		PackageInfo packageInfo;
+		String key = null;
+		try {
+			//getting application package name, as defined in manifest
+			String packageName = context.getApplicationContext().getPackageName();
+
+			//Retriving package info
+			packageInfo = context.getPackageManager().getPackageInfo(packageName,
+					PackageManager.GET_SIGNATURES);
+
+			Log.e("Package Name=", context.getApplicationContext().getPackageName());
+
+			for (Signature signature : packageInfo.signatures) {
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				md.update(signature.toByteArray());
+				key = new String(Base64.encode(md.digest(), 0));
+
+				// String key = new String(Base64.encodeBytes(md.digest()));
+				Log.e("Key_Hash=", key);
+			}
+		} catch (PackageManager.NameNotFoundException e1) {
+			Log.e("Name not found", e1.toString());
+		} catch (NoSuchAlgorithmException e) {
+			Log.e("No such an algorithm", e.toString());
+		} catch (Exception e) {
+			Log.e("Exception", e.toString());
+		}
+		return key;
+	}
+
+	public static void callGoogleApi(final Activity context, final AutoCompleteTextView mautocomTextviewDeliveryAddress, String address) {
+
+		if (Utility.isInternetConnection(context)) {
+			ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, context);
+			CallProgressWheel.showLoadingDialog(context, "Loading...");
+			mWebApi.getCountriesList(new Callback<ResponsePojo>() {
+				@Override
+				public void success(ResponsePojo responsePojo, Response response) {
+					CallProgressWheel.dismissLoadingDialog();
+					Utility.showToastMessageShort(context, responsePojo.getDescription());
+					//onBackPressed();
+					//showAddress(responsePojo.getData(),mautocomTextviewDeliveryAddress,context);
+				}
+
+				@Override
+				public void failure(RetrofitError error) {
+					CallProgressWheel.dismissLoadingDialog();
+				}
+			});
+
+		}
+
+		}
+
+	/*private static void showAddress(final ArrayList<predictionsCountriesPojo> predictionsPojo, final AutoCompleteTextView mautocomTextviewDeliveryAddress, final Activity context) {
+
+
+		if (languages == null)
+			languages = new ArrayList<>();
+		else
+			languages.clear();
+		android.util.Log.e("predictionsPojo", predictionsPojo.size() + "");
+		for (int i = 0; i < predictionsPojo.size(); i++) {
+			languages.add(predictionsPojo.get(i).getDescription());
+			Log.e("description", predictionsPojo.get(i).getDescription());
+		}
+
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+				(context, android.R.layout.spinner_dropdown_item, languages);
+
+		// dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mautocomTextviewDeliveryAddress.setThreshold(0);
+		mautocomTextviewDeliveryAddress.setAdapter(dataAdapter);
+		dataAdapter.notifyDataSetChanged();
+		mautocomTextviewDeliveryAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+//				address = mautocomTextviewDeliveryAddress.getText().toString().trim();
+//				placeId = predictionsPojo.get(arg2).getPlace_id();
+//				aaTemp = predictionsPojo.get(arg2).getDescription();
+//				latitude = 0.0;
+//				longitude = 0.0;
+//				//type = 1;
+//				mautocomTextviewDeliveryAddress.setSelection(mautocomTextviewDeliveryAddress.getText().length());
+//				Log.e("placeid", placeId);
+//				*//**//*if (context instanceof HomeActivity)
+//					searchCategories(context, null, null, placeId, aaTemp);
+/*//*//**//*
+//				//	Utility.hideKeyboard(context, mautocomTextviewDeliveryAddress);
+
+
+			}
+		});
+			}
+*/
+	public static File getFilePath(String fileName, String fileSuffix) {
+		File storageDir = new File(Environment.getExternalStorageDirectory(), "Tongy");
+		if (!storageDir.exists())
+			storageDir.mkdir();
+		File myPath = null;
+		try {
+			myPath = File.createTempFile(
+					fileName,  /* prefix */
+					fileSuffix,         /* suffix */
+					storageDir      /* directory */
+			);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return myPath;
+	}
 }

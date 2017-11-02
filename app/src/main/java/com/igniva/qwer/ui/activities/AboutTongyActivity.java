@@ -21,15 +21,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.igniva.qwer.utils.fcm.Constants.ALPHA_ANIMATIONS_DURATION;
+import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_HIDE_TITLE_DETAILS;
+import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR;
+
 /**
  * Created by karanveer on 1/9/17.
  */
 
 public class AboutTongyActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
-    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
-    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
-    private static final int ALPHA_ANIMATIONS_DURATION = 200;
+
     @BindView(R.id.imageview_placeholder)
     ImageView mImageviewPlaceholder;
     @BindView(R.id.linearlayout_title)
@@ -50,6 +52,8 @@ public class AboutTongyActivity extends BaseActivity implements AppBarLayout.OnO
     TextView mTvText;
     @BindView(R.id.back_arrow)
     ImageView mBackArrow;
+    @BindView(R.id.tv_heading)
+    TextView mTvHeading;
 
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
@@ -66,6 +70,8 @@ public class AboutTongyActivity extends BaseActivity implements AppBarLayout.OnO
 
     @Override
     public void setUpLayout() {
+        mTvHeading.setText("About Tongy");
+        mTextviewTitle.setText("About Tongy");
         mToolbar.setTitle("");
         mAppbar.addOnOffsetChangedListener(this);
 

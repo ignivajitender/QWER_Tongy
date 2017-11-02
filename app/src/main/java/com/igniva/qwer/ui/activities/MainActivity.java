@@ -1,18 +1,23 @@
 package com.igniva.qwer.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class MainActivity extends BaseActivity {
@@ -90,5 +95,46 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void setUpToolbar() {
 
+    }
+
+    @OnClick({R.id.cross_icon,R.id.edit_pref_icon})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.cross_icon:
+                Intent intentAbout = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intentAbout);
+                break;
+            case R.id.edit_pref_icon:
+                Intent intent=new Intent(MainActivity.this,SetPreferrencesActivity.class);
+                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.TO_EDIT_PREFERENCES,"Yes");
+                startActivity(intent);
+
+            default:
+                break;
+        }
+    }
+
+    private boolean doubleBackToExitPressedOnce;
+    private Handler mHandler = new Handler();
+
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            doubleBackToExitPressedOnce = false;
+        }
+    };
+
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+
+        mHandler.postDelayed(mRunnable, 2000);
     }
 }

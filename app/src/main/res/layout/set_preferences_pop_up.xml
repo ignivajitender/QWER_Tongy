@@ -2,21 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/upper_half_round_background_offwhite">
+        android:background="@drawable/upper_half_round_background_offwhite"
+        android:paddingBottom="@dimen/_10dp"
+        android:paddingTop="@dimen/_10dp">
 
-        <TextView
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:id="@+id/tv_lang_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10dp"
-            android:layout_marginTop="@dimen/_10dp"
-            android:padding="@dimen/_10dp"
-            android:text="@string/filipino" />
+            android:gravity="center"
+            android:text="@string/filipino"
+            android:textColor="@color/text_dark_grey"
+            android:textSize="@dimen/_20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -24,9 +26,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_half_round_background_white"
         android:orientation="horizontal"
+        android:paddingBottom="@dimen/_24dp"
+        android:paddingLeft="@dimen/_10dp"
+        android:paddingRight="@dimen/_10dp"
+        android:paddingTop="@dimen/_24dp"
         android:weightSum="3">
 
         <LinearLayout
+            android:id="@+id/ll_beginner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -38,17 +45,22 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/beginner" />
 
-            <TextView
+            <com.igniva.qwer.ui.views.TextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/beginer" />
+                android:paddingLeft="@dimen/_5dp"
+                android:paddingRight="@dimen/_5dp"
+                android:text="@string/beginer"
+                android:textColor="@color/text_dark_grey" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_intermediate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+
             android:orientation="vertical">
 
             <ImageView
@@ -56,10 +68,13 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/intermediate" />
 
-            <TextView
+            <com.igniva.qwer.ui.views.TextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/intermediate" />
+                android:paddingLeft="@dimen/_5dp"
+                android:paddingRight="@dimen/_5dp"
+                android:text="@string/intermediate"
+                android:textColor="@color/text_dark_grey" />
         </LinearLayout>
 
         <LinearLayout
@@ -67,6 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ll_professional"
+
             android:orientation="vertical">
 
             <ImageView
@@ -74,9 +91,12 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/professional" />
 
-            <TextView
+            <com.igniva.qwer.ui.views.TextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_5dp"
+                android:paddingRight="@dimen/_5dp"
+                android:textColor="@color/text_dark_grey"
                 android:text="@string/professional" />
         </LinearLayout>
 

@@ -31,7 +31,7 @@
             <com.igniva.qwer.ui.views.TextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Preferrences"
+                android:text="Preferences!"
                 android:textColor="@color/bg_blue"
                 android:textSize="@dimen/_24sp" />
         </LinearLayout>
@@ -76,7 +76,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_language_speak"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3dp"
+                android:background="@drawable/edit_text_white_rounded_corners"
                 android:visibility="gone" />
             <!--<EditText-->
             <!--android:layout_width="match_parent"-->
@@ -115,12 +117,16 @@
                 android:padding="@dimen/_5dp"
                 android:textColor="@color/text_light_grey"
                 android:textColorHint="@color/text_light_grey" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_language_to_learn"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3dp"
+
                 android:visibility="gone" />
             <!--<EditText-->
+
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_marginLeft="@dimen/_2dp"-->
@@ -205,7 +211,7 @@
             <!--rsb:absoluteMaxValue="150"-->
             <!--rsb:absoluteMinValue="20" />-->
 
-            <com.igniva.qwer.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+            <com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                 android:id="@+id/seekbar_preferred_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -300,7 +306,7 @@
                     android:layout_marginTop="@dimen/_8dp"
                     android:orientation="vertical">
 
-                    <com.igniva.qwer.crystalrangeseekbar.widgets.CrystalSeekbar
+                    <com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalSeekbar
                         android:id="@+id/seekbar_nearby_area"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -329,6 +335,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/tv_lets_learn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -337,8 +344,23 @@
                         android:paddingLeft="@dimen/_30dp"
                         android:paddingRight="@dimen/_30dp"
                         android:paddingTop="@dimen/_10dp"
+
                         android:text="@string/lets_learn"
                         android:textColor="@color/bg_white" />
+
+                    <TextView
+                        android:id="@+id/tv_start_looking_again"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/blue_round_button"
+                        android:paddingBottom="@dimen/_10dp"
+                        android:paddingLeft="@dimen/_30dp"
+                        android:paddingRight="@dimen/_30dp"
+                        android:paddingTop="@dimen/_10dp"
+                        android:text="@string/save_andlook_again"
+                        android:textColor="@color/bg_white"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

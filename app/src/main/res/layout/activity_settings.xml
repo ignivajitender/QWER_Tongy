@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white_background"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/ll_back"
+        android:layout_width="@dimen/_60dp"
+        android:layout_height="@dimen/_60dp"
+        android:background="@drawable/quarter_circle">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/_4dp"
+            android:paddingRight="@dimen/_8dp"
+            android:src="@drawable/back" />
+
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_myProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:layout_marginTop="@dimen/_4dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+                    android:id="@+id/tv_myProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:drawableRight="@drawable/setting_my_profile"
+                    android:text="@string/myProfile"
+                    android:textColor="@color/text_color"
+                     />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_changePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+                    android:id="@+id/tv_changePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:drawableRight="@drawable/setting_password"
+                    android:text="@string/changePassword"
+                    android:textColor="@color/text_color"
+                   />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_changeEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+                    android:id="@+id/tv_changeEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:drawableRight="@drawable/setting_email"
+                    android:text="@string/changeEmail"
+                    android:textColor="@color/text_dark_grey"
+                   />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_aboutQwer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+                    android:id="@+id/tv_aboutQwer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:drawableRight="@drawable/setting_about"
+                    android:text="@string/aboutQwer"
+                    android:textColor="@color/text_color"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_DeleteAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+                    android:id="@+id/tv_DeleteAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:drawableRight="@drawable/setting_account"
+                    android:text="@string/deleteAccount"
+                    android:textColor="@color/text_color"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_contactUs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:id="@+id/tv_ContactUs"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:drawableRight="@drawable/setting_contact"
+                    android:text="@string/contactUs"
+                    android:textColor="@color/text_color"
+                     />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_rate_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:id="@+id/tv_RateUs"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:drawableRight="@drawable/setting_rate"
+                    android:text="@string/rateUs"
+                    android:textColor="@color/text_color"
+                   />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@color/text_light_grey"></View>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_pushNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_4dp"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingRight="@dimen/_10dp"
+                android:paddingTop="@dimen/_4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"
+                        android:drawablePadding="@dimen/_4dp"
+                        android:text="@string/pushNotifications"
+                        android:textColor="@color/text_color" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        style="@style/SwitchCompatStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="2" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_voiceCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_4dp"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingRight="@dimen/_10dp"
+                android:paddingTop="@dimen/_4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"
+                        android:drawablePadding="@dimen/_4dp"
+                        android:text="@string/VoiceCall"
+                        android:textColor="@color/text_color" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        style="@style/SwitchCompatStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="2" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_videoCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_4dp"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingRight="@dimen/_10dp"
+                android:paddingTop="@dimen/_4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"
+                        android:drawablePadding="@dimen/_4dp"
+                        android:text="@string/VideoCall"
+                        android:textColor="@color/text_color" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        style="@style/SwitchCompatStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="2" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_4dp"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingRight="@dimen/_10dp"
+                android:paddingTop="@dimen/_4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:drawablePadding="@dimen/_4dp"
+                        android:text="@string/logout"
+                        android:textColor="@color/text_color" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_termsPrivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_30dp"
+                android:layout_marginLeft="@dimen/_12dp"
+                android:layout_marginRight="@dimen/_12dp"
+                android:layout_marginTop="@dimen/_30dp"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingRight="@dimen/_10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:id="@+id/tv_tandC"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5.48"
+                        android:drawablePadding="@dimen/_4dp"
+                        android:text="@string/termsandConditions"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.02"
+                        android:background="@color/text_color"
+                        android:padding="@dimen/_4dp"></View>
+
+                    <com.igniva.qwer.ui.views.TextViewRegular
+                        android:id="@+id/tv_privacyPolicy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4.5"
+                        android:drawablePadding="@dimen/_4dp"
+                        android:text="@string/privacyPolicy"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

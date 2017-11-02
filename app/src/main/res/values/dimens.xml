@@ -82,8 +82,15 @@
     <dimen name="thumb_height">30dp</dimen>
     <dimen name="bubble_thumb_width">70dp</dimen>
     <dimen name="bubble_thumb_height">70dp</dimen>
-
-
+    <dimen name="_22dp">22dp</dimen>
+    <dimen name="_8sp">8sp</dimen>
+    <dimen name="_9sp">9sp</dimen>
+    <dimen name="_28sp">28sp</dimen>
+    <dimen name="_28dp">28dp</dimen>
+    <dimen name="imge_thumb_height">75dp</dimen>
+    <dimen name="_160dp">160dp</dimen>
+    <dimen name="_140dp">140dp</dimen>
+    <dimen name="_130dp">130dp</dimen>
 
 
 </resources>

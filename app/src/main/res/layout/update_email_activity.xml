@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/grey_bg"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_header_bg"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/changeEmail"
+                android:textColor="@color/bg_white"
+                android:textSize="@dimen/_16sp" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_10dp"
+                android:src="@drawable/back" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/change_password" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10dp"
+        android:orientation="vertical"
+        android:padding="@dimen/_10dp">
+
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/current_email"
+            android:textColor="@color/text_dark_grey" />
+
+        <EditText
+            android:id="@+id/et_current_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2dp"
+            android:background="@drawable/edit_text_white_rounded_corners"
+            android:hint="Enter Here"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/_4dp"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
+
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:text="@string/new_email"
+            android:textColor="@color/text_dark_grey" />
+
+        <EditText
+            android:id="@+id/et_new_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2dp"
+            android:background="@drawable/edit_text_white_rounded_corners"
+            android:hint="Enter Here"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:padding="@dimen/_4dp"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll_change_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15dp"
+            android:gravity="center"
+            android:background="@drawable/blue_round_button"
+            android:layout_gravity="center"
+            >
+
+            <com.igniva.qwer.ui.views.TextViewBold
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingBottom="@dimen/_10dp"
+                android:paddingLeft="@dimen/_25dp"
+                android:paddingRight="@dimen/_25dp"
+                android:paddingTop="@dimen/_10dp"
+                android:text="@string/update_email"
+
+                android:textColor="@color/bg_white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?><!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--&gt;-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/_8dp"
+    android:paddingRight="@dimen/_8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8dp"
+        android:gravity="top"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
+            <ImageView
+                android:id="@+id/iv_add_pic"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/imge_thumb_height"
+                android:layout_weight="1"
+                android:src="@drawable/add_image" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
+
+            <ImageView
+                android:id="@+id/iv_proile_pic1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:src="@drawable/image_placeholder" />
+
+            <ImageView
+                android:id="@+id/cross_icon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+            <ImageView
+                android:id="@+id/ivaddImage1"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/add_image_post"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
+
+            <ImageView
+                android:id="@+id/iv_proile_pic2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/image_placeholder" />
+
+            <ImageView
+                android:id="@+id/cross_icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ivaddImage2"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/add_image_post"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
+
+            <ImageView
+                android:id="@+id/iv_proile_pic3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/image_placeholder" />
+
+            <ImageView
+                android:id="@+id/cross_icon3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+            <ImageView
+                android:id="@+id/ivaddImage3"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/add_image_post"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/_5dp">
+
+
+            <ImageView
+                android:id="@+id/iv_proile_pic4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:src="@drawable/image_placeholder" />
+
+            <ImageView
+                android:id="@+id/cross_icon4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/remove_blue"
+                android:visibility="gone" />
+            <ImageView
+                android:id="@+id/ivaddImage4"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/add_image_post"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_5dp"
+        android:paddingTop="@dimen/_10dp">
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_3dp"
+            android:text="@string/country"
+            android:textColor="@color/text_medium_grey" />
+
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginTop="@dimen/_10dp"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <EditText
+            android:id="@+id/et_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/text_light_grey"
+            android:hint="@string/country"
+            android:maxLines="1"
+
+            android:textColor="@color/text_dark_grey"
+            android:textColorHint="@color/text_dark_grey"
+            android:visibility="gone"
+            />
+
+      <!--  </android.support.design.widget.TextInputLayout>-->
+        <AutoCompleteTextView
+            android:id="@+id/autocomTextViewCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete|textAutoCorrect|textCapWords"
+            android:backgroundTint="@color/text_light_grey"
+            android:textColor="@color/text_dark_grey"
+            android:textColorHint="@color/text_dark_grey"
+            android:maxLines="1"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:imeOptions="actionNext"
+            />
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_3dp"
+            android:paddingTop="@dimen/_5dp"
+            android:text="@string/city"
+            android:textColor="@color/text_medium_grey" />
+
+        <EditText
+            android:id="@+id/et_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/text_light_grey"
+            android:maxLines="1"
+            android:text="Vogar"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textColor="@color/text_dark_grey"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            />
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_3dp"
+            android:paddingTop="@dimen/_5dp"
+            android:text="@string/pincode"
+            android:textColor="@color/text_medium_grey"
+            android:singleLine="true"
+            android:maxLines="1"
+            />
+
+        <EditText
+            android:id="@+id/et_pincode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/text_light_grey"
+
+            android:maxLines="1"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:text="123-459"
+            android:textColor="@color/text_dark_grey"
+            android:maxLength="15"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/_5dp"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_3dp"
+                    android:paddingTop="@dimen/_2dp"
+                    android:text="@string/age"
+                    android:textColor="@color/text_medium_grey" />
+
+                <EditText
+                    android:id="@+id/et_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/text_light_grey"
+                    android:inputType="number"
+                    android:text="23"
+                    android:textColor="@color/text_dark_grey"
+                    android:textCursorDrawable="@drawable/color_cursor"
+
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_3dp"
+                    android:paddingTop="@dimen/_2dp"
+                    android:text="@string/iam"
+                    android:textColor="@color/text_medium_grey" />
+
+               <!-- <EditText
+                    android:id="@+id/et_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/text_light_grey"
+                    android:maxLines="1"
+                    android:text="Male"
+                    android:textColor="@color/text_dark_grey" />-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_28dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_5dp"
+                    android:layout_gravity="center"
+
+                    >
+
+                    <Spinner
+                        android:id="@+id/genderspinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="left"
+                        />
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/text_dark_grey"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_3dp"
+            android:paddingTop="@dimen/_2dp"
+            android:text="@string/about"
+            android:textColor="@color/text_medium_grey" />
+
+        <EditText
+            android:id="@+id/et_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/text_light_grey"
+            android:maxLength="500"
+            android:text="lorame loram lorama loramloa  loar mloaoo rlooer, lomem loow looowmkklioow loooo alllllia llooo"
+            android:textColor="@color/text_dark_grey"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:isScrollContainer="true"
+            android:inputType="textMultiLine"
+            android:imeOptions="actionDone"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll_lets_start"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/blue_round_button"
+            >
+
+            <TextView
+                android:id="@+id/tv_lets_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_8dp"
+                android:paddingLeft="@dimen/_15dp"
+                android:paddingRight="@dimen/_15dp"
+                android:paddingTop="@dimen/_8dp"
+                android:text="@string/letstart"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_8dp"
+                android:paddingLeft="@dimen/_15dp"
+                android:paddingRight="@dimen/_15dp"
+                android:textColor="@color/bg_white"
+                android:paddingTop="@dimen/_8dp"
+                android:text="@string/save_update"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout><!--</ScrollView>-->

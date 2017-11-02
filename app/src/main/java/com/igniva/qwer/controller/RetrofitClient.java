@@ -2,6 +2,7 @@ package com.igniva.qwer.controller;
 
 import android.content.Context;
 
+import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.jakewharton.retrofit.Ok3Client;
 
@@ -23,18 +24,37 @@ public class RetrofitClient {
     private static OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
     static RestAdapter.Builder builder;
 
+//    private static RequestInterceptor newInterceptor(final Context context) {
+//        RequestInterceptor requestInterceptor = new RequestInterceptor() {
+//            @Override
+//            public void intercept(RequestFacade request) {
+//                String token = PreferenceHandler.readString(context,"accessToken", "");
+//                if (token != null) {
+//                    request.addHeader("authorization", "bearer " + token);
+//                }
+//            }
+//        };
+//        return requestInterceptor;
+//    }
+
     private static RequestInterceptor newInterceptor(final Context context) {
         RequestInterceptor requestInterceptor = new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
-                String token = PreferenceHandler.readString(context,"accessToken", "");
-                if (token != null) {
-                    request.addHeader("authorization", "bearer " + token);
+                String token = PreferenceHandler.readString(context,PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, "");
+                Log.e("TOKEN","HEADER "+token);
+                if (token != null && !token.equalsIgnoreCase("")) {
+                    request.addHeader("x-logintoken", token);
+                    Log.e("TOKEN","IF HEADER "+token);
+                }else {
+                    Log.e("TOKEN","ELSE HEADER "+token);
                 }
             }
         };
         return requestInterceptor;
+
     }
+
 
     static RestAdapter.Builder getBuilder(Context context) {
         if (builder == null) {

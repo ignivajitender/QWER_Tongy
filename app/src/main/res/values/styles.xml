@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -14,22 +13,14 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <!--for removing white space-->
-        <!--<item name="android:windowDisablePreview">true</item>-->
     </style>
 
-  <!--  <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
 
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColorHint">@color/colorPrimaryGreen</item>
-        <item name="colorControlNormal">@color/colorPrimaryGreen</item>
-        <item name="colorControlActivated">@color/colorPrimaryGreen</item>
-        <item name="colorControlHighlight">@color/colorPrimaryGreen</item>
-        <item name="android:singleLine">true</item>
-
+    <style name="Theme_Dialog" parent="android:Theme.Holo.Dialog">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
     </style>
--->
+
     <style name="TextAppearence.App.TextInputLayoutStyle2" parent="@android:style/TextAppearance">
 
         <item name="android:layout_width">match_parent</item>
@@ -58,8 +49,8 @@
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPink</item>
+        <item name="android:textColorPrimary">@android:color/holo_blue_dark</item>
         <item name="android:background">@android:color/white</item>
     </style>
 
@@ -74,78 +65,50 @@
         <item name="tabSelectedTextColor">@android:color/holo_blue_dark</item>
     </style>
 
-    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="textAllCaps">false</item>
-    </style>
-
-  <!--  <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/dialog_in</item>
-        <item name="android:windowExitAnimation">@anim/slide_up_out</item>
-    </style>
-
-    <style name="RatingBar" parent="Theme.AppCompat">
-    <item name="colorControlNormal">@color/gold</item>
-    <item name="colorControlActivated">@color/gold</item>
-    <item name="android:progressDrawable">@drawable/ratingbar_selector</item>
-    </style>
-
-    <style name="NavigationTheme" parent="AppTheme">
-        <item name="android:textSize">16sp</item>
-        <item name="android:minWidth">20dip</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:layout_marginLeft">12dp</item>
-    </style>
-
-    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+    <style name="TabLayoutStyleText" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@android:color/holo_blue_dark</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabPaddingStart">8dp</item>
         <item name="tabPaddingEnd">8dp</item>
+
         <item name="tabBackground">?attr/selectableItemBackground</item>
         <item name="tabTextAppearance">@style/TabTextAppearance</item>
         <item name="tabSelectedTextColor">@android:color/holo_blue_dark</item>
     </style>
 
+
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
     </style>
 
 
-    <style name="CustomDialogTheme">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">false</item>
+    <style name="SwitchCompatStyle" >
+        <item name="thumbTint">@color/colorPrimary</item>
+        <item name="trackTint">@color/switch_color</item>
     </style>
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
 
-    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="TextAppearence.App.TextInputLayoutStyle2" parent="@android:style/TextAppearance">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColorHint">@android:color/darker_gray</item>
-        <item name="colorControlNormal">@color/bg_white</item>
-        <item name="colorControlActivated">@color/bg_white</item>
-        <item name="colorControlHighlight">@color/bg_white</item>
+        <item name="android:textColorHint">@color/bg_off_white</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="colorControlNormal">@color/bg_off_white</item>
+        <item name="colorControlActivated">@color/bg_off_white</item>
+        <item name="colorControlHighlight">@color/bg_off_white</item>
         <item name="android:singleLine">true</item>
+
     </style>
-
-
-    <style name="customRatingBar"
-        parent="android:style/Widget.Material.RatingBar.Small">
-        <item name="colorControlNormal">@color/grey</item>
-        <item name="colorControlActivated">@color/gold</item>
-
-
-    </style>-->
     <style name="NavigationTheme" parent="AppTheme">
         <item name="android:textSize">16sp</item>
         <item name="android:minWidth">20dip</item>
         <item name="android:padding">10dp</item>
         <item name="android:layout_marginLeft">12dp</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_up_out</item>
     </style>
 
 </resources>

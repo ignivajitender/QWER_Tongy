@@ -7,9 +7,18 @@ public class ResponsePojo {
 
     private int status;
     private String description;
-    private DataPojo data;
+    private predictionsCountriesPojo data;
     private ErrorPojo error;
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private String message;
 
     public String getDescription() {
         return description;
@@ -27,11 +36,11 @@ public class ResponsePojo {
         this.status = status;
     }
 
-    public DataPojo getData() {
+    public predictionsCountriesPojo getData() {
         return data;
     }
 
-    public void setData(DataPojo data) {
+    public void setData(predictionsCountriesPojo data) {
         this.data = data;
     }
 
