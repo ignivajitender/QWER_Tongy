@@ -17,20 +17,21 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 
 /**
  * Created by karanveer on 26/9/17.
@@ -55,8 +56,11 @@ public class ForgotPasswordActivity extends BaseActivity {
     }
     @BindView(R.id.til_email)
     TextInputLayout mtilEmail;
+    @Inject
+    Retrofit retrofit;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_password);
         ButterKnife.bind(this);
@@ -117,7 +121,7 @@ public class ForgotPasswordActivity extends BaseActivity {
             // check validations for current password,new password and confirm password
             if (Validation.validateForgotPassword(this, metEmail,mtilEmail )) {
                 if (Utility.isInternetConnection(this)) {
-                    ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+
                     CallProgressWheel.showLoadingDialog(this, "Loading...");
                            /*
                             payload
@@ -131,35 +135,35 @@ public class ForgotPasswordActivity extends BaseActivity {
                     forgotPasswordHashMap.put("email", metEmail.getText().toString().trim());
 
 
-
-                    mWebApi.forgotPassword(forgotPasswordHashMap, new Callback<ResponsePojo>() {
+                    Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).forgotPassword(forgotPasswordHashMap);
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                         @Override
-                        public void success(ResponsePojo responsePojo, Response response) {
-
-                            if (responsePojo.getStatus() == 200) {
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                callSuccessPopUp(ForgotPasswordActivity.this, responsePojo.getDescription());
+                                callSuccessPopUp(ForgotPasswordActivity.this, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
 
 
-                            } else if (responsePojo.getStatus() == 400) {
+                            } else if (response.body().getStatus() == 400) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(ForgotPasswordActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ForgotPasswordActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
                                 CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(ForgotPasswordActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ForgotPasswordActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             }
-
                         }
 
                         @Override
-                        public void failure(RetrofitError error) {
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(ForgotPasswordActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
                         }
                     });
+
                 }
             }
         } catch (Exception e) {

@@ -82,10 +82,11 @@
     </style>
 
 
-    <style name="SwitchCompatStyle" >
+    <style name="SwitchCompatStyle">
         <item name="thumbTint">@color/colorPrimary</item>
         <item name="trackTint">@color/switch_color</item>
     </style>
+
     <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
 
         <item name="android:layout_width">match_parent</item>
@@ -99,6 +100,7 @@
         <item name="android:singleLine">true</item>
 
     </style>
+
     <style name="NavigationTheme" parent="AppTheme">
         <item name="android:textSize">16sp</item>
         <item name="android:minWidth">20dip</item>

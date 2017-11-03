@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_with_heading" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/grey_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title"
+                    android:textColor="@color/text_medium_grey" />
+
+                <EditText
+                    android:id="@+id/et_current_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2dp"
+                    android:background="@drawable/edit_text_white_rounded_corners"
+                    android:hint="@string/add_title"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:padding="@dimen/_4dp"
+                    android:textColor="@color/text_dark_grey"
+                    android:textCursorDrawable="@drawable/color_cursor" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_description"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_medium_grey" />
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100dp"
+                    android:layout_marginTop="@dimen/_2dp"
+                    android:background="@drawable/edit_text_white_rounded_corners"
+                    android:gravity="top"
+                    android:hint="@string/add_description"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="3"
+                    android:padding="@dimen/_4dp"
+                    android:textColor="@color/text_dark_grey"
+                    android:textCursorDrawable="@drawable/color_cursor"
+
+                    />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_medium_grey" />
+
+                <EditText
+                    android:id="@+id/et_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2dp"
+                    android:background="@drawable/edit_text_white_rounded_corners"
+                    android:hint="@string/add_cost"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:padding="@dimen/_4dp"
+                    android:textColor="@color/text_dark_grey"
+                    android:textCursorDrawable="@drawable/color_cursor" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/schedule"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_medium_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_schedule_start_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_2dp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_white_rounded_corners"
+                        android:drawableRight="@drawable/calendar"
+                        android:hint="@string/add_start_date"
+                        android:inputType="none"
+                        android:maxLines="1"
+                        android:padding="@dimen/_4dp"
+                        android:textColor="@color/text_dark_grey"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:editable="false"
+                        android:focusableInTouchMode="false"
+
+                        />
+
+                    <EditText
+                        android:id="@+id/et_schedule_end_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_2dp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_white_rounded_corners"
+                        android:drawableRight="@drawable/calendar"
+                        android:hint="@string/add_end_date"
+                        android:inputType="none"
+                        android:maxLines="1"
+                        android:padding="@dimen/_4dp"
+                        android:textColor="@color/text_dark_grey"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:editable="false"
+                        android:focusableInTouchMode="false"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:id="@+id/et_start_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_2dp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_white_rounded_corners"
+                        android:drawableRight="@drawable/clock"
+                        android:hint="@string/start_time"
+                        android:inputType="none"
+                        android:maxLines="1"
+                        android:padding="@dimen/_4dp"
+                        android:textColor="@color/text_dark_grey"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:editable="false"
+                        android:focusableInTouchMode="false"
+
+                        />
+
+                    <EditText
+                        android:id="@+id/et_end_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_2dp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_white_rounded_corners"
+                        android:drawableRight="@drawable/clock"
+                        android:hint="@string/end_time"
+                        android:inputType="none"
+                        android:maxLines="1"
+                        android:padding="@dimen/_4dp"
+                        android:editable="false"
+                        android:focusableInTouchMode="false"
+
+                        android:textColor="@color/text_dark_grey"
+                        android:textCursorDrawable="@drawable/color_cursor" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/type_of_class"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_medium_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+
+                    >
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/bg_blue"
+                        android:checked="true"
+                        android:text="@string/online" />
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/bg_blue"
+                        android:text="@string/physical" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:padding="@dimen/_10dp"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/et_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2dp"
+                    android:layout_marginTop="@dimen/_2dp"
+
+                    android:background="@drawable/edit_text_white_rounded_corners"
+                    android:drawableRight="@drawable/location"
+                    android:hint="@string/address"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:padding="@dimen/_4dp"
+                    android:textColor="@color/text_dark_grey"
+                    android:textCursorDrawable="@drawable/color_cursor" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_change_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_20dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:background="@drawable/blue_round_button"
+                android:gravity="center">
+
+                <com.igniva.qwer.ui.views.TextViewBold
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingBottom="@dimen/_10dp"
+                    android:paddingLeft="@dimen/_25dp"
+                    android:paddingRight="@dimen/_25dp"
+                    android:paddingTop="@dimen/_10dp"
+                    android:text="@string/post_now"
+                    android:textAllCaps="true"
+                    android:textColor="@color/bg_white" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

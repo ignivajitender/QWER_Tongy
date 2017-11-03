@@ -25,9 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
-import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import java.io.File;
@@ -39,10 +36,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
 public class Utility {
 	static final String[] BinaryPlaces = { "/data/bin/", "/system/bin/", "/system/xbin/", "/sbin/",
 			"/data/local/xbin/", "/data/local/bin/", "/system/sd/xbin/", "/system/bin/failsafe/",
@@ -52,6 +45,8 @@ public class Utility {
 	 * @param context
 	 * @return Returns true if there is network connectivity
 	 */
+
+
 	public static boolean isInternetConnection(Context context) {
 		boolean HaveConnectedWifi = false;
 		boolean HaveConnectedMobile = false;
@@ -323,9 +318,10 @@ public class Utility {
 	public static void callGoogleApi(final Activity context, final AutoCompleteTextView mautocomTextviewDeliveryAddress, String address) {
 
 		if (Utility.isInternetConnection(context)) {
-			ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, context);
+
 			CallProgressWheel.showLoadingDialog(context, "Loading...");
-			mWebApi.getCountriesList(new Callback<ResponsePojo>() {
+			//Call<ResponsePojo> posts = retrofit.createService(ApiInterface.class).getCountriesList();
+			/*mWebApi.getCountriesList(new Callback<ResponsePojo>() {
 				@Override
 				public void success(ResponsePojo responsePojo, Response response) {
 					CallProgressWheel.dismissLoadingDialog();
@@ -338,7 +334,7 @@ public class Utility {
 				public void failure(RetrofitError error) {
 					CallProgressWheel.dismissLoadingDialog();
 				}
-			});
+			});*/
 
 		}
 

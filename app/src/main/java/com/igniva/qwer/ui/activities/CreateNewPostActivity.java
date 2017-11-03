@@ -1,27 +1,29 @@
 package com.igniva.qwer.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.igniva.qwer.R;
-
-import javax.inject.Inject;
+import com.igniva.qwer.utils.Global;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Retrofit;
 
 public class CreateNewPostActivity extends BaseActivity {
 
-    @Inject
-    Retrofit retrofit;
+
     @OnClick(R.id.ivbackIcon)
     public void back(){
         onBackPressed();
     }
-
+    @OnClick(R.id.llCreateTeachingPost)
+    public void openPost(){
+        startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_post);
         ButterKnife.bind(this);

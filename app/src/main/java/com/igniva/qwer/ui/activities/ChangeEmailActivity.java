@@ -15,12 +15,16 @@ import android.widget.LinearLayout;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Retrofit;
 
 /**
  * Created by karanveer on 22/9/17.
@@ -38,8 +42,11 @@ public class ChangeEmailActivity extends BaseActivity {
     @BindView(R.id.et_new_email)
     EditText etNewEmail;
 
+    @Inject
+    Retrofit retrofit;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_email_activity);
         ButterKnife.bind(this);
@@ -108,7 +115,7 @@ public class ChangeEmailActivity extends BaseActivity {
                 else {
 
                     dialog.dismiss();
-                    ApiControllerClass.callChangeEmailApi(ChangeEmailActivity.this,etCurrentEmail, etNewEmail, et_verify_password);
+                    ApiControllerClass.callChangeEmailApi(ChangeEmailActivity.this,etCurrentEmail, etNewEmail, et_verify_password,retrofit);
                 }
 
             }

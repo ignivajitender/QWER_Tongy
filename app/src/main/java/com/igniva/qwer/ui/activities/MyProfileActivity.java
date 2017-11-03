@@ -33,10 +33,10 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.ImagePicker;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
@@ -46,16 +46,19 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.mime.TypedFile;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 
 import static com.igniva.qwer.R.id.genderspinner;
 import static com.igniva.qwer.R.id.iv_edit_profile;
@@ -183,6 +186,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     }
     private String[] gender = {"Male", "Female"};
 
+    @Inject
+    Retrofit retrofit;
     private final int RC_CAMERA_PERM = 123;
     private int IMAGE_REQUEST_CODE = 500;
     @AfterPermissionGranted(RC_CAMERA_PERM)
@@ -211,6 +216,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_my_profile);
@@ -227,38 +233,39 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         try {
 
                 if (Utility.isInternetConnection(this)) {
-                    ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
-                    CallProgressWheel.showLoadingDialog(this, "Loading...");
-                    mWebApi.getProfile(new Callback<ProfileResponsePojo>() {
-                        @Override
-                        public void success(ProfileResponsePojo responsePojo, Response response) {
 
-                            if (responsePojo.getStatus() == 200) {
+                    CallProgressWheel.showLoadingDialog(this, "Loading...");
+                    Call<ProfileResponsePojo> posts = retrofit.create(ApiInterface.class).getProfile();
+                    posts.enqueue(new retrofit2.Callback<ProfileResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<ProfileResponsePojo> call, retrofit2.Response<ProfileResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 //callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
-                               // Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
-                                setDataInView(responsePojo);
+                                // Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+                                setDataInView(response.body());
 
-                            } else if (responsePojo.getStatus() == 400) {
+                            } else if (response.body().getStatus() == 400) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                Log.e("profile",responsePojo.getDescription());
-                               // Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                Log.e("profile",response.body().getDescription());
+                                // Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
                                 CallProgressWheel.dismissLoadingDialog();
-                               // Log.e("profile",responsePojo.getDescription());
+                                // Log.e("profile",responsePojo.getDescription());
                                 //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                             }
-
                         }
 
                         @Override
-                        public void failure(RetrofitError error) {
+                        public void onFailure(Call<ProfileResponsePojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
                         }
                     });
+
                 }
 
         } catch (Exception e) {
@@ -583,7 +590,6 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             // check validations for save profile input
             if (Validation.validateUpdateProfile(this, mautocomTextViewCountry,mEtPincode,mEtAbout,mEtCity,mEtAge,mtvName)) {
                 if (Utility.isInternetConnection(this)) {
-                    ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
                     CallProgressWheel.showLoadingDialog(this, "Loading...");
                            /*
                             payload
@@ -604,33 +610,34 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                     updateProfilePayload.put("age", mEtAge.getText().toString().trim());
                     updateProfilePayload.put("name", mtvName.getText().toString().trim());
 
-
-
-                    mWebApi.updateProfile(updateProfilePayload, new Callback<ResponsePojo>() {
+                    Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).updateProfile(updateProfilePayload);
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                         @Override
-                        public void success(ResponsePojo responsePojo, Response response) {
-
-                            if (responsePojo.getStatus() == 200) {
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
-                                 //Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+                                callSuccessPopUp(MyProfileActivity.this, response.body().getDescription());
+                                //Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
 
 
                             }
                             else
                             {
                                 CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MyProfileActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             }
 
                         }
 
                         @Override
-                        public void failure(RetrofitError error) {
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
                         }
                     });
+
+
                 }
             }
         } catch (Exception e) {
@@ -737,39 +744,44 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         if (Utility.isInternetConnection(this)) {
             Log.e("outputFile==", outPutFile.length() + "===");
 
-            TypedFile typedFile = new TypedFile("multipart/form-data", outPutFile);
+            // create RequestBody instance from file
+            RequestBody fbody = RequestBody.create(MediaType.parse("multipart/form-data"), outPutFile);
+            // MultipartBody.Part is used to send also the actual file name
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("file", outPutFile.getName(), fbody);
+            //  RequestBody is_video = RequestBody.create(MediaType.parse("text/plain"), );
 
-            ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+
             CallProgressWheel.showLoadingDialog(this, "Loading...");
-
-            mWebApi.uploadImage(typedFile, new Callback<ResponsePojo>() {
+            Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).uploadImage(body);
+            posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                 @Override
-                public void success(ResponsePojo responsePojo, Response response) {
-
-                    if (responsePojo.getStatus() == 200) {
+                public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                    if (response.body().getStatus() == 200) {
                         CallProgressWheel.dismissLoadingDialog();
-                       // callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
-                         Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+                        // callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
+                        Utility.showToastMessageShort(MyProfileActivity.this,response.body().getDescription());
 
 
-                    } else if (responsePojo.getStatus() == 400) {
+                    } else if (response.body().getStatus() == 400) {
                         CallProgressWheel.dismissLoadingDialog();
-                        Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyProfileActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         CallProgressWheel.dismissLoadingDialog();
-                        Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyProfileActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                     }
-
                 }
 
                 @Override
-                public void failure(RetrofitError error) {
+                public void onFailure(Call<ResponsePojo> call, Throwable t) {
                     CallProgressWheel.dismissLoadingDialog();
                     Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
                 }
             });
+
         }
     }
 

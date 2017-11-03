@@ -6,22 +6,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
-import com.igniva.qwer.model.ResponsePojo;
-import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Retrofit;
 
 public class ContactUsActivity extends BaseActivity {
 
@@ -34,6 +32,8 @@ public class ContactUsActivity extends BaseActivity {
     @BindView(R.id.ll_ContactUs_Post_Now)
     LinearLayout llContactUsPostNow;
 
+    @Inject
+    Retrofit retrofit;
     @OnClick(R.id.iv_back)
     public  void back(){
         Utility.hideSoftKeyboard(ContactUsActivity.this);
@@ -41,6 +41,7 @@ public class ContactUsActivity extends BaseActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
         ButterKnife.bind(this);
@@ -72,38 +73,11 @@ public class ContactUsActivity extends BaseActivity {
             HashMap<String, String> contact_us = new HashMap<>();
             contact_us.put(Constants.TITLE, etContactUsTitle.getText().toString());
             contact_us.put(Constants.DESCRIPTION, etContactUsTitle.getText().toString());
-            sendUserFeedBackToAdmin(contact_us);
+            ApiControllerClass.sendUserFeedBackToAdmin(ContactUsActivity.this,contact_us,retrofit);
 
         }
 
     }
 
-    private void sendUserFeedBackToAdmin(HashMap<String, String> contact_us) {
-        try {
 
-            if (Utility.isInternetConnection(this)) {
-                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
-                CallProgressWheel.showLoadingDialog(this, "Loading...");
-                mWebApi.contactUs(contact_us, new Callback<ResponsePojo>() {
-                    @Override
-                    public void success(ResponsePojo responsePojo, Response response) {
-                        CallProgressWheel.dismissLoadingDialog();
-                        Utility.showToastMessageShort(ContactUsActivity.this, responsePojo.getDescription());
-                        onBackPressed();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        CallProgressWheel.dismissLoadingDialog();
-                    }
-                });
-
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 }
