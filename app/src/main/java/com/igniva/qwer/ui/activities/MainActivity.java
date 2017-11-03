@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
+import com.igniva.qwer.ui.fragments.HomeFragment;
+import com.igniva.qwer.utils.fcm.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,12 +43,13 @@ public class MainActivity extends BaseActivity {
     ImageView mEditPrefIcon;
     @BindView(R.id.toolbar_top)
     Toolbar mToolbarTop;
-    @BindView(R.id.view_pager1)
-    ViewPager mViewPager1;
     @BindView(R.id.tabHost)
     LinearLayout mTabHost;
+    @BindView(R.id.framelayout_main)
+    FrameLayout framelayoutMain;
     private TabLayout tab_layout;
     FragmentViewPagerAdapter pagerAdapter;
+    private Fragment currentFrag;
 
 
     @Override
@@ -59,8 +64,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setUpLayout() {
-        pagerAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
-        mViewPager1.setAdapter(pagerAdapter);
+        replaceFragment(new HomeFragment());
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.news_feeds));
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.home));
@@ -71,8 +75,8 @@ public class MainActivity extends BaseActivity {
         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager1.setCurrentItem(tab.getPosition());
-            }
+                tab.select();
+             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -97,7 +101,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.cross_icon,R.id.edit_pref_icon})
+    @OnClick({R.id.cross_icon, R.id.edit_pref_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cross_icon:
@@ -105,8 +109,8 @@ public class MainActivity extends BaseActivity {
                 startActivity(intentAbout);
                 break;
             case R.id.edit_pref_icon:
-                Intent intent=new Intent(MainActivity.this,SetPreferrencesActivity.class);
-                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.TO_EDIT_PREFERENCES,"Yes");
+                Intent intent = new Intent(MainActivity.this, SetPreferrencesActivity.class);
+                intent.putExtra(Constants.TO_EDIT_PREFERENCES, "Yes");
                 startActivity(intent);
 
             default:
@@ -137,6 +141,16 @@ public class MainActivity extends BaseActivity {
 
         mHandler.postDelayed(mRunnable, 2000);
     }
+
+    private void replaceFragment(Fragment fragment) {
+        currentFrag = fragment;
+          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayout_main, fragment);
+        ft.commit();
+
+
+    }
+
 }
 
 

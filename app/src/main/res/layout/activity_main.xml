@@ -25,8 +25,8 @@
         <!--android:layout_alignParentBottom="true"></TableLayout>-->
 
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager1"
+        <FrameLayout
+            android:id="@+id/framelayout_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_above="@+id/tab_layout"
