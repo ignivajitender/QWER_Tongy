@@ -42,7 +42,6 @@ public class SpeakFragment extends BaseFragment {
         SpeakFragment fragment = new SpeakFragment();
         return fragment;
     }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
@@ -53,7 +52,6 @@ public class SpeakFragment extends BaseFragment {
 //        setDataInViewObjects();
          return mView;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

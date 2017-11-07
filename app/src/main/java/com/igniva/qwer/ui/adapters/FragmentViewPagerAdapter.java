@@ -21,7 +21,7 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new HomeFragment();
             case 2 :
-                return  new HomeFragment();
+                return  new NewsFeedFragment();
             default:
                 return null;
         }
