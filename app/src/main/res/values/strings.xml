@@ -190,4 +190,18 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="physical">Physical</string>
     <string name="address">Address</string>
     <string name="post_now">Post now</string>
+    <string name="coming_soon">Coming Soon</string>
+    <string name="create_post">Create Post</string>
+    <string name="my_posts">My Posts</string>
+    <string name="my_favourites">My Favorites</string>
+    <string name="title_activity_location">LocationActivity</string>
+    <string name="please_enter_title">Please enter title</string>
+    <string name="please_enter_description">Please enter description</string>
+    <string name="please_enter_price">Please enter price</string>
+    <string name="please_enter_start_date">Please enter start date</string>
+    <string name="please_enter_end_date">Please enter end date</string>
+    <string name="please_enter_start_time">Please enter start time</string>
+    <string name="please_enter_end_time">Please enter end time</string>
+    <string name="title_activity_create_other_post">CreateOtherPostActivity</string>
+    <string name="add_image">Add Image</string>
 </resources>

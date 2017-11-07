@@ -1,6 +1,7 @@
 package com.igniva.qwer.controller;
 
 
+import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 
@@ -16,8 +17,11 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
+
+    String BASE_URL = "https://maps.googleapis.com/";
 
     @FormUrlEncoded
     @POST("/api/signup")
@@ -73,4 +77,11 @@ public interface ApiInterface {
 
     @POST("/api/users/logout")
     Call<ResponsePojo> logoutAccount();
+
+    @GET("maps/api/place/autocomplete/json")
+    Call<GooglePlaceApiResponsePojo> getCityResults(@Query("types") String types, @Query("input") String input, @Query("location") String location, @Query("radius") Integer radius, @Query("key") String key);
+
+    @FormUrlEncoded
+    @POST("api/users/post/teaching")
+    Call<ResponsePojo> createTeachingPost(@FieldMap HashMap<String, String> changePasswordHashMap);
 }

@@ -92,25 +92,11 @@ dependencies {
     // BUTTER KNIFE
     compile "com.jakewharton:butterknife:${butterknifeVersion}"
 
-    // shimmer effect
 
-    //    compile 'com.github.rasoulmiri:Skeleton:v1.0.0'
-
-    // range seekbar
-
-    //    compile 'com.crystal:crystalrangeseekbar:1.1.1'
-
-    //    compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
-
-    // runtime permissions
-
-    // collapsing toolbar  //fresco dependency
-
-    // card stack
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
-    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+
     compile 'com.jakewharton.retrofit:retrofit1-okhttp3-client:1.1.0'
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -130,14 +116,18 @@ dependencies {
     // easy permissions
     compile "pub.devrel:easypermissions:${easypermissions}"
 
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.okio:okio:1.7.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.google.dagger:dagger:2.10'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
 
     compile 'com.github.clans:fab:1.6.4'
+
+    compile 'com.android.support:multidex:1.0.1'
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
 }
 // Add to the bottom of the file
 //if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {

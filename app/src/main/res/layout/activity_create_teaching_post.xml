@@ -30,7 +30,7 @@
                     android:textColor="@color/text_medium_grey" />
 
                 <EditText
-                    android:id="@+id/et_current_email"
+                    android:id="@+id/et_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2dp"
@@ -147,6 +147,7 @@
                         android:editable="false"
                         android:focusableInTouchMode="false"
 
+
                         />
 
                     <EditText
@@ -232,59 +233,80 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_medium_grey" />
 
-                <LinearLayout
+
+                <RadioGroup
+                    android:id="@+id/rbg_preferred_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-
-                    >
+                    android:weightSum="2">
 
                     <RadioButton
-                        android:layout_width="0dp"
+                        android:id="@+id/rb_online"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:buttonTint="@color/bg_blue"
                         android:checked="true"
-                        android:text="@string/online" />
+                        android:text="@string/online"
+                        android:textColor="@color/text_dark_grey"
+                        android:textStyle="bold" />
 
                     <RadioButton
-                        android:layout_width="0dp"
+                        android:id="@+id/rb_physical"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:buttonTint="@color/bg_blue"
-                        android:text="@string/physical" />
+                        android:text="@string/physical"
+                        android:textColor="@color/text_dark_grey"
+                        android:textStyle="bold" />
+                </RadioGroup>
 
-                </LinearLayout>
+
 
             </LinearLayout>
 
-            <FrameLayout
+            <RelativeLayout
+                android:id="@+id/rlAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10dp"
-                android:padding="@dimen/_10dp"
-                android:visibility="gone">
 
-                <EditText
-                    android:id="@+id/et_address"
+               android:layout_margin="@dimen/_10dp"
+                android:visibility="visible"
+
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/autocomTextViewAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_2dp"
-                    android:layout_marginTop="@dimen/_2dp"
-
-                    android:background="@drawable/edit_text_white_rounded_corners"
-                    android:drawableRight="@drawable/location"
+                    android:padding="@dimen/_10dp"
                     android:hint="@string/address"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:padding="@dimen/_4dp"
-                    android:textColor="@color/text_dark_grey"
-                    android:textCursorDrawable="@drawable/color_cursor" />
-            </FrameLayout>
+                    android:inputType="textAutoComplete|textAutoCorrect|textCapWords"
+
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/text_medium_grey"
+
+
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_white_rounded_corners"
+                    android:layout_alignParentLeft="true"
+                    />
+
+                <ImageView
+                    android:id="@+id/ivLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/location"
+                    android:layout_gravity="center|right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    />
+            </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/ll_change_email"
+                android:id="@+id/ll_post_now"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -294,7 +316,7 @@
                 android:gravity="center">
 
                 <com.igniva.qwer.ui.views.TextViewBold
-
+                    android:id="@+id/tvPostNow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"

@@ -20,11 +20,17 @@ import android.util.Base64;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
+import com.igniva.qwer.model.predictionsPojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import java.io.File;
@@ -33,8 +39,16 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Utility {
 	static final String[] BinaryPlaces = { "/data/bin/", "/system/bin/", "/system/xbin/", "/sbin/",
@@ -315,32 +329,53 @@ public class Utility {
 		return key;
 	}
 
-	public static void callGoogleApi(final Activity context, final AutoCompleteTextView mautocomTextviewDeliveryAddress, String address) {
+	public static ArrayList<String> languages = new ArrayList<>();
+	public static String aaTemp;
+	public static String placeId = "";
+	public static double latitude = 0.0;
+	public static double longitude = 0.0;
+	public static String address = "";
+	public static void callGoogleApi(final Activity context, final AutoCompleteTextView mautocomTextviewDeliveryAddress, String address, OkHttpClient okHttpClient, Gson gson) {
 
-		if (Utility.isInternetConnection(context)) {
-
+		try {
+			placeId=null;
 			CallProgressWheel.showLoadingDialog(context, "Loading...");
-			//Call<ResponsePojo> posts = retrofit.createService(ApiInterface.class).getCountriesList();
-			/*mWebApi.getCountriesList(new Callback<ResponsePojo>() {
+			Retrofit retrofit1 = new Retrofit.Builder()
+					.baseUrl(ApiInterface.BASE_URL)
+					.addConverterFactory(GsonConverterFactory.create(gson))
+					.client(okHttpClient)
+					.build();
+
+			ApiInterface service = retrofit1.create(ApiInterface.class);
+
+			String types = "", input = mautocomTextviewDeliveryAddress.getText().toString().trim(), location = "", key = "AIzaSyALGUNJ_BwsxSHkXtokTVZsFv9QYDRnuhY";
+			int radius = 0;
+			service.getCityResults(types, input, location, radius, key).enqueue(new Callback<GooglePlaceApiResponsePojo>() {
 				@Override
-				public void success(ResponsePojo responsePojo, Response response) {
+				public void onResponse(Call<GooglePlaceApiResponsePojo> call, Response<GooglePlaceApiResponsePojo> response) {
+					GooglePlaceApiResponsePojo places = response.body();
+					Log.e("places", response.body().getPredictions().size() + "===");
+					//getEmaildata(response.body().getPredictions(), mautocomTextviewDeliveryAddress, context);
+					showAddress(response.body().getPredictions(), mautocomTextviewDeliveryAddress, context);
 					CallProgressWheel.dismissLoadingDialog();
-					Utility.showToastMessageShort(context, responsePojo.getDescription());
-					//onBackPressed();
-					//showAddress(responsePojo.getData(),mautocomTextviewDeliveryAddress,context);
 				}
 
 				@Override
-				public void failure(RetrofitError error) {
+				public void onFailure(Call<GooglePlaceApiResponsePojo> call, Throwable t) {
+					t.printStackTrace();
 					CallProgressWheel.dismissLoadingDialog();
 				}
-			});*/
+			});
 
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		}
 
-	/*private static void showAddress(final ArrayList<predictionsCountriesPojo> predictionsPojo, final AutoCompleteTextView mautocomTextviewDeliveryAddress, final Activity context) {
+	}
+
+	private static void showAddress(final ArrayList<predictionsPojo> predictionsPojo, final AutoCompleteTextView mautocomTextviewDeliveryAddress, final Activity context) {
 
 
 		if (languages == null)
@@ -354,7 +389,7 @@ public class Utility {
 		}
 
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-				(context, android.R.layout.spinner_dropdown_item, languages);
+				(context, R.layout.spinner_dropdown_item, languages);
 
 		// dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mautocomTextviewDeliveryAddress.setThreshold(0);
@@ -365,24 +400,23 @@ public class Utility {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
-//				address = mautocomTextviewDeliveryAddress.getText().toString().trim();
-//				placeId = predictionsPojo.get(arg2).getPlace_id();
-//				aaTemp = predictionsPojo.get(arg2).getDescription();
-//				latitude = 0.0;
-//				longitude = 0.0;
-//				//type = 1;
-//				mautocomTextviewDeliveryAddress.setSelection(mautocomTextviewDeliveryAddress.getText().length());
-//				Log.e("placeid", placeId);
-//				*//**//*if (context instanceof HomeActivity)
-//					searchCategories(context, null, null, placeId, aaTemp);
-/*//*//**//*
-//				//	Utility.hideKeyboard(context, mautocomTextviewDeliveryAddress);
+				address = mautocomTextviewDeliveryAddress.getText().toString().trim();
+				placeId = predictionsPojo.get(arg2).getPlace_id();
+				aaTemp = predictionsPojo.get(arg2).getDescription();
+				latitude = 0.0;
+				longitude = 0.0;
+				//type = 1;
+				mautocomTextviewDeliveryAddress.setSelection(mautocomTextviewDeliveryAddress.getText().length());
+				Log.e("placeid", placeId);
+				/*if (context instanceof HomeActivity)
+					searchCategories(context, null, null, placeId, aaTemp);
+*/
+				//	Utility.hideKeyboard(context, mautocomTextviewDeliveryAddress);
 
 
 			}
 		});
-			}
-*/
+	}
 	public static File getFilePath(String fileName, String fileSuffix) {
 		File storageDir = new File(Environment.getExternalStorageDirectory(), "Tongy");
 		if (!storageDir.exists())

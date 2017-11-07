@@ -189,6 +189,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                 signupHash.put(Constants.Name, mEtName.getText().toString());
                 signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                 signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
+                signupHash.put(Constants.DEVICE_ID,"123456789");
                 //Create a retrofit call object
                 Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).signup(signupHash);
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
@@ -266,6 +267,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
             signInFacebook.put(Constants.GENDER, facebookUser.gender);
             signInFacebook.put(Constants.NAME, facebookUser.name);
             signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
+            signInFacebook.put(Constants.DEVICE_ID,"123456789");
             callSinInFacebookApi(signInFacebook);
         }
     }

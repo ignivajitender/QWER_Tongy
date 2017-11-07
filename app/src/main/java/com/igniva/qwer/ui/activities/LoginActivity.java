@@ -204,6 +204,8 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                     HashMap<String, String> signupHash = new HashMap<>();
                     signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                     signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
+                    signupHash.put(Constants.DEVICE_ID,"123456789");
+
 
                     //Create a retrofit call object
                     retrofit2.Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).login(signupHash);
@@ -231,6 +233,13 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                                 callResendVerificationPopUp(LoginActivity.this,response.body().getDescription());
                                 // Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                             }
+                         /*   else if (response.body().getStatus()==900){
+                                CallProgressWheel.dismissLoadingDialog();
+                                Intent intent = new Intent(LoginActivity.this, NoResultsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }*/
+
                             else{
                                 CallProgressWheel.dismissLoadingDialog();
                                 Utility.showToastMessageShort(LoginActivity.this,response.body().getDescription());
@@ -284,7 +293,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
             signInFacebook.put(Constants.GENDER, facebookUser.gender);
             signInFacebook.put(Constants.NAME, facebookUser.name);
             signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
-
+            signInFacebook.put(Constants.DEVICE_ID,"123456789");
 
             callSinInFacebookApi(signInFacebook);
         }

@@ -43,7 +43,7 @@ public class NetModule {
                 public void log(String message) {
 //                    {"status":"warning","statusCode":324,"message":"Your session is expired. Please login again to continue"}
                     Log.e("NetModule-----", "--" + message);
-                    if (message != null && message.contains("Your session is expired. Please login again to continue")) {
+                    if (message != null && message.contains("Token Expired")) {
                         Global.sAppContext.startActivity(new Intent(Global.sAppContext, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         PreferenceHandler.writeString(Global.sAppContext, PreferenceHandler.PREF_KEY_IS_USER_LOGIN, "false");
                         mHandler = new Handler(Looper.getMainLooper()) {

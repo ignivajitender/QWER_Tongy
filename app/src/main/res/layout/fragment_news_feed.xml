@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/create_post"
             fab:fab_size="mini"
-            fab:fab_label="Create Post"
+            fab:fab_label="@string/create_post"
 
             />
         <com.github.clans.fab.FloatingActionButton
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/my_uploads"
             fab:fab_size="mini"
-            fab:fab_label="My Uploads"
+            fab:fab_label="@string/my_posts"
 
             />
         <com.github.clans.fab.FloatingActionButton
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/my_favorites"
             fab:fab_size="mini"
-            fab:fab_label="My Favorites"
+            fab:fab_label="@string/my_favourites"
 
             />
 

@@ -166,6 +166,82 @@ public class ApiControllerClass {
 
     }
 
+    /**
+     * Call api to create teaching post
+     */
+    public static void createTeachingPostApi(final Context context, Retrofit retrofit, EditText mEtTitle, EditText mEtDescription, EditText mEtPrice, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime, String typeOfClass) {
+        try {
+            Utility.hideSoftKeyboard((Activity) context);
+            // check validations for current password,new password and confirm password
+            if (Validation.validateCreatePost((Activity) context, mEtTitle, mEtDescription, mEtPrice,metScheduleStartDate,metScheduleEndDate,mEtStartTime,mEtEndTime,typeOfClass)) {
+                if (Utility.isInternetConnection(context)) {
 
+                    /*
+                    // payload
+                    {"class_type":"online","end_time":"11:00 AM","" +
+                            "start_time":"10:00 AM",
+                            "end_date":"20-11-2017",
+                            "start_date",
+                            "value":"20-10-2017",
+                            "currency":"usd",
+                            "price","value":"20",
+                            "description","value":"deascriii",
+                            "title","value":"teaching section",
+                            "post_type","value":"teaching"}*/
+
+                    CallProgressWheel.showLoadingDialog(context, "Loading...");
+                    HashMap<String, String> changePasswordHashMap = new HashMap<>();
+                    changePasswordHashMap.put("class_type", typeOfClass);
+                    changePasswordHashMap.put("start_time", "10:00 AM");
+                    changePasswordHashMap.put("end_date", "20-11-2017");
+                    changePasswordHashMap.put("end_time", "11:00 AM");
+                    changePasswordHashMap.put("start_date", "20-11-2017");
+                    changePasswordHashMap.put("currency", "usd");
+                    changePasswordHashMap.put("price", "20");
+                    changePasswordHashMap.put("description", "teaching section");
+                     changePasswordHashMap.put("title", "teaching section");
+                     changePasswordHashMap.put("post_type", "teaching");
+
+
+                    //Create a retrofit call object
+                    Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).createTeachingPost(changePasswordHashMap);
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                callSuccessPopUp(context, response.body().getDescription());
+
+
+
+                            } else if (response.body().getStatus() == 400) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+                }
+            }
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+
+    }
 }
 
