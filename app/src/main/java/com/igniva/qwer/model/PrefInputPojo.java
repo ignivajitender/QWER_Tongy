@@ -1,5 +1,6 @@
 package com.igniva.qwer.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,14 +9,15 @@ import java.util.ArrayList;
 
 public class PrefInputPojo {
 
-    String prefered_age_from, prefered_gender, prefered_age_to, prefered_area_type, area_km;
+    String  prefered_gender , prefered_area_type;
+    int prefered_age_from,prefered_age_to,area_km;
     ArrayList<LanguagesProficiency> speak, learn;
 
-    public String getPrefered_age_from() {
+    public int getPrefered_age_from() {
         return prefered_age_from;
     }
 
-    public void setPrefered_age_from(String prefered_age_from) {
+    public void setPrefered_age_from(int prefered_age_from) {
         this.prefered_age_from = prefered_age_from;
     }
 
@@ -27,11 +29,11 @@ public class PrefInputPojo {
         this.prefered_gender = prefered_gender;
     }
 
-    public String getPrefered_age_to() {
+    public int getPrefered_age_to() {
         return prefered_age_to;
     }
 
-    public void setPrefered_age_to(String prefered_age_to) {
+    public void setPrefered_age_to(int prefered_age_to) {
         this.prefered_age_to = prefered_age_to;
     }
 
@@ -43,11 +45,11 @@ public class PrefInputPojo {
         this.prefered_area_type = prefered_area_type;
     }
 
-    public String getArea_km() {
+    public int getArea_km() {
         return area_km;
     }
 
-    public void setArea_km(String area_km) {
+    public void setArea_km(int area_km) {
         this.area_km = area_km;
     }
 
@@ -81,8 +83,18 @@ public class PrefInputPojo {
         this.speak.add(languagesProficiency);
     }
 
-    public class LanguagesProficiency {
-        String language_id, proficiency;
+    public class LanguagesProficiency implements Serializable {
+        String language_id;
+        String proficiency;
+        String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
 
         public String getLanguage_id() {
             return language_id;

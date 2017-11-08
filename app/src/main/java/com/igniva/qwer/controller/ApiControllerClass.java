@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.LanguagesResponsePojo;
+import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
@@ -259,6 +260,7 @@ public class ApiControllerClass {
                             CallProgressWheel.dismissLoadingDialog();
                             if(context instanceof SetPreferrencesActivity){
                                 ArrayList<String> tempArr=new ArrayList<>();
+                                ((SetPreferrencesActivity) context).mAlLangList=response.body().getData();
                                 for (LanguagesResponsePojo.LanguagesPojo languagesPojo:response.body().getData()
                                 ) {
                                     tempArr.add(languagesPojo.getName());
@@ -287,5 +289,28 @@ public class ApiControllerClass {
         }
     }
 
+    public static void setPrefrences(final Context context,Retrofit retrofit, PrefInputPojo prefInputPojo) {
+         try {
+            if (Utility.isInternetConnection(context)) {
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                //Create a retrofit call object
+                Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).setPrefrences(prefInputPojo);
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                     }
+                    @Override
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
 

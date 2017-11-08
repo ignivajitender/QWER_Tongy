@@ -10,11 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.ui.callbacks.MyCallBack;
 import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.fcm.Constants;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,14 +27,14 @@ import butterknife.ButterKnife;
 public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapter.ViewHolder> {
 
 
-    HashMap<String, String> mHashmapLangList;
+    ArrayList<PrefInputPojo.LanguagesProficiency> mLangList;
     Context mContext;
 
     String type;
     MyCallBack callBack;
 
-    public LanguageListAdapter(Context mContext, HashMap<String, String> mHashmapLangList, String type, MyCallBack callBack) {
-        this.mHashmapLangList = mHashmapLangList;
+    public LanguageListAdapter(Context mContext, ArrayList<PrefInputPojo.LanguagesProficiency> mHashmapLangList, String type, MyCallBack callBack) {
+        this.mLangList = mHashmapLangList;
         this.mContext = mContext;
         this.type = type;
         this.callBack = callBack;
@@ -49,10 +50,10 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        if (mHashmapLangList.size() == 0) {
+        if (mLangList.size() == 0) {
             holder.mLlOuterLayout.setVisibility(View.GONE);
         } else {
-            if (position == (mHashmapLangList.size() - 1)) {
+            if (position == (mLangList.size() - 1)) {
                 holder.mViewItemDivider.setVisibility(View.GONE);
 
             } else {
@@ -60,11 +61,9 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
             }
             holder.mLlOuterLayout.setVisibility(View.VISIBLE);
 
-            Log.e("sjahjshajhaj", mHashmapLangList.keySet().toArray()[position].toString());
-            Log.e("sjahjshajhaj", mHashmapLangList.keySet().toArray()[position] + "");
-            holder.mTvLanguageName.setText(mHashmapLangList.keySet().toArray()[position].toString());
-            holder.mTvLanguageProficiency.setText(mHashmapLangList.get(mHashmapLangList.keySet().toArray()[position].toString()));
-            switch (mHashmapLangList.get(mHashmapLangList.keySet().toArray()[position].toString())) {
+             holder.mTvLanguageName.setText(mLangList.get(position).getName());
+            holder.mTvLanguageProficiency.setText(mLangList.get(position).getProficiency());
+            switch (mLangList.get(position).getProficiency()) {
                 case Constants.BEGINNER:
                     holder.mIvBanner.setImageDrawable(mContext.getResources().getDrawable(R.drawable.beginner));
                     break;
@@ -83,10 +82,10 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
                         case Constants.LANGUAGE_SPEAK:
                             Log.e("pos", position + "");
                             ;
-                            callBack.removeItemFromHashMap(Constants.LANGUAGE_SPEAK, mHashmapLangList.keySet().toArray()[position].toString(), position);
+                            callBack.removeItem(Constants.LANGUAGE_SPEAK , position);
                             break;
                         case Constants.LANGUAGE_LEARN:
-                            callBack.removeItemFromHashMap(Constants.LANGUAGE_LEARN, mHashmapLangList.keySet().toArray()[position].toString(), position);
+                            callBack.removeItem(Constants.LANGUAGE_LEARN , position);
                             break;
                     }
 
@@ -104,10 +103,10 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
 
     @Override
     public int getItemCount() {
-        if (mHashmapLangList.size() == 0) {
+        if (mLangList.size() == 0) {
             return 1;
         } else
-            return mHashmapLangList.size();
+            return mLangList.size();
 
 
     }
@@ -132,17 +131,12 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
 //        public void onViewClicked() {
 //
 //        }
-
-        public ViewHolder(View itemView) {
+          public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-        }
-
-    }
-
-
-}
+         }
+     }
+ }
 
 
 

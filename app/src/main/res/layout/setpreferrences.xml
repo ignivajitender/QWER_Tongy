@@ -175,7 +175,7 @@
                         android:id="@+id/iv_male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/male_unselected" />
+                        android:src="@drawable/male_selected" />
 
                     <ImageView
                         android:id="@+id/iv_female"
