@@ -2,16 +2,20 @@ package com.igniva.qwer.controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -136,10 +140,8 @@ public class ApiControllerClass {
      */
     public static void sendUserFeedBackToAdmin(final Context context, HashMap<String, String> contact_us, Retrofit retrofit) {
         try {
-
-            if (Utility.isInternetConnection(context)) {
-
-                CallProgressWheel.showLoadingDialog(context, "Loading...");
+             if (Utility.isInternetConnection(context)) {
+                 CallProgressWheel.showLoadingDialog(context, "Loading...");
                 //Create a retrofit call object
                 Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).contactUs(contact_us);
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
@@ -243,5 +245,47 @@ public class ApiControllerClass {
 
 
     }
+
+    // call get languages api
+    public static void getLanguages(final Context context, Retrofit retrofit) {
+        try {
+            if (Utility.isInternetConnection(context)) {
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                Call<LanguagesResponsePojo> posts = retrofit.create(ApiInterface.class).getLanguages();
+                posts.enqueue(new retrofit2.Callback<LanguagesResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<LanguagesResponsePojo> call, retrofit2.Response<LanguagesResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            if(context instanceof SetPreferrencesActivity){
+                                ArrayList<String> tempArr=new ArrayList<>();
+                                for (LanguagesResponsePojo.LanguagesPojo languagesPojo:response.body().getData()
+                                ) {
+                                    tempArr.add(languagesPojo.getName());
+                                }
+                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
+                                ((SetPreferrencesActivity) context).mActvLangISpeak.setAdapter(adapter);
+                                ((SetPreferrencesActivity) context).mActvLangILearn.setAdapter(adapter);
+                             }
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            // Log.e("profile",responsePojo.getDescription());
+                            //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<LanguagesResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
 }
 

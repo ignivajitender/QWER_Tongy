@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,22 +22,27 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
+import com.igniva.qwer.ui.adapters.LanguageListAdapter;
+import com.igniva.qwer.ui.callbacks.MyCallBack;
+import com.igniva.qwer.ui.views.TextViewRegular;
+import com.igniva.qwer.utils.Global;
+import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalSeekbar;
-import com.igniva.qwer.ui.adapters.LanguageListAdapter;
-import com.igniva.qwer.ui.callbacks.MyCallBack;
-import com.igniva.qwer.ui.views.TextViewRegular;
-import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.fcm.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Retrofit;
 
 /**
  * Created by karanveer on 20/9/17.
@@ -70,8 +74,10 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
     @BindView(R.id.ll_nearby_layout)
     LinearLayout mLlNearbyLayout;
     @BindView(R.id.actv_lang_i_speak)
+    public
     AutoCompleteTextView mActvLangISpeak;
     @BindView(R.id.actv_lang_i_learn)
+    public
     AutoCompleteTextView mActvLangILearn;
     @BindView(R.id.rv_language_speak)
     RecyclerView mRvLanguageSpeak;
@@ -93,12 +99,16 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
     @BindView(R.id.tv_start_looking_again)
     TextView mTvStartLookingAgain;
 
+    @Inject
+    Retrofit retrofit;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+        ((Global) getApplicationContext()).getNetComponent().inject(this);
         setContentView(R.layout.setpreferrences);
         ButterKnife.bind(this);
         setupSeekbarListerns();
@@ -107,6 +117,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
 
     @Override
     protected void setUpLayout() {
+        ApiControllerClass.getLanguages(this,retrofit);
         if (getIntent().hasExtra(Constants.TO_EDIT_PREFERENCES)) {
             if (getIntent().getStringExtra(Constants.TO_EDIT_PREFERENCES).equalsIgnoreCase("Yes")) {
                 isEditable = true;
@@ -117,9 +128,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
         }
         mAlLangListSpeak = new ArrayList<>();
         mAlLangListLearn = new ArrayList<>();
-        final String[] countries = getResources().getStringArray(R.array.languages);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.auto_complete_tv_item, R.id.tv_languagename, countries);
-        mActvLangISpeak.setAdapter(adapter);
+
         mActvLangISpeak.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -130,11 +139,11 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
 //                Log.e("prinvalue", i + "   " + selection);
 //                Toast.makeText(SetPreferrencesActivity.this, "ho gea " + " pos: " + i + selection, Toast.LENGTH_SHORT).show();
                 callSetPrefPopUp(mLanguageSpeakSelection, Constants.LANGUAGE_SPEAK);
+                mActvLangISpeak.setText("");
+
             }
         });
 
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, R.layout.auto_complete_tv_item, R.id.tv_languagename, countries);
-        mActvLangILearn.setAdapter(adapter1);
         mActvLangILearn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -142,9 +151,12 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 Log.e("prinvalue", i + "   " + selection);
                 mLanguageSpeakSelection = selection;
                 mAlLangListLearn.add(selection);
+
 //                Log.e("prinvalue", i + "   " + selection);
 //                Toast.makeText(SetPreferrencesActivity.this, "ho gea " + " pos: " + i + selection, Toast.LENGTH_SHORT).show();
                 callSetPrefPopUp(mLanguageSpeakSelection, Constants.LANGUAGE_LEARN);
+                mActvLangILearn.setText("");
+
             }
         });
 
@@ -361,8 +373,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 if (mHashMapLangLearn.size() == 0) {
                     mRvLanguageToLearn.setVisibility(View.GONE);
                 }
-                ;
-//
+ //
                 break;
         }
     }

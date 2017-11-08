@@ -8,6 +8,7 @@ import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.ForgotPasswordActivity;
 import com.igniva.qwer.ui.activities.LoginActivity;
 import com.igniva.qwer.ui.activities.MyProfileActivity;
+import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.activities.SignUpActivity;
 
@@ -35,6 +36,8 @@ public interface NetComponent {
     void inject(LoginActivity activity);
 
     void inject(SignUpActivity activity);
+
+    void inject(SetPreferrencesActivity activity);
 
     void inject(SettingsActivity activity);
 

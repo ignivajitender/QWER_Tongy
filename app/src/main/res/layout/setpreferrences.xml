@@ -64,14 +64,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_2dp"
                 android:layout_marginRight="@dimen/_2dp"
-                android:layout_marginTop="@dimen/_5dp"
+                android:layout_marginTop="@dimen/_2dp"
                 android:background="@drawable/edit_text_white_rounded_corners"
-                android:elevation="@dimen/_2dp"
+                android:elevation="@dimen/_4dp"
                 android:hint="@string/choose_language"
                 android:padding="@dimen/_5dp"
                 android:textColor="@color/text_light_grey"
                 android:textColorHint="@color/text_light_grey"
-                android:textSize="@dimen/_12sp" />
+                  />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_language_speak"

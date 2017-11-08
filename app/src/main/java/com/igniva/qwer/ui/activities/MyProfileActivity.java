@@ -72,9 +72,11 @@ import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TO
  * Created by karanveer on 21/9/17.
  */
 
-public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,EasyPermissions.PermissionCallbacks, AdapterView.OnItemSelectedListener {
+public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, EasyPermissions.PermissionCallbacks, AdapterView.OnItemSelectedListener {
 
 
+    private final int RC_CAMERA_PERM = 123;
+    public String Gender;
     @BindView(R.id.imageview_placeholder)
     ImageView mImageviewPlaceholder;
     @BindView(R.id.linearlayout_title)
@@ -93,8 +95,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     EditText mEtPincode;
     @BindView(R.id.et_age)
     EditText mEtAge;
-   /* @BindView(R.id.et_gender)
-    EditText mEtGender;*/
+    /* @BindView(R.id.et_gender)
+     EditText mEtGender;*/
     @BindView(R.id.et_about)
     EditText mEtAbout;
     @BindView(textview_title)
@@ -127,15 +129,12 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     ImageView mCrossIcon3;
     @BindView(R.id.cross_icon4)
     ImageView mCrossIcon4;
-
     @BindView(R.id.tv_save)
     TextView mTvSave;
     @BindView(R.id.tvName)
     EditText mtvName;
-
     @BindView(R.id.autocomTextViewCountry)
     AutoCompleteTextView mautocomTextViewCountry;
-
     @BindView(R.id.ivaddImage1)
     ImageView mivaddImage1;
     @BindView(R.id.ivaddImage2)
@@ -144,17 +143,32 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     ImageView mivaddImage3;
     @BindView(R.id.ivaddImage4)
     ImageView mivaddImage4;
-
-    private File outPutFile;
-    private int callFrom;
-
     @BindView(genderspinner)
     Spinner mgenderSpinner;
-    public String Gender;
+    @Inject
+    Retrofit retrofit;
+    private File outPutFile;
+    private int callFrom;
     private String selGender;
+    private String[] gender = {"Male", "Female"};
+    private int IMAGE_REQUEST_CODE = 500;
+    private boolean mIsTheTitleVisible = false;
+    private boolean mIsTheTitleContainerVisible = true;
+    private boolean alreadyLogin;
+    private String TAG = getClass().getName();
+
+    public static void startAlphaAnimation(View v, long duration, int visibility) {
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
+    }
 
     @OnClick(R.id.iv_edit_profile)
-    public void edit(){
+    public void edit() {
         mautocomTextViewCountry.setEnabled(true);
         mEtCity.setEnabled(true);
         mEtPincode.setEnabled(true);
@@ -164,32 +178,31 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mtvName.setEnabled(true);
         mtvName.setSelection(mtvName.getText().length());
     }
+
     @OnClick(R.id.ivaddImage1)
-    public void pickImage(){
+    public void pickImage() {
         callFrom = 1;
         changeImage();
     }
+
     @OnClick(R.id.ivaddImage2)
-    public void pickImage1(){
+    public void pickImage1() {
         callFrom = 2;
         changeImage();
     }
+
     @OnClick(R.id.ivaddImage3)
-    public void pickImage2(){
+    public void pickImage2() {
         callFrom = 3;
         changeImage();
     }
+
     @OnClick(R.id.ivaddImage4)
-    public void pickImage3(){
+    public void pickImage3() {
         callFrom = 4;
         changeImage();
     }
-    private String[] gender = {"Male", "Female"};
 
-    @Inject
-    Retrofit retrofit;
-    private final int RC_CAMERA_PERM = 123;
-    private int IMAGE_REQUEST_CODE = 500;
     @AfterPermissionGranted(RC_CAMERA_PERM)
     public void changeImage() {
         if (hasCameraPermission()) {
@@ -205,14 +218,10 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                     Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
     }
-    private boolean hasCameraPermission() {
-        return EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    }
 
-    private boolean mIsTheTitleVisible = false;
-    private boolean mIsTheTitleContainerVisible = true;
-    private boolean alreadyLogin;
-    private String TAG = getClass().getName();
+    private boolean hasCameraPermission() {
+        return EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -226,48 +235,40 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         getProfileApi();
         setDataInViewObjects();
     }
+
     // call get profile api
     private void getProfileApi() {
-
-
         try {
-
-                if (Utility.isInternetConnection(this)) {
-
-                    CallProgressWheel.showLoadingDialog(this, "Loading...");
-                    Call<ProfileResponsePojo> posts = retrofit.create(ApiInterface.class).getProfile();
-                    posts.enqueue(new retrofit2.Callback<ProfileResponsePojo>() {
-                        @Override
-                        public void onResponse(Call<ProfileResponsePojo> call, retrofit2.Response<ProfileResponsePojo> response) {
-                            if (response.body().getStatus() == 200) {
-                                CallProgressWheel.dismissLoadingDialog();
-                                //callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
-                                // Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
-                                setDataInView(response.body());
-
-                            } else if (response.body().getStatus() == 400) {
-                                CallProgressWheel.dismissLoadingDialog();
-                                Log.e("profile",response.body().getDescription());
-                                // Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
-                                CallProgressWheel.dismissLoadingDialog();
-                                // Log.e("profile",responsePojo.getDescription());
-                                //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ProfileResponsePojo> call, Throwable t) {
+            if (Utility.isInternetConnection(this)) {
+                CallProgressWheel.showLoadingDialog(this, "Loading...");
+                Call<ProfileResponsePojo> posts = retrofit.create(ApiInterface.class).getProfile();
+                posts.enqueue(new retrofit2.Callback<ProfileResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ProfileResponsePojo> call, retrofit2.Response<ProfileResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
-                            Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                            //callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
+                            // Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+                            setDataInView(response.body());
 
+                        } else if (response.body().getStatus() == 400) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Log.e("profile", response.body().getDescription());
+                            // Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            // Log.e("profile",responsePojo.getDescription());
+                            //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    }
 
-                }
-
+                    @Override
+                    public void onFailure(Call<ProfileResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         } catch (Exception e) {
             CallProgressWheel.dismissLoadingDialog();
             Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
@@ -276,31 +277,30 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     }
 
+
     private void setDataInView(ProfileResponsePojo responsePojo) {
         mEtAbout.setText(responsePojo.getData().about);
         mEtAge.setText(responsePojo.getData().age);
         mEtCity.setText(responsePojo.getData().city);
         mautocomTextViewCountry.setText(responsePojo.getData().country);
-       // mEtGender.setText(responsePojo.getData().gender);
+        // mEtGender.setText(responsePojo.getData().gender);
         mEtPincode.setText(responsePojo.getData().pincode);
         mtvName.setText(responsePojo.getData().getName());
         mTextviewTitle.setText(responsePojo.getData().getName());
-        if(responsePojo.getData().getUser_image()!=null && responsePojo.getData().getUser_image().size()>0){
+        if (responsePojo.getData().getUser_image() != null && responsePojo.getData().getUser_image().size() > 0) {
 
-            if(responsePojo.getData().getUser_image().size()==1 && responsePojo.getData().getUser_image().get(0)!=null )
+            if (responsePojo.getData().getUser_image().size() == 1 && responsePojo.getData().getUser_image().get(0) != null)
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mIvProilePic1);
-            if(responsePojo.getData().getUser_image().size()==2 && responsePojo.getData().getUser_image().get(1)!=null) {
+            if (responsePojo.getData().getUser_image().size() == 2 && responsePojo.getData().getUser_image().get(1) != null) {
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mIvProilePic1);
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(1).getImage()).into(mIvProilePic2);
             }
-            if(responsePojo.getData().getUser_image().size()==3 && responsePojo.getData().getUser_image().get(2)!=null)
-            {
+            if (responsePojo.getData().getUser_image().size() == 3 && responsePojo.getData().getUser_image().get(2) != null) {
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mIvProilePic1);
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(1).getImage()).into(mIvProilePic2);
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(2).getImage()).into(mIvProilePic3);
             }
-            if(responsePojo.getData().getUser_image().size()>=4 && responsePojo.getData().getUser_image().get(3)!=null)
-            {
+            if (responsePojo.getData().getUser_image().size() >= 4 && responsePojo.getData().getUser_image().get(3) != null) {
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mIvProilePic1);
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(1).getImage()).into(mIvProilePic2);
                 Glide.with(this).load(responsePojo.getData().getUser_image().get(2).getImage()).into(mIvProilePic3);
@@ -309,13 +309,12 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
         }
 
-        Gender =responsePojo.getData().getGender();
+        Gender = responsePojo.getData().getGender();
         if (Gender != null) {
             Log.e("Gender", Gender);
             mgenderSpinner.setSelection(getIndex(mgenderSpinner, Gender));
         }
     }
-
 
     @Override
     protected void setUpLayout() {
@@ -382,8 +381,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mgenderSpinner.setOnItemSelectedListener(this);
 
 
-
     }
+
     private int getIndex(Spinner spinner, String myString) {
 
         int index = 0;
@@ -394,16 +393,6 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             }
         }
         return index;
-    }
-
-    public static void startAlphaAnimation(View v, long duration, int visibility) {
-        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
-                ? new AlphaAnimation(0f, 1f)
-                : new AlphaAnimation(1f, 0f);
-
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setFillAfter(true);
-        v.startAnimation(alphaAnimation);
     }
 
     @Override
@@ -471,9 +460,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             public void afterTextChanged(Editable s) {
 
 
-                    // call google place api to fetch addresses
-                    //Utility.callGoogleApi(MyProfileActivity.this, mautocomTextViewCountry, "");
-
+                // call google place api to fetch addresses
+                //Utility.callGoogleApi(MyProfileActivity.this, mautocomTextViewCountry, "");
 
 
             }
@@ -495,9 +483,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         });
 
 
-
-
     }
+
     public void callSuccessPopUp(final MyProfileActivity myProfileActivity, String description) {
 
         // Create custom dialog object
@@ -536,12 +523,13 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
 
     }
+
     @Override
     protected void setUpToolbar() {
 
     }
 
-    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3,R.id.cross_icon4, iv_edit_profile, R.id.tv_lets_start,R.id.tv_save})
+    @OnClick({R.id.cross_icon1, R.id.cross_icon2, R.id.cross_icon3, R.id.cross_icon4, iv_edit_profile, R.id.tv_lets_start, R.id.tv_save})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cross_icon1:
@@ -572,7 +560,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 mTvSave.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_save:
-             // callSuccessPopUp();
+                // callSuccessPopUp();
                 callSaveUpdateProfile();
 
                 break;
@@ -584,11 +572,12 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 break;
         }
     }
-// method for Save Profile
+
+    // method for Save Profile
     private void callSaveUpdateProfile() {
         try {
             // check validations for save profile input
-            if (Validation.validateUpdateProfile(this, mautocomTextViewCountry,mEtPincode,mEtAbout,mEtCity,mEtAge,mtvName)) {
+            if (Validation.validateUpdateProfile(this, mautocomTextViewCountry, mEtPincode, mEtAbout, mEtCity, mEtAge, mtvName)) {
                 if (Utility.isInternetConnection(this)) {
                     CallProgressWheel.showLoadingDialog(this, "Loading...");
                            /*
@@ -598,7 +587,6 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                               "gender":"male",”age”:”20”,”pincode”:”148002”,”about”:”tongy app”
                             }
                             */
-
 
 
                     HashMap<String, String> updateProfilePayload = new HashMap<>();
@@ -620,9 +608,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                                 //Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
 
 
-                            }
-                            else
-                            {
+                            } else {
                                 CallProgressWheel.dismissLoadingDialog();
                                 Toast.makeText(MyProfileActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             }
@@ -689,14 +675,14 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
                 ImagePicker.ImageCropFunction(MyProfileActivity.this);
                 outPutFile = ImagePicker.persistImage(bitmap);
-                Log.e("outputFile", outPutFile.length() + outPutFile.toString()+"");
-                if(callFrom==1)
+                Log.e("outputFile", outPutFile.length() + outPutFile.toString() + "");
+                if (callFrom == 1)
                     mIvProilePic1.setImageBitmap(bitmap);
-                else if(callFrom==2)
+                else if (callFrom == 2)
                     mIvProilePic2.setImageBitmap(bitmap);
-                else if(callFrom==3)
+                else if (callFrom == 3)
                     mIvProilePic3.setImageBitmap(bitmap);
-                else if(callFrom==4)
+                else if (callFrom == 4)
                     mIvProilePic4.setImageBitmap(bitmap);
             }
         }
@@ -708,23 +694,20 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 Bundle extras = data.getExtras();
                 //get the cropped bitmap
                 Bitmap thePic = ImagePicker.getBitmapFromData(data);
-                if(thePic !=null) {
-                    if(callFrom==1) {
+                if (thePic != null) {
+                    if (callFrom == 1) {
                         mIvProilePic1.setImageBitmap(thePic);
                         mCrossIcon1.setVisibility(View.VISIBLE);
                         mivaddImage1.setVisibility(View.GONE);
-                    }
-                    else if(callFrom==2) {
+                    } else if (callFrom == 2) {
                         mIvProilePic2.setImageBitmap(thePic);
                         mCrossIcon2.setVisibility(View.VISIBLE);
                         mivaddImage2.setVisibility(View.GONE);
-                    }
-                    else if(callFrom==3){
+                    } else if (callFrom == 3) {
                         mIvProilePic3.setImageBitmap(thePic);
                         mCrossIcon3.setVisibility(View.VISIBLE);
                         mivaddImage3.setVisibility(View.GONE);
-                    }
-                    else if(callFrom==4){
+                    } else if (callFrom == 4) {
                         mIvProilePic4.setImageBitmap(thePic);
                         mCrossIcon4.setVisibility(View.VISIBLE);
                         mivaddImage4.setVisibility(View.GONE);
@@ -740,7 +723,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     }
 
     private void callUploadPictureApi(File outPutFile) {
-       // check internet connection
+        // check internet connection
         if (Utility.isInternetConnection(this)) {
             Log.e("outputFile==", outPutFile.length() + "===");
 
@@ -760,15 +743,13 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                     if (response.body().getStatus() == 200) {
                         CallProgressWheel.dismissLoadingDialog();
                         // callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
-                        Utility.showToastMessageShort(MyProfileActivity.this,response.body().getDescription());
+                        Utility.showToastMessageShort(MyProfileActivity.this, response.body().getDescription());
 
 
                     } else if (response.body().getStatus() == 400) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(MyProfileActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+                    } else {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(MyProfileActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                     }

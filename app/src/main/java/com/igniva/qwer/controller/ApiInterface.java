@@ -2,6 +2,7 @@ package com.igniva.qwer.controller;
 
 
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
+import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 
@@ -63,6 +64,9 @@ public interface ApiInterface {
 
     @GET("/api/users/getProfile")
     Call<ProfileResponsePojo> getProfile();
+
+    @GET("/api/languages")
+    Call<LanguagesResponsePojo> getLanguages();
 
     @FormUrlEncoded
     @POST("/api/users/updateProfile")

@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
             }
         });
         tab_layout.setScrollPosition(1,0f,true);
-        mViewPager1.setCurrentItem(1);
+//        mViewPager1.setCurrentItem(1);
 
     }
 
