@@ -11,9 +11,16 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <permission
+        android:name="info.androidhive.googlemapsv2.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="info.androidhive.googlemapsv2.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
     <!-- GCM PERMISSIONS END -->
     <application
-        android:name=".utils.MyApplication"
+        android:name=".utils.Global"
         android:allowBackup="true"
         android:icon="@drawable/tongy_logo"
         android:label="@string/app_name"
@@ -34,6 +41,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <!-- Goolge Maps API Key -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAoWUe2T8HWV-eVZU-NR4eFweT2f46e7KY" />
 
         <!-- GCM END -->
         <!-- Defining Services -->
@@ -86,10 +97,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.NoResultsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:screenOrientation="portrait"
@@ -111,7 +122,19 @@
         <activity
             android:name=".ui.activities.ContactUsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.CreateNewPostActivity"></activity>
+        <activity android:name=".ui.activities.CreateNewPostActivity" />
+        <activity
+            android:name=".ui.activities.CreateTeachingPostActivity"
+            android:label="@string/title_activity_create_teaching_post"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activities.LocationActivity"
+            android:label="@string/title_activity_location"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activities.CreateOtherPostActivity"
+            android:label="@string/title_activity_create_other_post"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

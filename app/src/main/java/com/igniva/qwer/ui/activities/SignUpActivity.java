@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Constants;
@@ -34,12 +33,13 @@ import com.igniva.qwer.utils.facebookSignIn.FacebookUser;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 
 /**
  * A login screen that offers login via email/password.
@@ -90,6 +90,8 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
     // facebook helper init
     FacebookHelper mFbHelper;
 
+    @Inject
+    Retrofit retrofit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -181,32 +183,37 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
     private void signUpWithOutFacebook() {
         if (Validation.isValidatedSignup(this, mEtName, mTilName, mEtEmail, mTilEmail, mEtPassword, mTilPass, mTvChangePassword)) {
             if (Utility.isInternetConnection(this)) {
-                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
                 CallProgressWheel.showLoadingDialog(this, "Loading...");
+
                 HashMap<String, String> signupHash = new HashMap<>();
                 signupHash.put(Constants.Name, mEtName.getText().toString());
                 signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                 signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
-                mWebApi.signup(signupHash, new Callback<ResponsePojo>() {
+                signupHash.put(Constants.DEVICE_ID,"123456789");
+                //Create a retrofit call object
+                Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).signup(signupHash);
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
-                    public void success(ResponsePojo responsePojo, Response response) {
-                        if (responsePojo.getStatus() == 200) {
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             callSuccessPopUp(SignUpActivity.this, getResources().getString(R.string.emailVerification));
                         }
                         else
                         {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageShort(SignUpActivity.this,responsePojo.getDescription());
+                            Utility.showToastMessageShort(SignUpActivity.this,response.body().getDescription());
                         }
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(SignUpActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
             }
         }
 
@@ -260,6 +267,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
             signInFacebook.put(Constants.GENDER, facebookUser.gender);
             signInFacebook.put(Constants.NAME, facebookUser.name);
             signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
+            signInFacebook.put(Constants.DEVICE_ID,"123456789");
             callSinInFacebookApi(signInFacebook);
         }
     }
@@ -276,22 +284,22 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
 
             if (Utility.isInternetConnection(this)) {
 
-                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
                 CallProgressWheel.showLoadingDialog(this, "Loading...");
-                mWebApi.loginFaceBook(signInFacebook, new Callback<ResponsePojo>() {
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).loginFaceBook(signInFacebook);
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
-                    public void success(ResponsePojo responsePojo, Response response) {
-                        if (responsePojo.getStatus() == 200) {
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             PreferenceHandler.writeBoolean(SignUpActivity.this, Constants.IS_ALREADY_LOGIN, true);
-                            for (int i = 0; i < response.getHeaders().size(); i++) {
-                                    if (response.getHeaders().get(i).getName().equalsIgnoreCase("x-logintoken")) {
-                                        String loginToken = response.getHeaders().get(i).getValue();
-                                        Log.e("loginActivity", loginToken);
-                                        PreferenceHandler.writeString(SignUpActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
-                                        PreferenceHandler.writeString(SignUpActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"true");
-                                    }
-                                }
+                            for (int i = 0; i < response.headers().size(); i++) {
+
+                                    String loginToken = response.headers().get("x-logintoken");
+                                    Log.e("loginActivity", loginToken);
+                                    PreferenceHandler.writeString(SignUpActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
+                                    PreferenceHandler.writeString(SignUpActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"true");
+
+                            }
 
 
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
@@ -300,17 +308,18 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                         }
                         else {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageLong(SignUpActivity.this,responsePojo.getDescription());
+                            Utility.showToastMessageLong(SignUpActivity.this,response.body().getDescription());
                         }
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         PreferenceHandler.writeBoolean(SignUpActivity.this, Constants.IS_ALREADY_LOGIN, false);
                         Toast.makeText(SignUpActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
 
         } catch (Exception e) {

@@ -21,11 +21,11 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.ui.views.TextViewRegular;
 import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
@@ -36,13 +36,13 @@ import com.igniva.qwer.utils.facebookSignIn.FacebookUser;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
+import retrofit2.Call;
+import retrofit2.Retrofit;
 /**
  * Created by igniva-andriod-11 on 7/11/16.
  */
@@ -98,12 +98,16 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
     // facebook helper init
     FacebookHelper mFbHelper;
     private String TAG1="LoginActivity";
+    @Inject
+    Retrofit retrofit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /*requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
@@ -195,47 +199,58 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
         try {
             if (Validation.isValidatedLogin(this, mEtEmail, mTilEmail, mEtPassword, mTilPass)) {
                 if (Utility.isInternetConnection(this)) {
-                    ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+
                     CallProgressWheel.showLoadingDialog(this, "Loading...");
                     HashMap<String, String> signupHash = new HashMap<>();
                     signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                     signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
-                    mWebApi.login(signupHash, new Callback<ResponsePojo>() {
-                        @Override
-                        public void success(ResponsePojo responsePojo, Response response) {
+                    signupHash.put(Constants.DEVICE_ID,"123456789");
 
-                            if (responsePojo.getStatus() == 200) {
+
+                    //Create a retrofit call object
+                    retrofit2.Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).login(signupHash);
+
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
-                                for (int i = 0; i < response.getHeaders().size(); i++) {
-                                    if (response.getHeaders().get(i).getName().equalsIgnoreCase("x-logintoken")) {
-                                        String loginToken = response.getHeaders().get(i).getValue();
+                                for (int i = 0; i < response.headers().size(); i++) {
+
+                                        String loginToken = response.headers().get("x-logintoken");
                                         Log.e(TAG1, loginToken);
                                         PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
                                         PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"false");
-                                    }
+
                                 }
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 
-                            } else if (responsePojo.getStatus() == 600) {
+                            } else if (response.body().getStatus() == 600) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                callResendVerificationPopUp(LoginActivity.this,responsePojo.getDescription());
-                               // Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                                callResendVerificationPopUp(LoginActivity.this,response.body().getDescription());
+                                // Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                             }
+                         /*   else if (response.body().getStatus()==900){
+                                CallProgressWheel.dismissLoadingDialog();
+                                Intent intent = new Intent(LoginActivity.this, NoResultsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }*/
+
                             else{
                                 CallProgressWheel.dismissLoadingDialog();
-                                Utility.showToastMessageShort(LoginActivity.this,responsePojo.getDescription());
+                                Utility.showToastMessageShort(LoginActivity.this,response.body().getDescription());
                             }
-
-
                         }
 
                         @Override
-                        public void failure(RetrofitError error) {
+                        public void onFailure(retrofit2.Call<ResponsePojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
                         }
                     });
                 }
@@ -278,7 +293,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
             signInFacebook.put(Constants.GENDER, facebookUser.gender);
             signInFacebook.put(Constants.NAME, facebookUser.name);
             signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
-
+            signInFacebook.put(Constants.DEVICE_ID,"123456789");
 
             callSinInFacebookApi(signInFacebook);
         }
@@ -290,41 +305,40 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
         try {
 
                 if (Utility.isInternetConnection(this)) {
+                    CallProgressWheel.showLoadingDialog(this, "Loading...");
+                    Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).loginFaceBook(signInFacebook);
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                for (int i = 0; i < response.headers().size(); i++) {
 
-                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
-                CallProgressWheel.showLoadingDialog(this, "Loading...");
-                mWebApi.loginFaceBook(signInFacebook, new Callback<ResponsePojo>() {
-                    @Override
-                    public void success(ResponsePojo responsePojo, Response response) {
-                        if (responsePojo.getStatus() == 200) {
-                            CallProgressWheel.dismissLoadingDialog();
-                            PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
-                            for (int i = 0; i < response.getHeaders().size(); i++) {
-                                if (response.getHeaders().get(i).getName().equalsIgnoreCase("x-logintoken")) {
-                                    String loginToken = response.getHeaders().get(i).getValue();
-                                    Log.e("loginActivity", loginToken);
-                                    PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
-                                    PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"true");
+                                        String loginToken = response.headers().get("x-logintoken");
+                                        Log.e("loginActivity", loginToken);
+                                        PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
+                                        PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"true");
+
                                 }
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
                             }
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                            else
+                            {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Utility.showToastMessageShort(LoginActivity.this,response.body().getDescription());
+                            }
                         }
-                        else
-                        {
-                            CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageShort(LoginActivity.this,responsePojo.getDescription());
-                        }
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        CallProgressWheel.dismissLoadingDialog();
-                        PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, false);
-                        Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, false);
+                            Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                        }
+                    });
             }
 
         } catch (Exception e) {
@@ -395,7 +409,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
             // check validations for current password,new password and confirm password
 
             if (Utility.isInternetConnection(this)) {
-                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+
                 CallProgressWheel.showLoadingDialog(this, "Loading...");
                            /*
                             payload
@@ -407,30 +421,30 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                 HashMap<String, String> forgotPasswordHashMap = new HashMap<>();
                 forgotPasswordHashMap.put("email", mEtEmail.getText().toString().trim());
 
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).resendVerificationLink(forgotPasswordHashMap);
+               posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                   @Override
+                   public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                       if (response.body().getStatus() == 200) {
+                           CallProgressWheel.dismissLoadingDialog();
+                           // callSuccessPopUp(LoginActivity.this, responsePojo.getDescription());
+                           Utility.showToastMessageShort(LoginActivity.this, response.body().getDescription());
 
-                mWebApi.resendVerificationLink(forgotPasswordHashMap, new Callback<ResponsePojo>() {
-                    @Override
-                    public void success(ResponsePojo responsePojo, Response response) {
 
-                        if (responsePojo.getStatus() == 200) {
-                            CallProgressWheel.dismissLoadingDialog();
-                            // callSuccessPopUp(LoginActivity.this, responsePojo.getDescription());
-                            Utility.showToastMessageShort(LoginActivity.this, responsePojo.getDescription());
+                       } else {
+                           CallProgressWheel.dismissLoadingDialog();
+                           Toast.makeText(LoginActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                       }
+                   }
 
+                   @Override
+                   public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                       CallProgressWheel.dismissLoadingDialog();
+                       Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            CallProgressWheel.dismissLoadingDialog();
-                            Toast.makeText(LoginActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
-                        }
+                   }
+               });
 
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        CallProgressWheel.dismissLoadingDialog();
-                        Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
         } catch (Exception e) {

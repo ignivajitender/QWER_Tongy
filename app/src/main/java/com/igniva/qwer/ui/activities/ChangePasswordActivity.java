@@ -17,11 +17,15 @@ import android.widget.TextView;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.PreferenceHandler;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Retrofit;
 
 /**
  * Created by karanveer on 22/9/17.
@@ -40,8 +44,11 @@ public class ChangePasswordActivity extends BaseActivity {
     @BindView(R.id.ll_change_pass)
     LinearLayout ll_change_pass;
 
+    @Inject
+    Retrofit retrofit;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_password_activity);
         ButterKnife.bind(this);
@@ -108,7 +115,7 @@ public class ChangePasswordActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.ll_change_pass:
-                ApiControllerClass.callChangePasswordApi(ChangePasswordActivity.this,mEtCuurentPass,mEtNewPass,mEtConfirmPass);
+                ApiControllerClass.callChangePasswordApi(ChangePasswordActivity.this,mEtCuurentPass,mEtNewPass,mEtConfirmPass,retrofit);
                 //callSuccessPopUp(this, getResources().getString(R.string.pass_update_success));
                 break;
         }

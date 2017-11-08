@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 
+import com.facebook.FacebookSdk;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.igniva.qwer.controller.AppModule;
 import com.igniva.qwer.controller.Config;
@@ -20,7 +21,13 @@ public class Global extends MultiDexApplication {
     public static FirebaseAnalytics mFirebaseAnalytics;
     public static Context sAppContext=null;
     private NetComponent mNetComponent;
-      @Override
+    private PreferenceHandler prefs;
+
+
+
+
+
+    @Override
     public void onCreate() {
         super.onCreate();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -31,6 +38,9 @@ public class Global extends MultiDexApplication {
                 .appModule(new AppModule(this))
                 .netModule(new NetModule(Config.getBaseURL()))
                 .build();
+
+        prefs = new PreferenceHandler(this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 //    void setComponets(Activity context){
 //        getNetComponent().inject((Activity) context);

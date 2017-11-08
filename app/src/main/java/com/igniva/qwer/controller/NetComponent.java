@@ -1,5 +1,16 @@
 package com.igniva.qwer.controller;
 
+import com.igniva.qwer.ui.activities.ChangeEmailActivity;
+import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.activities.ContactUsActivity;
+import com.igniva.qwer.ui.activities.CreateNewPostActivity;
+import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
+import com.igniva.qwer.ui.activities.ForgotPasswordActivity;
+import com.igniva.qwer.ui.activities.LoginActivity;
+import com.igniva.qwer.ui.activities.MyProfileActivity;
+import com.igniva.qwer.ui.activities.SettingsActivity;
+import com.igniva.qwer.ui.activities.SignUpActivity;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -7,9 +18,25 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, NetModule.class})
 public interface NetComponent {
+    void inject(CreateTeachingPostActivity activity);
 
+    void inject(ChangeEmailActivity activity);
 
-    //void inject(SignupActivity activity);
+    void inject(MyProfileActivity activity);
+
+    void inject(ChangePasswordActivity activity);
+
+    void inject(ContactUsActivity activity);
+
+    void inject(CreateNewPostActivity activity);
+
+    void inject(ForgotPasswordActivity activity);
+
+    void inject(LoginActivity activity);
+
+    void inject(SignUpActivity activity);
+
+    void inject(SettingsActivity activity);
 
 
 }

@@ -19,22 +19,23 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
-import com.igniva.qwer.controller.RetrofitClient;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.FieldValidators;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.fcm.Constants;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 
 
 public class SettingsActivity extends BaseActivity {
@@ -89,12 +90,15 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.llMain)
     LinearLayout mLlMain;
 
+    @Inject
+    Retrofit retrofit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
 
 
@@ -170,12 +174,13 @@ public class SettingsActivity extends BaseActivity {
 
         try {
             if (Utility.isInternetConnection(this)) {
-                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+
                 CallProgressWheel.showLoadingDialog(this, "Loading...");
-                mWebApi.deleteAccount(password, new Callback<ResponsePojo>() {
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).deleteAccount(password);
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
-                    public void success(ResponsePojo responsePojo, Response response) {
-                        if(responsePojo.getStatus() == 200){
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        if(response.body().getStatus() == 200){
                             finishAffinity();
                             PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.Constants.IS_ALREADY_LOGIN, false);
                             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
@@ -184,16 +189,18 @@ public class SettingsActivity extends BaseActivity {
                         else
                         {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageLong(SettingsActivity.this,responsePojo.getDescription());
+                            Utility.showToastMessageLong(SettingsActivity.this,response.body().getDescription());
                         }
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
                     }
                 });
+
             }
 
         } catch (Exception e) {
@@ -331,37 +338,40 @@ public class SettingsActivity extends BaseActivity {
     private void callLogoutMyAccountApi() {
         try {
             if (Utility.isInternetConnection(this)) {
-                ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, this);
+
                 CallProgressWheel.showLoadingDialog(this, "Loading...");
-                mWebApi.logoutAccount( new Callback<ResponsePojo>() {
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).logoutAccount();
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
-                    public void success(ResponsePojo responsePojo, Response response) {
-                        if(responsePojo.getStatus() == 200){
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        if(response.body().getStatus() == 200){
                             finishAffinity();
-                            Utility.showToastMessageShort(SettingsActivity.this,responsePojo.getDescription());
+                            Utility.showToastMessageShort(SettingsActivity.this,response.body().getDescription());
                             PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.Constants.IS_ALREADY_LOGIN, false);
                             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
-                        else if(responsePojo.getStatus()==1000)
+                        else if(response.body().getStatus()==1000)
                         {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageShort(SettingsActivity.this,responsePojo.getMessage());
+                            Utility.showToastMessageShort(SettingsActivity.this,response.body().getMessage());
                         }
                         else
                         {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageShort(SettingsActivity.this,responsePojo.getDescription());
+                            Utility.showToastMessageShort(SettingsActivity.this,response.body().getDescription());
                         }
 
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
                     }
                 });
+
             }
 
         } catch (Exception e) {
