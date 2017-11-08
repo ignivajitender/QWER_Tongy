@@ -1,21 +1,33 @@
 package com.igniva.qwer.ui.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
+import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.activities.CreateNewPostActivity;
+import com.igniva.qwer.ui.adapters.NewsFeedAdapter;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Utility;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Retrofit;
@@ -47,7 +59,13 @@ public class NewsFeedFragment extends BaseFragment {
     }
 
 
+
     }
+
+    NewsFeedAdapter adapter;
+    List<PostPojo.PostDataPojo.DataBean> postList = null;
+    @BindView(R.id.recyclerView)
+    RecyclerView mrecyclerView;
 
     public static NewsFeedFragment newInstance() {
         NewsFeedFragment fragment = new NewsFeedFragment();
@@ -61,8 +79,14 @@ public class NewsFeedFragment extends BaseFragment {
         mView = inflater.inflate(R.layout.fragment_news_feed, container, false);
         ButterKnife.bind(this, mView);
         setUpLayout();
-        setDataInViewObjects();
+        ApiControllerClass.getAllFeedsApi(retrofit,getActivity(),NewsFeedFragment.this);
         return mView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((Global) getActivity().getApplicationContext()).getNetComponent().inject(this);
     }
 
     @Override
@@ -77,6 +101,16 @@ public class NewsFeedFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    public void setDataInViewObjects(final PostPojo.PostDataPojo responsePojo) {
+        postList=responsePojo.getData();
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mrecyclerView.setLayoutManager(mLayoutManager);
+        mrecyclerView.setItemAnimator(new DefaultItemAnimator());
+        Log.e("","postList----"+postList.size());
+        adapter = new NewsFeedAdapter(getActivity(),postList);
+        mrecyclerView.setAdapter(adapter);
     }
 
 }

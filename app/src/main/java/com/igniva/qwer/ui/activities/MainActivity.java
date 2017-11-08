@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
 import com.igniva.qwer.ui.fragments.HomeFragment;
+import com.igniva.qwer.ui.fragments.NewsFeedFragment;
 import com.igniva.qwer.utils.fcm.Constants;
 
 import butterknife.BindView;
@@ -64,18 +65,23 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setUpLayout() {
-        replaceFragment(new HomeFragment());
+       replaceFragment(new HomeFragment());
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.news_feeds));
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.home));
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.connections));
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
-        //tab_layout.setupWithViewPager(mViewPager1);
+        //tab_layout.setupWithViewPager(pagerAdapter);
+
 
         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.select();
+                if(tab.getPosition()==0){
+                    replaceFragment(new NewsFeedFragment());
+                }
+
              }
 
             @Override
@@ -89,7 +95,8 @@ public class MainActivity extends BaseActivity {
             }
         });
         tab_layout.setScrollPosition(1,0f,true);
-        mViewPager1.setCurrentItem(1);
+
+        //pagerAdapter.setCurrentItem(1);
 
     }
 
