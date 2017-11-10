@@ -1,9 +1,7 @@
 package com.igniva.qwer.ui.activities;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -34,8 +32,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.OkHttpClient;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Retrofit;
 
 public class CreateTeachingPostActivity extends BaseActivity {
@@ -113,35 +109,10 @@ public class CreateTeachingPostActivity extends BaseActivity {
     Gson gson;
     String typeOfClass="";
 
-    private final int RC_CAMERA_PERM = 123;
-    private int IMAGE_REQUEST_CODE = 500;
-    @AfterPermissionGranted(RC_CAMERA_PERM)
-    public void changeImage() {
-        if (hasCameraPermission()) {
-            // Have permission, do the thing!
-            // startActivityForResult(ImagePicker.getPickImageIntent(LocationActivity.this), IMAGE_REQUEST_CODE);
-            try {
-
-                startActivity(new Intent(CreateTeachingPostActivity.this,LocationActivity.class));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            // Ask for one permission
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.rationale_ask_again),
-                    RC_CAMERA_PERM,
-                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-    }
-    private boolean hasCameraPermission() {
-        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION,  Manifest.permission.ACCESS_FINE_LOCATION);
-    }
 
     @OnClick(R.id.ivLocation)
     public void openLocation(){
-        changeImage();
+        changeLocation();
 
 
 

@@ -6,11 +6,13 @@ import com.igniva.qwer.ui.activities.ContactUsActivity;
 import com.igniva.qwer.ui.activities.CreateNewPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.ForgotPasswordActivity;
+import com.igniva.qwer.ui.activities.LocationActivity;
 import com.igniva.qwer.ui.activities.LoginActivity;
 import com.igniva.qwer.ui.activities.MyProfileActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.activities.SignUpActivity;
+import com.igniva.qwer.ui.fragments.NewsFeedFragment;
 
 import javax.inject.Singleton;
 
@@ -41,5 +43,7 @@ public interface NetComponent {
 
     void inject(SettingsActivity activity);
 
+    void inject(NewsFeedFragment fragment);
+    void inject(LocationActivity activity);
 
 }

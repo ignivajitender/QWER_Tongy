@@ -39,8 +39,10 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -51,6 +53,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Utility {
+
+	private static final int SECOND_MILLIS = 1000;
+	private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+	private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+	private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+
 	static final String[] BinaryPlaces = { "/data/bin/", "/system/bin/", "/system/xbin/", "/sbin/",
 			"/data/local/xbin/", "/data/local/bin/", "/system/sd/xbin/", "/system/bin/failsafe/",
 			"/data/local/" };
@@ -433,4 +441,38 @@ public class Utility {
 		}
 		return myPath;
 	}
+
+	// convert date format
+	public static String getTimeAgo(long time, Context ctx) {
+		if (time < 1000000000000L) {
+			// if timestamp given in seconds, convert to millis
+			time *= 1000;
+		}
+
+		long now = System.currentTimeMillis();
+		if (time > now || time <= 0) {
+			return "just now";
+		}
+
+		// TODO: localize
+		final long diff = now - time;
+		if (diff < MINUTE_MILLIS) {
+			return "just now.";
+		} else if (diff < 2 * MINUTE_MILLIS) {
+			return "a minute ago.";
+		} else if (diff < 50 * MINUTE_MILLIS) {
+			return diff / MINUTE_MILLIS + " minutes ago.";
+		} else if (diff < 90 * MINUTE_MILLIS) {
+			return "an hour ago.";
+		} else if (diff < 24 * HOUR_MILLIS) {
+			return diff / HOUR_MILLIS + " hours ago.";
+		} else if (diff < 48 * HOUR_MILLIS) {
+			return "Yesterday.";
+		} else {
+			Date date = new Date(time);
+			return new SimpleDateFormat("yyyy-MM-dd HH:MM a").format(date);
+			// return diff / DAY_MILLIS + " days ago.";
+		}
+	}
+
 }

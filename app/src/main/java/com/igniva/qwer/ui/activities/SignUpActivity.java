@@ -192,10 +192,10 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                 signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
                 signupHash.put(Constants.DEVICE_ID,"123456789");
                 //Create a retrofit call object
-                Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).signup(signupHash);
+               Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).signup(signupHash);
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
-                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                    public void onResponse(       retrofit2.Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             callSuccessPopUp(SignUpActivity.this, getResources().getString(R.string.emailVerification));
@@ -208,7 +208,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                     }
 
                     @Override
-                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                    public void onFailure(       retrofit2.Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(SignUpActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
@@ -286,8 +286,8 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
             if (Utility.isInternetConnection(this)) {
 
                 CallProgressWheel.showLoadingDialog(this, "Loading...");
-                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).loginFaceBook(signInFacebook);
-                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                retrofit2.Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).loginFaceBook(signInFacebook);
+                posts.enqueue(new        retrofit2.Callback<ResponsePojo>() {
                     @Override
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         if (response.body().getStatus() == 200) {
@@ -314,7 +314,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                     }
 
                     @Override
-                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                    public void onFailure(retrofit2.Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         PreferenceHandler.writeBoolean(SignUpActivity.this, Constants.IS_ALREADY_LOGIN, false);
                         Toast.makeText(SignUpActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();

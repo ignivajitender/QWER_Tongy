@@ -4,6 +4,7 @@ package com.igniva.qwer.controller;
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.PrefInputPojo;
+import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 
@@ -92,4 +93,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/users/post/teaching")
     Call<ResponsePojo> createTeachingPost(@FieldMap HashMap<String, String> changePasswordHashMap);
+
+    @GET("/api/nonUsers/post")
+    Call<PostPojo> getPosts();
 }

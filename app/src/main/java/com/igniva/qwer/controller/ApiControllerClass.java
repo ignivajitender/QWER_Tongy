@@ -7,10 +7,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.fragments.NewsFeedFragment;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.PreferenceHandler;
@@ -307,6 +309,49 @@ public class ApiControllerClass {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void getAllFeedsApi(Retrofit retrofit,final Context context,final NewsFeedFragment fragment) {
+        try {
+
+
+            if (Utility.isInternetConnection(context)) {
+
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+
+                //Create a retrofit call object
+                Call<PostPojo> posts = retrofit.create(ApiInterface.class).getPosts();
+                posts.enqueue(new retrofit2.Callback<PostPojo>() {
+                    @Override
+                    public void onResponse(Call<PostPojo> call, retrofit2.Response<PostPojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            fragment.setDataInViewObjects(response.body().getData());
+                            //callSuccessPopUp((Activity)context, response.body().getDescription());
+                            // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+
+
+                        } else  {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageShort((Activity) context,response.body().getDescription());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostPojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                    }
+                });
+            }
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 }

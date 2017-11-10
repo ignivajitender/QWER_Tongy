@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
 import com.igniva.qwer.ui.fragments.HomeFragment;
+import com.igniva.qwer.ui.fragments.NewsFeedFragment;
 import com.igniva.qwer.utils.fcm.Constants;
 
 import butterknife.BindView;
@@ -76,6 +77,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.select();
+                if(tab.getPosition()==0){
+                    replaceFragment(new NewsFeedFragment());
+                }
+
              }
 
             @Override
@@ -90,6 +95,8 @@ public class MainActivity extends BaseActivity {
         });
         tab_layout.setScrollPosition(1,0f,true);
 //        mViewPager1.setCurrentItem(1);
+
+        //pagerAdapter.setCurrentItem(1);
 
     }
 
