@@ -292,7 +292,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
-                            PreferenceHandler.writeBoolean(SignUpActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                            PreferenceHandler.writeBoolean(SignUpActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
                             for (int i = 0; i < response.headers().size(); i++) {
 
                                     String loginToken = response.headers().get("x-logintoken");
@@ -316,11 +316,10 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                     @Override
                     public void onFailure(retrofit2.Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
-                        PreferenceHandler.writeBoolean(SignUpActivity.this, Constants.IS_ALREADY_LOGIN, false);
+                        PreferenceHandler.writeBoolean(SignUpActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, false);
                         Toast.makeText(SignUpActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
 
         } catch (Exception e) {
