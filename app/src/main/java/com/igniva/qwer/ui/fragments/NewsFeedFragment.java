@@ -42,6 +42,7 @@ public class NewsFeedFragment extends BaseFragment {
 
     View mView;
     @Inject
+    public
     Retrofit retrofit;
     @OnClick({R.id.fabCreatePost, R.id.fabMyUploads,R.id.fabMyFavorites})
     public void onViewClicked(View view) {
@@ -109,7 +110,7 @@ public class NewsFeedFragment extends BaseFragment {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         Log.e("","postList----"+postList.size());
-        adapter = new NewsFeedAdapter(getActivity(),postList);
+        adapter = new NewsFeedAdapter(getActivity(),postList,retrofit);
         mrecyclerView.setAdapter(adapter);
     }
 

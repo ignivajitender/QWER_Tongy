@@ -96,4 +96,7 @@ public interface ApiInterface {
 
     @GET("/api/nonUsers/post")
     Call<PostPojo> getPosts();
+
+    @GET("/api/users/favPost")
+    Call<PostPojo> markFavOrUnfav();
 }

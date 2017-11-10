@@ -146,28 +146,14 @@
                     android:text="15"
                   />
 
-                <TextView
-                    android:id="@+id/ib_report"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_toRightOf="@+id/ib_chat"
-
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@drawable/chat"
-                    android:gravity="center"
-
-                    android:text="15"
-                    tools:layout_editor_absoluteX="232dp" />
 
 
 
-                <TextView
+                <ImageView
                     android:id="@+id/tv_fav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
@@ -175,9 +161,26 @@
                     android:layout_marginTop="24dp"
                     android:background="@drawable/like"
                     android:gravity="center"
-
+                    android:layout_toLeftOf="@+id/ib_report"
                     app:layout_constraintVertical_bias="0.0" />
 
+                <TextView
+                    android:id="@+id/ib_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+
+                    android:layout_marginTop="24dp"
+
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:drawableLeft="@drawable/report_option"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+
+
+                    tools:layout_editor_absoluteX="232dp" />
 
 
 

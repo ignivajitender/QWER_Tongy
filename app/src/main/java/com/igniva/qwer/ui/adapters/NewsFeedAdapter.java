@@ -12,12 +12,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Retrofit;
 
 /**
  * Created by igniva-android13 on 7/11/17.
@@ -31,6 +35,8 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.MyView
     private Context mContext;
     private String fragmentName;
     private String formattedDate;
+    @Inject
+    Retrofit retrofit;
 
 
     /*public NewsFeedAdapter(Context mContext, String fragmentName, ArrayList<PostPojo> data) {
@@ -39,9 +45,10 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.MyView
         this.rantList = data;
     }*/
 
-    public NewsFeedAdapter(Context mContext,  List<PostPojo.PostDataPojo.DataBean> postList) {
+    public NewsFeedAdapter(Context mContext, List<PostPojo.PostDataPojo.DataBean> postList, Retrofit retrofit) {
         this.mContext=mContext;
         this.rantList=postList;
+        this.retrofit=retrofit;
 
     }
 
@@ -101,57 +108,25 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.MyView
         if(pojo.getPost_user().getUser_image()!=null && pojo.getPost_user().getUser_image().size()>0)
         Glide.with(mContext).load( pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
         holder.mTvName.setText(pojo.getPost_user().getName());
-        //holder.mIbChat.setText(pojo.getPost_comment_count().size());
-        //holder.mTvDate.setText(Utility.getTimeAgo(pojo.getCreated_at().toString(),mContext);
-       /* final RantsPojo modeldata = rantList.get(position);
-        holder.mib_fav.setVisibility(View.VISIBLE);
-        holder.mtv_postBy.setVisibility(View.VISIBLE);
-        holder.mtv_postBy.setText(modeldata.getUser_id().getFirst_name() + " " + modeldata.getUser_id().getLast_name());
-        Glide.with(mContext).load("http://rantogasm.ignivastaging.com:8042/v1/Files/" + modeldata.getRantFile() + "?thumbnail=true").into(holder.mivPost);
-
-
-        if (modeldata.is_favourite() || fragmentName.equalsIgnoreCase(mContext.getResources().getString(R.string.favourite_rants)))
-            holder.mib_fav.setImageResource(R.drawable.like_red_large);
+        if(pojo.getPost_comment_count()==null && pojo.getPost_comment_count().size()==0)
+            holder.mIbChat.setText("0");
         else
-            holder.mib_fav.setImageResource(R.drawable.like_grey_large);
+            holder.mIbChat.setText(pojo.getPost_comment_count().size()+"");
 
-        holder.tvRantTitle.setText(modeldata.getTitle());
+        if(pojo.getPost_fav()==null && pojo.getPost_fav().size()==0)
+            holder.mIvFav.setImageResource(R.drawable.like);
+        else
+            holder.mIvFav.setImageResource(R.drawable.liked);
 
-        holder.tvViews.setText(modeldata.getViews() + " views | " + modeldata.getLikes() + " Likes");
-        holder.tvRating.setText(modeldata.getRating() + "");
-        holder.tvDuration.setText(modeldata.getRant_duration());
-//        Log.e("date", Utility.getLognDate(modeldata.getCreated_at()) + " ");
-        holder.tvPostTime.setText(Utility.getTimeAgo(Utility.getLognDate(modeldata.getCreated_at()), mContext));
-//        Log.e("image url", "http://rantogasm.ignivastaging.com:8042/v1/Files/" + modeldata.getRantFile() + "?thumbnail=true");
-        //Glide.with(mContext).load("http://rantogasm.ignivastaging.com:8042/v1/Files/" + modeldata.getRantFile() + "?thumbnail=true").into(holder.mivPost);
-        holder.mcvViewRant.setOnClickListener(new View.OnClickListener() {
+        holder.mIvFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  Utility.showToastMessageLong(mContext,"click");
-                mContext.startActivity(new Intent(mContext, VideoActivity.class).putExtra("uri", modeldata.getRantFile()).putExtra("dataPojo", modeldata).putExtra("comingFrom", "rants list").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
-
-        holder.mib_fav.setTag(modeldata.is_favourite());
-        holder.mib_fav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e("mContext--modeldata.is_favourite()---", modeldata.is_favourite() + " ");
-                if (mContext instanceof RantsListActivity) {
-                    ApiControllerClass.markFavoriteUnfavorite(((RantsListActivity) mContext).retrofit, mContext, modeldata.get_id(), holder.mib_fav);
-                } else if (mContext instanceof NavigationActivity && fragmentName.equalsIgnoreCase(mContext.getResources().getString(R.string.favourite_rants))) {
-                    view.setTag(true);
-                    ApiControllerClass.markFavoriteUnfavorite(((NavigationActivity) mContext).retrofit, mContext, modeldata.get_id(), holder.mib_fav);
-                }
+                ApiControllerClass.markFavoriteUnfavorite(retrofit, mContext, pojo.getPost_fav(), holder.mIvFav);
 
             }
         });
 
-        if (fragmentName.equalsIgnoreCase(mContext.getResources().getString(R.string.my_rants))) {
-            holder.mib_fav.setVisibility(View.GONE);
-            holder.mtv_postBy.setVisibility(View.GONE);
 
-        }*/
     }
 
 
@@ -159,7 +134,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.MyView
     public int getItemCount() {
         if (rantList != null && rantList.size() > 0) {
             return rantList.size();
-        } else return 5;
+        } else return 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -180,7 +155,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.MyView
         @BindView(R.id.ib_chat)
         TextView mIbChat;
         @BindView(R.id.tv_fav)
-        TextView mTvFav;
+        ImageView mIvFav;
         @BindView(R.id.cardView2)
         CardView mCardView2;
         @BindView(R.id.tv_postType)

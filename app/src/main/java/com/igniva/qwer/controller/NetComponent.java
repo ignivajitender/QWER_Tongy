@@ -4,6 +4,7 @@ import com.igniva.qwer.ui.activities.ChangeEmailActivity;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.ContactUsActivity;
 import com.igniva.qwer.ui.activities.CreateNewPostActivity;
+import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.ForgotPasswordActivity;
 import com.igniva.qwer.ui.activities.LocationActivity;
@@ -45,5 +46,6 @@ public interface NetComponent {
 
     void inject(NewsFeedFragment fragment);
     void inject(LocationActivity activity);
+    void inject(CreateOtherPostActivity activity);
 
 }
