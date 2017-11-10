@@ -11,7 +11,7 @@ public class Constants {
     public static final int CROPING_CODE = 2345;
 
 
-    public static final String IS_ALREADY_LOGIN = "IS_ALREADY_LOGIN";
+
     public static final String IS_GUEST_USER = "IS_GUEST_USER";
     public static final String Name = "name";
     public static final String EMAIL = "email";

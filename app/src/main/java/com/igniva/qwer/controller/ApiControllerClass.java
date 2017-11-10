@@ -13,6 +13,7 @@ import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
 
@@ -57,9 +58,9 @@ public class ApiControllerClass {
                             // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
 
 
-                        } else  {
+                        } else {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageShort((Activity) context,response.body().getDescription());
+                            Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                         }
                     }
 
@@ -71,13 +72,13 @@ public class ApiControllerClass {
             }
 
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
     }
+
     /**
      * Call api to change the current password
      */
@@ -86,7 +87,7 @@ public class ApiControllerClass {
         try {
             Utility.hideSoftKeyboard((Activity) context);
             // check validations for current password,new password and confirm password
-            if (Validation.validateChangePassword((Activity) context, mEtCuurentPass, mEtNewPass, mEtConfirmPass )) {
+            if (Validation.validateChangePassword((Activity) context, mEtCuurentPass, mEtNewPass, mEtConfirmPass)) {
                 if (Utility.isInternetConnection(context)) {
 
                     CallProgressWheel.showLoadingDialog(context, "Loading...");
@@ -98,33 +99,30 @@ public class ApiControllerClass {
 
                     //Create a retrofit call object
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).changePassword(changePasswordHashMap);
-                   posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
-                       @Override
-                       public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
-                           if (response.body().getStatus() == 200) {
-                               CallProgressWheel.dismissLoadingDialog();
-                               ((ChangePasswordActivity)context).callSuccessPopUp(context, response.body().getDescription());
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                ((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
 
 
+                            } else if (response.body().getStatus() == 400) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
-                           } else if (response.body().getStatus() == 400) {
-                               CallProgressWheel.dismissLoadingDialog();
-                               Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
-                           }
-                           else
-                           {
-                               CallProgressWheel.dismissLoadingDialog();
-                               Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
-                           }
-                       }
+                        @Override
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
-                       @Override
-                       public void onFailure(Call<ResponsePojo> call, Throwable t) {
-                           CallProgressWheel.dismissLoadingDialog();
-                           Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-
-                       }
-                   });
+                        }
+                    });
 
                 }
             }
@@ -141,16 +139,16 @@ public class ApiControllerClass {
      */
     public static void sendUserFeedBackToAdmin(final Context context, HashMap<String, String> contact_us, Retrofit retrofit) {
         try {
-             if (Utility.isInternetConnection(context)) {
-                 CallProgressWheel.showLoadingDialog(context, "Loading...");
+            if (Utility.isInternetConnection(context)) {
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
                 //Create a retrofit call object
-                Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).contactUs(contact_us);
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).contactUs(contact_us);
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         CallProgressWheel.dismissLoadingDialog();
                         Utility.showToastMessageShort((Activity) context, response.body().getDescription());
-                        ((Activity)context).onBackPressed();
+                        ((Activity) context).onBackPressed();
                     }
 
                     @Override
@@ -158,7 +156,6 @@ public class ApiControllerClass {
                         CallProgressWheel.dismissLoadingDialog();
                     }
                 });
-
 
 
             }
@@ -176,7 +173,7 @@ public class ApiControllerClass {
         try {
             Utility.hideSoftKeyboard((Activity) context);
             // check validations for current password,new password and confirm password
-            if (Validation.validateCreatePost((Activity) context, mEtTitle, mEtDescription, mEtPrice,metScheduleStartDate,metScheduleEndDate,mEtStartTime,mEtEndTime,typeOfClass)) {
+            if (Validation.validateCreatePost((Activity) context, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass)) {
                 if (Utility.isInternetConnection(context)) {
 
                     /*
@@ -202,8 +199,8 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("currency", "usd");
                     changePasswordHashMap.put("price", "20");
                     changePasswordHashMap.put("description", "teaching section");
-                     changePasswordHashMap.put("title", "teaching section");
-                     changePasswordHashMap.put("post_type", "teaching");
+                    changePasswordHashMap.put("title", "teaching section");
+                    changePasswordHashMap.put("post_type", "teaching");
 
 
                     //Create a retrofit call object
@@ -216,13 +213,10 @@ public class ApiControllerClass {
                                 callSuccessPopUp(context, response.body().getDescription());
 
 
-
                             } else if (response.body().getStatus() == 400) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
+                            } else {
                                 CallProgressWheel.dismissLoadingDialog();
                                 Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             }
@@ -258,23 +252,24 @@ public class ApiControllerClass {
                     public void onResponse(Call<LanguagesResponsePojo> call, retrofit2.Response<LanguagesResponsePojo> response) {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
-                            if(context instanceof SetPreferrencesActivity){
-                                ArrayList<String> tempArr=new ArrayList<>();
-                                ((SetPreferrencesActivity) context).mAlLangList=response.body().getData();
-                                for (LanguagesResponsePojo.LanguagesPojo languagesPojo:response.body().getData()
-                                ) {
+                            if (context instanceof SetPreferrencesActivity) {
+                                ArrayList<String> tempArr = new ArrayList<>();
+                                ((SetPreferrencesActivity) context).mAlLangList = response.body().getData();
+                                for (LanguagesResponsePojo.LanguagesPojo languagesPojo : response.body().getData()
+                                        ) {
                                     tempArr.add(languagesPojo.getName());
                                 }
-                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
                                 ((SetPreferrencesActivity) context).mActvLangISpeak.setAdapter(adapter);
                                 ((SetPreferrencesActivity) context).mActvLangILearn.setAdapter(adapter);
-                             }
+                            }
                         } else {
                             CallProgressWheel.dismissLoadingDialog();
                             // Log.e("profile",responsePojo.getDescription());
                             //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void onFailure(Call<LanguagesResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
@@ -289,18 +284,20 @@ public class ApiControllerClass {
         }
     }
 
-    public static void setPrefrences(final Context context,Retrofit retrofit, PrefInputPojo prefInputPojo) {
-         try {
+    public static void setPrefrences(final Context context, Retrofit retrofit, PrefInputPojo prefInputPojo) {
+        try {
             if (Utility.isInternetConnection(context)) {
                 CallProgressWheel.showLoadingDialog(context, "Loading...");
                 //Create a retrofit call object
-                Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).setPrefrences(prefInputPojo);
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).setPrefrences(prefInputPojo);
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         CallProgressWheel.dismissLoadingDialog();
+                        PreferenceHandler.writeBoolean(context, PreferenceHandler.IS_PREF_SET, true);
                         Utility.showToastMessageShort((Activity) context, response.body().getDescription());
-                     }
+                    }
+
                     @Override
                     public void onFailure(Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();

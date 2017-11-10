@@ -7,7 +7,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.PreferenceHandler;
 
 
@@ -24,6 +23,17 @@ public class SplashActivity extends BaseActivity {
     // Shared Preferences
 
     Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            boolean alreadyLogin = PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, false);
+            if (alreadyLogin) {
+                launchHomeScreen();
+            } else {
+                launchWalkThroughScreen();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,30 +49,22 @@ public class SplashActivity extends BaseActivity {
         handler.postDelayed(runnable, SPLASH_TIME_OUT);
     }
 
-
     private void launchHomeScreen() {
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        if (PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_PROFILE_SET, false))
+            startActivity(new Intent(SplashActivity.this, MyProfileActivity.class));
+        else if (PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_PREF_SET, false))
+            startActivity(new Intent(SplashActivity.this, SetPreferrencesActivity.class));
+        else
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
         finish();
     }
-
 
     private void launchWalkThroughScreen() {
 
         startActivity(new Intent(SplashActivity.this, WalkThroughActivity.class));
         finish();
     }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            boolean alreadyLogin = PreferenceHandler.readBoolean(SplashActivity.this, Constants.IS_ALREADY_LOGIN, false);
-            if (alreadyLogin) {
-                launchHomeScreen();
-            }else{
-                launchWalkThroughScreen();
-            }
-        }
-    };
 
     @Override
     protected void onDestroy() {
@@ -78,7 +80,6 @@ public class SplashActivity extends BaseActivity {
     public void setUpLayout() {
 
     }
-
 
 
     @Override

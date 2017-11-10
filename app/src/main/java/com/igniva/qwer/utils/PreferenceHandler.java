@@ -27,6 +27,10 @@ public class PreferenceHandler {
 	public static final String PREF_KEY_LOGIN_USER_TOKEN = "PREF_KEY_LOGIN_USER_TOKEN";
 	public static final String PREF_KEY_IS_SOCIAL_LOGIN ="PREF_KEY_IS_SOCIAL_LOGIN" ;
 	public static final String PREF_KEY_IS_USER_LOGIN = "PREF_KEY_IS_USER_LOGIN";
+	public static final String IS_ALREADY_LOGIN = "IS_ALREADY_LOGIN";
+
+	public static final String IS_PREF_SET = "IS_PREF_SET";
+	public static final String IS_PROFILE_SET = "IS_PROFILE_SET";
 
 	public PreferenceHandler(Context context) {
 		this._context = context;
