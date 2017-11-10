@@ -228,6 +228,38 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 
+                            }else if (response.body().getStatus() == 800) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                for (int i = 0; i < response.headers().size(); i++) {
+
+                                    String loginToken = response.headers().get("x-logintoken");
+                                    Log.e(TAG1, loginToken);
+                                    PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
+                                    PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"false");
+
+                                }
+                                Intent intent = new Intent(LoginActivity.this, MyProfileActivity.class);
+                                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.MYPROFILEEDITABLE, com.igniva.qwer.utils.fcm.Constants.INNER_PROFILE);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+
+                            }else if (response.body().getStatus() == 900) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                for (int i = 0; i < response.headers().size(); i++) {
+
+                                    String loginToken = response.headers().get("x-logintoken");
+                                    Log.e(TAG1, loginToken);
+                                    PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
+                                    PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"false");
+
+                                }
+                                Intent intent = new Intent(LoginActivity.this, SetPreferrencesActivity.class);
+                                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.TO_EDIT_PREFERENCES, "Yes");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+
                             } else if (response.body().getStatus() == 600) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 callResendVerificationPopUp(LoginActivity.this,response.body().getDescription());

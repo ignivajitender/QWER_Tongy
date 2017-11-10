@@ -2,6 +2,8 @@ package com.igniva.qwer.controller;
 
 
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
+import com.igniva.qwer.model.LanguagesResponsePojo;
+import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
@@ -12,6 +14,7 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import retrofit.Callback;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -44,6 +47,8 @@ public interface ApiInterface {
     @POST("/api/users/contact")
     Call<ResponsePojo> contactUs(@FieldMap Map<String, String> params);
 
+    @POST("/api/users/prefrences")
+    Call<ResponsePojo> setPrefrences(@Body PrefInputPojo params);
 
     @FormUrlEncoded
     @POST("/api/users/changeEmail")
@@ -64,6 +69,9 @@ public interface ApiInterface {
 
     @GET("/api/users/getProfile")
     Call<ProfileResponsePojo> getProfile();
+
+    @GET("/api/languages")
+    Call<LanguagesResponsePojo> getLanguages();
 
     @FormUrlEncoded
     @POST("/api/users/updateProfile")

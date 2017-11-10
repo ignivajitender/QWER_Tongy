@@ -144,7 +144,24 @@
                     android:gravity="center"
 
                     android:text="15"
+                  />
+
+                <TextView
+                    android:id="@+id/ib_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_toRightOf="@+id/ib_chat"
+
+                    android:background="@android:color/transparent"
+                    android:drawableLeft="@drawable/chat"
+                    android:gravity="center"
+
+                    android:text="15"
                     tools:layout_editor_absoluteX="232dp" />
+
+
 
                 <TextView
                     android:id="@+id/tv_fav"
@@ -160,6 +177,10 @@
                     android:gravity="center"
 
                     app:layout_constraintVertical_bias="0.0" />
+
+
+
+
             </RelativeLayout>
         </LinearLayout>
 

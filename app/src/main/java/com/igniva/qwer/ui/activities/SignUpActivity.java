@@ -23,6 +23,7 @@ import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
@@ -98,7 +99,7 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-
+        ((Global) getApplicationContext()).getNetComponent().inject(this);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
         Utility.printKeyHash(getApplicationContext());

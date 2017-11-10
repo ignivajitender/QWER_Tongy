@@ -28,8 +28,8 @@ public class CreateNewPostActivity extends BaseActivity {
     }
     @OnClick(R.id.llCreateOtherPost)
     public void openOtherPost(){
-        Utility.showToastMessageLong(CreateNewPostActivity.this,getString(R.string.coming_soon));
-        //startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class));
+        //Utility.showToastMessageLong(CreateNewPostActivity.this,getString(R.string.coming_soon));
+        startActivity(new Intent(CreateNewPostActivity.this,CreateOtherPostActivity.class));
     }
 
     @Override

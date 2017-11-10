@@ -1,15 +1,23 @@
 package com.igniva.qwer.ui.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.igniva.qwer.R;
+import com.igniva.qwer.utils.Global;
+import com.igniva.qwer.utils.Utility;
 
-public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class LocationActivity extends BaseActivity implements OnMapReadyCallback {
 
 
 
@@ -17,30 +25,32 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     // Google Map
     private GoogleMap googleMap;
 
+    @OnClick(R.id.ivbackIcon)
+    public void back(){
+        onBackPressed();
+    }
+
+    @BindView(R.id.tv_tap_to_rename)
+    TextView mtvTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-
-
-
+        ButterKnife.bind(this);
+        initilizeMap();
     }
 
     /**
      * function to load map. If map is not created it will create it for you
      * */
     private void initilizeMap() {
-        if (googleMap == null) {
+
             MapFragment mapFragment = (MapFragment) getFragmentManager()
                     .findFragmentById(R.id.map);
             mapFragment.getMapAsync(LocationActivity.this);
-            // check if map is created successfully or not
-            if (googleMap == null) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        }
+
     }
 
     @Override
@@ -51,12 +61,49 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     public void onMapReady(GoogleMap map) {
-        // DO WHATEVER YOU WANT WITH GOOGLEMAP
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        map.setMyLocationEnabled(true);
-        map.setTrafficEnabled(true);
-        map.setIndoorEnabled(true);
-        map.setBuildingsEnabled(true);
-        map.getUiSettings().setZoomControlsEnabled(true);
+
+        googleMap = map;
+
+        setUpMap();
+
+    }
+
+    public void setUpMap(){
+
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        googleMap.setTrafficEnabled(true);
+        googleMap.setIndoorEnabled(true);
+        googleMap.setBuildingsEnabled(true);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        if(Utility.latitude!=0.0 && Utility.longitude!=0.0)
+            drawMarker();
+        else
+            googleMap.setMyLocationEnabled(true);
+
+    }
+
+    private void drawMarker(){
+
+        Marker marker = googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(Utility.latitude, Utility.longitude))
+                .title(Utility.address));
+
+    }
+
+    @Override
+    protected void setUpLayout() {
+
+    }
+
+    @Override
+    protected void setDataInViewObjects() {
+
+    }
+
+    @Override
+    protected void setUpToolbar() {
+        mtvTitle.setText(getResources().getString(R.string.location));
     }
 }

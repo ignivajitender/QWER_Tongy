@@ -204,4 +204,6 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="please_enter_end_time">Please enter end time</string>
     <string name="title_activity_create_other_post">CreateOtherPostActivity</string>
     <string name="add_image">Add Image</string>
+    <string name="add_members">Add members</string>
+    <string name="location">Location</string>
 </resources>

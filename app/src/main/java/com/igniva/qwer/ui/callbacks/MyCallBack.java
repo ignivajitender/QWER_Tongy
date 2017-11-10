@@ -5,5 +5,5 @@ package com.igniva.qwer.ui.callbacks;
  */
 
 public interface MyCallBack {
-    public void removeItemFromHashMap(String type,String value, int pos);
+    public void removeItem(String type, int pos);
 }

@@ -97,7 +97,8 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.MyView
         final PostPojo.PostDataPojo.DataBean pojo=rantList.get(position);
         holder.mDesc.setText(pojo.getDescription());
         holder.mTvTitle.setText(pojo.getDescription());
-        holder.mTvPostType.setText(pojo.getClass_type());
+        holder.mTvPostType.setText(pojo.getPost_type());
+        if(pojo.getPost_user().getUser_image()!=null && pojo.getPost_user().getUser_image().size()>0)
         Glide.with(mContext).load( pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
         holder.mTvName.setText(pojo.getPost_user().getName());
         //holder.mIbChat.setText(pojo.getPost_comment_count().size());
