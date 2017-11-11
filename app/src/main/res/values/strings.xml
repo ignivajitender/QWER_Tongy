@@ -216,4 +216,5 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="ongoing">Ongoing</string>
     <string name="archives">Archives</string>
     <string name="other">other</string>
+    <string name="my_uploads">My Uploads</string>
 </resources>
