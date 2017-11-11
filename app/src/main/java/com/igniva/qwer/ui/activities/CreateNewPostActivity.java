@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.utils.Global;
-import com.igniva.qwer.utils.Utility;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -19,12 +18,13 @@ public class CreateNewPostActivity extends BaseActivity {
     }
     @OnClick(R.id.llCreateTeachingPost)
     public void openPost(){
-        startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class));
+        startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class).putExtra("comingFrom","teaching"));
     }
     @OnClick(R.id.llCreateMeetingPost)
     public void openMeetingPost(){
-        Utility.showToastMessageLong(CreateNewPostActivity.this,getString(R.string.coming_soon));
+        //Utility.showToastMessageLong(CreateNewPostActivity.this,getString(R.string.coming_soon));
         //startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class));
+        startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class).putExtra("comingFrom","meeting"));
     }
     @OnClick(R.id.llCreateOtherPost)
     public void openOtherPost(){

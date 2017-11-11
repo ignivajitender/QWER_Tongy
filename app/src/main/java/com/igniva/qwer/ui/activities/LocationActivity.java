@@ -36,6 +36,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
         ButterKnife.bind(this);
+        setUpToolbar();
         initilizeMap();
     }
 

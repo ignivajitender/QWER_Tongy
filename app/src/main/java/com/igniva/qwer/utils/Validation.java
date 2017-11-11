@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.igniva.qwer.R;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -581,5 +582,79 @@ public class Validation {
             return false;
         }
     return true;
+    }
+
+    public static boolean isValidatedCreateOtherPost(Activity context, EditText mEtDescription, EditText mEtTitle, File outPutFile) {
+        if(FieldValidators.isNullOrEmpty(mEtTitle)){
+            mEtTitle.setFocusable(true);
+            mEtTitle.requestFocus();
+            mEtTitle.setError(context.getString(R.string.please_enter_title));
+            return false;
+        }
+        if(FieldValidators.isNullOrEmpty(mEtDescription)){
+            mEtDescription.setFocusable(true);
+            mEtDescription.requestFocus();
+            mEtDescription.setError(context.getString(R.string.please_enter_description));
+            return false;
+        }
+        if(outPutFile==null){
+           Utility.showToastMessageLong((Activity) context,context.getResources().getString(R.string.add_image));
+            return false;
+        }
+
+
+   return true;
+    }
+
+    public static boolean validateCreateMeetingPost(Activity context, EditText mEtTitle, EditText mEtDescription, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime) {
+
+        if(FieldValidators.isNullOrEmpty(mEtTitle)){
+            mEtTitle.setFocusable(true);
+            mEtTitle.requestFocus();
+            mEtTitle.setError(context.getString(R.string.please_enter_title));
+            return false;
+        }
+        else if(FieldValidators.isNullOrEmpty(mEtDescription)){
+            mEtDescription.setFocusable(true);
+            mEtDescription.requestFocus();
+            mEtDescription.setError(context.getString(R.string.please_enter_description));
+            return false;
+        }
+        else if(FieldValidators.isNullOrEmpty(mEtDescription)){
+            mEtDescription.setFocusable(true);
+            mEtDescription.requestFocus();
+            mEtDescription.setError(context.getString(R.string.please_enter_description));
+            return false;
+        }
+
+
+        else if(FieldValidators.isNullOrEmpty(metScheduleStartDate)){
+            metScheduleStartDate.setFocusable(true);
+            metScheduleStartDate.requestFocus();
+            metScheduleStartDate.setError(context.getString(R.string.please_enter_start_date));
+            return false;
+        }
+        else if(FieldValidators.isNullOrEmpty(metScheduleEndDate)){
+            metScheduleEndDate.setFocusable(true);
+            metScheduleEndDate.requestFocus();
+            metScheduleEndDate.setError(context.getString(R.string.please_enter_end_date));
+            return false;
+        }
+        else if(FieldValidators.isNullOrEmpty(mEtStartTime)){
+            mEtStartTime.setFocusable(true);
+            mEtStartTime.requestFocus();
+            mEtStartTime.setError(context.getString(R.string.please_enter_start_time));
+            return false;
+        }
+        else if(FieldValidators.isNullOrEmpty(mEtEndTime)){
+            mEtEndTime.setFocusable(true);
+            mEtEndTime.requestFocus();
+            mEtEndTime.setError(context.getString(R.string.please_enter_end_time));
+            return false;
+        }
+
+
+
+    return  true;
     }
 }

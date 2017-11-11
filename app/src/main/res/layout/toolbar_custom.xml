@@ -56,6 +56,15 @@
         android:padding="@dimen/_12dp"
         android:src="@drawable/notification" />
     <ImageView
+        android:id="@+id/ivSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="@dimen/_12dp"
+        android:src="@drawable/search"
+        android:visibility="gone"
+        />
+    <ImageView
         android:id="@+id/edit_pref_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

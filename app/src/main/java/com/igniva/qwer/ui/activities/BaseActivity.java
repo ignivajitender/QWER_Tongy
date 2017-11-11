@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.utils.ImagePicker;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -19,8 +20,9 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected abstract void setUpToolbar();
 
     private final int RC_CAMERA_PERM = 123;
+    private final int RC_LOCATION_PERM = 124;
     private int IMAGE_REQUEST_CODE = 500;
-    @AfterPermissionGranted(RC_CAMERA_PERM)
+    @AfterPermissionGranted(RC_LOCATION_PERM)
     public void changeLocation() {
         if (hasLocationPermission()) {
             // Have permission, do the thing!
@@ -36,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity{
             EasyPermissions.requestPermissions(
                     this,
                     getString(R.string.rationale_ask_again),
-                    RC_CAMERA_PERM,
+                    RC_LOCATION_PERM,
                     Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION);
         }
     }
@@ -44,5 +46,28 @@ public abstract class BaseActivity extends AppCompatActivity{
         return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION,  Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
+    /**
+     * check run time camera permissions
+     */
+
+    @AfterPermissionGranted(RC_CAMERA_PERM)
+    public void changeImage() {
+        if (hasCameraPermission()) {
+            // Have permission, do the thing!
+            startActivityForResult(ImagePicker.getPickImageIntent(BaseActivity.this), IMAGE_REQUEST_CODE);
+
+        } else {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(
+                    this,
+                    getString(R.string.rationale_ask_again),
+                    RC_CAMERA_PERM,
+                    Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+    private boolean hasCameraPermission() {
+        return EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
 
 }

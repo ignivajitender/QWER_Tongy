@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_200dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/upper_half_round_background_offwhite"
+        android:paddingBottom="@dimen/_10dp"
+        android:paddingTop="@dimen/_10dp">
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:id="@+id/tvDialogTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:gravity="center"
+            android:text="@string/report_post"
+            android:textColor="@color/text_dark_grey"
+            android:textSize="@dimen/_20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_half_round_background_white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_24dp"
+        android:paddingLeft="@dimen/_10dp"
+        android:paddingRight="@dimen/_10dp"
+        android:paddingTop="@dimen/_10dp">
+
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:id="@+id/tv_success_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:padding="@dimen/_8dp"
+            android:text="@string/please_select_your_reason"
+            
+            android:layout_gravity="start"
+            android:textColor="@color/text_dark_grey" />
+
+        
+        <EditText
+            android:id="@+id/etReason"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:hint="Select Reason"
+            android:drawableRight="@drawable/ms__arrow"
+            android:drawableTint="@color/text_light_grey"
+            android:padding="@dimen/_8dp"
+            android:editable="false"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:orientation="vertical"
+          >
+
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/your_comment"
+                android:textColor="@color/text_dark_grey"
+                android:padding="@dimen/_8dp"
+                />
+
+            <EditText
+                android:id="@+id/et_comment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80dp"
+                android:layout_marginTop="@dimen/_2dp"
+                android:background="@drawable/edit_text_background"
+                android:hint="Enter Here"
+                android:maxLines="3"
+                android:inputType="textPassword"
+                android:padding="@dimen/_4dp"
+                android:scrollbars="horizontal"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:maxLength="30"
+                android:layout_gravity="top"
+                android:gravity="top"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8dp"
+            android:layout_marginRight="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_5dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_weight="1"
+                android:background="@drawable/red_round_button"
+                android:text="@string/cancel"
+                android:textColor="@color/bg_white"
+                android:textSize="@dimen/_15sp" />
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_10dp"
+                android:layout_marginLeft="@dimen/_5dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_weight="1"
+                android:background="@drawable/blue_round_button"
+                android:text="@string/submit"
+                android:textColor="@color/bg_white"
+                android:textSize="@dimen/_15sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

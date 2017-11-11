@@ -48,6 +48,7 @@ public class PostsListFragment extends BaseFragment {
     public int pageNo = 1;
     View mView;
     @Inject
+    public
     Retrofit retrofit;
     RecyclerviewAdapter adapter;
     List<PostPojo.PostDataPojo.DataBean> postList = null;
@@ -171,7 +172,7 @@ public class PostsListFragment extends BaseFragment {
                 isLast = true;
 
             if (adapter == null) {
-                adapter = new RecyclerviewAdapter(getActivity(), mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>) responsePojo.getData());
+                adapter = new RecyclerviewAdapter(getActivity(), mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>) responsePojo.getData(),retrofit);
                 mrecyclerView.setAdapter(adapter);
             } else
                 adapter.addAll(responsePojo.getData());

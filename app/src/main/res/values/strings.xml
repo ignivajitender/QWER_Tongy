@@ -206,15 +206,28 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="add_image">Add Image</string>
     <string name="add_members">Add members</string>
     <string name="location">Location</string>
+    <string name="other">other</string>
+    <string name="add_address">Add Address</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="search">Search</string>
+    <string name="no_data">No data found</string>
+    <string name="report_post">Report Post!</string>
+    <string name="please_select_your_reason">Select Your Reason?</string>
+    <string name="your_comment">Your comment</string>
+    <string name="title_activity_post_detail">PostDetailActivity</string>
+    <string name="price25">Price\n25</string>
+    <string name="post_details">Post Details</string>
+    <string name="time_and_date">Time and Date\n5th July,2017 to 7th July,2017\n9:00 am to 10:00 am</string>
+    <string name="type_of_class_loc">Type of Class\nPhysical\nLocation noida</string>
     <string name="select_atleast_one_speak">Please select at least one language you speak.</string>
     <string name="select_atleast_one_learn">Please select at least one language you want to learn.</string>
     <string name="select_speak_limit">You cannot select more than 4 languages you speak.</string>
     <string name="select_learn_limit">You cannot select more than 6 languages you want to learn.</string>
     <string name="news_feed">News Feed</string>
-    <string name="no_data">No posts found.</string>
+
     <string name="upcomming">Upcoming</string>
     <string name="ongoing">Ongoing</string>
     <string name="archives">Archives</string>
-    <string name="other">other</string>
-    <string name="my_uploads">My Uploads</string>
+
+     <string name="my_uploads">My Uploads</string>
 </resources>

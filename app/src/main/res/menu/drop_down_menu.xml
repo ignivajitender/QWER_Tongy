@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/dropdown_menu1"
+        android:showAsAction="ifRoom"
+        android:title="Commercial or Spam or Fake"
+        android:visible="true" />
+    <item
+        android:id="@+id/dropdown_menu2"
+        android:showAsAction="ifRoom|withText"
+        android:title="Abusive"
+        android:visible="true" />
+    <item
+        android:id="@+id/dropdown_menu3"
+        android:showAsAction="ifRoom"
+        android:title="Inappropriate"
+        android:visible="true" />
+
+    <item
+        android:id="@+id/dropdown_menu4"
+        android:showAsAction="ifRoom"
+        android:title="Misleading"
+        android:visible="true" />
+
+</menu>
