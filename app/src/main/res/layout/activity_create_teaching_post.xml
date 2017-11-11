@@ -80,6 +80,7 @@
 
 
             <LinearLayout
+                android:id="@+id/llAddPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10dp"
@@ -220,6 +221,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llTypeOfClass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10dp"
@@ -266,15 +268,28 @@
 
 
             </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llAddAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:orientation="vertical"
+            android:padding="@dimen/_10dp"
+            android:visibility="gone"
+            >
+            <com.igniva.qwer.ui.views.TextViewBold
+                android:id="@+id/tvAddAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_address"
+                android:textAllCaps="true"
+                />
+
 
             <RelativeLayout
                 android:id="@+id/rlAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-               android:layout_margin="@dimen/_10dp"
-                android:visibility="visible"
-
                 >
 
                 <AutoCompleteTextView
@@ -304,7 +319,10 @@
                     android:layout_centerInParent="true"
                     />
             </RelativeLayout>
+
+        </LinearLayout>
             <LinearLayout
+                android:id="@+id/llAddMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10dp"
@@ -326,8 +344,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2dp"
                     android:background="@drawable/edit_text_white_rounded_corners"
-                    android:hint="@string/add_cost"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/add_members"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:padding="@dimen/_4dp"
                     android:textColor="@color/text_dark_grey"

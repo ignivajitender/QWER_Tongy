@@ -52,6 +52,8 @@ public class MainActivity extends BaseActivity {
     FragmentViewPagerAdapter pagerAdapter;
     private Fragment currentFrag;
 
+    @BindView(R.id.ivSearch)
+    ImageView mivSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +162,23 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    public void isshowSearch(boolean val){
+        if(val){
+            mivSearch.setVisibility(View.VISIBLE);
+            mEditPrefIcon.setVisibility(View.GONE);
+        }
+        else
+        {
+            mivSearch.setVisibility(View.GONE);
+            mEditPrefIcon.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @OnClick(R.id.ivSearch)
+    public void openSearch(){
+        startActivity(new Intent(MainActivity.this,SearchActivity.class));
+    }
 }
 
 

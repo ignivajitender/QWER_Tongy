@@ -64,10 +64,12 @@ public class CreateTeachingPostActivity extends BaseActivity {
     public void back() {
         onBackPressed();
     }
+
     @OnClick(R.id.et_schedule_start_date)
     public void open() {
-       showDialog(metScheduleStartDate);
+        showDialog(metScheduleStartDate);
     }
+
     @OnClick(R.id.et_schedule_end_date)
     public void open1() {
         showDialog(metScheduleEndDate);
@@ -78,6 +80,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
     public void openTime() {
         showDialogTime(mEtStartTime);
     }
+
     @OnClick(R.id.et_end_time)
     public void openTime1() {
         showDialogTime(mEtEndTime);
@@ -86,18 +89,19 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @BindView(R.id.rlAddress)
     RelativeLayout mrlAddress;
-    @OnClick(R.id.rb_online)
-    public void hideAddress(){
-        if(mrlAddress.getVisibility()==View.VISIBLE)
-            mrlAddress.setVisibility(View.GONE);
 
-        typeOfClass="online";
+    @OnClick(R.id.rb_online)
+    public void hideAddress() {
+        if (mllAddAddress.getVisibility() == View.VISIBLE)
+            mllAddAddress.setVisibility(View.GONE);
+
+        typeOfClass = "online";
     }
 
-   @OnClick(R.id.rb_physical)
-    public void showAddress(){
-       mrlAddress.setVisibility(View.VISIBLE);
-       typeOfClass="physical";
+    @OnClick(R.id.rb_physical)
+    public void showAddress() {
+        mllAddAddress.setVisibility(View.VISIBLE);
+        typeOfClass = "physical";
     }
 
     @BindView(R.id.autocomTextViewAddress)
@@ -107,15 +111,12 @@ public class CreateTeachingPostActivity extends BaseActivity {
     OkHttpClient okHttpClient;
     @Inject
     Gson gson;
-    String typeOfClass="";
+    String typeOfClass = "online";
 
 
     @OnClick(R.id.ivLocation)
-    public void openLocation(){
+    public void openLocation() {
         changeLocation();
-
-
-
     }
 
 
@@ -140,15 +141,31 @@ public class CreateTeachingPostActivity extends BaseActivity {
     }
 
     @OnClick(R.id.tvPostNow)
-    public void post(){
-       // call api to create teachinbg post
-        ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this,retrofit,mEtTitle,mEtDescription,mEtPrice,metScheduleStartDate,metScheduleEndDate,mEtStartTime,mEtEndTime,typeOfClass);
+    public void post() {
+        if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
+            // call api to create teaching post
+            ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass);
+        }
+        else if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
+            // call api to create teaching post
+            ApiControllerClass.createMeetingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime);
+        }
+
     }
 
     @BindView(R.id.et_schedule_start_date)
     EditText metScheduleStartDate;
     @BindView(R.id.et_schedule_end_date)
     EditText metScheduleEndDate;
+
+    @BindView(R.id.llAddMembers)
+    LinearLayout mllAddMembers;
+    @BindView(R.id.llAddPrice)
+    LinearLayout mllAddPrice;
+    @BindView(R.id.llTypeOfClass)
+    LinearLayout mllTypeOfClass;
+    @BindView(R.id.llAddAddress)
+    LinearLayout mllAddAddress;
 
 
     Calendar myCalendar = Calendar.getInstance();
@@ -196,6 +213,18 @@ public class CreateTeachingPostActivity extends BaseActivity {
             }
         });
 
+        if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
+            if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
+                mllAddMembers.setVisibility(View.GONE);
+            if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
+                mllAddMembers.setVisibility(View.VISIBLE);
+                mllAddAddress.setVisibility(View.VISIBLE);
+                mllAddPrice.setVisibility(View.GONE);
+                mllTypeOfClass.setVisibility(View.GONE);
+
+            }
+        }
+
     }
 
     @Override
@@ -235,7 +264,12 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @Override
     protected void setUpToolbar() {
-        mtvToolbartitle.setText(getResources().getString(R.string.create_teaching_post));
+        if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
+            mtvToolbartitle.setText(getResources().getString(R.string.create_teaching_post));
+
+        }
+        else
+            mtvToolbartitle.setText(getResources().getString(R.string.create_meeting_post));
     }
 
 

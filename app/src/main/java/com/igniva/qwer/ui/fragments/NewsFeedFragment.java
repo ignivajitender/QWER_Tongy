@@ -19,6 +19,7 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.activities.CreateNewPostActivity;
+import com.igniva.qwer.ui.activities.MainActivity;
 import com.igniva.qwer.ui.adapters.NewsFeedAdapter;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Utility;
@@ -44,6 +45,8 @@ public class NewsFeedFragment extends BaseFragment {
     @Inject
     public
     Retrofit retrofit;
+
+
     @OnClick({R.id.fabCreatePost, R.id.fabMyUploads,R.id.fabMyFavorites})
     public void onViewClicked(View view) {
     switch (view.getId()){
@@ -92,6 +95,7 @@ public class NewsFeedFragment extends BaseFragment {
 
     @Override
     public void setUpLayout() {
+        ((MainActivity)getActivity()).isshowSearch(true);
 
     }
 
@@ -110,7 +114,7 @@ public class NewsFeedFragment extends BaseFragment {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         Log.e("","postList----"+postList.size());
-        adapter = new NewsFeedAdapter(getActivity(),postList,retrofit);
+        adapter = new NewsFeedAdapter(getActivity(),"feed",postList,retrofit);
         mrecyclerView.setAdapter(adapter);
     }
 

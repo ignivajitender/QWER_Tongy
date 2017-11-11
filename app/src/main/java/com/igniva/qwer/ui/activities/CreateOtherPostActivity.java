@@ -1,6 +1,5 @@
 package com.igniva.qwer.ui.activities;
 
-import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -11,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.ui.views.TextViewBold;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.ImagePicker;
+import com.igniva.qwer.utils.Validation;
 
 import java.io.File;
 
@@ -22,9 +23,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Retrofit;
 
 import static com.igniva.qwer.utils.ImagePicker.PIC_CROP;
@@ -53,13 +52,18 @@ public class CreateOtherPostActivity extends BaseActivity {
     public
     Retrofit retrofit;
     private int IMAGE_REQUEST_CODE = 500;
-    private final int RC_CAMERA_PERM = 123;
+
     private File outPutFile;
 
+    @OnClick(R.id.ivImage)
+    public  void fetchImage(){
+        changeImage();
+    }
 
     @OnClick(R.id.tvPostNow)
     public void postNow(){
-        //ApiControllerClass.callOtherPostApi(retrofit,CreateOtherPostActivity.this,mEtDescription,mEtTitle,outPutFile);
+        if (Validation.isValidatedCreateOtherPost(this, mEtDescription, mEtTitle,outPutFile))
+            ApiControllerClass.callOtherPostApi(retrofit,CreateOtherPostActivity.this,mEtDescription,mEtTitle,outPutFile);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,25 +92,6 @@ public class CreateOtherPostActivity extends BaseActivity {
     }
 
 
-    @AfterPermissionGranted(RC_CAMERA_PERM)
-    public void changeImage() {
-        if (hasCameraPermission()) {
-            // Have permission, do the thing!
-            startActivityForResult(ImagePicker.getPickImageIntent(CreateOtherPostActivity.this), IMAGE_REQUEST_CODE);
-
-        } else {
-            // Ask for one permission
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.rationale_ask_again),
-                    RC_CAMERA_PERM,
-                    Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-    }
-
-    private boolean hasCameraPermission() {
-        return EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    }
 
 
     @Override
@@ -140,9 +125,7 @@ public class CreateOtherPostActivity extends BaseActivity {
                 }
                 outPutFile = ImagePicker.persistImage(thePic);
             }
-            if (outPutFile != null) {
-                //callUploadPictureApi(outPutFile);
-            }
+
         }
 
     }
