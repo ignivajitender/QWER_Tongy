@@ -21,13 +21,11 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.activities.CreateNewPostActivity;
-import com.igniva.qwer.ui.activities.MainActivity;
 import com.igniva.qwer.ui.activities.MyFavActivity;
 import com.igniva.qwer.ui.activities.MyPostsActivity;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.utils.EndlessRecyclerViewScrollListener;
 import com.igniva.qwer.utils.Global;
-import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,4 +188,9 @@ public class PostsListFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        menuFloating.close(true);
+    }
 }
