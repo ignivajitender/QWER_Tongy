@@ -368,6 +368,9 @@ public class ApiControllerClass {
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                              } else {
+                                if(fragment!=null)
+                                    fragment.setDataInViewObjects(null);
+
                                 CallProgressWheel.dismissLoadingDialog();
                                 Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
