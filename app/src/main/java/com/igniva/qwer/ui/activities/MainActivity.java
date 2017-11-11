@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity {
                 } else if (tab.getPosition() == 1) {
                     replaceFragment(new HomeFragment());
                 } else if (tab.getPosition() == 2) {
-                    replaceFragment(new PostsListFragment());
+                    //replaceFragment(new PostsListFragment());
                 }
 
              }

@@ -88,7 +88,7 @@ public class CreateOtherPostActivity extends BaseActivity {
 
     @Override
     protected void setUpToolbar() {
-
+        mTvTapToRename.setText(getResources().getString(R.string.create_other_post));
     }
 
 

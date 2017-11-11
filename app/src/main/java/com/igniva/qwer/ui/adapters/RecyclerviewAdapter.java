@@ -250,8 +250,6 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
         TextView mTvDate;
         @BindView(R.id.ib_chat)
         TextView mIbChat;
-        @BindView(R.id.tv_fav)
-        TextView mTvFav;
         @BindView(R.id.cardView2)
         CardView mCardView2;
         @BindView(R.id.tv_postType)
