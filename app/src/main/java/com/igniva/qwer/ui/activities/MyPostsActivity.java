@@ -48,7 +48,7 @@ public class MyPostsActivity extends BaseActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager());
-
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(fragmentAdapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

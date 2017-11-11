@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
         replaceFragment(new HomeFragment());
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.news_feeds));
-        tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.home));
+        tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.home),true);
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.connections));
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
         //tab_layout.setupWithViewPager(mViewPager1);
@@ -98,6 +98,7 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
         tab_layout.setScrollPosition(1,0f,true);
 //        mViewPager1.setCurrentItem(1);
 
