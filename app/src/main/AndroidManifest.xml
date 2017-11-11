@@ -80,6 +80,9 @@
             android:name=".ui.activities.MyProfileActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activities.MyPostsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activities.WalkThroughActivity"
             android:screenOrientation="portrait" />
         <activity

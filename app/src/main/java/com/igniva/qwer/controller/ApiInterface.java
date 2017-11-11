@@ -97,7 +97,7 @@ public interface ApiInterface {
     Call<ResponsePojo> createTeachingPost(@FieldMap HashMap<String, String> changePasswordHashMap);
 
     @GET("/api/nonUsers/post")
-    Call<PostPojo> getPosts();
+    Call<PostPojo> getPosts(@Query("page") int pageNumber);
 
     @FormUrlEncoded
     @POST("/api/users/post/postFavUnfav")
@@ -117,4 +117,12 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/users/post/reportPost")
     Call<ResponsePojo> reportAbuse(HashMap<String, String> changePasswordHashMap);
+
+
+    @GET("/api/users/post")
+    Call<PostPojo> getUserPosts(@Query("page") int pageNumber,@Query("post") String post);
+
+//    http://tongy.ignivastaging.com/api/users/favPost
+    @GET("/api/users/favPost")
+    Call<PostPojo> getFavPosts(@Query("page") int pageNumber);
 }

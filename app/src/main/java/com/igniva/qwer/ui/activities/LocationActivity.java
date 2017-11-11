@@ -19,9 +19,6 @@ import butterknife.OnClick;
 
 public class LocationActivity extends BaseActivity implements OnMapReadyCallback {
 
-
-
-
     // Google Map
     private GoogleMap googleMap;
 

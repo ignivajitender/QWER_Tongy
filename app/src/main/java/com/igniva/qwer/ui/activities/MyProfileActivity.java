@@ -38,6 +38,7 @@ import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.ImagePicker;
+import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
 import com.igniva.qwer.utils.fcm.Constants;
@@ -229,7 +230,6 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_my_profile);
-
         ButterKnife.bind(this);
         setUpLayout();
         getProfileApi();
@@ -565,9 +565,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
                 break;
             case R.id.tv_lets_start:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                callSaveUpdateProfile();
+
 
                 break;
         }
@@ -587,8 +586,6 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                               "gender":"male",”age”:”20”,”pincode”:”148002”,”about”:”tongy app”
                             }
                             */
-
-
                     HashMap<String, String> updateProfilePayload = new HashMap<>();
                     updateProfilePayload.put("country", mautocomTextViewCountry.getText().toString().trim());
                     updateProfilePayload.put("city", mEtCity.getText().toString().trim());
@@ -597,14 +594,21 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                     updateProfilePayload.put("about", mEtAbout.getText().toString().trim());
                     updateProfilePayload.put("age", mEtAge.getText().toString().trim());
                     updateProfilePayload.put("name", mtvName.getText().toString().trim());
-
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).updateProfile(updateProfilePayload);
                     posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                         @Override
                         public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
+                                PreferenceHandler.writeBoolean(MyProfileActivity.this,PreferenceHandler.IS_PROFILE_SET,true);
+                                if(getIntent().hasExtra(Constants.MYPROFILEEDITABLE))
                                 callSuccessPopUp(MyProfileActivity.this, response.body().getDescription());
+                                else
+                                {
+                                    Intent intent = new Intent(MyProfileActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                 }
                                 //Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
 
 

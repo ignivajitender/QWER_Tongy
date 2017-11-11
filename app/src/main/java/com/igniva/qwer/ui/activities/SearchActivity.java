@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.PostPojo;
-import com.igniva.qwer.ui.adapters.NewsFeedAdapter;
+import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Utility;
@@ -47,7 +47,7 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.autoCompleteSearch)
     AutoCompleteTextView mautoCompleteSearch;
 
-    NewsFeedAdapter adapter;
+    RecyclerviewAdapter adapter;
     @BindView(R.id.recyclerRants)
     RecyclerView mrecyclerView;
     @BindView(R.id.tvNoData)
@@ -123,9 +123,9 @@ public class SearchActivity extends BaseActivity {
                         if(response.body()!=null && response.body().getData()!=null && response.body().getData().getData().size()>0)
                         {
                             mrecyclerView.setVisibility(View.VISIBLE);
-                            adapter = new NewsFeedAdapter(SearchActivity.this, "search",response.body().getData().getData(),retrofit);
+                         /*   adapter = new RecyclerviewAdapter(SearchActivity.this, "search",response.body().getData(),retrofit);
                             mrecyclerView.setAdapter(adapter);
-
+*/
                         }
                         else
                         {

@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.activities;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import com.igniva.qwer.ui.callbacks.MyCallBack;
 import com.igniva.qwer.ui.views.TextViewRegular;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Log;
+import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
@@ -122,6 +124,9 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 isEditable = true;
                 mTvStartLookingAgain.setVisibility(View.VISIBLE);
                 mTvLetsLearn.setVisibility(View.GONE);
+            } else {
+                mTvStartLookingAgain.setVisibility(View.VISIBLE);
+                mTvLetsLearn.setVisibility(View.GONE);
             }
 
         }
@@ -166,48 +171,55 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
     }
 
     private synchronized void onLangItemClick(AutoCompleteTextView autoCompleteTextView, String selection, String languageType) {
-        PrefInputPojo.LanguagesProficiency tempPojo = new PrefInputPojo().new LanguagesProficiency();
-        tempPojo.setProficiency(Constants.BEGINNER);
-        tempPojo.setName(selection);
-        if (languageType.equals(Constants.LANGUAGE_LEARN))
-            for (PrefInputPojo.LanguagesProficiency tPojo : mAlLangListLearn
+        try {
+            PrefInputPojo.LanguagesProficiency tempPojo = new PrefInputPojo().new LanguagesProficiency();
+            tempPojo.setProficiency(Constants.BEGINNER);
+            tempPojo.setName(selection);
+            if (languageType.equals(Constants.LANGUAGE_LEARN))
+                for (PrefInputPojo.LanguagesProficiency tPojo : mAlLangListLearn
+                        ) {
+                    if (tPojo.getName().equals(selection)) {
+                        mAlLangListLearn.remove(tPojo);
+                        break;
+                    }
+                }
+            else
+                for (PrefInputPojo.LanguagesProficiency tPojo : mAlLangListSpeak
+                        ) {
+                    if (tPojo.getName().equals(selection)) {
+                        mAlLangListSpeak.remove(tPojo);
+                        break;
+                    }
+                }
+            for (LanguagesResponsePojo.LanguagesPojo lanPojo : mAlLangList
                     ) {
-                if (tPojo.getName().equals(selection)) {
-                    mAlLangListLearn.remove(tPojo);
+                if (selection.equals(lanPojo.getName())) {
+                    tempPojo.setLanguage_id(lanPojo.getId() + "");
                     break;
                 }
             }
-        else
-            for (PrefInputPojo.LanguagesProficiency tPojo : mAlLangListSpeak
-                    ) {
-                if (tPojo.getName().equals(selection)) {
-                    mAlLangListSpeak.remove(tPojo);
-                    break;
-                }
-            }
-        for (LanguagesResponsePojo.LanguagesPojo lanPojo : mAlLangList
-                ) {
-            if (selection.equals(lanPojo.getName())) {
-                tempPojo.setLanguage_id(lanPojo.getId() + "");
-                break;
-            }
+            if (languageType.equals(Constants.LANGUAGE_LEARN))
+                mAlLangListLearn.add(tempPojo);
+            else
+                mAlLangListSpeak.add(tempPojo);
+
+            callSetPrefPopUp(selection, languageType);
+            autoCompleteTextView.setText("");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (languageType.equals(Constants.LANGUAGE_LEARN))
-            mAlLangListLearn.add(tempPojo);
-        else
-            mAlLangListSpeak.add(tempPojo);
-        callSetPrefPopUp(selection, languageType);
-        autoCompleteTextView.setText("");
     }
 
     protected void setupSeekbarListerns() {
         mSeekbarNearbyArea.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
             @Override
             public void valueChanged(Number value) {
-                int x = (int) mSeekbarNearbyArea.getLeftThumbRect().left;
-                Log.e("valuepfx", x + "");
-                mTvNearbyAreaValue.setX(x);
-                mTvNearbyAreaValue.setText("" + value + " km");
+                if (!mTvNearbyAreaValue.getText().toString().replace("km","").equals(value.toString())) {
+                    int x = (int) mSeekbarNearbyArea.getLeftThumbRect().left;
+                    mTvNearbyAreaValue.setX(x);
+                    Log.e("valuepfx", x + "");
+                    mTvNearbyAreaValue.setText("" + value + "km");
+                }
             }
         });
         mSeekbarPreferredAge.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
@@ -247,86 +259,90 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
 
     public void callSetPrefPopUp(String selection, final String type) {
 
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(SetPreferrencesActivity.this,
-                R.style.Theme_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.setContentView(R.layout.set_preferences_pop_up);
+        try {
+            // Create custom dialog object
+            final Dialog dialog = new Dialog(SetPreferrencesActivity.this,
+                    R.style.Theme_Dialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            dialog.setContentView(R.layout.set_preferences_pop_up);
 
 
-        TextViewRegular mTv_lan_name = (TextViewRegular) dialog.findViewById(R.id.tv_lang_name);
-        mTv_lan_name.setText(selection);
-        LinearLayout mLlbeginer = (LinearLayout) dialog.findViewById(R.id.ll_beginner);
-        LinearLayout mLlintermediate = (LinearLayout) dialog.findViewById(R.id.ll_intermediate);
-        LinearLayout mLlprofessional = (LinearLayout) dialog.findViewById(R.id.ll_professional);
+            TextViewRegular mTv_lan_name = (TextViewRegular) dialog.findViewById(R.id.tv_lang_name);
+            mTv_lan_name.setText(selection);
+            LinearLayout mLlbeginer = (LinearLayout) dialog.findViewById(R.id.ll_beginner);
+            LinearLayout mLlintermediate = (LinearLayout) dialog.findViewById(R.id.ll_intermediate);
+            LinearLayout mLlprofessional = (LinearLayout) dialog.findViewById(R.id.ll_professional);
 
-        switch (type) {
-            case Constants.LANGUAGE_SPEAK:
-                mLlbeginer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mAlLangListSpeak.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.BEGINNER);
-                        dialog.dismiss();
-                        mRvLanguageSpeak.setVisibility(View.VISIBLE);
-                        mAdapterLangSpeak.notifyDataSetChanged();
-                    }
-                });
-                mLlintermediate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mAlLangListSpeak.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.INTERMEDIATE);
-                        dialog.dismiss();
-                        mRvLanguageSpeak.setVisibility(View.VISIBLE);
-                        mAdapterLangSpeak.notifyDataSetChanged();
-                    }
-                });
-                mLlprofessional.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mAlLangListSpeak.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.PROFESSIONAL);
-                        dialog.dismiss();
-                        mRvLanguageSpeak.setVisibility(View.VISIBLE);
-                        mAdapterLangSpeak.notifyDataSetChanged();
-                    }
-                });
-                break;
-            case Constants.LANGUAGE_LEARN:
-                mLlbeginer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mAlLangListLearn.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.BEGINNER);
-                        dialog.dismiss();
-                        mRvLanguageToLearn.setVisibility(View.VISIBLE);
-                        mAdapterLanLearn.notifyDataSetChanged();
-                    }
-                });
-                mLlintermediate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mAlLangListLearn.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.INTERMEDIATE);
-                        dialog.dismiss();
-                        mRvLanguageToLearn.setVisibility(View.VISIBLE);
-                        mAdapterLanLearn.notifyDataSetChanged();
-                    }
-                });
-                mLlprofessional.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mAlLangListLearn.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.PROFESSIONAL);
-                        dialog.dismiss();
-                        mRvLanguageToLearn.setVisibility(View.VISIBLE);
-                        mAdapterLanLearn.notifyDataSetChanged();
-                    }
-                });
-                break;
-        }
+            switch (type) {
+                case Constants.LANGUAGE_SPEAK:
+                    mLlbeginer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mAlLangListSpeak.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.BEGINNER);
+                            dialog.dismiss();
+                            mRvLanguageSpeak.setVisibility(View.VISIBLE);
+                            mAdapterLangSpeak.notifyDataSetChanged();
+                        }
+                    });
+                    mLlintermediate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mAlLangListSpeak.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.INTERMEDIATE);
+                            dialog.dismiss();
+                            mRvLanguageSpeak.setVisibility(View.VISIBLE);
+                            mAdapterLangSpeak.notifyDataSetChanged();
+                        }
+                    });
+                    mLlprofessional.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mAlLangListSpeak.get(mAlLangListSpeak.size() - 1).setProficiency(Constants.PROFESSIONAL);
+                            dialog.dismiss();
+                            mRvLanguageSpeak.setVisibility(View.VISIBLE);
+                            mAdapterLangSpeak.notifyDataSetChanged();
+                        }
+                    });
+                    break;
+                case Constants.LANGUAGE_LEARN:
+                    mLlbeginer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mAlLangListLearn.get(mAlLangListLearn.size() - 1).setProficiency(Constants.BEGINNER);
+                            dialog.dismiss();
+                            mRvLanguageToLearn.setVisibility(View.VISIBLE);
+                            mAdapterLanLearn.notifyDataSetChanged();
+                        }
+                    });
+                    mLlintermediate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mAlLangListLearn.get(mAlLangListLearn.size() - 1).setProficiency(Constants.INTERMEDIATE);
+                            dialog.dismiss();
+                            mRvLanguageToLearn.setVisibility(View.VISIBLE);
+                            mAdapterLanLearn.notifyDataSetChanged();
+                        }
+                    });
+                    mLlprofessional.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mAlLangListLearn.get(mAlLangListLearn.size() - 1).setProficiency(Constants.PROFESSIONAL);
+                            dialog.dismiss();
+                            mRvLanguageToLearn.setVisibility(View.VISIBLE);
+                            mAdapterLanLearn.notifyDataSetChanged();
+                        }
+                    });
+                    break;
+            }
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.setTitle("Custom Dialog");
-        dialog.show();
+            dialog.setTitle("Custom Dialog");
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -368,32 +384,46 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 mIvFemale.setImageDrawable(getResources().getDrawable(R.drawable.female_selected));
                 break;
             case R.id.tv_lets_learn:
-                setPref();
-                Intent intent = new Intent(SetPreferrencesActivity.this, MyProfileActivity.class);
-                startActivity(intent);
+                if (setPref()) {
+                    Intent intent = new Intent(SetPreferrencesActivity.this, MyProfileActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.tv_start_looking_again:
-                setPref();
-                Intent intentlookagain = new Intent(SetPreferrencesActivity.this, MainActivity.class);
-                startActivity(intentlookagain);
+                if (setPref()) {
+                    Intent intentlookagain = new Intent(SetPreferrencesActivity.this, MainActivity.class);
+                    startActivity(intentlookagain);
+                }
                 break;
         }
     }
 
-    void setPref() {
-        PrefInputPojo prefInputPojo = new PrefInputPojo();
-        prefInputPojo.setLearn(mAlLangListLearn);
-        prefInputPojo.setPrefered_age_from(Integer.valueOf(mTvPreferredAgeMin.getText().toString()));
+    Boolean setPref() {
 
-        prefInputPojo.setPrefered_age_to(Integer.valueOf(mTvPreferredAgeMax.getText().toString().replace("+","")));
-        prefInputPojo.setPrefered_gender(mGender);
-        prefInputPojo.setSpeak(mAlLangListSpeak);
-        prefInputPojo.setPrefered_area_type(mAreaType);
-        if (mAreaType.equals("nearby"))
-            prefInputPojo.setArea_km(Integer.valueOf(mTvNearbyAreaValue.getText().toString().replace("km","").trim()));
 
-        ApiControllerClass.setPrefrences(context,retrofit, prefInputPojo);
-
+        if (mAlLangListSpeak == null || mAlLangListSpeak.size() == 0) {
+            Utility.showToastMessageLong((Activity) context, context.getResources().getString(R.string.select_atleast_one_speak));
+        } else if (mAlLangListSpeak.size() > 4) {
+            Utility.showToastMessageLong((Activity) context, context.getResources().getString(R.string.select_speak_limit));
+        } else if (mAlLangListLearn == null || mAlLangListLearn.size() == 0) {
+            Utility.showToastMessageLong((Activity) context, context.getResources().getString(R.string.select_atleast_one_learn));
+        } else if (mAlLangListLearn.size() > 6) {
+            Utility.showToastMessageLong((Activity) context, context.getResources().getString(R.string.select_learn_limit));
+        } else {
+            PrefInputPojo prefInputPojo = new PrefInputPojo();
+            prefInputPojo.setLearn(mAlLangListLearn);
+            prefInputPojo.setPrefered_age_from(Integer.valueOf(mTvPreferredAgeMin.getText().toString()));
+            prefInputPojo.setPrefered_age_to(Integer.valueOf(mTvPreferredAgeMax.getText().toString().replace("+", "")));
+            prefInputPojo.setPrefered_gender(mGender);
+            prefInputPojo.setSpeak(mAlLangListSpeak);
+            prefInputPojo.setPrefered_area_type(mAreaType);
+            if (mAreaType.equals("nearby")) {
+                prefInputPojo.setArea_km(Integer.valueOf(mTvNearbyAreaValue.getText().toString().replace("km", "").trim()));
+            }
+            ApiControllerClass.setPrefrences(context, retrofit, prefInputPojo);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -406,7 +436,6 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 if (mAlLangListSpeak.size() == 0) {
                     mRvLanguageSpeak.setVisibility(View.GONE);
                 }
-                ;
 //                mAdapterLangSpeak.notifyItemRemoved(position);
                 break;
             case Constants.LANGUAGE_LEARN:

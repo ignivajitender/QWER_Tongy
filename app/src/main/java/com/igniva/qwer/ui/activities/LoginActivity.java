@@ -205,8 +205,6 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                     signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                     signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
                     signupHash.put(Constants.DEVICE_ID,"123456789");
-
-
                     //Create a retrofit call object
                     retrofit2.Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).login(signupHash);
 
@@ -215,7 +213,9 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                         public void onResponse(retrofit2.Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PROFILE_SET, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PREF_SET, true);
                                 for (int i = 0; i < response.headers().size(); i++) {
 
                                         String loginToken = response.headers().get("x-logintoken");
@@ -230,7 +230,9 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
                             }else if (response.body().getStatus() == 800) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PROFILE_SET, false);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PREF_SET, false);
                                 for (int i = 0; i < response.headers().size(); i++) {
 
                                     String loginToken = response.headers().get("x-logintoken");
@@ -246,7 +248,9 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
                             }else if (response.body().getStatus() == 900) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PROFILE_SET, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PREF_SET, false);
                                 for (int i = 0; i < response.headers().size(); i++) {
 
                                     String loginToken = response.headers().get("x-logintoken");
@@ -344,7 +348,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                         public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
                                 for (int i = 0; i < response.headers().size(); i++) {
 
                                         String loginToken = response.headers().get("x-logintoken");
@@ -367,7 +371,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                         @Override
                         public void onFailure(Call<ResponsePojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
-                            PreferenceHandler.writeBoolean(LoginActivity.this, Constants.IS_ALREADY_LOGIN, false);
+                            PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, false);
                             Toast.makeText(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                         }
                     });

@@ -89,7 +89,7 @@ public class ChangePasswordActivity extends BaseActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 finish();
-                PreferenceHandler.writeBoolean(ChangePasswordActivity.this, Constants.IS_ALREADY_LOGIN, true);
+                PreferenceHandler.writeBoolean(ChangePasswordActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
               /*  Intent intent = new Intent(ChangePasswordActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);*/

@@ -40,13 +40,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="This is the dummy text for subheading"
+            android:text="This is the dummy sub heading text"
             android:textColor="@color/text_medium_grey" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10dp"
+
             android:orientation="vertical"
             android:padding="@dimen/_15dp">
 
@@ -68,8 +69,11 @@
                 android:background="@drawable/edit_text_white_rounded_corners"
                 android:elevation="@dimen/_4dp"
                 android:hint="@string/choose_language"
+                android:textCursorDrawable="@null"
+                android:singleLine="true"
+                 android:maxLength="20"
                 android:padding="@dimen/_5dp"
-                android:textColor="@color/text_light_grey"
+                android:textColor="@android:color/black"
                 android:textColorHint="@color/text_light_grey"
                   />
 
@@ -113,9 +117,12 @@
                 android:layout_marginTop="@dimen/_2dp"
                 android:background="@drawable/edit_text_white_rounded_corners"
                 android:elevation="@dimen/_4dp"
-                android:hint="@string/choose_language"
+                android:textCursorDrawable="@null"
+                android:singleLine="true"
+                android:maxLength="20"
+                 android:hint="@string/choose_language"
                 android:padding="@dimen/_5dp"
-                android:textColor="@color/text_light_grey"
+                android:textColor="@android:color/black"
                 android:textColorHint="@color/text_light_grey" />
 
             <android.support.v7.widget.RecyclerView
@@ -315,6 +322,7 @@
                         app:data_type="_integer"
                         app:left_thumb_color="@color/bg_blue"
                         app:max_value="100"
+                        android:padding="@dimen/_5dp"
                         app:min_value="0"
                         app:steps="5" />
 
@@ -322,7 +330,8 @@
                         android:id="@+id/tv_nearby_area_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0 km"
+                        android:text="0km"
+                        android:layout_marginRight="@dimen/_5dp"
                         android:textColor="@color/text_medium_grey" />
 
                 </LinearLayout>

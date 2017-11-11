@@ -182,7 +182,7 @@ public class SettingsActivity extends BaseActivity {
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         if(response.body().getStatus() == 200){
                             finishAffinity();
-                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.Constants.IS_ALREADY_LOGIN, false);
+                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.PreferenceHandler.IS_ALREADY_LOGIN, false);
                             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
@@ -347,7 +347,7 @@ public class SettingsActivity extends BaseActivity {
                         if(response.body().getStatus() == 200){
                             finishAffinity();
                             Utility.showToastMessageShort(SettingsActivity.this,response.body().getDescription());
-                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.Constants.IS_ALREADY_LOGIN, false);
+                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.PreferenceHandler.IS_ALREADY_LOGIN, false);
                             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
@@ -361,9 +361,7 @@ public class SettingsActivity extends BaseActivity {
                             CallProgressWheel.dismissLoadingDialog();
                             Utility.showToastMessageShort(SettingsActivity.this,response.body().getDescription());
                         }
-
                     }
-
                     @Override
                     public void onFailure(Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();

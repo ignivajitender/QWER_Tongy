@@ -27,7 +27,7 @@
             android:layout_height="@dimen/_30dp"
             android:layout_gravity="center"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_16sp"
+            android:textSize="@dimen/_14sp"
             android:inputType="text"
             android:drawableTint="@color/text_light_grey"
             />

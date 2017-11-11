@@ -195,13 +195,13 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="my_posts">My Posts</string>
     <string name="my_favourites">My Favorites</string>
     <string name="title_activity_location">LocationActivity</string>
-    <string name="please_enter_title">Please enter title</string>
-    <string name="please_enter_description">Please enter description</string>
-    <string name="please_enter_price">Please enter price</string>
-    <string name="please_enter_start_date">Please enter start date</string>
-    <string name="please_enter_end_date">Please enter end date</string>
-    <string name="please_enter_start_time">Please enter start time</string>
-    <string name="please_enter_end_time">Please enter end time</string>
+    <string name="please_enter_title">Please enter title.</string>
+    <string name="please_enter_description">Please enter description.</string>
+    <string name="please_enter_price">Please enter price.</string>
+    <string name="please_enter_start_date">Please enter start date.</string>
+    <string name="please_enter_end_date">Please enter end date.</string>
+    <string name="please_enter_start_time">Please enter start time.</string>
+    <string name="please_enter_end_time">Please enter end time.</string>
     <string name="title_activity_create_other_post">CreateOtherPostActivity</string>
     <string name="add_image">Add Image</string>
     <string name="add_members">Add members</string>
@@ -219,4 +219,14 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="post_details">Post Details</string>
     <string name="time_and_date">Time and Date\n5th July,2017 to 7th July,2017\n9:00 am to 10:00 am</string>
     <string name="type_of_class_loc">Type of Class\nPhysical\nLocation noida</string>
+    <string name="select_atleast_one_speak">Please select at least one language you speak.</string>
+    <string name="select_atleast_one_learn">Please select at least one language you want to learn.</string>
+    <string name="select_speak_limit">You cannot select more than 4 languages you speak.</string>
+    <string name="select_learn_limit">You cannot select more than 6 languages you want to learn.</string>
+    <string name="news_feed">News Feed</string>
+
+    <string name="upcomming">Upcoming</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="archives">Archives</string>
+    <string name="other">other</string>
 </resources>
