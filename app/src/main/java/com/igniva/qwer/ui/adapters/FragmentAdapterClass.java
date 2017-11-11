@@ -17,6 +17,7 @@ public class FragmentAdapterClass extends FragmentStatePagerAdapter {
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public FragmentAdapterClass(FragmentManager fm) {
         super(fm);
+        if(fragArray==null)
         fragArray = new ArrayList<>();
 
     }

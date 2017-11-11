@@ -356,6 +356,8 @@ public class ApiControllerClass {
                     posts = retrofit.create(ApiInterface.class).getUserPosts(fragment.pageNo, "ongoing");
                 else if (listType == R.string.archives)
                     posts = retrofit.create(ApiInterface.class).getUserPosts(fragment.pageNo, "other");
+                else if (listType == R.string.my_favourites)
+                    posts = retrofit.create(ApiInterface.class).getFavPosts(fragment.pageNo);
 
                 if (posts != null)
                     posts.enqueue(new retrofit2.Callback<PostPojo>() {

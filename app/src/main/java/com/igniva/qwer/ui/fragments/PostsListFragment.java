@@ -22,6 +22,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.activities.CreateNewPostActivity;
 import com.igniva.qwer.ui.activities.MainActivity;
+import com.igniva.qwer.ui.activities.MyFavActivity;
 import com.igniva.qwer.ui.activities.MyPostsActivity;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.utils.EndlessRecyclerViewScrollListener;
@@ -46,6 +47,7 @@ import retrofit2.Retrofit;
  */
 public class PostsListFragment extends BaseFragment {
 
+    public int pageNo = 1;
     View mView;
     @Inject
     public
@@ -60,8 +62,7 @@ public class PostsListFragment extends BaseFragment {
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-     public int pageNo = 1;
-     Boolean isLast = false;
+    Boolean isLast = false;
     @BindView(R.id.tvNoData)
     TextView mtvNoData;
 
@@ -82,10 +83,12 @@ public class PostsListFragment extends BaseFragment {
                 break;
             case R.id.fabMyUploads:
                 startActivity(new Intent(getActivity(), MyPostsActivity.class));
- //                Utility.showToastMessageLong(getActivity(), "clicked my uploads");
+                //                Utility.showToastMessageLong(getActivity(), "clicked my uploads");
                 break;
             case R.id.fabMyFavorites:
-                Utility.showToastMessageLong(getActivity(), "clicked my favorites");
+                startActivity(new Intent(getActivity(), MyFavActivity.class));
+
+//                Utility.showToastMessageLong(getActivity(), "clicked my favorites");
                 break;
         }
 
@@ -132,24 +135,23 @@ public class PostsListFragment extends BaseFragment {
             public void onRefresh() {
                 // Refresh items
                 swipeRefreshLayout.setRefreshing(false);
-                pageNo=1;
-                isLast=false;
+                pageNo = 1;
+                isLast = false;
                 scrollListener.resetState();
-                adapter=null;
+                adapter = null;
                 getPosts();
             }
         });
 
         if (mListType == R.string.news_feed) {
             menuFloating.setVisibility(View.VISIBLE);
-            ((MainActivity)getActivity()).isshowSearch(true);
         }
         getPosts();
     }
 
     private void getPosts() {
-              ApiControllerClass.getAllFeedsApi(retrofit, getActivity(), PostsListFragment.this,mListType);
-     }
+        ApiControllerClass.getAllFeedsApi(retrofit, getActivity(), PostsListFragment.this, mListType);
+    }
 
     @Override
     public void setDataInViewObjects() {
@@ -165,9 +167,9 @@ public class PostsListFragment extends BaseFragment {
     public void setDataInViewObjects(final PostPojo.PostDataPojo responsePojo) {
 
 
-        if (responsePojo != null&& responsePojo.getData() != null&& responsePojo.getData().size() > 0) {
+        if (responsePojo != null && responsePojo.getData() != null && responsePojo.getData().size() > 0) {
 
-            pageNo ++;
+            pageNo++;
 
             if (pageNo >= responsePojo.getLast_page())
                 isLast = true;
@@ -176,14 +178,14 @@ public class PostsListFragment extends BaseFragment {
                 adapter = new RecyclerviewAdapter(getActivity(), mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>) responsePojo.getData(),retrofit);
                 mrecyclerView.setAdapter(adapter);
             } else
-                adapter.addAll( responsePojo.getData());
+                adapter.addAll(responsePojo.getData());
             mrecyclerView.setVisibility(View.VISIBLE);
             mtvNoData.setVisibility(View.GONE);
         } else {
             mrecyclerView.setVisibility(View.GONE);
             mtvNoData.setVisibility(View.VISIBLE);
             isLast = true;
-             //Utility.showToastMessageLong(getActivity(), "No data");
+            //Utility.showToastMessageLong(getActivity(), "No data");
         }
 
     }
