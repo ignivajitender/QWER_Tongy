@@ -60,6 +60,11 @@ public class CreateOtherPostActivity extends BaseActivity {
         changeImage();
     }
 
+
+    @OnClick(R.id.ivbackIcon)
+    public void back() {
+        onBackPressed();
+    }
     @OnClick(R.id.tvPostNow)
     public void postNow(){
         if (Validation.isValidatedCreateOtherPost(this, mEtDescription, mEtTitle,outPutFile))

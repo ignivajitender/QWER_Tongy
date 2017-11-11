@@ -21,6 +21,7 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.activities.CreateNewPostActivity;
+import com.igniva.qwer.ui.activities.MainActivity;
 import com.igniva.qwer.ui.activities.MyPostsActivity;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.utils.EndlessRecyclerViewScrollListener;
@@ -141,6 +142,7 @@ public class PostsListFragment extends BaseFragment {
 
         if (mListType == R.string.news_feed) {
             menuFloating.setVisibility(View.VISIBLE);
+            ((MainActivity)getActivity()).isshowSearch(true);
         }
         getPosts();
     }
