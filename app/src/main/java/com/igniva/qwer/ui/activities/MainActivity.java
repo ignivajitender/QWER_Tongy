@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
 import com.igniva.qwer.ui.fragments.HomeFragment;
-import com.igniva.qwer.ui.fragments.NewsFeedFragment;
+import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.utils.fcm.Constants;
 
 import butterknife.BindView;
@@ -48,10 +48,17 @@ public class MainActivity extends BaseActivity {
     LinearLayout mTabHost;
     @BindView(R.id.framelayout_main)
     FrameLayout framelayoutMain;
-    private TabLayout tab_layout;
     FragmentViewPagerAdapter pagerAdapter;
+    private TabLayout tab_layout;
     private Fragment currentFrag;
-
+    private boolean doubleBackToExitPressedOnce;
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            doubleBackToExitPressedOnce = false;
+        }
+    };
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,43 +69,40 @@ public class MainActivity extends BaseActivity {
         setUpLayout();
     }
 
-
     @Override
     protected void setUpLayout() {
-        replaceFragment(new HomeFragment());
+//        replaceFragment(new HomeFragment());
+
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.news_feeds));
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.home));
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.connections));
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
-        //tab_layout.setupWithViewPager(mViewPager1);
 
-        tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        //tab_layout.setupWithViewPager(mViewPager1);
+         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.select();
-                if(tab.getPosition()==0){
-                    replaceFragment(new NewsFeedFragment());
+                if (tab.getPosition() == 0) {
+                    replaceFragment(PostsListFragment.newInstance(R.string.news_feed));
+                } else if (tab.getPosition() == 1) {
+                    replaceFragment(new HomeFragment());
+                } else if (tab.getPosition() == 2) {
+                    replaceFragment(new PostsListFragment());
                 }
-
-             }
-
-            @Override
+            }
+             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
-        tab_layout.setScrollPosition(1,0f,true);
-//        mViewPager1.setCurrentItem(1);
-
-        //pagerAdapter.setCurrentItem(1);
-
-    }
+        tab_layout.setScrollPosition(1, 0f, true);
+//          pagerAdapter.setCurrentItem(1);
+     }
 
     @Override
     protected void setDataInViewObjects() {
@@ -121,22 +125,10 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(MainActivity.this, SetPreferrencesActivity.class);
                 intent.putExtra(Constants.TO_EDIT_PREFERENCES, "Yes");
                 startActivity(intent);
-
-            default:
+             default:
                 break;
         }
     }
-
-    private boolean doubleBackToExitPressedOnce;
-    private Handler mHandler = new Handler();
-
-    private final Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            doubleBackToExitPressedOnce = false;
-        }
-    };
-
 
     @Override
     public void onBackPressed() {
@@ -153,12 +145,10 @@ public class MainActivity extends BaseActivity {
 
     private void replaceFragment(Fragment fragment) {
         currentFrag = fragment;
-          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayout_main, fragment);
         ft.commit();
-
-
-    }
+     }
 
 }
 

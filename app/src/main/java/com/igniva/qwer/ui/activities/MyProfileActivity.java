@@ -565,9 +565,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
                 break;
             case R.id.tv_lets_start:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                callSaveUpdateProfile();
+
 
                 break;
         }
@@ -602,7 +601,14 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 PreferenceHandler.writeBoolean(MyProfileActivity.this,PreferenceHandler.IS_PROFILE_SET,true);
+                                if(getIntent().hasExtra(Constants.MYPROFILEEDITABLE))
                                 callSuccessPopUp(MyProfileActivity.this, response.body().getDescription());
+                                else
+                                {
+                                    Intent intent = new Intent(MyProfileActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                 }
                                 //Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
 
 

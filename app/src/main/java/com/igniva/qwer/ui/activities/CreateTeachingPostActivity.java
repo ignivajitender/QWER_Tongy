@@ -59,65 +59,64 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @BindView(R.id.ll_post_now)
     LinearLayout mLlPostNow;
+    @BindView(R.id.rlAddress)
+    RelativeLayout mrlAddress;
+    @BindView(R.id.autocomTextViewAddress)
+    AutoCompleteTextView mautocomTextViewAddress;
+    @Inject
+    OkHttpClient okHttpClient;
+    @Inject
+    Gson gson;
+    String typeOfClass = "";
+    @BindView(R.id.et_schedule_start_date)
+    EditText metScheduleStartDate;
+    @BindView(R.id.et_schedule_end_date)
+    EditText metScheduleEndDate;
+    Calendar myCalendar = Calendar.getInstance();
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
         onBackPressed();
     }
+
     @OnClick(R.id.et_schedule_start_date)
     public void open() {
-       showDialog(metScheduleStartDate);
+        showDialog(metScheduleStartDate);
     }
+
     @OnClick(R.id.et_schedule_end_date)
     public void open1() {
         showDialog(metScheduleEndDate);
     }
 
-
     @OnClick(R.id.et_start_time)
     public void openTime() {
         showDialogTime(mEtStartTime);
     }
+
     @OnClick(R.id.et_end_time)
     public void openTime1() {
         showDialogTime(mEtEndTime);
     }
 
-
-    @BindView(R.id.rlAddress)
-    RelativeLayout mrlAddress;
     @OnClick(R.id.rb_online)
-    public void hideAddress(){
-        if(mrlAddress.getVisibility()==View.VISIBLE)
+    public void hideAddress() {
+        if (mrlAddress.getVisibility() == View.VISIBLE)
             mrlAddress.setVisibility(View.GONE);
 
-        typeOfClass="online";
+        typeOfClass = "online";
     }
 
-   @OnClick(R.id.rb_physical)
-    public void showAddress(){
-       mrlAddress.setVisibility(View.VISIBLE);
-       typeOfClass="physical";
+    @OnClick(R.id.rb_physical)
+    public void showAddress() {
+        mrlAddress.setVisibility(View.VISIBLE);
+        typeOfClass = "physical";
     }
-
-    @BindView(R.id.autocomTextViewAddress)
-    AutoCompleteTextView mautocomTextViewAddress;
-
-    @Inject
-    OkHttpClient okHttpClient;
-    @Inject
-    Gson gson;
-    String typeOfClass="";
-
 
     @OnClick(R.id.ivLocation)
-    public void openLocation(){
+    public void openLocation() {
         changeLocation();
-
-
-
     }
-
 
     private void showDialogTime(final EditText mEditText) {
         // Get Current time
@@ -132,26 +131,17 @@ public class CreateTeachingPostActivity extends BaseActivity {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
-
-                        mEditText.setText(hourOfDay + ":" + minute);
+                         mEditText.setText(hourOfDay + ":" + minute);
                     }
                 }, hour, minute, false);
         timePickerDialog.show();
     }
 
     @OnClick(R.id.tvPostNow)
-    public void post(){
-       // call api to create teachinbg post
-        ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this,retrofit,mEtTitle,mEtDescription,mEtPrice,metScheduleStartDate,metScheduleEndDate,mEtStartTime,mEtEndTime,typeOfClass);
+    public void post() {
+        // call api to create teachinbg post
+        ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass);
     }
-
-    @BindView(R.id.et_schedule_start_date)
-    EditText metScheduleStartDate;
-    @BindView(R.id.et_schedule_end_date)
-    EditText metScheduleEndDate;
-
-
-    Calendar myCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

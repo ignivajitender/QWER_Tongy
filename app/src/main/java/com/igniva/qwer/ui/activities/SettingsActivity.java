@@ -361,9 +361,7 @@ public class SettingsActivity extends BaseActivity {
                             CallProgressWheel.dismissLoadingDialog();
                             Utility.showToastMessageShort(SettingsActivity.this,response.body().getDescription());
                         }
-
                     }
-
                     @Override
                     public void onFailure(Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();

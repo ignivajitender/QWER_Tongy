@@ -7,13 +7,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
+import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
-import com.igniva.qwer.ui.fragments.NewsFeedFragment;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
+import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
@@ -312,45 +312,56 @@ public class ApiControllerClass {
 
     }
 
-    public static void getAllFeedsApi(Retrofit retrofit,final Context context,final NewsFeedFragment fragment) {
+    public static void getAllFeedsApi(Retrofit retrofit, final Context context, final PostsListFragment fragment, final int listType) {
         try {
-
-
             if (Utility.isInternetConnection(context)) {
 
                 CallProgressWheel.showLoadingDialog(context, "Loading...");
+//    http://tongy.ignivastaging.com/api/users/post?post=upcomming     for my upcomming post
+//    http://tongy.ignivastaging.com/api/users/post?post=ongoing           for my ongoing post
+//    http://tongy.ignivastaging.com/api/users/post?post=other               for my other/archuive post
 
                 //Create a retrofit call object
-                Call<PostPojo> posts = retrofit.create(ApiInterface.class).getPosts();
-                posts.enqueue(new retrofit2.Callback<PostPojo>() {
-                    @Override
-                    public void onResponse(Call<PostPojo> call, retrofit2.Response<PostPojo> response) {
-                        if (response.body().getStatus() == 200) {
-                            CallProgressWheel.dismissLoadingDialog();
-                            fragment.setDataInViewObjects(response.body().getData());
-                            //callSuccessPopUp((Activity)context, response.body().getDescription());
-                            // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                Call<PostPojo> posts = null;
+                if (listType == R.string.news_feed)
+                    posts = retrofit.create(ApiInterface.class).getPosts(fragment.pageNo);
+                else if (listType == R.string.upcomming)
+                    posts = retrofit.create(ApiInterface.class).getUserPosts(fragment.pageNo,"upcomming");
+                else if (listType == R.string.ongoing)
+                    posts = retrofit.create(ApiInterface.class).getUserPosts(fragment.pageNo, "ongoing");
+                else if (listType == R.string.archives)
+                    posts = retrofit.create(ApiInterface.class).getUserPosts(fragment.pageNo, "other");
 
-
-                        } else  {
-                            CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageShort((Activity) context,response.body().getDescription());
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<PostPojo>() {
+                        @Override
+                        public void onResponse(Call<PostPojo> call, retrofit2.Response<PostPojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                if(fragment!=null)
+                                fragment.setDataInViewObjects(response.body().getData());
+                                //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                             } else {
+                                CallProgressWheel.dismissLoadingDialog();
+                                Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<PostPojo> call, Throwable t) {
-                        CallProgressWheel.dismissLoadingDialog();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<PostPojo> call, Throwable t) {
+                            if(fragment!=null)
+                                fragment.setDataInViewObjects(null);
+
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
             }
-
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
     }

@@ -1,12 +1,12 @@
-
 package com.igniva.qwer.ui.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.igniva.qwer.R;
 import com.igniva.qwer.ui.fragments.HomeFragment;
-import com.igniva.qwer.ui.fragments.NewsFeedFragment;
+import com.igniva.qwer.ui.fragments.PostsListFragment;
 
 
 public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
@@ -17,11 +17,11 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int fragment_number) {
         switch (fragment_number) {
             case 0:
-                return new NewsFeedFragment();
+                return PostsListFragment.newInstance(R.string.news_feed);
             case 1:
                 return new HomeFragment();
-            case 2 :
-                return  new NewsFeedFragment();
+            case 2:
+                return new Fragment();
             default:
                 return null;
         }

@@ -41,7 +41,7 @@
             android:layout_alignParentBottom="true"
             android:background="@android:color/transparent"
             android:elevation="6dp"
-            android:minHeight="?attr/actionBarSize"
+             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 

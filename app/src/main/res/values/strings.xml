@@ -210,4 +210,10 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="select_atleast_one_learn">Please select at least one language you want to learn.</string>
     <string name="select_speak_limit">You cannot select more than 4 languages you speak.</string>
     <string name="select_learn_limit">You cannot select more than 6 languages you want to learn.</string>
+    <string name="news_feed">News Feed</string>
+    <string name="no_data">No posts found.</string>
+    <string name="upcomming">Upcoming</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="archives">Archives</string>
+    <string name="other">other</string>
 </resources>

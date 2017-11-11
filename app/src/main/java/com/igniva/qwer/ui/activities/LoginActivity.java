@@ -205,8 +205,6 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                     signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                     signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
                     signupHash.put(Constants.DEVICE_ID,"123456789");
-
-
                     //Create a retrofit call object
                     retrofit2.Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).login(signupHash);
 

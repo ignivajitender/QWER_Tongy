@@ -12,7 +12,7 @@ import com.igniva.qwer.ui.activities.MyProfileActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.activities.SignUpActivity;
-import com.igniva.qwer.ui.fragments.NewsFeedFragment;
+import com.igniva.qwer.ui.fragments.PostsListFragment;
 
 import javax.inject.Singleton;
 
@@ -43,7 +43,7 @@ public interface NetComponent {
 
     void inject(SettingsActivity activity);
 
-    void inject(NewsFeedFragment fragment);
+    void inject(PostsListFragment fragment);
     void inject(LocationActivity activity);
 
 }
