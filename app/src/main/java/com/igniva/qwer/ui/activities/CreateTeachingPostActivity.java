@@ -136,7 +136,27 @@ public class CreateTeachingPostActivity extends BaseActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
 
-                        mEditText.setText(hourOfDay + ":" + minute);
+                        String timeSet = "";
+                        if (hourOfDay > 12) {
+                            hourOfDay -= 12;
+                            timeSet = "PM";
+                        } else if (hourOfDay == 0) {
+                            hourOfDay += 12;
+                            timeSet = "AM";
+                        } else if (hourOfDay == 12)
+                            timeSet = "PM";
+                        else
+                            timeSet = "AM";
+
+
+                        String minutes = "";
+                        if (minute < 10)
+                            minutes = "0" + minute;
+                        else
+                            minutes = String.valueOf(minute);
+
+                        mEditText.setText( hourOfDay + ":" + minutes+" "+timeSet);
+
                     }
                 }, hour, minute, false);
         timePickerDialog.show();

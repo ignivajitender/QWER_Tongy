@@ -32,6 +32,7 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.predictionsPojo;
+import com.igniva.qwer.ui.activities.CreateNewPostActivity;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import java.io.File;
@@ -245,6 +246,7 @@ public class Utility {
 			public void onClick(View view) {
 				dialog.dismiss();
 				((Activity)context).finish();
+
 			}
 		});
 
