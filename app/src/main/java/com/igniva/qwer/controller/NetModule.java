@@ -38,7 +38,6 @@ public class NetModule {
      private static final HttpLoggingInterceptor loggingInterceptor =
             new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 Handler mHandler;
-
                 @Override
                 public void log(String message) {
 //                    {"status":"warning","statusCode":324,"message":"Your session is expired. Please login again to continue"}

@@ -47,9 +47,13 @@ public interface NetComponent {
     void inject(SettingsActivity activity);
 
     void inject(PostsListFragment fragment);
+
     void inject(LocationActivity activity);
+
     void inject(CreateOtherPostActivity activity);
+
     void inject(SearchActivity activity);
+
     void inject(PostDetailActivity activity);
 
 }

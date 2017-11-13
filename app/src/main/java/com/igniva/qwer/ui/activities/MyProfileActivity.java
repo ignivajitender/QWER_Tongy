@@ -319,7 +319,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     @Override
     protected void setUpLayout() {
 
-
+getLocation();
         if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
             mIvEditProfile.setVisibility(View.VISIBLE);
 //            Glide.with(this).load(R.drawable.pp4).into(mIvProilePic1);
@@ -594,6 +594,14 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                     updateProfilePayload.put("about", mEtAbout.getText().toString().trim());
                     updateProfilePayload.put("age", mEtAge.getText().toString().trim());
                     updateProfilePayload.put("name", mtvName.getText().toString().trim());
+                    if(Global.mLastLocation!=null ){
+
+                        updateProfilePayload.put("lat",Global.mLastLocation.getLatitude()+"");
+                        updateProfilePayload.put("lng",Global.mLastLocation.getLongitude()+"");
+                    }else{
+                        updateProfilePayload.put("lat", "0.0");
+                        updateProfilePayload.put("lng", "0.0");
+                     }
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).updateProfile(updateProfilePayload);
                     posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                         @Override

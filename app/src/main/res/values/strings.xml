@@ -230,4 +230,6 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="archives">Archives</string>
 
      <string name="my_uploads">My Uploads</string>
+    <string name="enable_location_setting">Please enable location to proceed further.</string>
+    <string name="type_location_here">Type location here.</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.igniva.qwer.utils;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 
@@ -22,6 +23,7 @@ public class Global extends MultiDexApplication {
     public static Context sAppContext=null;
     private NetComponent mNetComponent;
     private PreferenceHandler prefs;
+    public static Location mLastLocation;
 
 
 
