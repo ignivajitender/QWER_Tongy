@@ -79,8 +79,11 @@ public class MainActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.select();
                 if (tab.getPosition() == 0) {
+                    mTvToolbar.setText(R.string.news_feed);
                     replaceFragment(PostsListFragment.newInstance(R.string.news_feed));
                 } else if (tab.getPosition() == 1) {
+                    mTvToolbar.setText("");
+                    isshowSearch(false);
                     replaceFragment(new HomeFragment());
                 } else if (tab.getPosition() == 2) {
                     //replaceFragment(new PostsListFragment());

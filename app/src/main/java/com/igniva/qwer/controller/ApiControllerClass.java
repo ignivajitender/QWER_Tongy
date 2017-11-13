@@ -10,10 +10,12 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.LanguagesResponsePojo;
+import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
@@ -131,8 +133,8 @@ public class ApiControllerClass {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
-                       }
-                   });
+                        }
+                    });
 
                 }
             }
@@ -205,22 +207,21 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("start_time", mEtStartTime.getText().toString().trim());
                     changePasswordHashMap.put("end_time", mEtEndTime.getText().toString().trim());
                     changePasswordHashMap.put("end_date", metScheduleEndDate.getText().toString().trim());
-                    changePasswordHashMap.put("start_date",metScheduleEndDate.getText().toString().trim());
+                    changePasswordHashMap.put("start_date", metScheduleEndDate.getText().toString().trim());
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("currency", "usd");
-                    changePasswordHashMap.put("price", "20");
-                    changePasswordHashMap.put("description", "teaching section");
-                    changePasswordHashMap.put("title", "teaching section");
+                    changePasswordHashMap.put("price", mEtPrice.getText().toString().trim());
                     changePasswordHashMap.put("post_type", "teaching");
 
 
                     changePasswordHashMap.put("post_type", "teaching");
-                    if(typeOfClass.equalsIgnoreCase("physical")) {
+                    if (typeOfClass.equalsIgnoreCase("physical")) {
                         changePasswordHashMap.put("change_location", "noida");
                         changePasswordHashMap.put("lng", "20.00");
                         changePasswordHashMap.put("lat", "20.22");
                     }
+                    Log.e("json payload",changePasswordHashMap+"");
                     //Create a retrofit call object
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).createTeachingPost(changePasswordHashMap);
                     posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
@@ -229,7 +230,6 @@ public class ApiControllerClass {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 callSuccessPopUp(context, response.body().getDescription());
-
 
 
                             } else if (response.body().getStatus() == 400) {
@@ -351,7 +351,7 @@ public class ApiControllerClass {
                 if (listType == R.string.news_feed)
                     posts = retrofit.create(ApiInterface.class).getPosts(fragment.pageNo);
                 else if (listType == R.string.upcomming)
-                    posts = retrofit.create(ApiInterface.class).getUserPosts(fragment.pageNo,"upcomming");
+                    posts = retrofit.create(ApiInterface.class).getUserPosts(fragment.pageNo, "upcomming");
                 else if (listType == R.string.ongoing)
                     posts = retrofit.create(ApiInterface.class).getUserPosts(fragment.pageNo, "ongoing");
                 else if (listType == R.string.archives)
@@ -365,12 +365,12 @@ public class ApiControllerClass {
                         public void onResponse(Call<PostPojo> call, retrofit2.Response<PostPojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                if(fragment!=null)
-                                fragment.setDataInViewObjects(response.body().getData());
+                                if (fragment != null)
+                                    fragment.setDataInViewObjects(response.body().getData());
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
-                             } else {
-                                if(fragment!=null)
+                            } else {
+                                if (fragment != null)
                                     fragment.setDataInViewObjects(null);
 
                                 CallProgressWheel.dismissLoadingDialog();
@@ -381,7 +381,7 @@ public class ApiControllerClass {
 
                         @Override
                         public void onFailure(Call<PostPojo> call, Throwable t) {
-                            if(fragment!=null)
+                            if (fragment != null)
                                 fragment.setDataInViewObjects(null);
 
                             CallProgressWheel.dismissLoadingDialog();
@@ -422,11 +422,11 @@ public class ApiControllerClass {
                     public void onResponse(Call<PostPojo> call, retrofit2.Response<PostPojo> response) {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
-                              Log.e("success", response.message());
-                              if(response.body().getDescription().equalsIgnoreCase("Post  has been favorite successfully."))
-                                  mIbfav.setImageResource(R.drawable.liked);
-                              else
-                                  mIbfav.setImageResource(R.drawable.like);
+                            Log.e("success", response.message());
+                            if (response.body().getDescription().equalsIgnoreCase("Post  has been favorite successfully."))
+                                mIbfav.setImageResource(R.drawable.liked);
+                            else
+                                mIbfav.setImageResource(R.drawable.like);
 
                             Utility.showToastMessageShort((Activity) context, response.body().getDescription());
 
@@ -551,7 +551,7 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("start_time", mEtStartTime.getText().toString().trim());
                     changePasswordHashMap.put("end_time", mEtEndTime.getText().toString().trim());
                     changePasswordHashMap.put("end_date", metScheduleEndDate.getText().toString().trim());
-                    changePasswordHashMap.put("start_date",metScheduleEndDate.getText().toString().trim());
+                    changePasswordHashMap.put("start_date", metScheduleEndDate.getText().toString().trim());
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("post_type", "meeting");
@@ -599,8 +599,8 @@ public class ApiControllerClass {
     }
 
     public static void callReportAbuseApi(final Context context, Retrofit retrofit, EditText metReason, EditText metComment, int post_id) {
-       try{
-        if (Utility.isInternetConnection(context)) {
+        try {
+            if (Utility.isInternetConnection(context)) {
 
           /*      {
                     "post_id":"1",
@@ -608,46 +608,95 @@ public class ApiControllerClass {
                     “comment”:”text”,
                 }*/
 
-            CallProgressWheel.showLoadingDialog(context, "Loading...");
-            HashMap<String, String> changePasswordHashMap = new HashMap<>();
-            changePasswordHashMap.put("post_id", post_id+"");
-            changePasswordHashMap.put("reason", metReason.getText().toString());
-            changePasswordHashMap.put("comment", metComment.getText().toString());
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                HashMap<String, String> changePasswordHashMap = new HashMap<>();
+                changePasswordHashMap.put("post_id", post_id + "");
+                changePasswordHashMap.put("reason", metReason.getText().toString());
+                changePasswordHashMap.put("comment", metComment.getText().toString());
 
 
-            //Create a retrofit call object
-            Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).reportAbuse(changePasswordHashMap);
-            posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
-                @Override
-                public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
-                    if (response.body().getStatus() == 200) {
-                        CallProgressWheel.dismissLoadingDialog();
-                        ((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
+                //Create a retrofit call object
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).reportAbuse(changePasswordHashMap);
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            ((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
 
 
-                    } else if (response.body().getStatus() == 400) {
-                        CallProgressWheel.dismissLoadingDialog();
-                        Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        CallProgressWheel.dismissLoadingDialog();
-                        Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        } else if (response.body().getStatus() == 400) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<ResponsePojo> call, Throwable t) {
-                    CallProgressWheel.dismissLoadingDialog();
-                    Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
-                }
-            });
+                    }
+                });
 
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
-} catch (Exception e) {
-        CallProgressWheel.dismissLoadingDialog();
-        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-        e.printStackTrace();
+
+    }
+
+    /**
+     * Call single post api to view post details
+     * @param post_id
+     * @param retrofit
+     * @param context
+     */
+
+    public static void getPostDetail(int post_id, Retrofit retrofit, final PostDetailActivity context) {
+        try {
+            if (Utility.isInternetConnection(context)) {
+
+                //Create a retrofit call object
+                Call<PostDetailPojo> posts = retrofit.create(ApiInterface.class).singlePostDetail(post_id);
+                posts.enqueue(new retrofit2.Callback<PostDetailPojo>() {
+                    @Override
+                    public void onResponse(Call<PostDetailPojo> call, retrofit2.Response<PostDetailPojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            context.setData(response.body().getData());
+
+
+                        } else if (response.body().getStatus() == 400) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostDetailPojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
 

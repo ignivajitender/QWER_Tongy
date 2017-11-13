@@ -62,6 +62,8 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
+
+        Utility.hideSoftKeyboard(CreateTeachingPostActivity.this);
         onBackPressed();
     }
 
@@ -247,7 +249,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                 DatePickerDialog dpd = new DatePickerDialog(CreateTeachingPostActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                        e.setText(dayOfMonth + " - " + (monthOfYear + 1) + " - " + year);
+                        e.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                     }
                 }, mYear, mMonth, mDay);
                 dpd.show();

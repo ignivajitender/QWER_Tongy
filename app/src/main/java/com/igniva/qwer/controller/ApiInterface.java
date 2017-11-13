@@ -3,8 +3,9 @@ package com.igniva.qwer.controller;
 
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
-import com.igniva.qwer.model.PrefInputPojo;
+import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
+import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 
@@ -125,4 +126,7 @@ public interface ApiInterface {
 //    http://tongy.ignivastaging.com/api/users/favPost
     @GET("/api/users/favPost")
     Call<PostPojo> getFavPosts(@Query("page") int pageNumber);
+
+    @GET("/api/users/singlePost")
+    Call<PostDetailPojo> singlePostDetail(@Query("post_id") int post_id);
 }

@@ -181,8 +181,8 @@ public class PostPojo {
             private String end_date_time;
             private String class_type;
             private String class_location;
-            private String lat;
-            private String lng;
+            private Double lat;
+            private Double lng;
             private String status;
             private String created_at;
             private PostUserBean post_user;
@@ -277,19 +277,19 @@ public class PostPojo {
                 this.class_location = class_location;
             }
 
-            public String getLat() {
+            public Double getLat() {
                 return lat;
             }
 
-            public void setLat(String lat) {
+            public void setLat(Double lat) {
                 this.lat = lat;
             }
 
-            public String getLng() {
+            public Double getLng() {
                 return lng;
             }
 
-            public void setLng(String lng) {
+            public void setLng(Double lng) {
                 this.lng = lng;
             }
 

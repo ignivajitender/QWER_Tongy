@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -44,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -442,8 +444,15 @@ public class Utility {
 		return myPath;
 	}
 
-	// convert date format
-	public static String getTimeAgo(long time, Context ctx) {
+	/**
+	 * convert date in format
+	 * @param date
+	 * @param activity
+	 * @return
+	 */
+
+	public static String getTimeAgoPost(String date, Activity activity) {
+		long time = Long.valueOf(date);
 		if (time < 1000000000000L) {
 			// if timestamp given in seconds, convert to millis
 			time *= 1000;
@@ -454,25 +463,66 @@ public class Utility {
 			return "just now";
 		}
 
-		// TODO: localize
 		final long diff = now - time;
-		if (diff < MINUTE_MILLIS) {
-			return "just now.";
-		} else if (diff < 2 * MINUTE_MILLIS) {
-			return "a minute ago.";
-		} else if (diff < 50 * MINUTE_MILLIS) {
-			return diff / MINUTE_MILLIS + " minutes ago.";
-		} else if (diff < 90 * MINUTE_MILLIS) {
-			return "an hour ago.";
-		} else if (diff < 24 * HOUR_MILLIS) {
-			return diff / HOUR_MILLIS + " hours ago.";
-		} else if (diff < 48 * HOUR_MILLIS) {
-			return "Yesterday.";
+		Date date1 = new Date(time);
+		// TODO: localize
+
+		TimeZone utc = TimeZone.getTimeZone("etc/UTC");
+
+		Resources r = activity.getResources();
+
+		String prefix = r.getString(R.string.time_ago_prefix);
+
+		double seconds = Math.abs(diff) / 1000;
+		double minutes = seconds / 60;
+		double hours = minutes / 60;
+		double days = hours / 24;
+		double years = days / 365;
+
+		String words;
+		if (seconds < 45) {
+			words = r.getString(R.string.timeAgoSeconds, Math.round(seconds));
+		} else if (seconds < 90) {
+			words = r.getString(R.string.timeAgoMinute, 1);
+		} else if (minutes < 45) {
+			words = r.getString(R.string.timeAgoMinutes, Math.round(minutes));
+		} else if (minutes < 90) {
+			words = r.getString(R.string.timeAgoHour, 1 );
+		} else if (hours < 24) {
+
+			words =   r.getString(R.string.timeAgoHours, Math.round(hours));;
+		} else if (hours < 42) {
+			words =   "Yesterday " ;
+		} else if (days < 30) {
+			if(Math.round(days) <6){
+				SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+				String goal = outFormat.format(date1);
+				words =  goal + " " ;
+			}else{
+				words =  Math.round(days) + " days ago ";
+			}
+
+		} else if (days < 45) {
+			words =  1 + "month ago " ;
+		} else if (days < 365) {
+			words =  Math.round(days / 30) + " months ago " ;
+		} else if (years < 1.5) {
+			words =  1 + " year ago " ;
 		} else {
-			Date date = new Date(time);
-			return new SimpleDateFormat("yyyy-MM-dd HH:MM a").format(date);
-			// return diff / DAY_MILLIS + " days ago.";
+			words =  Math.round(years) + " years ago " ;
 		}
+		StringBuilder sb = new StringBuilder();
+
+		if (prefix != null && prefix.length() > 0) {
+			sb.append(prefix).append(" ");
+		}
+
+		sb.append(words);
+
+
+
+		return sb.toString().trim();
 	}
+
 
 }

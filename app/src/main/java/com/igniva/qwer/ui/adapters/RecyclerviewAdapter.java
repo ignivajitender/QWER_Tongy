@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.utils.FieldValidators;
+import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,13 +104,34 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
             holder.mDesc.setText(pojo.getDescription());
             holder.mTvTitle.setText(pojo.getDescription());
-            holder.mTvPostType.setText(pojo.getPost_type());
+
+            if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.teaching))) {
+                holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.yellow_color));
+                holder.mTvPostType.setText(pojo.getPost_type());
+
+            }
+            if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.meeting))) {
+                holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.bg_blue));
+                holder.mTvPostType.setText(pojo.getPost_type());
+
+            }
+            if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.other))) {
+                holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.other_red_color));
+                holder.mTvPostType.setText(pojo.getPost_type());
+            }
+
             if(pojo.getPost_user()!=null){
                  if (pojo.getPost_user().getUser_image() != null && pojo.getPost_user().getUser_image().size() > 0) {
                     Glide.with(mContext).load(pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
                 }
                 holder.mTvName.setText(pojo.getPost_user().getName());
             }
+
+            if(pojo.getPost_fav()!=null && pojo.getPost_fav().size()>0)
+                holder.mIvFav.setImageResource(R.drawable.liked);
+            else
+                holder.mIvFav.setImageResource(R.drawable.like);
+
 
             holder.mIvFav.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -132,10 +156,12 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             holder.mCardView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class));
+                    Log.e("post_id",pojo.getId()+"");
+                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class).putExtra("post_id",pojo.getId()));
                 }
             });
 
+            holder.mTvDate.setText(Utility.getTimeAgoPost(pojo.getCreated_at(),(Activity) mContext));
         }
 
     }
