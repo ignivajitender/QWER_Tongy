@@ -1,12 +1,18 @@
 package com.igniva.qwer.ui.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -59,31 +65,11 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @BindView(R.id.ll_post_now)
     LinearLayout mLlPostNow;
-    @BindView(R.id.rlAddress)
-    RelativeLayout mrlAddress;
-    @BindView(R.id.autocomTextViewAddress)
-    AutoCompleteTextView mautocomTextViewAddress;
-    @Inject
-    OkHttpClient okHttpClient;
-    @Inject
-    Gson gson;
-    String typeOfClass = "online";
-    @BindView(R.id.et_schedule_start_date)
-    EditText metScheduleStartDate;
-    @BindView(R.id.et_schedule_end_date)
-    EditText metScheduleEndDate;
-    @BindView(R.id.llAddMembers)
-    LinearLayout mllAddMembers;
-    @BindView(R.id.llAddPrice)
-    LinearLayout mllAddPrice;
-    @BindView(R.id.llTypeOfClass)
-    LinearLayout mllTypeOfClass;
-    @BindView(R.id.llAddAddress)
-    LinearLayout mllAddAddress;
-    Calendar myCalendar = Calendar.getInstance();
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
+
+        Utility.hideSoftKeyboard(CreateTeachingPostActivity.this);
         onBackPressed();
     }
 
@@ -97,6 +83,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
         showDialog(metScheduleEndDate);
     }
 
+
     @OnClick(R.id.et_start_time)
     public void openTime() {
         showDialogTime(mEtStartTime);
@@ -106,6 +93,10 @@ public class CreateTeachingPostActivity extends BaseActivity {
     public void openTime1() {
         showDialogTime(mEtEndTime);
     }
+
+
+    @BindView(R.id.rlAddress)
+    RelativeLayout mrlAddress;
 
     @OnClick(R.id.rb_online)
     public void hideAddress() {
@@ -121,16 +112,29 @@ public class CreateTeachingPostActivity extends BaseActivity {
         typeOfClass = "physical";
     }
 
+    @BindView(R.id.autocomTextViewAddress)
+    AutoCompleteTextView mautocomTextViewAddress;
+
+    @Inject
+    OkHttpClient okHttpClient;
+    @Inject
+    Gson gson;
+    String typeOfClass = "online";
+
+
     @OnClick(R.id.ivLocation)
     public void openLocation() {
         changeLocation();
     }
+
 
     private void showDialogTime(final EditText mEditText) {
         // Get Current time
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
+
+
         TimePickerDialog timePickerDialog = new TimePickerDialog(CreateTeachingPostActivity.this,
                 new TimePickerDialog.OnTimeSetListener() {
 
@@ -138,7 +142,27 @@ public class CreateTeachingPostActivity extends BaseActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
 
-                        mEditText.setText(hourOfDay + ":" + minute);
+                        String timeSet = "";
+                        if (hourOfDay > 12) {
+                            hourOfDay -= 12;
+                            timeSet = "PM";
+                        } else if (hourOfDay == 0) {
+                            hourOfDay += 12;
+                            timeSet = "AM";
+                        } else if (hourOfDay == 12)
+                            timeSet = "PM";
+                        else
+                            timeSet = "AM";
+
+
+                        String minutes = "";
+                        if (minute < 10)
+                            minutes = "0" + minute;
+                        else
+                            minutes = String.valueOf(minute);
+
+                        mEditText.setText( hourOfDay + ":" + minutes+" "+timeSet);
+
                     }
                 }, hour, minute, false);
         timePickerDialog.show();
@@ -146,14 +170,33 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @OnClick(R.id.tvPostNow)
     public void post() {
-        if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
+        if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
             // call api to create teaching post
             ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass);
-        } else if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
+        }
+        else if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
             // call api to create teaching post
             ApiControllerClass.createMeetingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime);
         }
+
     }
+
+    @BindView(R.id.et_schedule_start_date)
+    EditText metScheduleStartDate;
+    @BindView(R.id.et_schedule_end_date)
+    EditText metScheduleEndDate;
+
+    @BindView(R.id.llAddMembers)
+    LinearLayout mllAddMembers;
+    @BindView(R.id.llAddPrice)
+    LinearLayout mllAddPrice;
+    @BindView(R.id.llTypeOfClass)
+    LinearLayout mllTypeOfClass;
+    @BindView(R.id.llAddAddress)
+    LinearLayout mllAddAddress;
+
+
+    Calendar myCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +238,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                 }*/
             }
         });
-        if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
+         if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
             if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
                 mllAddMembers.setVisibility(View.GONE);
             if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
@@ -229,7 +272,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                 DatePickerDialog dpd = new DatePickerDialog(CreateTeachingPostActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                        e.setText(dayOfMonth + " - " + (monthOfYear + 1) + " - " + year);
+                        e.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                     }
                 }, mYear, mMonth, mDay);
                 dpd.show();
@@ -258,5 +301,36 @@ public class CreateTeachingPostActivity extends BaseActivity {
         super.onStart();
         if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
             mautocomTextViewAddress.setText(Utility.address);
+    }
+    public  void callSuccessPopUp(final Context context, String message) {
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+        dialog.setContentView(R.layout.succuess_pop_up);
+        TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
+        text_message.setText(message);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
+        mBtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                ((Activity) context).finish();
+                CreateNewPostActivity.activiy.finish();
+            }
+        });
+
+
+        dialog.setTitle("Custom Dialog");
+
+
+        dialog.show();
+
+
     }
 }

@@ -14,6 +14,9 @@ import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
+import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
+import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
@@ -209,7 +212,7 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("currency", "usd");
-                    changePasswordHashMap.put("price", "20");
+                    changePasswordHashMap.put("price", mEtPrice.getText().toString().trim());
                     changePasswordHashMap.put("post_type", "teaching");
 
                     if (typeOfClass.equalsIgnoreCase("physical")) {
@@ -600,7 +603,7 @@ public class ApiControllerClass {
                         public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                callSuccessPopUp(context, response.body().getDescription());
+                                ((CreateTeachingPostActivity)context).callSuccessPopUp(context, response.body().getDescription());
 
 
                             } else if (response.body().getStatus() == 400) {
@@ -630,6 +633,8 @@ public class ApiControllerClass {
 
 
     }
+
+
 
     public static void callReportAbuseApi(final Context context, Retrofit retrofit, EditText metReason, EditText metComment, int post_id) {
         try {
@@ -669,6 +674,55 @@ public class ApiControllerClass {
 
                     @Override
                     public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+
+    }
+
+    /**
+     * Call single post api to view post details
+     * @param post_id
+     * @param retrofit
+     * @param context
+     */
+
+    public static void getPostDetail(int post_id, Retrofit retrofit, final PostDetailActivity context) {
+        try {
+            if (Utility.isInternetConnection(context)) {
+
+                //Create a retrofit call object
+                Call<PostDetailPojo> posts = retrofit.create(ApiInterface.class).singlePostDetail(post_id);
+                posts.enqueue(new retrofit2.Callback<PostDetailPojo>() {
+                    @Override
+                    public void onResponse(Call<PostDetailPojo> call, retrofit2.Response<PostDetailPojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            context.setData(response.body().getData());
+
+
+                        } else if (response.body().getStatus() == 400) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostDetailPojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 

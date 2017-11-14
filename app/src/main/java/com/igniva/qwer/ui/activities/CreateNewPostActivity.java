@@ -11,25 +11,29 @@ import butterknife.OnClick;
 
 public class CreateNewPostActivity extends BaseActivity {
 
+    public static CreateNewPostActivity activiy;
 
     @OnClick(R.id.ivbackIcon)
-    public void back(){
+    public void back() {
         onBackPressed();
     }
+
     @OnClick(R.id.llCreateTeachingPost)
-    public void openPost(){
-        startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class).putExtra("comingFrom","teaching"));
+    public void openPost() {
+        startActivity(new Intent(CreateNewPostActivity.this, CreateTeachingPostActivity.class).putExtra("comingFrom", "teaching"));
     }
+
     @OnClick(R.id.llCreateMeetingPost)
-    public void openMeetingPost(){
+    public void openMeetingPost() {
         //Utility.showToastMessageLong(CreateNewPostActivity.this,getString(R.string.coming_soon));
         //startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class));
-        startActivity(new Intent(CreateNewPostActivity.this,CreateTeachingPostActivity.class).putExtra("comingFrom","meeting"));
+        startActivity(new Intent(CreateNewPostActivity.this, CreateTeachingPostActivity.class).putExtra("comingFrom", "meeting"));
     }
+
     @OnClick(R.id.llCreateOtherPost)
-    public void openOtherPost(){
+    public void openOtherPost() {
         //Utility.showToastMessageLong(CreateNewPostActivity.this,getString(R.string.coming_soon));
-        startActivity(new Intent(CreateNewPostActivity.this,CreateOtherPostActivity.class));
+        startActivity(new Intent(CreateNewPostActivity.this, CreateOtherPostActivity.class));
     }
 
     @Override
@@ -38,6 +42,7 @@ public class CreateNewPostActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_post);
         ButterKnife.bind(this);
+        activiy = this;
     }
 
     @Override

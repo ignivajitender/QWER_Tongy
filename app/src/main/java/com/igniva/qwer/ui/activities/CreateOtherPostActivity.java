@@ -1,9 +1,16 @@
 package com.igniva.qwer.ui.activities;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -134,4 +141,37 @@ public class CreateOtherPostActivity extends BaseActivity {
         }
 
     }
+
+    public  void callSuccessPopUp(final Context context, String message) {
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+        dialog.setContentView(R.layout.succuess_pop_up);
+        TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
+        text_message.setText(message);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
+        mBtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                ((Activity) context).finish();
+                CreateNewPostActivity.activiy.finish();
+            }
+        });
+
+
+        dialog.setTitle("Custom Dialog");
+
+
+        dialog.show();
+
+
+    }
+
 }
