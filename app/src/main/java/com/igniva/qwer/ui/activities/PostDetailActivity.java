@@ -123,7 +123,7 @@ public class PostDetailActivity extends BaseActivity {
     public void setData(final PostDetailPojo.DataPojo data) {
         if (data != null) {
 
-            if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.teaching))) {
+            if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.meeting))) {
                 mtvPostType.setBackgroundColor(getResources().getColor(R.color.yellow_color));
                 mtvPostType.setText(data.getPost_type());
                 mivPostImage.setVisibility(View.GONE);
@@ -136,7 +136,7 @@ public class PostDetailActivity extends BaseActivity {
                 mView.setVisibility(View.VISIBLE);
 
             }
-            if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.meeting))) {
+            if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.teaching))) {
                 mtvPostType.setBackgroundColor(getResources().getColor(R.color.bg_blue));
                 mtvPostType.setText(data.getPost_type());
                 mivPostImage.setVisibility(View.GONE);

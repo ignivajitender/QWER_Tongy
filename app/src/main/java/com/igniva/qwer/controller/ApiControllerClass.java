@@ -15,6 +15,8 @@ import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
+import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
@@ -217,7 +219,7 @@ public class ApiControllerClass {
 
                     changePasswordHashMap.put("post_type", "teaching");
                     if (typeOfClass.equalsIgnoreCase("physical")) {
-                        changePasswordHashMap.put("change_location", "noida");
+                        changePasswordHashMap.put("class_location", "noida");
                         changePasswordHashMap.put("lng", "20.00");
                         changePasswordHashMap.put("lat", "20.22");
                     }
@@ -229,7 +231,7 @@ public class ApiControllerClass {
                         public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                callSuccessPopUp(context, response.body().getDescription());
+                                ((CreateTeachingPostActivity)context).callSuccessPopUp(context, response.body().getDescription());
 
 
                             } else if (response.body().getStatus() == 400) {
@@ -498,12 +500,12 @@ public class ApiControllerClass {
                 public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                     if (response.body().getStatus() == 200) {
                         CallProgressWheel.dismissLoadingDialog();
-                         callSuccessPopUp(context, response.body().getDescription());
-                        Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                        ((CreateOtherPostActivity)context).callSuccessPopUp(context, response.body().getDescription());
+                        //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
 
 
                     }  else {
-                    CallProgressWheel.dismissLoadingDialog();
+                        CallProgressWheel.dismissLoadingDialog();
                         Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                      }
                 }
@@ -567,7 +569,7 @@ public class ApiControllerClass {
                         public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                callSuccessPopUp(context, response.body().getDescription());
+                                ((CreateTeachingPostActivity)context).callSuccessPopUp(context, response.body().getDescription());
 
 
                             } else if (response.body().getStatus() == 400) {
@@ -597,6 +599,8 @@ public class ApiControllerClass {
 
 
     }
+
+
 
     public static void callReportAbuseApi(final Context context, Retrofit retrofit, EditText metReason, EditText metComment, int post_id) {
         try {

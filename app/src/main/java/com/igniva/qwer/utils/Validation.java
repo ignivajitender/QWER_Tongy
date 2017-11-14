@@ -559,26 +559,30 @@ public class Validation {
 
         else if(FieldValidators.isNullOrEmpty(metScheduleStartDate)){
             metScheduleStartDate.setFocusable(true);
+            Utility.showToastMessageLong(context,context.getString(R.string.please_enter_start_date));
             metScheduleStartDate.requestFocus();
-            metScheduleStartDate.setError(context.getString(R.string.please_enter_start_date));
+            //metScheduleStartDate.setError(context.getString(R.string.please_enter_start_date));
             return false;
         }
         else if(FieldValidators.isNullOrEmpty(metScheduleEndDate)){
             metScheduleEndDate.setFocusable(true);
+            Utility.showToastMessageLong(context,context.getString(R.string.please_enter_end_date));
             metScheduleEndDate.requestFocus();
-            metScheduleEndDate.setError(context.getString(R.string.please_enter_end_date));
+            //metScheduleEndDate.setError(context.getString(R.string.please_enter_end_date));
             return false;
         }
         else if(FieldValidators.isNullOrEmpty(mEtStartTime)){
             mEtStartTime.setFocusable(true);
             mEtStartTime.requestFocus();
-            mEtStartTime.setError(context.getString(R.string.please_enter_start_time));
+            Utility.showToastMessageLong(context,context.getString(R.string.please_enter_start_time));
+            //mEtStartTime.setError(context.getString(R.string.please_enter_start_time));
             return false;
         }
         else if(FieldValidators.isNullOrEmpty(mEtEndTime)){
             mEtEndTime.setFocusable(true);
             mEtEndTime.requestFocus();
-            mEtEndTime.setError(context.getString(R.string.please_enter_end_time));
+            Utility.showToastMessageLong(context,context.getString(R.string.please_enter_end_time));
+            //mEtEndTime.setError(context.getString(R.string.please_enter_end_time));
             return false;
         }
     return true;
