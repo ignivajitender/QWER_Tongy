@@ -103,6 +103,12 @@ public interface ApiInterface {
     @POST("/api/users/post/postFavUnfav")
     Call<PostPojo> markFavOrUnfav(@FieldMap HashMap<String, String> signupHash);
 
+    @FormUrlEncoded
+    @POST("/api/users/post/comment")
+    Call<PostPojo> sendComment(@FieldMap HashMap<String, String> signupHash);
+
+
+
     @Multipart
     @POST("/api/users/post/other")
     Call<ResponsePojo> createOtherPost(@Part() MultipartBody.Part body,@PartMap Map<String, RequestBody> postOtherPayload);
