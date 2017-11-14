@@ -103,21 +103,25 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
         if (pojo != null) {
 
             holder.mDesc.setText(pojo.getDescription());
-            holder.mTvTitle.setText(pojo.getDescription());
+            holder.mTvTitle.setText(pojo.getTitle());
 
             if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.teaching))) {
                 holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.yellow_color));
                 holder.mTvPostType.setText(pojo.getPost_type());
+                holder.mIvImage.setVisibility(View.GONE);
 
             }
             if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.meeting))) {
                 holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.bg_blue));
                 holder.mTvPostType.setText(pojo.getPost_type());
+                holder.mIvImage.setVisibility(View.GONE);
 
             }
             if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.other))) {
                 holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.other_red_color));
                 holder.mTvPostType.setText(pojo.getPost_type());
+                holder.mIvImage.setVisibility(View.VISIBLE);
+                Glide.with(mContext).load(pojo.getImage()).into(holder.mIvImage);
             }
 
             if(pojo.getPost_user()!=null){

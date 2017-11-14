@@ -241,7 +241,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
 
                     mTvPreferredAgeMax.setText("65+");
                 } else {
-                    mTvPreferredAgeMax.setText(maxValue + " ");
+                    mTvPreferredAgeMax.setText(maxValue + "");
                 }
             }
         });
@@ -412,8 +412,8 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
         } else {
             PrefInputPojo prefInputPojo = new PrefInputPojo();
             prefInputPojo.setLearn(mAlLangListLearn);
-            prefInputPojo.setPrefered_age_from(Integer.valueOf(mTvPreferredAgeMin.getText().toString()));
-            prefInputPojo.setPrefered_age_to(Integer.valueOf(mTvPreferredAgeMax.getText().toString().replace("+", "")));
+            prefInputPojo.setPrefered_age_from(Integer.valueOf(mTvPreferredAgeMin.getText().toString().trim()));
+            prefInputPojo.setPrefered_age_to(Integer.valueOf(mTvPreferredAgeMax.getText().toString().replace("+", "").trim()));
             prefInputPojo.setPrefered_gender(mGender);
             prefInputPojo.setSpeak(mAlLangListSpeak);
             prefInputPojo.setPrefered_area_type(mAreaType);

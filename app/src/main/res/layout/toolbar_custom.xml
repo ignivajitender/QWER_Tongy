@@ -35,7 +35,7 @@
             android:textAppearance="?android:textAppearanceLarge"
 
             android:textColor="@color/bg_white"
-            android:textSize="@dimen/_18sp" />
+            android:textSize="@dimen/_14sp" />
 
         <TextView
             android:id="@+id/tv_tap_to_rename"

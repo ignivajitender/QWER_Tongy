@@ -496,16 +496,16 @@ public class ApiControllerClass {
             posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                 @Override
                 public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
-//                    if (response.body().getStatus() == 200) {
-//                        CallProgressWheel.dismissLoadingDialog();
-//                        // callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
-//                        Utility.showToastMessageShort((Activity) context, response.body().getDescription());
-//
-//
-//                    }  else {
+                    if (response.body().getStatus() == 200) {
+                        CallProgressWheel.dismissLoadingDialog();
+                         callSuccessPopUp(context, response.body().getDescription());
+                        Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+
+
+                    }  else {
                     CallProgressWheel.dismissLoadingDialog();
-                    Toast.makeText((Activity) context, response.body() + "", Toast.LENGTH_SHORT).show();
-                    // }
+                        Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                     }
                 }
 
                 @Override

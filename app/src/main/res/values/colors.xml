@@ -26,6 +26,8 @@
     <color name="tab_selected_grey">#90979E</color>
     <color name="fb_blue_color">#293B5D</color>
     <color name="back_color">#F0F2F6</color>
+    <color name="yellow_color">#FDB450</color>
+    <color name="other_red_color">#FA284F</color>
     <!-- color code by desinger -->
     <array name="array_pager_active">
         <item>@drawable/pagination_arrow</item>

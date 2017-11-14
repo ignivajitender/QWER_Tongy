@@ -207,17 +207,14 @@ public class CreateTeachingPostActivity extends BaseActivity {
     @Override
     protected void setUpLayout() {
         mautocomTextViewAddress.addTextChangedListener(new TextWatcher() {
-
-            @Override
+             @Override
             public void afterTextChanged(Editable s) {
 
                 if (s.length() > 2) {
                     // call google place api to fetch addresses
                     Utility.callGoogleApi(CreateTeachingPostActivity.this, mautocomTextViewAddress, "", okHttpClient, gson);
                 }
-
-
-            }
+             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start,
@@ -234,8 +231,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                 }*/
             }
         });
-
-        if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
+         if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
             if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
                 mllAddMembers.setVisibility(View.GONE);
             if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {

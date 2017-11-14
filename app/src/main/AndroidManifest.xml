@@ -127,8 +127,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.ContactUsActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.CreateNewPostActivity" />
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name=".ui.activities.CreateNewPostActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.activities.CreateTeachingPostActivity"
             android:label="@string/title_activity_create_teaching_post"
@@ -147,7 +151,9 @@
         <activity
             android:name=".ui.activities.SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.activities.PostDetailActivity"
             android:label="@string/title_activity_post_detail"

@@ -64,9 +64,17 @@ public class MainActivity extends BaseActivity {
         setUpLayout();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_LOCATION_PERM && resultCode == RESULT_OK){
+            getLastLocation();
+        }
+    }
 
     @Override
     protected void setUpLayout() {
+        getLocation();
         replaceFragment(new HomeFragment());
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.news_feeds));
