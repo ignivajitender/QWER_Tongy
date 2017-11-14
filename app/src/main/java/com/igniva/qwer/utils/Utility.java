@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -46,8 +47,6 @@ import com.igniva.qwer.ui.activities.LocationActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.igniva.qwer.ui.activities.CreateNewPostActivity;
-import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

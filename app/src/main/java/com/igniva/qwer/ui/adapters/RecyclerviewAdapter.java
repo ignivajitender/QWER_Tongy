@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.utils.FieldValidators;
+import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
