@@ -59,6 +59,28 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @BindView(R.id.ll_post_now)
     LinearLayout mLlPostNow;
+    @BindView(R.id.rlAddress)
+    RelativeLayout mrlAddress;
+    @BindView(R.id.autocomTextViewAddress)
+    AutoCompleteTextView mautocomTextViewAddress;
+    @Inject
+    OkHttpClient okHttpClient;
+    @Inject
+    Gson gson;
+    String typeOfClass = "online";
+    @BindView(R.id.et_schedule_start_date)
+    EditText metScheduleStartDate;
+    @BindView(R.id.et_schedule_end_date)
+    EditText metScheduleEndDate;
+    @BindView(R.id.llAddMembers)
+    LinearLayout mllAddMembers;
+    @BindView(R.id.llAddPrice)
+    LinearLayout mllAddPrice;
+    @BindView(R.id.llTypeOfClass)
+    LinearLayout mllTypeOfClass;
+    @BindView(R.id.llAddAddress)
+    LinearLayout mllAddAddress;
+    Calendar myCalendar = Calendar.getInstance();
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
@@ -75,7 +97,6 @@ public class CreateTeachingPostActivity extends BaseActivity {
         showDialog(metScheduleEndDate);
     }
 
-
     @OnClick(R.id.et_start_time)
     public void openTime() {
         showDialogTime(mEtStartTime);
@@ -85,10 +106,6 @@ public class CreateTeachingPostActivity extends BaseActivity {
     public void openTime1() {
         showDialogTime(mEtEndTime);
     }
-
-
-    @BindView(R.id.rlAddress)
-    RelativeLayout mrlAddress;
 
     @OnClick(R.id.rb_online)
     public void hideAddress() {
@@ -104,29 +121,16 @@ public class CreateTeachingPostActivity extends BaseActivity {
         typeOfClass = "physical";
     }
 
-    @BindView(R.id.autocomTextViewAddress)
-    AutoCompleteTextView mautocomTextViewAddress;
-
-    @Inject
-    OkHttpClient okHttpClient;
-    @Inject
-    Gson gson;
-    String typeOfClass = "online";
-
-
     @OnClick(R.id.ivLocation)
     public void openLocation() {
         changeLocation();
     }
-
 
     private void showDialogTime(final EditText mEditText) {
         // Get Current time
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-
-
         TimePickerDialog timePickerDialog = new TimePickerDialog(CreateTeachingPostActivity.this,
                 new TimePickerDialog.OnTimeSetListener() {
 
@@ -142,33 +146,14 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @OnClick(R.id.tvPostNow)
     public void post() {
-        if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
+        if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
             // call api to create teaching post
             ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass);
-        }
-        else if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
+        } else if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
             // call api to create teaching post
             ApiControllerClass.createMeetingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime);
         }
-
     }
-
-    @BindView(R.id.et_schedule_start_date)
-    EditText metScheduleStartDate;
-    @BindView(R.id.et_schedule_end_date)
-    EditText metScheduleEndDate;
-
-    @BindView(R.id.llAddMembers)
-    LinearLayout mllAddMembers;
-    @BindView(R.id.llAddPrice)
-    LinearLayout mllAddPrice;
-    @BindView(R.id.llTypeOfClass)
-    LinearLayout mllTypeOfClass;
-    @BindView(R.id.llAddAddress)
-    LinearLayout mllAddAddress;
-
-
-    Calendar myCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,14 +170,10 @@ public class CreateTeachingPostActivity extends BaseActivity {
     @Override
     protected void setUpLayout() {
         mautocomTextViewAddress.addTextChangedListener(new TextWatcher() {
-             @Override
+            @Override
             public void afterTextChanged(Editable s) {
 
-                if (s.length() > 2) {
-                    // call google place api to fetch addresses
-                    Utility.callGoogleApi(CreateTeachingPostActivity.this, mautocomTextViewAddress, "", okHttpClient, gson);
-                }
-             }
+            }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start,
@@ -202,6 +183,11 @@ public class CreateTeachingPostActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
+                if (s.length() > 2) {
+                    // call google place api to fetch addresses
+                    Utility.callGoogleApi(CreateTeachingPostActivity.this, mautocomTextViewAddress, "", okHttpClient, gson);
+                }
+
                /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
                     mbtnClearAddress.setVisibility(View.VISIBLE);
                 } else { //not include text
@@ -209,7 +195,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                 }*/
             }
         });
-         if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
+        if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
             if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
                 mllAddMembers.setVisibility(View.GONE);
             if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
@@ -260,13 +246,17 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @Override
     protected void setUpToolbar() {
-        if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
+        if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
             mtvToolbartitle.setText(getResources().getString(R.string.create_teaching_post));
 
-        }
-        else
+        } else
             mtvToolbartitle.setText(getResources().getString(R.string.create_meeting_post));
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
+            mautocomTextViewAddress.setText(Utility.address);
+    }
 }

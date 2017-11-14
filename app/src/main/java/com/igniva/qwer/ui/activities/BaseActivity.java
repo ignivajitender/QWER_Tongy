@@ -106,6 +106,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                         if (task.isSuccessful() && task.getResult() != null) {
                             Global.mLastLocation = task.getResult();
+                            Utility.latitude=task.getResult().getLatitude();
+                            Utility.longitude=task.getResult().getLongitude();
                             Log.e("","mLastLocation===="+Global.mLastLocation);
 //                            if(Global.mLastLocation==null)
 //                                getLastLocation();

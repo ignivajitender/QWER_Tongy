@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.AutoCompleteTextView;
@@ -47,9 +48,12 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     OkHttpClient okHttpClient;
     @Inject
     Gson gson;
+    @BindView(R.id.fab_tick)
+    FloatingActionButton fabTick;
     // Google Map
     private GoogleMap googleMap;
     public GeoDataClient mGeoDataClient;
+
     @OnClick(R.id.ivbackIcon)
     public void back() {
         onBackPressed();
@@ -94,35 +98,33 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
 
     @SuppressLint("MissingPermission")
     public void setUpMap() {
-
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-        googleMap.setTrafficEnabled(true);
-        googleMap.setIndoorEnabled(true);
+//         googleMap.setTrafficEnabled(true);
+//        googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
+//        googleMap.getUiSettings().setZoomControlsEnabled(true);
 
         if (Utility.latitude != 0.0 && Utility.longitude != 0.0)
             drawMarker();
-        else if(Global.mLastLocation!=null){
-                drawMarker();
-            Utility.latitude=Global.mLastLocation.getLatitude();
-            Utility.longitude=Global.mLastLocation.getLongitude();
-                 LocationAddress locationAddress = new LocationAddress();
-                locationAddress.getAddressFromLocation(Utility.latitude, Utility.longitude,
-                        getApplicationContext(), new GeocoderHandler());
+        else if (Global.mLastLocation != null) {
+            drawMarker();
+            Utility.latitude = Global.mLastLocation.getLatitude();
+            Utility.longitude = Global.mLastLocation.getLongitude();
+            LocationAddress locationAddress = new LocationAddress();
+            locationAddress.getAddressFromLocation(Utility.latitude, Utility.longitude,
+                    getApplicationContext(), new GeocoderHandler());
 
-            }
-            googleMap.setMyLocationEnabled(true);
-      }
+        }
+        googleMap.setMyLocationEnabled(true);
+    }
 
     private void drawMarker() {
-        Log.e("drawMarker","lat------"+Utility.latitude);
-        Log.e("drawMarker","lat------"+Utility.longitude);
+        Log.e("drawMarker", "lat------" + Utility.latitude);
+        Log.e("drawMarker", "lat------" + Utility.longitude);
         googleMap.clear();
         Marker marker = googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(Utility.latitude, Utility.longitude))
-                 );
+        );
 
         moveToCurrentLocation(new LatLng(Utility.latitude, Utility.longitude));
 
@@ -134,7 +136,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         googleMap.animateCamera(CameraUpdateFactory.zoomIn());
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-     }
+    }
 
     @Override
     public void setUpLayout() {
@@ -149,17 +151,13 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
 
     @Override
     protected void setUpToolbar() {
-          mGeoDataClient = Places.getGeoDataClient(this, null);
+        mGeoDataClient = Places.getGeoDataClient(this, null);
 
         mtvTitle.setText(getResources().getString(R.string.location));
         mautocomTextViewAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (s.length() > 2) {
-                    // call google place api to fetch addresses
-                    Utility.callGoogleApi(LocationActivity.this, mautocomTextViewAddress, "", okHttpClient, gson);
-                }
             }
 
             @Override
@@ -170,6 +168,11 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
+                if (s.length() > 2) {
+                    // call google place api to fetch addresses
+                    Utility.callGoogleApi(LocationActivity.this, mautocomTextViewAddress, "", okHttpClient, gson);
+                }
+
                /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
                     mbtnClearAddress.setVisibility(View.VISIBLE);
                 } else { //not include text
@@ -179,6 +182,12 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         });
 
     }
+
+    @OnClick(R.id.fab_tick)
+    public void onViewClicked() {
+        onBackPressed();
+    }
+
     private class GeocoderHandler extends Handler {
         @Override
         public void handleMessage(Message message) {
@@ -191,7 +200,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
                 default:
                     locationAddress = null;
             }
-            Utility.address=locationAddress;
+            Utility.address = locationAddress;
             tvLocation.setText(locationAddress);
 
         }

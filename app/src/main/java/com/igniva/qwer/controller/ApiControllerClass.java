@@ -210,16 +210,12 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("currency", "usd");
                     changePasswordHashMap.put("price", "20");
-                    changePasswordHashMap.put("description", "teaching section");
-                    changePasswordHashMap.put("title", "teaching section");
-                    changePasswordHashMap.put("post_type", "teaching");
+                     changePasswordHashMap.put("post_type", "teaching");
 
-
-                    changePasswordHashMap.put("post_type", "teaching");
-                    if(typeOfClass.equalsIgnoreCase("physical")) {
-                        changePasswordHashMap.put("change_location", "noida");
-                        changePasswordHashMap.put("lng", "20.00");
-                        changePasswordHashMap.put("lat", "20.22");
+                     if(typeOfClass.equalsIgnoreCase("physical")) {
+                        changePasswordHashMap.put("class_location", Utility.address);
+                        changePasswordHashMap.put("lng", Utility.latitude+"");
+                        changePasswordHashMap.put("lat", Utility.longitude+"");
                     }
                     //Create a retrofit call object
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).createTeachingPost(changePasswordHashMap);
@@ -229,10 +225,7 @@ public class ApiControllerClass {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 callSuccessPopUp(context, response.body().getDescription());
-
-
-
-                            } else if (response.body().getStatus() == 400) {
+                             } else if (response.body().getStatus() == 400) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             } else {
@@ -240,8 +233,7 @@ public class ApiControllerClass {
                                 Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             }
                         }
-
-                        @Override
+                         @Override
                         public void onFailure(Call<ResponsePojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
@@ -555,9 +547,9 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("post_type", "meeting");
-                    changePasswordHashMap.put("class_location", "noida");
-                    changePasswordHashMap.put("lng", "20.00");
-                    changePasswordHashMap.put("lat", "20.22");
+                    changePasswordHashMap.put("class_location", Utility.address);
+                    changePasswordHashMap.put("lng", Utility.latitude+"");
+                    changePasswordHashMap.put("lat", Utility.longitude+"");
 
 
                     //Create a retrofit call object

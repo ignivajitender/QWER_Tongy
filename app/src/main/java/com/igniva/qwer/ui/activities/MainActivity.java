@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity {
 
     private void replaceFragment(Fragment fragment) {
         currentFrag = fragment;
-          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayout_main, fragment);
         ft.commit();
 
