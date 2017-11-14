@@ -1,9 +1,11 @@
 package com.igniva.qwer.model;
 
+import java.io.Serializable;
+
 /**
  * Created by igniva-andriod-11 on 4/5/16.
  */
-public class CommentPojo {
+public class CommentPojo implements Serializable{
     //    {
 //        "id": 10,
 //            "user_id": "103",
@@ -20,6 +22,9 @@ public class CommentPojo {
 //    }
 //    }
     String created_at;
+    String comment, status, post_id, user_id;
+    int id;
+    PostDetailPojo.DataPojo.PostUserPojo comment_by_user;
 
     public String getCreated_at() {
         return created_at;
@@ -45,27 +50,27 @@ public class CommentPojo {
         this.id = id;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public int getPost_id() {
+    public String getPost_id() {
         return post_id;
     }
 
-    public void setPost_id(int post_id) {
+    public void setPost_id(String post_id) {
         this.post_id = post_id;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
@@ -76,10 +81,6 @@ public class CommentPojo {
     public void setComment_by_user(PostDetailPojo.DataPojo.PostUserPojo comment_by_user) {
         this.comment_by_user = comment_by_user;
     }
-
-    String comment;
-    int id, status, post_id, user_id;
-    PostDetailPojo.DataPojo.PostUserPojo comment_by_user;
 
 
 }

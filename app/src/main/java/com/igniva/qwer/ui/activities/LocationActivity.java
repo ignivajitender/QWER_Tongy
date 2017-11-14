@@ -68,6 +68,8 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_location);
         ButterKnife.bind(this);
         initilizeMap();
+        Utility.address=null;
+        mtvTitle.setText(getResources().getString(R.string.location));
         if(getIntent().hasExtra("dataPojo")){
               pojo= (PostDetailPojo.DataPojo) getIntent().getSerializableExtra("dataPojo");
               tvLocation.setText(pojo.getClass_location());
@@ -117,9 +119,8 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
             mautocomTextViewAddress.setVisibility(View.GONE);
             PostDetailPojo.DataPojo pojo= (PostDetailPojo.DataPojo) getIntent().getSerializableExtra("dataPojo");
             drawMarker(Double.parseDouble(pojo.getLat()),Double.parseDouble(pojo.getLng()));
-        }else if (Utility.latitude != 0.0 && Utility.longitude != 0.0)
-            drawMarker();
-        else if (Global.mLastLocation != null) {
+        }
+         else if (Global.mLastLocation != null) {
             drawMarker();
             Utility.latitude = Global.mLastLocation.getLatitude();
             Utility.longitude = Global.mLastLocation.getLongitude();
@@ -166,8 +167,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     protected void setUpToolbar() {
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
-        mtvTitle.setText(getResources().getString(R.string.location));
-        mautocomTextViewAddress.addTextChangedListener(new TextWatcher() {
+         mautocomTextViewAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
 

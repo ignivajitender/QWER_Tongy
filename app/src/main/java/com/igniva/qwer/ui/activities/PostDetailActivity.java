@@ -192,7 +192,7 @@ public class PostDetailActivity extends BaseActivity {
             mibChat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(PostDetailActivity.this,LocationActivity.class).putExtra("dataPojo",data));
+//                    startActivity(new Intent(PostDetailActivity.this,CommentsActivity.class).putExtra("dataPojo",data));
 
                 }
             });

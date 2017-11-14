@@ -2,7 +2,6 @@ package com.igniva.qwer.ui.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +11,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionMenu;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.CommentPojo;
+import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.ui.adapters.CommentsAdapter;
+import com.igniva.qwer.utils.Global;
 
 import java.util.ArrayList;
 
@@ -35,31 +35,35 @@ public class CommentsActivity extends AppCompatActivity {
     @Inject
     public Retrofit retrofit;
     CommentsAdapter adapter;
-    @BindView(R.id.recyclerView)
-    RecyclerView mrecyclerView;
-    @BindView(R.id.menu)
-    FloatingActionMenu menuFloating;
 
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.tvNoData)
-    TextView mtvNoData;
-    ArrayList<CommentPojo> commentList;
+     ArrayList<CommentPojo> commentList;
     @BindView(R.id.ivbackIcon)
     ImageView ivbackIcon;
     @BindView(R.id.tv_tap_to_rename)
     TextView tvTapToRename;
     @BindView(R.id.rv_list)
-    RecyclerView rvList;
+    RecyclerView mrecyclerView;
     @BindView(R.id.et_comment)
     EditText etComment;
+    PostDetailPojo.DataPojo pojo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+        ((Global)getApplicationContext()).getNetComponent().inject(this);
         ButterKnife.bind(this);
+        setUpLayout();
+        if (getIntent().hasExtra("dataPojo")) {
+            pojo = (PostDetailPojo.DataPojo) getIntent().getSerializableExtra("dataPojo");
+            if (pojo != null) {
+                commentList = pojo.getPost_comment();
+                setData();
+            } else
+                finish();
 
+        } else
+            finish();
     }
 
     public void setUpLayout() {
@@ -87,12 +91,7 @@ public class CommentsActivity extends AppCompatActivity {
 //            } else
 //                adapter.addAll(responsePojo.getData());
             mrecyclerView.setVisibility(View.VISIBLE);
-            mtvNoData.setVisibility(View.GONE);
-        } else {
-            mrecyclerView.setVisibility(View.GONE);
-            mtvNoData.setVisibility(View.VISIBLE);
-            //Utility.showToastMessageLong(getActivity(), "No data");
-        }
+          }
 
     }
 

@@ -72,6 +72,8 @@
                 android:textCursorDrawable="@null"
                 android:singleLine="true"
                  android:maxLength="20"
+                android:imeOptions="actionNext"
+
                 android:padding="@dimen/_5dp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/text_light_grey"
@@ -120,7 +122,9 @@
                 android:textCursorDrawable="@null"
                 android:singleLine="true"
                 android:maxLength="20"
-                 android:hint="@string/choose_language"
+                android:imeOptions="actionDone"
+
+                android:hint="@string/choose_language"
                 android:padding="@dimen/_5dp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/text_light_grey" />

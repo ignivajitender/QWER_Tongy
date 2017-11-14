@@ -591,7 +591,7 @@ public class ApiControllerClass {
                    */
 
                     CallProgressWheel.showLoadingDialog(context, "Loading...");
-                    HashMap<Object, Object> changePasswordHashMap = new HashMap<>();
+                    HashMap<String, Object> changePasswordHashMap = new HashMap<>();
 
                     changePasswordHashMap.put("start_time", mEtStartTime.getText().toString().trim());
                     changePasswordHashMap.put("end_time", mEtEndTime.getText().toString().trim());
@@ -607,6 +607,9 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("lng", Utility.latitude + "");
                     changePasswordHashMap.put("lat", Utility.longitude + "");
                     changePasswordHashMap.put("tag",todoList.toString());
+                    Utility.latitude=0.0;
+                    Utility.longitude=0.0;
+                    Utility.address="";
 
 
                     Log.e("payload",changePasswordHashMap+"");
@@ -618,9 +621,7 @@ public class ApiControllerClass {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 ((CreateTeachingPostActivity)context).callSuccessPopUp(context, response.body().getDescription());
-
-
-                            } else if (response.body().getStatus() == 400) {
+                              } else if (response.body().getStatus() == 400) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             } else {

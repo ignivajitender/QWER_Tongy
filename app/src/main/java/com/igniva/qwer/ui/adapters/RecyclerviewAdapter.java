@@ -124,8 +124,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 Glide.with(mContext).load(pojo.getImage()).into(holder.mIvImage);
             }
 
-            holder.mTvTitle.setText(pojo.getDescription());
-            holder.mTvPostType.setText(pojo.getPost_type());
+             holder.mTvPostType.setText(pojo.getPost_type());
             if(pojo.getPost_user()!=null){
                  if (pojo.getPost_user().getUser_image() != null && pojo.getPost_user().getUser_image().size() > 0) {
                     Glide.with(mContext).load(pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
@@ -151,6 +150,14 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
                 }
             });
+//            holder.mIbChat.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    mContext.startActivity(new Intent(PostDetailActivity.this,CommentsActivity.class).putExtra("dataPojo",data));
+//
+//                }
+//            });
+
             holder.mibReport.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

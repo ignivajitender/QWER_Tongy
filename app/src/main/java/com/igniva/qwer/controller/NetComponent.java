@@ -2,6 +2,7 @@ package com.igniva.qwer.controller;
 
 import com.igniva.qwer.ui.activities.ChangeEmailActivity;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.activities.CommentsActivity;
 import com.igniva.qwer.ui.activities.ContactUsActivity;
 import com.igniva.qwer.ui.activities.CreateNewPostActivity;
 import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
@@ -56,4 +57,5 @@ public interface NetComponent {
 
     void inject(PostDetailActivity activity);
 
+    void inject(CommentsActivity commentsActivity);
 }

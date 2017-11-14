@@ -8,7 +8,7 @@ import java.util.List;
  * Created by igniva-android13 on 13/11/17.
  */
 
-public class PostDetailPojo implements Serializable{
+public class PostDetailPojo implements Serializable {
 
     /**
      * status : 200
@@ -44,7 +44,8 @@ public class PostDetailPojo implements Serializable{
         this.data = data;
     }
 
-    public   class DataPojo implements Serializable{
+    public class DataPojo implements Serializable {
+        ArrayList<CommentPojo> post_comment;
         /**
          * id : 49
          * user_id : 98
@@ -85,12 +86,8 @@ public class PostDetailPojo implements Serializable{
         private String status;
         private String created_at;
         private PostUserPojo post_user;
-
-        public void setPost_comment(ArrayList<CommentPojo> post_comment) {
-            this.post_comment = post_comment;
-        }
-
-        ArrayList<CommentPojo> post_comment;
+        private List<PostUserPojo.FavPostPojo> post_fav;
+        private ArrayList<PostCommmentCount> post_comment_count;
 
         public List<PostUserPojo.FavPostPojo> getPost_fav() {
             return post_fav;
@@ -99,9 +96,6 @@ public class PostDetailPojo implements Serializable{
         public void setPost_fav(List<PostUserPojo.FavPostPojo> post_fav) {
             this.post_fav = post_fav;
         }
-
-        private List<PostUserPojo.FavPostPojo> post_fav;
-        private ArrayList<PostCommmentCount> post_comment_count;
 
         public int getId() {
             return id;
@@ -243,18 +237,21 @@ public class PostDetailPojo implements Serializable{
             return post_comment;
         }
 
+        public void setPost_comment(ArrayList<CommentPojo> post_comment) {
+            this.post_comment = post_comment;
+        }
 
-        public  ArrayList<PostCommmentCount> getPost_comment_count() {
+        public ArrayList<PostCommmentCount> getPost_comment_count() {
             return post_comment_count;
         }
 
-        public void setPost_comment_count( ArrayList<PostCommmentCount> post_comment_count) {
+        public void setPost_comment_count(ArrayList<PostCommmentCount> post_comment_count) {
             this.post_comment_count = post_comment_count;
         }
 
-        public   class PostCommmentCount implements Serializable{
+        public class PostCommmentCount implements Serializable {
 
-            String post_id,count;
+            String post_id, count;
 
             public String getPost_id() {
                 return post_id;
@@ -272,7 +269,8 @@ public class PostDetailPojo implements Serializable{
                 this.count = count;
             }
         }
-        public   class PostUserPojo implements Serializable{
+
+        public class PostUserPojo implements Serializable {
             /**
              * id : 98
              * name : jack
@@ -307,8 +305,9 @@ public class PostDetailPojo implements Serializable{
                 this.user_image = user_image;
             }
 
-            public   class FavPostPojo implements Serializable{
-               String user_id;
+            public class FavPostPojo implements Serializable {
+                String user_id;
+                String post_id;
 
                 public String getUser_id() {
                     return user_id;
@@ -325,10 +324,9 @@ public class PostDetailPojo implements Serializable{
                 public void setPost_id(String post_id) {
                     this.post_id = post_id;
                 }
-
-                String post_id;
             }
-            public   class UserImagePojo implements Serializable{
+
+            public class UserImagePojo implements Serializable {
                 /**
                  * id : 30
                  * user_id : 98

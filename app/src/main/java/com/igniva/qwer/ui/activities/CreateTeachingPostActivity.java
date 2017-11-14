@@ -338,7 +338,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
+        if (Utility.address!=null)
             mautocomTextViewAddress.setText(Utility.address);
     }
     public  void callSuccessPopUp(final Context context, String message) {

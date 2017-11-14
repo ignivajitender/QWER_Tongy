@@ -17,14 +17,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/et_comment"
-            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="@string/enter_text_here"
             android:textColor="@color/text_medium_grey"
-            android:text="asdasd"
-             android:textSize="@dimen/_18sp"
+            android:textSize="@dimen/_18sp"
             />
+        <ImageView
+            android:id="@+id/iv_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp5"
+            android:visibility="gone"
+            android:src="@drawable/tick"/>
     </LinearLayout>
 </LinearLayout>
