@@ -10,11 +10,11 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.LanguagesResponsePojo;
+import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
-import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;

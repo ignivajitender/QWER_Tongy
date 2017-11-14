@@ -3,8 +3,9 @@ package com.igniva.qwer.controller;
 
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
-import com.igniva.qwer.model.PrefInputPojo;
+import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
+import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 
@@ -107,7 +108,8 @@ public interface ApiInterface {
     @POST("/api/users/post/comment")
     Call<PostPojo> sendComment(@FieldMap HashMap<String, String> signupHash);
 
-
+    @GET("/api/users/singlePost")
+    Call<PostDetailPojo> singlePostDetail(@Query("post_id") int post_id);
 
     @Multipart
     @POST("/api/users/post/other")
