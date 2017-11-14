@@ -107,10 +107,7 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
             return 1;
         } else
             return mLangList.size();
-
-
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -137,13 +134,3 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
          }
      }
  }
-
-
-
-
-
-
-
-
-
-

@@ -442,7 +442,7 @@ public class ApiControllerClass {
     }
 
     /**
-     * Call api to mark favorite and unfavorite
+     * Call api to sendComment
      *
      * @param retrofit
      * @param context

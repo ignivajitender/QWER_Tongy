@@ -162,8 +162,8 @@ public class PostDetailActivity extends BaseActivity {
 
             if(data.getPost_user().getUser_image()!=null && data.getPost_user().getUser_image().size()>0)
             Glide.with(PostDetailActivity.this).load(data.getPost_user().getUser_image().get(0).getImage()).into(mivProfile);
-            if(data.getPost_comment_count()!=null && data.getPost_comment_count().size()>0)
-                mibChat.setText(data.getPost_comment_count().size());
+            if(data.getPost_comment_count()!=null && data.getPost_comment_count()!=null)
+                mibChat.setText(data.getPost_comment_count().getCount());
             else
                 mibChat.setText("0");
 

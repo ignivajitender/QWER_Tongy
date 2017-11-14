@@ -1,5 +1,6 @@
 package com.igniva.qwer.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,9 +84,23 @@ public class PostDetailPojo {
         private String status;
         private String created_at;
         private PostUserPojo post_user;
-        private List<?> post_comment;
+
+        public void setPost_comment(ArrayList<CommentPojo> post_comment) {
+            this.post_comment = post_comment;
+        }
+
+        ArrayList<CommentPojo> post_comment;
+
+        public List<?> getPost_fav() {
+            return post_fav;
+        }
+
+        public void setPost_fav(List<?> post_fav) {
+            this.post_fav = post_fav;
+        }
+
         private List<?> post_fav;
-        private List<?> post_comment_count;
+        private PostCommmentCount post_comment_count;
 
         public int getId() {
             return id;
@@ -223,30 +238,39 @@ public class PostDetailPojo {
             this.post_user = post_user;
         }
 
-        public List<?> getPost_comment() {
+        public ArrayList<CommentPojo> getPost_comment() {
             return post_comment;
         }
 
-        public void setPost_comment(List<?> post_comment) {
-            this.post_comment = post_comment;
-        }
 
-        public List<?> getPost_fav() {
-            return post_fav;
-        }
-
-        public void setPost_fav(List<?> post_fav) {
-            this.post_fav = post_fav;
-        }
-
-        public List<?> getPost_comment_count() {
+        public PostCommmentCount getPost_comment_count() {
             return post_comment_count;
         }
 
-        public void setPost_comment_count(List<?> post_comment_count) {
+        public void setPost_comment_count(PostCommmentCount post_comment_count) {
             this.post_comment_count = post_comment_count;
         }
 
+        public static class PostCommmentCount {
+
+            String post_id,count;
+
+            public String getPost_id() {
+                return post_id;
+            }
+
+            public void setPost_id(String post_id) {
+                this.post_id = post_id;
+            }
+
+            public String getCount() {
+                return count;
+            }
+
+            public void setCount(String count) {
+                this.count = count;
+            }
+        }
         public static class PostUserPojo {
             /**
              * id : 98

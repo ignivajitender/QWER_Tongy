@@ -25,6 +25,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.utils.FieldValidators;
+import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
@@ -161,7 +162,8 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             holder.mCardView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class));
+                    Log.e("post_id",pojo.getId()+"");
+                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class).putExtra("post_id",pojo.getId()));
                 }
             });
 
