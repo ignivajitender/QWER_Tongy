@@ -199,6 +199,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         //Toast.makeText(mContext, "You have clicked " + menuItem.getTitle(), Toast.LENGTH_LONG).show();
                         metReason.setText(menuItem.getTitle());
+                        metReason.setError(null);
                         return true;
                     }
                 });
@@ -229,7 +230,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 else
                 {
                     dialog.dismiss();
-                    ApiControllerClass.callReportAbuseApi(mContext,retrofit,metReason,metComment,post_id);
+                    ApiControllerClass.callReportAbuseApi(mContext,retrofit,metReason,metComment,post_id,dialog);
                 }
 
 

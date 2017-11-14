@@ -610,7 +610,7 @@ public class Validation {
    return true;
     }
 
-    public static boolean validateCreateMeetingPost(Activity context, EditText mEtTitle, EditText mEtDescription, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime) {
+    public static boolean validateCreateMeetingPost(Activity context, EditText mEtTitle, EditText mEtDescription, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime, CustomExpandableListView mlvAddMembersList,EditText metAddMembers) {
 
         if(FieldValidators.isNullOrEmpty(mEtTitle)){
             mEtTitle.setFocusable(true);
@@ -656,7 +656,12 @@ public class Validation {
             mEtEndTime.setError(context.getString(R.string.please_enter_end_time));
             return false;
         }
-
+        else if(mlvAddMembersList.getCount()==0){
+            metAddMembers.setFocusable(true);
+            metAddMembers.requestFocus();
+            metAddMembers.setError(context.getString(R.string.please_add_member));
+            return false;
+        }
 
 
     return  true;

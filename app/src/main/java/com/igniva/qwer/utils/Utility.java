@@ -539,24 +539,13 @@ public class Utility {
 			words =   r.getString(R.string.timeAgoHours, Math.round(hours));;
 		} else if (hours < 42) {
 			words =   "Yesterday " ;
-		} else if (days < 30) {
-			if(Math.round(days) <6){
-				SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
-				String goal = outFormat.format(date1);
-				words =  goal + " " ;
-			}else{
-				words =  Math.round(days) + " days ago ";
-			}
-
-		} else if (days < 45) {
-			words =  1 + "month ago " ;
-		} else if (days < 365) {
-			words =  Math.round(days / 30) + " months ago " ;
-		} else if (years < 1.5) {
-			words =  1 + " year ago " ;
-		} else {
-			words =  Math.round(years) + " years ago " ;
 		}
+        else {
+            Date date12 = new Date(time);
+            return new SimpleDateFormat("yyyy-MM-dd HH:MM a").format(date12);
+            // return diff / DAY_MILLIS + " days ago.";
+        }
+
 		StringBuilder sb = new StringBuilder();
 
 		if (prefix != null && prefix.length() > 0) {

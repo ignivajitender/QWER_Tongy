@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -131,10 +132,16 @@ public class PostDetailActivity extends BaseActivity {
                 mtvPrice.setText("Date and Time\n"+Utility.getTimeAgoPost(data.getStart_date_time(),PostDetailActivity.this)+" to "+Utility.getTimeAgoPost(data.getEnd_date_time(),PostDetailActivity.this));
                 mivDate.setImageResource(R.drawable.location__details);
                 mtvTimeAndDate.setText("Location\n"+data.getClass_location());
+                mtvTimeAndDate.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.location,0);
                 mivType.setImageResource(R.drawable.people_details);
                 mtvTypeOfClassOrPresenter.setText("Presenter\n");
                 mView.setVisibility(View.VISIBLE);
-
+                mtvTimeAndDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(PostDetailActivity.this,LocationActivity.class).putExtra("dataPojo",data));
+                    }
+                });
             }
             if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.teaching))) {
                 mtvPostType.setBackgroundColor(getResources().getColor(R.color.bg_blue));

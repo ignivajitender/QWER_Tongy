@@ -82,6 +82,11 @@ public class SearchActivity extends BaseActivity {
                     if (mautoCompleteSearch.getText().toString().trim().length() > 0) {
                         callSearchApi(mautoCompleteSearch.getText().toString().trim());
                     }
+                    else
+                    {
+                        mrecyclerView.setVisibility(View.GONE);
+                        mtvNoData.setVisibility(View.VISIBLE);
+                    }
 
 
                 } catch (Exception e) {

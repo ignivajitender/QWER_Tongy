@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -25,10 +27,12 @@ import android.widget.TimePicker;
 import com.google.gson.Gson;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
+import com.igniva.qwer.utils.CustomExpandableListView;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Utility;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -65,6 +69,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @BindView(R.id.ll_post_now)
     LinearLayout mLlPostNow;
+    private ArrayList<String> todoList;
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
@@ -128,6 +133,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
     }
 
 
+
     private void showDialogTime(final EditText mEditText) {
         // Get Current time
         final Calendar c = Calendar.getInstance();
@@ -176,7 +182,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
         }
         else if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
             // call api to create teaching post
-            ApiControllerClass.createMeetingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime);
+            ApiControllerClass.createMeetingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime,mlvAddMembersList,metAddMembers,todoList);
         }
 
     }
@@ -195,6 +201,10 @@ public class CreateTeachingPostActivity extends BaseActivity {
     @BindView(R.id.llAddAddress)
     LinearLayout mllAddAddress;
 
+    @BindView(R.id.et_add_members)
+    EditText metAddMembers;
+    @BindView(R.id.lv_add_members_list)
+    CustomExpandableListView mlvAddMembersList;
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -254,7 +264,36 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @Override
     protected void setDataInViewObjects() {
+        //Create a an arraylist to hold all the todo items
+        todoList = new ArrayList<String>();
 
+
+
+        //Create an ArrayAdaptor object to be able to bind ArrayLists to ListViews
+        final ArrayAdapter<String> arrayAdaptor = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoList);
+        mlvAddMembersList.setAdapter(arrayAdaptor);
+
+
+        //Listens for certain keys to be pushed, particular the dpad center key or enter key
+        metAddMembers.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    if((keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER))
+                    {
+                        //add item in the EditText to the todo list
+                        todoList.add(0, metAddMembers.getText().toString());
+                        //Update the view by notifying the ArrayAdapter of the data changes
+                        arrayAdaptor.notifyDataSetChanged();
+                        metAddMembers.setText("");
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+        });
 
     }
 

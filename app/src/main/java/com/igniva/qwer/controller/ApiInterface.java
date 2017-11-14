@@ -117,14 +117,14 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/users/post/meeting")
-    Call<ResponsePojo> createMeetingPost(@FieldMap HashMap<String, String> changePasswordHashMap);
+    Call<ResponsePojo> createMeetingPost(@FieldMap HashMap<String, Object> changePasswordHashMap);
 
     @GET("/api/users/searchPost")
     Call<PostPojo> getSearchResults(@Query("q") String searchString);
 
     @FormUrlEncoded
     @POST("api/users/post/reportPost")
-    Call<ResponsePojo> reportAbuse(HashMap<String, String> changePasswordHashMap);
+    Call<ResponsePojo> reportAbuse(@FieldMap HashMap<String, String> changePasswordHashMap);
 
 
     @GET("/api/users/post")
