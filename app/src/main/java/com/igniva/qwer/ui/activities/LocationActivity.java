@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.igniva.qwer.R;
+import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.LocationAddress;
 import com.igniva.qwer.utils.Log;
@@ -61,9 +62,16 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
         ButterKnife.bind(this);
-        getLastLocation();
-        setUpToolbar();
         initilizeMap();
+        if(getIntent().hasExtra("dataPojo")){
+            PostDetailPojo.DataPojo pojo= (PostDetailPojo.DataPojo) getIntent().getSerializableExtra("dataPojo");
+            drawMarker(Double.parseDouble(pojo.getLat()),Double.parseDouble(pojo.getLng()));
+        }
+        else {
+            getLastLocation();
+            setUpToolbar();
+        }
+
     }
 
     /**
@@ -196,4 +204,16 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
 
         }
     }
+    private void drawMarker(Double lat,Double lng) {
+        Log.e("drawMarker","lat------"+Utility.latitude);
+        Log.e("drawMarker","lat------"+Utility.longitude);
+        googleMap.clear();
+        Marker marker = googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(lat, lng))
+        );
+
+        moveToCurrentLocation(new LatLng(lat, lng));
+
+    }
+
 }

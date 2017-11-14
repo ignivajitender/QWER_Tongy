@@ -1,12 +1,13 @@
 package com.igniva.qwer.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by igniva-android13 on 13/11/17.
  */
 
-public class PostDetailPojo {
+public class PostDetailPojo implements Serializable {
 
     /**
      * status : 200
@@ -42,7 +43,7 @@ public class PostDetailPojo {
         this.data = data;
     }
 
-    public static class DataPojo {
+    public static class DataPojo implements Serializable {
         /**
          * id : 49
          * user_id : 98

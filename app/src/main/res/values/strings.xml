@@ -213,7 +213,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="no_data">No data found</string>
     <string name="report_post">Report Post!</string>
     <string name="please_select_your_reason">Select Your Reason?</string>
-    <string name="your_comment">Your comment</string>
+    <string name="your_comment">Your Comment</string>
     <string name="title_activity_post_detail">PostDetailActivity</string>
     <string name="price25">Price\n25</string>
     <string name="post_details">Post Details</string>
@@ -246,5 +246,6 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="time_ago_years">%d years ago</string>
     <string name="teaching">Teaching</string>
     <string name="meeting">Meeting</string>
+    <string name="please_add_member">Please add members</string>
 
 </resources>

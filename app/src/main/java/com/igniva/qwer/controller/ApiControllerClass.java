@@ -1,6 +1,7 @@
 package com.igniva.qwer.controller;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -21,9 +22,12 @@ import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.CustomExpandableListView;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
+
+import org.json.JSONArray;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -209,7 +213,7 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("start_time", mEtStartTime.getText().toString().trim());
                     changePasswordHashMap.put("end_time", mEtEndTime.getText().toString().trim());
                     changePasswordHashMap.put("end_date", metScheduleEndDate.getText().toString().trim());
-                    changePasswordHashMap.put("start_date", metScheduleEndDate.getText().toString().trim());
+                    changePasswordHashMap.put("start_date", metScheduleStartDate.getText().toString().trim());
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("currency", "usd");
@@ -425,7 +429,7 @@ public class ApiControllerClass {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             Log.e("success", response.message());
-                            if (response.body().getDescription().equalsIgnoreCase("Post  has been favorite successfully."))
+                            if (response.body().getDescription().equalsIgnoreCase("Post has been favourite successfully."))
                                 mIbfav.setImageResource(R.drawable.liked);
                             else
                                 mIbfav.setImageResource(R.drawable.like);
@@ -522,11 +526,11 @@ public class ApiControllerClass {
         }
     }
 
-    public static void createMeetingPostApi(final Context context, Retrofit retrofit, EditText mEtTitle, EditText mEtDescription, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime) {
+    public static void createMeetingPostApi(final Context context, Retrofit retrofit, EditText mEtTitle, EditText mEtDescription, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime, CustomExpandableListView mlvAddMembersList, EditText metAddMembers, ArrayList<String> todoList) {
         try {
             Utility.hideSoftKeyboard((Activity) context);
             // check validations for current password,new password and confirm password
-            if (Validation.validateCreateMeetingPost((Activity) context, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime)) {
+            if (Validation.validateCreateMeetingPost((Activity) context, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime,mlvAddMembersList,metAddMembers)) {
                 if (Utility.isInternetConnection(context)) {
 
                     /*
@@ -548,20 +552,21 @@ public class ApiControllerClass {
                    */
 
                     CallProgressWheel.showLoadingDialog(context, "Loading...");
-                    HashMap<String, String> changePasswordHashMap = new HashMap<>();
+                    HashMap<String, Object> changePasswordHashMap = new HashMap<>();
 
                     changePasswordHashMap.put("start_time", mEtStartTime.getText().toString().trim());
                     changePasswordHashMap.put("end_time", mEtEndTime.getText().toString().trim());
                     changePasswordHashMap.put("end_date", metScheduleEndDate.getText().toString().trim());
-                    changePasswordHashMap.put("start_date", metScheduleEndDate.getText().toString().trim());
+                    changePasswordHashMap.put("start_date", metScheduleStartDate.getText().toString().trim());
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("post_type", "meeting");
                     changePasswordHashMap.put("class_location", "noida");
                     changePasswordHashMap.put("lng", "20.00");
                     changePasswordHashMap.put("lat", "20.22");
-
-
+                    //changePasswordHashMap.put("tag",todoList.toArray());
+                    JSONArray jsArray = new JSONArray(todoList);
+                    Log.e("array",jsArray+"");
                     //Create a retrofit call object
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).createMeetingPost(changePasswordHashMap);
                     posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
@@ -602,7 +607,7 @@ public class ApiControllerClass {
 
 
 
-    public static void callReportAbuseApi(final Context context, Retrofit retrofit, EditText metReason, EditText metComment, int post_id) {
+    public static void callReportAbuseApi(final Context context, Retrofit retrofit, EditText metReason, EditText metComment, int post_id,final Dialog dialog) {
         try {
             if (Utility.isInternetConnection(context)) {
 
@@ -626,8 +631,9 @@ public class ApiControllerClass {
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
-                            ((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
-
+                            Utility.showToastMessageLong((Activity) context,response.body().getMessage());
+                            //((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
+                            dialog.dismiss();
 
                         } else if (response.body().getStatus() == 400) {
                             CallProgressWheel.dismissLoadingDialog();

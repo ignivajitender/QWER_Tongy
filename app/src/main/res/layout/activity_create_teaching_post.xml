@@ -6,7 +6,7 @@
 
     <include layout="@layout/toolbar_with_heading" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/grey_bg">
@@ -353,6 +353,12 @@
                     android:textColor="@color/text_dark_grey"
                     android:textCursorDrawable="@drawable/color_cursor" />
 
+                <com.igniva.qwer.utils.CustomExpandableListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lv_add_members_list"
+
+                    ></com.igniva.qwer.utils.CustomExpandableListView>
 
             </LinearLayout>
             <LinearLayout
@@ -380,5 +386,5 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
