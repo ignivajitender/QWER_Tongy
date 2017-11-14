@@ -138,6 +138,11 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             else
                 holder.mIvFav.setImageResource(R.drawable.like);
 
+            if(pojo.getPost_comment_count()!=null && pojo.getPost_comment_count().size()>0)
+                holder.mIbChat.setText(pojo.getPost_comment_count().get(0).getCount());
+            else
+                holder.mIbChat.setText("0");
+
 
             holder.mIvFav.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -162,7 +167,8 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             holder.mCardView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class));
+                    Log.e("post_id",pojo.getId()+"");
+                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class).putExtra("post_id",pojo.getId()));
                 }
             });
 

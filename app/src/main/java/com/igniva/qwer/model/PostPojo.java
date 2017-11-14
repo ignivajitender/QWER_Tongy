@@ -186,7 +186,7 @@ public class PostPojo {
             private String status;
             private String created_at;
             private PostUserBean post_user;
-            private List<?> post_comment_count;
+            private List<PostDetailPojo.DataPojo.PostCommmentCount> post_comment_count;
             private List<?> post_fav;
 
             public String getImage() {
@@ -327,11 +327,11 @@ public class PostPojo {
                 this.post_user = post_user;
             }
 
-            public List<?> getPost_comment_count() {
+            public List<PostDetailPojo.DataPojo.PostCommmentCount> getPost_comment_count() {
                 return post_comment_count;
             }
 
-            public void setPost_comment_count(List<?> post_comment_count) {
+            public void setPost_comment_count(List<PostDetailPojo.DataPojo.PostCommmentCount> post_comment_count) {
                 this.post_comment_count = post_comment_count;
             }
 
