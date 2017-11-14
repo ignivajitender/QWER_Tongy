@@ -143,6 +143,7 @@ public class PostsListFragment extends BaseFragment {
 
         if (mListType == R.string.news_feed) {
             menuFloating.setVisibility(View.VISIBLE);
+
         }
         getPosts();
     }

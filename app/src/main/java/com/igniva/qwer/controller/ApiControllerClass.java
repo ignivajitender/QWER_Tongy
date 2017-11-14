@@ -16,6 +16,7 @@ import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
@@ -231,7 +232,9 @@ public class ApiControllerClass {
                         public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                callSuccessPopUp(context, response.body().getDescription());
+                                ((CreateTeachingPostActivity)context).callSuccessPopUp(context, response.body().getDescription());
+
+
                             } else if (response.body().getStatus() == 400) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
@@ -374,7 +377,7 @@ public class ApiControllerClass {
                                     fragment.setDataInViewObjects(null);
 
                                 CallProgressWheel.dismissLoadingDialog();
-                                Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
                         }
 
@@ -440,6 +443,8 @@ public class ApiControllerClass {
                     }
                 });
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -538,14 +543,14 @@ public class ApiControllerClass {
                 public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                     if (response.body().getStatus() == 200) {
                         CallProgressWheel.dismissLoadingDialog();
-                        callSuccessPopUp(context, response.body().getDescription());
-                        Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                        ((CreateOtherPostActivity)context).callSuccessPopUp(context, response.body().getDescription());
+                        //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
 
 
-                    } else {
+                    }  else {
                         CallProgressWheel.dismissLoadingDialog();
                         Utility.showToastMessageShort((Activity) context, response.body().getDescription());
-                    }
+                     }
                 }
 
                 @Override
@@ -586,7 +591,7 @@ public class ApiControllerClass {
                    */
 
                     CallProgressWheel.showLoadingDialog(context, "Loading...");
-                    HashMap<String, Object> changePasswordHashMap = new HashMap<>();
+                    HashMap<Object, Object> changePasswordHashMap = new HashMap<>();
 
                     changePasswordHashMap.put("start_time", mEtStartTime.getText().toString().trim());
                     changePasswordHashMap.put("end_time", mEtEndTime.getText().toString().trim());
@@ -595,14 +600,16 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("post_type", "meeting");
-                     //changePasswordHashMap.put("tag",todoList.toArray());
+
                     JSONArray jsArray = new JSONArray(todoList);
                     Log.e("array",jsArray+"");
                     changePasswordHashMap.put("class_location", Utility.address);
                     changePasswordHashMap.put("lng", Utility.latitude + "");
                     changePasswordHashMap.put("lat", Utility.longitude + "");
+                    changePasswordHashMap.put("tag",todoList.toString());
 
 
+                    Log.e("payload",changePasswordHashMap+"");
                     //Create a retrofit call object
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).createMeetingPost(changePasswordHashMap);
                     posts.enqueue(new retrofit2.Callback<ResponsePojo>() {

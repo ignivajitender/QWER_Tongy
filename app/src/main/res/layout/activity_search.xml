@@ -24,16 +24,17 @@
             android:background="@null"
             android:id="@+id/autoCompleteSearch"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_14sp"
             android:inputType="text"
             android:drawableTint="@color/text_light_grey"
+            android:textCursorDrawable="@drawable/color_cursor"
             />
 
-        <!-- <LinearLayout
-             android:id="@+id/btn_clear"
+        <LinearLayout
+             android:id="@+id/llClear"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:layout_weight="6"
@@ -44,10 +45,10 @@
              <ImageView
                  android:layout_width="@dimen/_20dp"
                  android:layout_height="@dimen/_20dp"
-                 android:src="@drawable/canceled"
+                 android:src="@android:drawable/ic_delete"
                  android:visibility="visible"
                  />
-         </LinearLayout>-->
+         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -67,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-            android:visibility="visible"
+            android:visibility="gone"
             />
         </android.support.v4.widget.SwipeRefreshLayout>
         <TextView

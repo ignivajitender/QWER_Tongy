@@ -2,6 +2,8 @@ package com.igniva.qwer.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -9,15 +11,18 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
-import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.EndlessRecyclerViewScrollListener;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Utility;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -53,7 +58,17 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.tvNoData)
     TextView mtvNoData;
 
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    Boolean isLast = false;
+    public int pageNo = 1;
+    int mListType;
+    @BindView(R.id.llClear)
+    LinearLayout mllClear;
 
+
+    // Store a member variable for the listener
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +84,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void setDataInViewObjects() {
-        mautoCompleteSearch.performClick();
+        //mautoCompleteSearch.performClick();
         mautoCompleteSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -82,11 +97,10 @@ public class SearchActivity extends BaseActivity {
                     if (mautoCompleteSearch.getText().toString().trim().length() > 0) {
                         callSearchApi(mautoCompleteSearch.getText().toString().trim());
                     }
-                    else
-                    {
-                        mrecyclerView.setVisibility(View.GONE);
-                        mtvNoData.setVisibility(View.VISIBLE);
+                    else if(mautoCompleteSearch.getText().toString().trim().length() == 0){
+                        setData(null);
                     }
+
 
 
                 } catch (Exception e) {
@@ -101,8 +115,8 @@ public class SearchActivity extends BaseActivity {
 
 
         });
-
-
+        mListType=5;
+        Utility.onChangeClearButtonVisible(SearchActivity.this,mautoCompleteSearch , mllClear);
     }
 
     @Override
@@ -124,24 +138,13 @@ public class SearchActivity extends BaseActivity {
                 try {
 
                     if (response.body().getStatus() == 200) {
-                       // Utility.showToastMessageLong(SearchActivity.this, response.body().getDescription());
-                        if(response.body()!=null && response.body().getData()!=null && response.body().getData().getData().size()>0)
-                        {
-                            mrecyclerView.setVisibility(View.VISIBLE);
-                         /*   adapter = new RecyclerviewAdapter(SearchActivity.this, "search",response.body().getData(),retrofit);
-                            mrecyclerView.setAdapter(adapter);
-*/
-                        }
-                        else
-                        {
-                            mtvNoData.setVisibility(View.VISIBLE);
-                            mrecyclerView.setVisibility(View.GONE);
-                        }
-
-                    } else {
-                        mtvNoData.setVisibility(View.VISIBLE);
-                        mtvNoData.setText(response.body().getDescription());
-                        //Utility.showToastMessageLong(SearchActivity.this, response.body().getMessage());
+                        //CallProgressWheel.dismissLoadingDialog();
+                        //Utility.showToastMessageShort(SearchActivity.this, response.body().getDescription());
+                        setData(response.body().getData());
+                    }
+                    else
+                    {
+                       setData(null);
                     }
 
 
@@ -160,7 +163,7 @@ public class SearchActivity extends BaseActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                CallProgressWheel.dismissLoadingDialog();
+                // CallProgressWheel.dismissLoadingDialog();
             }
         });
 
@@ -169,8 +172,60 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void setUpLayout() {
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mrecyclerView.setLayoutManager(mLayoutManager);
 
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(SearchActivity.this);
+        mrecyclerView.setLayoutManager(mLayoutManager);
+        mrecyclerView.setItemAnimator(new DefaultItemAnimator());
+        scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                if (!isLast)
+                    callSearchApi(mautoCompleteSearch.getText().toString().trim());
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        mrecyclerView.addOnScrollListener(scrollListener);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                swipeRefreshLayout.setRefreshing(false);
+                pageNo = 1;
+                isLast = false;
+                scrollListener.resetState();
+                adapter = null;
+                callSearchApi(mautoCompleteSearch.getText().toString().trim());
+            }
+        });
+
+
+        //callSearchApi(mautoCompleteSearch.getText().toString().trim());
+
+    }
+
+    public void setData(PostPojo.PostDataPojo data){
+        if (data != null && data.getData() != null && data.getData().size() > 0) {
+
+            pageNo++;
+
+            if (pageNo >= data.getLast_page())
+                isLast = true;
+
+            if (adapter == null) {
+                adapter = new RecyclerviewAdapter(SearchActivity.this, mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>)data.getData(),retrofit);
+                mrecyclerView.setAdapter(adapter);
+            } else
+                adapter.addAll(data.getData());
+            mrecyclerView.setVisibility(View.VISIBLE);
+            mtvNoData.setVisibility(View.GONE);
+        } else {
+            mrecyclerView.setVisibility(View.GONE);
+            mtvNoData.setVisibility(View.VISIBLE);
+            isLast = true;
+            //Utility.showToastMessageLong(getActivity(), "No data");
+        }
     }
 }

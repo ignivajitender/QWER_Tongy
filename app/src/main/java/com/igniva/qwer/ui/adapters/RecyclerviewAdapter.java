@@ -162,8 +162,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             holder.mCardView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("post_id",pojo.getId()+"");
-                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class).putExtra("post_id",pojo.getId()));
+                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class));
                 }
             });
 
