@@ -169,8 +169,8 @@ public class PostDetailActivity extends BaseActivity {
 
             if(data.getPost_user().getUser_image()!=null && data.getPost_user().getUser_image().size()>0)
             Glide.with(PostDetailActivity.this).load(data.getPost_user().getUser_image().get(0).getImage()).into(mivProfile);
-            if(data.getPost_comment_count()!=null && data.getPost_comment_count()!=null)
-                mibChat.setText(data.getPost_comment_count().getCount());
+            if(data.getPost_comment_count()!=null && data.getPost_comment_count().size()>0)
+                mibChat.setText(data.getPost_comment_count().get(0).getCount());
             else
                 mibChat.setText("0");
 
@@ -187,6 +187,13 @@ public class PostDetailActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     ApiControllerClass.markFavoriteUnfavorite(retrofit, PostDetailActivity.this, data.getPost_fav(),mtvFav, data.getId());
+                }
+            });
+            mibChat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(PostDetailActivity.this,LocationActivity.class).putExtra("dataPojo",data));
+
                 }
             });
 

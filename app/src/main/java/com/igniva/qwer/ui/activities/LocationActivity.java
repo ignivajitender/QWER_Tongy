@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +55,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     // Google Map
     private GoogleMap googleMap;
     public GeoDataClient mGeoDataClient;
-
+    PostDetailPojo.DataPojo pojo;
     @OnClick(R.id.ivbackIcon)
     public void back() {
         onBackPressed();
@@ -68,8 +69,8 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         ButterKnife.bind(this);
         initilizeMap();
         if(getIntent().hasExtra("dataPojo")){
-            PostDetailPojo.DataPojo pojo= (PostDetailPojo.DataPojo) getIntent().getSerializableExtra("dataPojo");
-            drawMarker(Double.parseDouble(pojo.getLat()),Double.parseDouble(pojo.getLng()));
+              pojo= (PostDetailPojo.DataPojo) getIntent().getSerializableExtra("dataPojo");
+              tvLocation.setText(pojo.getClass_location());
         }
         else {
             getLastLocation();
@@ -90,7 +91,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-        initilizeMap();
+//        initilizeMap();
 //        getLastLocation();
 
     }
@@ -112,7 +113,11 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         googleMap.setBuildingsEnabled(true);
 //        googleMap.getUiSettings().setZoomControlsEnabled(true);
 
-        if (Utility.latitude != 0.0 && Utility.longitude != 0.0)
+        if(getIntent().hasExtra("dataPojo")){
+            mautocomTextViewAddress.setVisibility(View.GONE);
+            PostDetailPojo.DataPojo pojo= (PostDetailPojo.DataPojo) getIntent().getSerializableExtra("dataPojo");
+            drawMarker(Double.parseDouble(pojo.getLat()),Double.parseDouble(pojo.getLng()));
+        }else if (Utility.latitude != 0.0 && Utility.longitude != 0.0)
             drawMarker();
         else if (Global.mLastLocation != null) {
             drawMarker();

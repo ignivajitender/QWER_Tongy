@@ -1,5 +1,6 @@
 package com.igniva.qwer.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by igniva-android13 on 13/11/17.
  */
 
-public class PostDetailPojo {
+public class PostDetailPojo implements Serializable{
 
     /**
      * status : 200
@@ -43,7 +44,7 @@ public class PostDetailPojo {
         this.data = data;
     }
 
-    public static class DataPojo {
+    public   class DataPojo implements Serializable{
         /**
          * id : 49
          * user_id : 98
@@ -91,16 +92,16 @@ public class PostDetailPojo {
 
         ArrayList<CommentPojo> post_comment;
 
-        public List<?> getPost_fav() {
+        public List<PostUserPojo.FavPostPojo> getPost_fav() {
             return post_fav;
         }
 
-        public void setPost_fav(List<?> post_fav) {
+        public void setPost_fav(List<PostUserPojo.FavPostPojo> post_fav) {
             this.post_fav = post_fav;
         }
 
-        private List<?> post_fav;
-        private PostCommmentCount post_comment_count;
+        private List<PostUserPojo.FavPostPojo> post_fav;
+        private ArrayList<PostCommmentCount> post_comment_count;
 
         public int getId() {
             return id;
@@ -243,15 +244,15 @@ public class PostDetailPojo {
         }
 
 
-        public PostCommmentCount getPost_comment_count() {
+        public  ArrayList<PostCommmentCount> getPost_comment_count() {
             return post_comment_count;
         }
 
-        public void setPost_comment_count(PostCommmentCount post_comment_count) {
+        public void setPost_comment_count( ArrayList<PostCommmentCount> post_comment_count) {
             this.post_comment_count = post_comment_count;
         }
 
-        public static class PostCommmentCount {
+        public   class PostCommmentCount implements Serializable{
 
             String post_id,count;
 
@@ -271,7 +272,7 @@ public class PostDetailPojo {
                 this.count = count;
             }
         }
-        public static class PostUserPojo {
+        public   class PostUserPojo implements Serializable{
             /**
              * id : 98
              * name : jack
@@ -306,7 +307,28 @@ public class PostDetailPojo {
                 this.user_image = user_image;
             }
 
-            public static class UserImagePojo {
+            public   class FavPostPojo implements Serializable{
+               String user_id;
+
+                public String getUser_id() {
+                    return user_id;
+                }
+
+                public void setUser_id(String user_id) {
+                    this.user_id = user_id;
+                }
+
+                public String getPost_id() {
+                    return post_id;
+                }
+
+                public void setPost_id(String post_id) {
+                    this.post_id = post_id;
+                }
+
+                String post_id;
+            }
+            public   class UserImagePojo implements Serializable{
                 /**
                  * id : 30
                  * user_id : 98
