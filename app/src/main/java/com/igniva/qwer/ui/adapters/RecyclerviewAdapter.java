@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -124,6 +123,8 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 Glide.with(mContext).load(pojo.getImage()).into(holder.mIvImage);
             }
 
+            holder.mTvTitle.setText(pojo.getDescription());
+            holder.mTvPostType.setText(pojo.getPost_type());
             if(pojo.getPost_user()!=null){
                  if (pojo.getPost_user().getUser_image() != null && pojo.getPost_user().getUser_image().size() > 0) {
                     Glide.with(mContext).load(pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
@@ -160,7 +161,6 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             holder.mCardView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("post_id",pojo.getId()+"");
                     mContext.startActivity(new Intent(mContext, PostDetailActivity.class).putExtra("post_id",pojo.getId()));
                 }
             });

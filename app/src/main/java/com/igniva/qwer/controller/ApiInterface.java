@@ -104,13 +104,20 @@ public interface ApiInterface {
     @POST("/api/users/post/postFavUnfav")
     Call<PostPojo> markFavOrUnfav(@FieldMap HashMap<String, String> signupHash);
 
+    @FormUrlEncoded
+    @POST("/api/users/post/comment")
+    Call<PostPojo> sendComment(@FieldMap HashMap<String, String> signupHash);
+
+    @GET("/api/users/singlePost")
+    Call<PostDetailPojo> singlePostDetail(@Query("post_id") int post_id);
+
     @Multipart
     @POST("/api/users/post/other")
     Call<ResponsePojo> createOtherPost(@Part() MultipartBody.Part body,@PartMap Map<String, RequestBody> postOtherPayload);
 
     @FormUrlEncoded
     @POST("api/users/post/meeting")
-    Call<ResponsePojo> createMeetingPost(@FieldMap HashMap<String, Object> changePasswordHashMap);
+    Call<ResponsePojo> createMeetingPost(@FieldMap HashMap<Object, Object> changePasswordHashMap);
 
     @GET("/api/users/searchPost")
     Call<PostPojo> getSearchResults(@Query("q") String searchString);
@@ -126,7 +133,4 @@ public interface ApiInterface {
 //    http://tongy.ignivastaging.com/api/users/favPost
     @GET("/api/users/favPost")
     Call<PostPojo> getFavPosts(@Query("page") int pageNumber);
-
-    @GET("/api/users/singlePost")
-    Call<PostDetailPojo> singlePostDetail(@Query("post_id") int post_id);
 }

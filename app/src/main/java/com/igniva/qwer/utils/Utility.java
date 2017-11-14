@@ -21,7 +21,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.View;
 import android.view.Window;
@@ -29,6 +31,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,8 +50,6 @@ import com.igniva.qwer.ui.activities.LocationActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.igniva.qwer.ui.activities.CreateNewPostActivity;
-import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import java.io.File;
 import java.io.IOException;
@@ -615,6 +616,45 @@ public class Utility {
 
     public interface OnAlertOkClickListener {
         void onOkButtonClicked();
+    }
+    public static void onChangeClearButtonVisible(final Context context, final EditText editText, final View linearLayout) {
+        try {
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (editText.getText().toString().trim().length() > 0) {
+
+                        // textInputLayout.setErrorEnabled(false);
+                        editText.setError(null);
+                        linearLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        linearLayout.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+
+                }
+            });
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    editText.setText("");
+
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

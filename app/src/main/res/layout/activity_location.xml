@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:id="@+id/fab_tick"
             android:layout_margin="@dimen/_20dp"
             app:srcCompat="@drawable/tick" />
 
@@ -64,12 +65,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_1dp"
                     android:layout_marginLeft="@dimen/_20dp"
-                    android:gravity="center_vertical"
-                    android:text="asdasdasdasd"
-                    android:maxLines="2"
                     android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
                     android:textColor="@android:color/black"
-
                     android:textSize="@dimen/_14sp" />
 
 

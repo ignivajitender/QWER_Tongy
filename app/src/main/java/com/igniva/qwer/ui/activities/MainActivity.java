@@ -88,6 +88,7 @@ public class MainActivity extends BaseActivity {
                 tab.select();
                 if (tab.getPosition() == 0) {
                     mTvToolbar.setText(R.string.news_feed);
+                    isshowSearch(true);
                     replaceFragment(PostsListFragment.newInstance(R.string.news_feed));
                 } else if (tab.getPosition() == 1) {
                     mTvToolbar.setText("");
@@ -97,7 +98,8 @@ public class MainActivity extends BaseActivity {
                     //replaceFragment(new PostsListFragment());
                 }
 
-             }
+
+            }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -170,7 +172,7 @@ public class MainActivity extends BaseActivity {
 
     private void replaceFragment(Fragment fragment) {
         currentFrag = fragment;
-          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayout_main, fragment);
         ft.commit();
 

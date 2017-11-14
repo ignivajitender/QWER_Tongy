@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.igniva.qwer.R;
@@ -62,6 +63,10 @@ public class SearchActivity extends BaseActivity {
     Boolean isLast = false;
     public int pageNo = 1;
     int mListType;
+    @BindView(R.id.llClear)
+    LinearLayout mllClear;
+
+
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -79,7 +84,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void setDataInViewObjects() {
-        mautoCompleteSearch.performClick();
+        //mautoCompleteSearch.performClick();
         mautoCompleteSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -92,11 +97,10 @@ public class SearchActivity extends BaseActivity {
                     if (mautoCompleteSearch.getText().toString().trim().length() > 0) {
                         callSearchApi(mautoCompleteSearch.getText().toString().trim());
                     }
-                    else
-                    {
-                        mrecyclerView.setVisibility(View.GONE);
-                        mtvNoData.setVisibility(View.VISIBLE);
+                    else if(mautoCompleteSearch.getText().toString().trim().length() == 0){
+                        setData(null);
                     }
+
 
 
                 } catch (Exception e) {
@@ -112,7 +116,7 @@ public class SearchActivity extends BaseActivity {
 
         });
         mListType=5;
-
+        Utility.onChangeClearButtonVisible(SearchActivity.this,mautoCompleteSearch , mllClear);
     }
 
     @Override
@@ -138,7 +142,10 @@ public class SearchActivity extends BaseActivity {
                         //Utility.showToastMessageShort(SearchActivity.this, response.body().getDescription());
                         setData(response.body().getData());
                     }
-
+                    else
+                    {
+                       setData(null);
+                    }
 
 
                 } catch (Exception e) {
@@ -156,7 +163,7 @@ public class SearchActivity extends BaseActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-               // CallProgressWheel.dismissLoadingDialog();
+                // CallProgressWheel.dismissLoadingDialog();
             }
         });
 

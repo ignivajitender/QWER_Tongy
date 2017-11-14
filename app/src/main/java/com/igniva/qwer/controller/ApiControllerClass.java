@@ -221,11 +221,11 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("post_type", "teaching");
 
 
-                    changePasswordHashMap.put("post_type", "teaching");
+
                     if (typeOfClass.equalsIgnoreCase("physical")) {
-                        changePasswordHashMap.put("class_location", "noida");
-                        changePasswordHashMap.put("lng", "20.00");
-                        changePasswordHashMap.put("lat", "20.22");
+                        changePasswordHashMap.put("class_location", Utility.address);
+                        changePasswordHashMap.put("lng", Utility.latitude + "");
+                        changePasswordHashMap.put("lat", Utility.longitude + "");
                     }
                     Log.e("json payload",changePasswordHashMap+"");
                     //Create a retrofit call object
@@ -380,7 +380,7 @@ public class ApiControllerClass {
                                     fragment.setDataInViewObjects(null);
 
                                 CallProgressWheel.dismissLoadingDialog();
-                                Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
                         }
 
@@ -414,8 +414,6 @@ public class ApiControllerClass {
      */
     public static void markFavoriteUnfavorite(Retrofit retrofit, final Context context, final List<?> post_fav, final ImageView mIbfav, int post_id) {
         try {
-
-
             if (Utility.isInternetConnection(context)) {
 
                 CallProgressWheel.showLoadingDialog(context, "Loading...");
@@ -453,8 +451,52 @@ public class ApiControllerClass {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * Call api to mark favorite and unfavorite
+     *
+     * @param retrofit
+     * @param context
+     * @param post_id
+     */
+    public static void sendComment(Retrofit retrofit, final Context context, String commentString, int post_id) {
+        try {
+            if (Utility.isInternetConnection(context)) {
+//                 {
+//                     "comment":"nice post",”post_id”:”1”
+//
+//                 }
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                HashMap<String, String> hMap = new HashMap<>();
+                hMap.put("post_id", post_id + "");
+                hMap.put("commentString", commentString + "");
+                //Create a retrofit call object
+                Call<PostPojo> posts = retrofit.create(ApiInterface.class).sendComment(hMap);
+                posts.enqueue(new retrofit2.Callback<PostPojo>() {
+                    @Override
+                    public void onResponse(Call<PostPojo> call, retrofit2.Response<PostPojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Log.e("success", response.message());
 
+                            Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostPojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -552,7 +594,7 @@ public class ApiControllerClass {
                    */
 
                     CallProgressWheel.showLoadingDialog(context, "Loading...");
-                    HashMap<String, Object> changePasswordHashMap = new HashMap<>();
+                    HashMap<Object, Object> changePasswordHashMap = new HashMap<>();
 
                     changePasswordHashMap.put("start_time", mEtStartTime.getText().toString().trim());
                     changePasswordHashMap.put("end_time", mEtEndTime.getText().toString().trim());
@@ -561,12 +603,16 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
                     changePasswordHashMap.put("post_type", "meeting");
-                    changePasswordHashMap.put("class_location", "noida");
-                    changePasswordHashMap.put("lng", "20.00");
-                    changePasswordHashMap.put("lat", "20.22");
-                    //changePasswordHashMap.put("tag",todoList.toArray());
+
                     JSONArray jsArray = new JSONArray(todoList);
                     Log.e("array",jsArray+"");
+                    changePasswordHashMap.put("class_location", Utility.address);
+                    changePasswordHashMap.put("lng", Utility.latitude + "");
+                    changePasswordHashMap.put("lat", Utility.longitude + "");
+                    changePasswordHashMap.put("tag",todoList.toString());
+
+
+                    Log.e("payload",changePasswordHashMap+"");
                     //Create a retrofit call object
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).createMeetingPost(changePasswordHashMap);
                     posts.enqueue(new retrofit2.Callback<ResponsePojo>() {

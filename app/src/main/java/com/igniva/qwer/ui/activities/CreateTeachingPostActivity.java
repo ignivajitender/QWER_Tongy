@@ -223,14 +223,10 @@ public class CreateTeachingPostActivity extends BaseActivity {
     @Override
     protected void setUpLayout() {
         mautocomTextViewAddress.addTextChangedListener(new TextWatcher() {
-             @Override
+            @Override
             public void afterTextChanged(Editable s) {
 
-                if (s.length() > 2) {
-                    // call google place api to fetch addresses
-                    Utility.callGoogleApi(CreateTeachingPostActivity.this, mautocomTextViewAddress, "", okHttpClient, gson);
-                }
-             }
+            }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start,
@@ -240,6 +236,11 @@ public class CreateTeachingPostActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
+                if (s.length() > 2) {
+                    // call google place api to fetch addresses
+                    Utility.callGoogleApi(CreateTeachingPostActivity.this, mautocomTextViewAddress, "", okHttpClient, gson);
+                }
+
                /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
                     mbtnClearAddress.setVisibility(View.VISIBLE);
                 } else { //not include text
@@ -327,14 +328,19 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @Override
     protected void setUpToolbar() {
-        if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
+        if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
             mtvToolbartitle.setText(getResources().getString(R.string.create_teaching_post));
 
-        }
-        else
+        } else
             mtvToolbartitle.setText(getResources().getString(R.string.create_meeting_post));
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
+            mautocomTextViewAddress.setText(Utility.address);
+    }
     public  void callSuccessPopUp(final Context context, String message) {
 
         // Create custom dialog object
