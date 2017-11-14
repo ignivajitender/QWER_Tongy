@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     android:background="@color/bg_white">
     <include layout="@layout/toolbar_with_heading" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_margin="@dimen/_10dp"
         android:layout_width="match_parent"
@@ -30,7 +34,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/placeholder" />
+                 />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -48,7 +52,7 @@
 
                     android:ellipsize="end"
                     android:ems="7"
-                    android:text="Name"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@+id/ib_chat"
@@ -64,7 +68,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="1dp"
-                    android:text="April 25, 2017"
+                    android:text=""
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/ib_chat"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -84,7 +88,7 @@
                 android:drawableLeft="@drawable/chat"
                 android:gravity="center"
 
-                android:text="15"
+                android:text=""
                 />
 
 
@@ -155,6 +159,15 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/iv_image" />
 
+                    <ImageView
+                        android:id="@+id/ivPostImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        />
+
+
                     <TextView
                         android:id="@+id/desc"
                         android:layout_width="match_parent"
@@ -169,7 +182,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
                     <LinearLayout
-                        android:id="@+id/linearLayout"
+                        android:id="@+id/llInfoBottom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
@@ -183,6 +196,7 @@
 
                            >
                         <View
+                            android:id="@+id/view"
                             android:layout_width="@dimen/_10dp"
                             android:layout_height="@dimen/_80dp"
                             android:background="@color/text_light_grey"
@@ -202,6 +216,7 @@
 
                              >
                            <ImageView
+                               android:id="@+id/ivPrice"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
                                android:src="@drawable/price"
@@ -209,9 +224,10 @@
 
 
                            <TextView
+                               android:id="@+id/tvPrice"
                              android:layout_width="match_parent"
                              android:layout_height="match_parent"
-                             android:text="@string/price25"
+                             android:text=""
                                android:layout_gravity="center"
                             android:layout_margin="@dimen/_2dp"
                              />
@@ -225,6 +241,7 @@
                                android:layout_marginTop="@dimen/_10dp"
                                >
                                <ImageView
+                                   android:id="@+id/ivDate"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
                                    android:src="@drawable/calendar_details"
@@ -232,9 +249,10 @@
 
 
                                <TextView
+                                   android:id="@+id/tvTimeAndDate"
                                    android:layout_width="match_parent"
                                    android:layout_height="wrap_content"
-                                   android:text="@string/time_and_date"
+                                   android:text=""
                                    android:layout_gravity="center"
                                    android:layout_margin="@dimen/_2dp"
                                    />
@@ -247,6 +265,7 @@
                                    android:layout_marginTop="@dimen/_10dp"
                                    >
                                    <ImageView
+                                       android:id="@+id/ivType"
                                        android:layout_width="wrap_content"
                                        android:layout_height="wrap_content"
                                        android:src="@drawable/type_of_class"
@@ -254,9 +273,10 @@
 
 
                                    <TextView
+                                       android:id="@+id/tvTypeOfClassOrPresenter"
                                        android:layout_width="match_parent"
                                        android:layout_height="wrap_content"
-                                       android:text="@string/type_of_class_loc"
+                                       android:text=""
                                        android:layout_gravity="center"
                                        android:layout_margin="@dimen/_2dp"
                                        />
@@ -276,11 +296,11 @@
                 android:id="@+id/tv_postType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:background="@color/bg_blue"
+
+
                 android:elevation="@dimen/_10dp"
                 android:padding="@dimen/_5dp"
-                android:text="Meeting"
+                android:text=""
                 android:textAllCaps="true"
 
                 android:textColor="@android:color/white"
@@ -288,4 +308,5 @@
 
         </FrameLayout>
 </LinearLayout>
+    </ScrollView>
 </LinearLayout>

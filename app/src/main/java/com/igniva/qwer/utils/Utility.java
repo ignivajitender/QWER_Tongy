@@ -46,6 +46,8 @@ import com.igniva.qwer.ui.activities.LocationActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.igniva.qwer.ui.activities.CreateNewPostActivity;
+import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import java.io.File;
 import java.io.IOException;
@@ -233,6 +235,7 @@ public class Utility {
                 ((Activity) context).finish();
             }
         });
+
 
         dialog.setTitle("Custom Dialog");
 
@@ -487,38 +490,86 @@ public class Utility {
         return myPath;
     }
 
-    // convert date format
-    public static String getTimeAgo(long time, Context ctx) {
-        if (time < 1000000000000L) {
-            // if timestamp given in seconds, convert to millis
-            time *= 1000;
-        }
+	/**
+	 * convert date in format
+	 * @param date
+	 * @param activity
+	 * @return
+	 */
 
-        long now = System.currentTimeMillis();
-        if (time > now || time <= 0) {
-            return "just now";
-        }
+	public static String getTimeAgoPost(String date, Activity activity) {
+		long time = Long.valueOf(date);
+		if (time < 1000000000000L) {
+			// if timestamp given in seconds, convert to millis
+			time *= 1000;
+		}
 
-        // TODO: localize
-        final long diff = now - time;
-        if (diff < MINUTE_MILLIS) {
-            return "just now.";
-        } else if (diff < 2 * MINUTE_MILLIS) {
-            return "a minute ago.";
-        } else if (diff < 50 * MINUTE_MILLIS) {
-            return diff / MINUTE_MILLIS + " minutes ago.";
-        } else if (diff < 90 * MINUTE_MILLIS) {
-            return "an hour ago.";
-        } else if (diff < 24 * HOUR_MILLIS) {
-            return diff / HOUR_MILLIS + " hours ago.";
-        } else if (diff < 48 * HOUR_MILLIS) {
-            return "Yesterday.";
-        } else {
-            Date date = new Date(time);
-            return new SimpleDateFormat("yyyy-MM-dd HH:MM a").format(date);
-            // return diff / DAY_MILLIS + " days ago.";
-        }
-    }
+		long now = System.currentTimeMillis();
+		if (time > now || time <= 0) {
+			return "just now";
+		}
+
+		final long diff = now - time;
+		Date date1 = new Date(time);
+		// TODO: localize
+
+		TimeZone utc = TimeZone.getTimeZone("etc/UTC");
+
+		Resources r = activity.getResources();
+
+		String prefix = r.getString(R.string.time_ago_prefix);
+
+		double seconds = Math.abs(diff) / 1000;
+		double minutes = seconds / 60;
+		double hours = minutes / 60;
+		double days = hours / 24;
+		double years = days / 365;
+
+		String words;
+		if (seconds < 45) {
+			words = r.getString(R.string.timeAgoSeconds, Math.round(seconds));
+		} else if (seconds < 90) {
+			words = r.getString(R.string.timeAgoMinute, 1);
+		} else if (minutes < 45) {
+			words = r.getString(R.string.timeAgoMinutes, Math.round(minutes));
+		} else if (minutes < 90) {
+			words = r.getString(R.string.timeAgoHour, 1 );
+		} else if (hours < 24) {
+
+			words =   r.getString(R.string.timeAgoHours, Math.round(hours));;
+		} else if (hours < 42) {
+			words =   "Yesterday " ;
+		} else if (days < 30) {
+			if(Math.round(days) <6){
+				SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+				String goal = outFormat.format(date1);
+				words =  goal + " " ;
+			}else{
+				words =  Math.round(days) + " days ago ";
+			}
+
+		} else if (days < 45) {
+			words =  1 + "month ago " ;
+		} else if (days < 365) {
+			words =  Math.round(days / 30) + " months ago " ;
+		} else if (years < 1.5) {
+			words =  1 + " year ago " ;
+		} else {
+			words =  Math.round(years) + " years ago " ;
+		}
+		StringBuilder sb = new StringBuilder();
+
+		if (prefix != null && prefix.length() > 0) {
+			sb.append(prefix).append(" ");
+		}
+
+		sb.append(words);
+
+
+
+		return sb.toString().trim();
+	}
+
 
     public void showNoInternetDialog(final Activity mContext) {
         try {

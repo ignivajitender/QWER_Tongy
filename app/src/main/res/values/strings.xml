@@ -232,4 +232,19 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
      <string name="my_uploads">My Uploads</string>
     <string name="enable_location_setting">Please enable location to proceed further.</string>
     <string name="type_location_here">Type location here.</string>
+    <string name="time_ago_prefix"></string>
+    <string name="timeAgoSeconds">less than a minute ago</string>
+    <string name="timeAgoMinute">about a minute ago</string>
+    <string name="timeAgoMinutes">%d minutes ago</string>
+    <string name="timeAgoHour">about an hour ago</string>
+    <string name="timeAgoHours">about %d hours ago</string>
+    <string name="time_ago_day">a day ago</string>
+    <string name="time_ago_days">%d days ago</string>
+    <string name="time_ago_month">about a month ago</string>
+    <string name="time_ago_months">%d months ago</string>
+    <string name="time_ago_year">about a year ago</string>
+    <string name="time_ago_years">%d years ago</string>
+    <string name="teaching">Teaching</string>
+    <string name="meeting">Meeting</string>
+
 </resources>

@@ -100,6 +100,27 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
         if (pojo != null) {
 
             holder.mDesc.setText(pojo.getDescription());
+            holder.mTvTitle.setText(pojo.getTitle());
+
+            if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.teaching))) {
+                holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.yellow_color));
+                holder.mTvPostType.setText(pojo.getPost_type());
+                holder.mIvImage.setVisibility(View.GONE);
+
+            }
+            if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.meeting))) {
+                holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.bg_blue));
+                holder.mTvPostType.setText(pojo.getPost_type());
+                holder.mIvImage.setVisibility(View.GONE);
+
+            }
+            if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.other))) {
+                holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.other_red_color));
+                holder.mTvPostType.setText(pojo.getPost_type());
+                holder.mIvImage.setVisibility(View.VISIBLE);
+                Glide.with(mContext).load(pojo.getImage()).into(holder.mIvImage);
+            }
+
             holder.mTvTitle.setText(pojo.getDescription());
             holder.mTvPostType.setText(pojo.getPost_type());
             if(pojo.getPost_user()!=null){
@@ -108,6 +129,12 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 }
                 holder.mTvName.setText(pojo.getPost_user().getName());
             }
+
+            if(pojo.getPost_fav()!=null && pojo.getPost_fav().size()>0)
+                holder.mIvFav.setImageResource(R.drawable.liked);
+            else
+                holder.mIvFav.setImageResource(R.drawable.like);
+
 
             holder.mIvFav.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -136,6 +163,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 }
             });
 
+            holder.mTvDate.setText(Utility.getTimeAgoPost(pojo.getCreated_at(),(Activity) mContext));
         }
 
     }
