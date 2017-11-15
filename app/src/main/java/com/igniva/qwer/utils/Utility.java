@@ -204,10 +204,10 @@ public class Utility {
 
     }
 
-    public static void showAlertWithSingleButton(Context context, String message, final OnAlertOkClickListener onAlertOkClickListener) {
+    public static void showAlertWithSingleButton(Context context,String title, String message, final OnAlertOkClickListener onAlertOkClickListener) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("Error");
+        builder.setTitle(title);
         builder.setMessage(message);
         builder.setCancelable(false);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -221,15 +221,13 @@ public class Utility {
     }
 
     public static void callSuccessPopUp(final Context context, String message) {
-
-        // Create custom dialog object
+         // Create custom dialog object
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
-
-        dialog.setContentView(R.layout.succuess_pop_up);
+         dialog.setContentView(R.layout.succuess_pop_up);
         TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
         text_message.setText(message);
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -241,14 +239,8 @@ public class Utility {
                 ((Activity) context).finish();
             }
         });
-
-
-        dialog.setTitle("Custom Dialog");
-
-
+         dialog.setTitle("Custom Dialog");
         dialog.show();
-
-
     }
 
     /**

@@ -17,6 +17,7 @@ import okhttp3.RequestBody;
 import retrofit.Callback;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -113,7 +114,7 @@ public interface ApiInterface {
 
     @Multipart
     @POST("/api/users/post/other")
-    Call<ResponsePojo> createOtherPost(@Part() MultipartBody.Part body,@PartMap Map<String, RequestBody> postOtherPayload);
+    Call<ResponsePojo> createOtherPost(@Part() MultipartBody.Part body, @PartMap Map<String, RequestBody> postOtherPayload);
 
     @FormUrlEncoded
     @POST("api/users/post/meeting")
@@ -126,11 +127,14 @@ public interface ApiInterface {
     @POST("api/users/post/reportPost")
     Call<ResponsePojo> reportAbuse(@FieldMap HashMap<String, String> changePasswordHashMap);
 
+    @FormUrlEncoded
+    @POST("api/users/post/delete")
+    Call<ResponsePojo> deletePost(@Field("post_id") String post_id);
 
     @GET("/api/users/post")
-    Call<PostPojo> getUserPosts(@Query("page") int pageNumber,@Query("post") String post);
+    Call<PostPojo> getUserPosts(@Query("page") int pageNumber, @Query("post") String post);
 
-//    http://tongy.ignivastaging.com/api/users/favPost
+    //    http://tongy.ignivastaging.com/api/users/favPost
     @GET("/api/users/favPost")
     Call<PostPojo> getFavPosts(@Query("page") int pageNumber);
 }
