@@ -192,11 +192,12 @@ public class SearchActivity extends AppCompatActivity {
              pageNo++;
              if (pageNo >= data.getLast_page())
                 isLast = true;
-             if (adapter == null) {
+//             if (adapter == null)
+//             {
                 adapter = new RecyclerviewAdapter(SearchActivity.this, mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>)data.getData(),retrofit);
                 mrecyclerView.setAdapter(adapter);
-            } else
-                adapter.addAll(data.getData());
+//            } else
+//                adapter.addAll(data.getData());
             mrecyclerView.setVisibility(View.VISIBLE);
             mtvNoData.setVisibility(View.GONE);
         } else {

@@ -91,7 +91,6 @@ public class PostDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_post_detail);
         ButterKnife.bind(this);
         setUpToolbar();
-        setUpLayout();
         setDataInViewObjects();
     }
 
@@ -108,6 +107,13 @@ public class PostDetailActivity extends BaseActivity {
     @Override
     public void setDataInViewObjects() {
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setUpLayout();
 
     }
 
@@ -214,7 +220,7 @@ public class PostDetailActivity extends BaseActivity {
             mibChat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    startActivity(new Intent(PostDetailActivity.this,CommentsActivity.class).putExtra("dataPojo",data));
+                    startActivity(new Intent(PostDetailActivity.this,CommentsActivity.class).putExtra("dataPojo",data));
 
                 }
             });

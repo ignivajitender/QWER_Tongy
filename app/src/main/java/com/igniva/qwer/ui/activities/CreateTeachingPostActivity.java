@@ -157,7 +157,6 @@ public class CreateTeachingPostActivity extends BaseActivity {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
-
                         String timeSet = "";
                         if (hourOfDay > 12) {
                             hourOfDay -= 12;
@@ -169,14 +168,11 @@ public class CreateTeachingPostActivity extends BaseActivity {
                             timeSet = "PM";
                         else
                             timeSet = "AM";
-
-
                         String minutes = "";
                         if (minute < 10)
                             minutes = "0" + minute;
                         else
                             minutes = String.valueOf(minute);
-
                         mEditText.setText(hourOfDay + ":" + minutes + " " + timeSet);
 
                     }
@@ -267,11 +263,18 @@ public class CreateTeachingPostActivity extends BaseActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if ((keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER)) {
-                        //add item in the EditText to the todo list
-                        todoList.add(0, metAddMembers.getText().toString());
-                        //Update the view by notifying the ArrayAdapter of the data changes
-                        arrayAdaptor.notifyDataSetChanged();
-                        metAddMembers.setText("");
+                        try {
+                            //add item in the EditText to the todo list
+                            todoList.add(0, metAddMembers.getText().toString());
+                            //Update the view by notifying the ArrayAdapter of the data changes
+                            arrayAdaptor.notifyDataSetChanged();
+                            metAddMembers.setText("");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            Utility.hideSoftKeyboard(CreateTeachingPostActivity.this);
+                         }
+
                         return true;
                     }
                     return false;

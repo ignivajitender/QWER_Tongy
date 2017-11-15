@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.CommentPojo;
+import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +100,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
                 }
                 holder.tvName.setText(pojo.getComment_by_user().getName());
             }
-            holder.tvDate.setText(pojo.getCreated_at());
+            holder.tvDate.setText(Utility.getTimeAgoPost(pojo.getCreated_at(),(Activity) mContext));
          }
 
     }

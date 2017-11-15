@@ -73,8 +73,10 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         if(getIntent().hasExtra("dataPojo")){
               pojo= (PostDetailPojo.DataPojo) getIntent().getSerializableExtra("dataPojo");
               tvLocation.setText(pojo.getClass_location());
+              fabTick.setVisibility(View.GONE);
         }
         else {
+            fabTick.setVisibility(View.VISIBLE);
             getLastLocation();
             setUpToolbar();
         }
@@ -127,7 +129,6 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
             LocationAddress locationAddress = new LocationAddress();
             locationAddress.getAddressFromLocation(Utility.latitude, Utility.longitude,
                     getApplicationContext(), new GeocoderHandler());
-
         }
         googleMap.setMyLocationEnabled(true);
     }

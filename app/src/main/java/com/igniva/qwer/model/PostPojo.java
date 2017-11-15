@@ -1,12 +1,13 @@
 package com.igniva.qwer.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by igniva-android13 on 7/11/17.
  */
 
-public class PostPojo {
+public class PostPojo implements Serializable{
 
 
     /**
@@ -43,7 +44,7 @@ public class PostPojo {
         this.data = data;
     }
 
-    public static class PostDataPojo {
+    public static class PostDataPojo implements Serializable{
         /**
          * current_page : 1
          * data : [{"id":45,"user_id":"110","post_type":"teaching","title":"teaching awesome great","description":"Great and great brothers","price":"5000","currency":"usd","start_date_time":"1508493600","end_date_time":"1514718000","class_type":"physical","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1510058258","post_user":{"id":110,"name":"amit","user_image":[{"id":41,"user_id":"110","image":"http://tongy.ignivastaging.com/images/profile_image/1510055417-5B122607.jpg","is_cover_image":"0","created_at":"1510055417"}]},"post_comment_count":[],"post_fav":[]},{"id":44,"user_id":"110","post_type":"teaching","title":"teaching awesome great","description":"Great and great sons","price":"5000","currency":"usd","start_date_time":"1508493600","end_date_time":"1514718000","class_type":"physical","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1510058010","post_user":{"id":110,"name":"amit","user_image":[{"id":41,"user_id":"110","image":"http://tongy.ignivastaging.com/images/profile_image/1510055417-5B122607.jpg","is_cover_image":"0","created_at":"1510055417"}]},"post_comment_count":[],"post_fav":[]},{"id":43,"user_id":"109","post_type":"teaching","title":"teaching awesome","description":"Awesome goog","price":"5000","currency":"usd","start_date_time":"1508493600","end_date_time":"1514718000","class_type":"physical","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1510057915","post_user":{"id":109,"name":"larry","user_image":[{"id":40,"user_id":"109","image":"http://tongy.ignivastaging.com/images/profile_image/1510054753-343B8132.jpg","is_cover_image":"0","created_at":"1510054753"}]},"post_comment_count":[],"post_fav":[]},{"id":42,"user_id":"109","post_type":"teaching","title":"teaching sectioning","description":"Awesome environment","price":"5000","currency":"usd","start_date_time":"1508493600","end_date_time":"1514718000","class_type":"physical","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1510057826","post_user":{"id":109,"name":"larry","user_image":[{"id":40,"user_id":"109","image":"http://tongy.ignivastaging.com/images/profile_image/1510054753-343B8132.jpg","is_cover_image":"0","created_at":"1510054753"}]},"post_comment_count":[],"post_fav":[]},{"id":41,"user_id":"109","post_type":"teaching","title":"teaching sectioning","description":"Awesome environment","price":"5000","currency":"usd","start_date_time":"1508493600","end_date_time":"1514718000","class_type":"physical","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1510057823","post_user":{"id":109,"name":"larry","user_image":[{"id":40,"user_id":"109","image":"http://tongy.ignivastaging.com/images/profile_image/1510054753-343B8132.jpg","is_cover_image":"0","created_at":"1510054753"}]},"post_comment_count":[],"post_fav":[]},{"id":40,"user_id":"98","post_type":"teaching","title":"teaching section my","description":"deascriii my end","price":"20","currency":"usd","start_date_time":"1508493600","end_date_time":"1511175600","class_type":"online","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1510050838","post_user":{"id":98,"name":"jack off to the side of build","user_image":[{"id":30,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509428842-965B1263.jpg","is_cover_image":"0","created_at":"1509428842"},{"id":31,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509429819-464E6273.jpg","is_cover_image":"0","created_at":"1509429819"}]},"post_comment_count":[],"post_fav":[]},{"id":39,"user_id":"98","post_type":"teaching","title":"teaching section my","description":"deascriii","price":"20","currency":"usd","start_date_time":"1508493600","end_date_time":"1511175600","class_type":"online","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1510050822","post_user":{"id":98,"name":"jack off to the side of build","user_image":[{"id":30,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509428842-965B1263.jpg","is_cover_image":"0","created_at":"1509428842"},{"id":31,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509429819-464E6273.jpg","is_cover_image":"0","created_at":"1509429819"}]},"post_comment_count":[],"post_fav":[]},{"id":38,"user_id":"98","post_type":"teaching","title":"teaching sectionssss","description":"decent environmenting","price":"5000","currency":"usd","start_date_time":"1508493600","end_date_time":"1514718000","class_type":"physical","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1509974578","post_user":{"id":98,"name":"jack off to the side of build","user_image":[{"id":30,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509428842-965B1263.jpg","is_cover_image":"0","created_at":"1509428842"},{"id":31,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509429819-464E6273.jpg","is_cover_image":"0","created_at":"1509429819"}]},"post_comment_count":[],"post_fav":[]},{"id":37,"user_id":"98","post_type":"meeting","title":"meeting section","description":"nice view and collections thank you","price":"0","currency":"","start_date_time":"1508493600","end_date_time":"1514718000","class_type":"","class_location":"chandigarh","lat":"20.220000","lng":"20.000000","status":"1","created_at":"1509974487","post_user":{"id":98,"name":"jack off to the side of build","user_image":[{"id":30,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509428842-965B1263.jpg","is_cover_image":"0","created_at":"1509428842"},{"id":31,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509429819-464E6273.jpg","is_cover_image":"0","created_at":"1509429819"}]},"post_comment_count":[],"post_fav":[]},{"id":36,"user_id":"98","post_type":"teaching","title":"teaching sectionssss","description":"decent environmenting","price":"5000","currency":"usd","start_date_time":"1508493600","end_date_time":"1514718000","class_type":"physical","class_location":"","lat":"0.000000","lng":"0.000000","status":"1","created_at":"1509974317","post_user":{"id":98,"name":"jack off to the side of build","user_image":[{"id":30,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509428842-965B1263.jpg","is_cover_image":"0","created_at":"1509428842"},{"id":31,"user_id":"98","image":"http://tongy.ignivastaging.com/images/profile_image/1509429819-464E6273.jpg","is_cover_image":"0","created_at":"1509429819"}]},"post_comment_count":[],"post_fav":[]}]
@@ -148,7 +149,7 @@ public class PostPojo {
             this.data = data;
         }
 
-        public static class DataBean {
+        public static class DataBean implements Serializable{
             /**
              * id : 45
              * user_id : 110
@@ -187,7 +188,7 @@ public class PostPojo {
             private String created_at;
             private PostUserBean post_user;
             private List<PostDetailPojo.DataPojo.PostCommmentCount> post_comment_count;
-            private List<?> post_fav;
+            private  List<PostDetailPojo.DataPojo.PostUserPojo.FavPostPojo> post_fav;
 
             public String getImage() {
                 return image;
@@ -335,15 +336,15 @@ public class PostPojo {
                 this.post_comment_count = post_comment_count;
             }
 
-            public List<?> getPost_fav() {
+            public List<PostDetailPojo.DataPojo.PostUserPojo.FavPostPojo> getPost_fav() {
                 return post_fav;
             }
 
-            public void setPost_fav(List<?> post_fav) {
+            public void setPost_fav(List<PostDetailPojo.DataPojo.PostUserPojo.FavPostPojo> post_fav) {
                 this.post_fav = post_fav;
             }
 
-            public static class PostUserBean {
+            public static class PostUserBean implements Serializable{
                 /**
                  * id : 110
                  * name : amit
@@ -378,7 +379,7 @@ public class PostPojo {
                     this.user_image = user_image;
                 }
 
-                public static class UserImageBean {
+                public static class UserImageBean implements Serializable{
                     /**
                      * id : 41
                      * user_id : 110

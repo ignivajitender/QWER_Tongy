@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,10 +24,10 @@ import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
-import com.igniva.qwer.ui.activities.MyPostsActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.Log;
+import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
@@ -102,41 +103,40 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
         final PostPojo.PostDataPojo.DataBean pojo = postsList.get(position);
         if (pojo != null) {
-
-            holder.mDesc.setText(pojo.getDescription());
-            holder.mTvTitle.setText(pojo.getTitle());
-
-            if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.teaching))) {
+             holder.mDesc.setText(pojo.getDescription());
+             holder.mTvTitle.setText(pojo.getTitle());
+             if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.teaching))) {
                 holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.yellow_color));
                 holder.mTvPostType.setText(pojo.getPost_type());
                 holder.mIvImage.setVisibility(View.GONE);
-
-            }
+             }
             if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.meeting))) {
                 holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.bg_blue));
                 holder.mTvPostType.setText(pojo.getPost_type());
                 holder.mIvImage.setVisibility(View.GONE);
-
-            }
+             }
             if (pojo.getPost_type().equalsIgnoreCase(mContext.getResources().getString(R.string.other))) {
                 holder.mTvPostType.setBackgroundColor(mContext.getResources().getColor(R.color.other_red_color));
                 holder.mTvPostType.setText(pojo.getPost_type());
                 holder.mIvImage.setVisibility(View.VISIBLE);
                 Glide.with(mContext).load(pojo.getImage()).into(holder.mIvImage);
             }
-
-            if (mContext instanceof MyPostsActivity)
-                holder.mibReport.setBackground(mContext.getResources().getDrawable(R.drawable.delete));
-
-            holder.mTvPostType.setText(pojo.getPost_type());
+ //            if (mContext instanceof MyPostsActivity)
+//                holder.mibReport.setBackground(mContext.getResources().getDrawable(R.drawable.delete));
+             holder.mTvPostType.setText(pojo.getPost_type());
             if (pojo.getPost_user() != null) {
+
+                if (PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, "").equals(pojo.getPost_user().getId() + ""))
+                    holder.mibReport.setBackground(mContext.getResources().getDrawable(R.drawable.delete));
+
                 if (pojo.getPost_user().getUser_image() != null && pojo.getPost_user().getUser_image().size() > 0) {
                     Glide.with(mContext).load(pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
                 }
+
                 holder.mTvName.setText(pojo.getPost_user().getName());
             }
 
-            if (pojo.getPost_fav() != null && pojo.getPost_fav().size() > 0)
+             if (pojo.getPost_fav() != null && pojo.getPost_fav().size() > 0)
                 holder.mIvFav.setImageResource(R.drawable.liked);
             else
                 holder.mIvFav.setImageResource(R.drawable.like);
@@ -146,8 +146,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             else
                 holder.mIbChat.setText("0");
 
-
-            holder.mIvFav.setOnClickListener(new View.OnClickListener() {
+             holder.mIvFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ApiControllerClass.markFavoriteUnfavorite(retrofit, mContext, pojo.getPost_fav(), holder.mIvFav, pojo.getId());
@@ -166,17 +165,11 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 public void onClick(View view) {
                     /**
                      * // open report or delete popup
-                     *
                      * @param post_id
-                     *
                      */
-                    if (mContext instanceof MyPostsActivity) {
-                        Utility.showAlertWithCancelButton(mContext, mContext.getResources().getString(R.string.delete_this_post), mContext.getResources().getString(R.string.are_you_sure), new Utility.OnAlertOkClickListener() {
-                            @Override
-                            public void onOkButtonClicked() {
-                                ApiControllerClass.deletePost(mContext, retrofit, pojo, RecyclerviewAdapter.this);
-                            }
-                        });
+                    if (pojo.getPost_user() != null && PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, "").equals(pojo.getPost_user().getId() + "")){
+                        callDeletePopUp(mContext, retrofit, pojo, RecyclerviewAdapter.this);
+
                     } else {
                         openReportPopup(pojo.getId());
                     }
@@ -193,6 +186,39 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
             holder.mTvDate.setText(Utility.getTimeAgoPost(pojo.getCreated_at(), (Activity) mContext));
         }
+    }
+    private void callDeletePopUp(Context context, final Retrofit retrofit, final PostPojo.PostDataPojo.DataBean pojo, RecyclerviewAdapter recyclerviewAdapter) {
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        dialog.setContentView(R.layout.logout_account_pop_up);
+
+        Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
+        Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
+        TextView mTitle = (TextView) dialog.findViewById(R.id.title);
+        TextView mMessage = (TextView) dialog.findViewById(R.id.message);
+        mTitle.setText(context.getResources().getString(R.string.delete_this_post));
+        mMessage.setText(context.getResources().getString(R.string.are_you_sure));
+        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ApiControllerClass.deletePost(mContext, retrofit, pojo, RecyclerviewAdapter.this);
+                 dialog.dismiss();
+
+            }
+        });
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setTitle("Custom Dialog");
+        dialog.show();
     }
 
     private void openReportPopup(final int post_id) {

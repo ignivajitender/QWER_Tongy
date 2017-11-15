@@ -16,6 +16,7 @@ import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
+import com.igniva.qwer.ui.activities.CommentsActivity;
 import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
@@ -458,7 +459,7 @@ public class ApiControllerClass {
      * @param context
      * @param post_id
      */
-    public static void sendComment(Retrofit retrofit, final Context context, String commentString, int post_id) {
+    public static void sendComment(final Retrofit retrofit, final Context context, String commentString, final int post_id) {
         try {
             if (Utility.isInternetConnection(context)) {
 //                 {
@@ -468,7 +469,7 @@ public class ApiControllerClass {
                 CallProgressWheel.showLoadingDialog(context, "Loading...");
                 HashMap<String, String> hMap = new HashMap<>();
                 hMap.put("post_id", post_id + "");
-                hMap.put("commentString", commentString + "");
+                hMap.put("comment", commentString + "");
                 //Create a retrofit call object
                 Call<PostPojo> posts = retrofit.create(ApiInterface.class).sendComment(hMap);
                 posts.enqueue(new retrofit2.Callback<PostPojo>() {
@@ -477,6 +478,7 @@ public class ApiControllerClass {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             Log.e("success", response.message());
+                            getPostDetail(post_id, retrofit, (Activity) context);
 
                             Utility.showToastMessageShort((Activity) context, response.body().getDescription());
 
@@ -757,11 +759,9 @@ public class ApiControllerClass {
      * @param retrofit
      * @param context
      */
-
-    public static void getPostDetail(int post_id, Retrofit retrofit, final PostDetailActivity context) {
+     public static void getPostDetail(int post_id, Retrofit retrofit, final Activity context) {
         try {
             if (Utility.isInternetConnection(context)) {
-
                 //Create a retrofit call object
                 Call<PostDetailPojo> posts = retrofit.create(ApiInterface.class).singlePostDetail(post_id);
                 posts.enqueue(new retrofit2.Callback<PostDetailPojo>() {
@@ -769,8 +769,11 @@ public class ApiControllerClass {
                     public void onResponse(Call<PostDetailPojo> call, retrofit2.Response<PostDetailPojo> response) {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
-                            context.setData(response.body().getData());
-
+                            if(context instanceof PostDetailActivity)
+                                ((PostDetailActivity) context).setData(response.body().getData());
+                            else{
+                                ((CommentsActivity) context).setData(response.body().getData().getPost_comment());
+                            }
 
                         } else if (response.body().getStatus() == 400) {
                             CallProgressWheel.dismissLoadingDialog();
@@ -780,13 +783,11 @@ public class ApiControllerClass {
                             Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onFailure(Call<PostDetailPojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-
-                    }
+                     }
                 });
 
             }

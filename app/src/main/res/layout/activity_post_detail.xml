@@ -159,6 +159,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:scaleType="centerCrop"
+                            android:layout_marginTop="@dimen/dp_10"
                             android:visibility="gone" />
 
 
@@ -247,6 +248,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
                                             android:layout_margin="@dimen/_2dp"
+                                            android:maxLines="2"
+                                            android:ellipsize="end"
                                             android:text="" />
                                     </LinearLayout>
 

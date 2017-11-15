@@ -39,6 +39,7 @@
             android:textSize="22sp"
             android:text="@string/create_new_post"
             android:visibility="visible"
+            android:ellipsize="end"
             android:layout_gravity="center"
             android:gravity="center"
             />

@@ -323,16 +323,10 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-
-
-            }
+             }
         });
         dialog.setTitle("Custom Dialog");
-
-
         dialog.show();
-
-
     }
     // call logout api
     private void callLogoutMyAccountApi() {

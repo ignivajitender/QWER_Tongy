@@ -619,7 +619,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                                 else
                                 {
                                     Intent intent=null;
-                                    if(PreferenceHandler.readBoolean(MyProfileActivity.this,PreferenceHandler.IS_PREF_SET,false))
+                                    if(!PreferenceHandler.readBoolean(MyProfileActivity.this,PreferenceHandler.IS_PREF_SET,false))
                                       intent = new Intent(MyProfileActivity.this, SetPreferrencesActivity.class);
                                     else
                                         intent = new Intent(MyProfileActivity.this, MainActivity.class);

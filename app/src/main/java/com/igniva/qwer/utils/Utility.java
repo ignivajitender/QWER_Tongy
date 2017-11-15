@@ -188,13 +188,11 @@ public class Utility {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-
-            } catch (Exception e) {
+             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
-
-            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+             return locationMode != Settings.Secure.LOCATION_MODE_OFF;
 
         } else {
             locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
