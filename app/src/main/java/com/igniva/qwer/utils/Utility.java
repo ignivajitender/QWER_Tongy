@@ -545,7 +545,7 @@ public class Utility {
 		}
         else {
             Date date12 = new Date(time);
-            return new SimpleDateFormat("yyyy-MM-dd HH:MM a").format(date12);
+            return new SimpleDateFormat("MMM dd,yyyy ").format(date12);
             // return diff / DAY_MILLIS + " days ago.";
         }
 
@@ -655,6 +655,24 @@ public class Utility {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static String getDatePostDetail(String date, Activity activity) {
+
+        long time = Long.valueOf(date);
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+
+        Date date12 = new Date(time);
+
+        return new SimpleDateFormat("MMM dd, yyyy").format(date12);
+    }
+    public static String getTimePostDetail(String date, Activity activity) {
+        long time = Long.valueOf(date);
+            Date date12 = new Date(time);
+            return new SimpleDateFormat("hh:mm a").format(date12);
     }
 
 }

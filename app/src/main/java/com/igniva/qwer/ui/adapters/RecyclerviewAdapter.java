@@ -230,12 +230,14 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 if(FieldValidators.isNullOrEmpty(metReason))
                 {
                     metReason.setFocusable(true);
+                    metReason.requestFocus();
                     metReason.setError("Please select reason for report");
                     return;
                 }
                 else if(FieldValidators.isNullOrEmpty(metComment))
                 {
                     metComment.setFocusable(true);
+                    metComment.requestFocus();
                     metComment.setError("Please enter your comment");
                     return;
                 }

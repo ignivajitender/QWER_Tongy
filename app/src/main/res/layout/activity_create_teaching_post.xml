@@ -36,7 +36,7 @@
                     android:layout_marginTop="@dimen/_2dp"
                     android:background="@drawable/edit_text_white_rounded_corners"
                     android:hint="@string/add_title"
-                    android:inputType="textEmailAddress"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:padding="@dimen/_4dp"
                     android:maxLength="60"
@@ -73,7 +73,7 @@
                     android:padding="@dimen/_4dp"
                     android:textColor="@color/text_dark_grey"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:maxLength="600"
+                    android:maxLength="500"
                     />
 
 
@@ -299,7 +299,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10dp"
-                    android:hint="@string/address"
+                    android:hint="@string/add_address"
                     android:inputType="textAutoComplete|textAutoCorrect|textCapWords"
 
                     android:textColor="@android:color/black"

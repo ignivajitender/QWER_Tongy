@@ -77,15 +77,14 @@
             <EditText
                 android:id="@+id/et_comment"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_80dp"
+                android:layout_height="@dimen/_100dp"
                 android:layout_marginTop="@dimen/_2dp"
                 android:background="@drawable/edit_text_background"
                 android:hint="Enter Here"
-                android:maxLines="3"
                 android:padding="@dimen/_4dp"
                 android:scrollbars="horizontal"
                 android:textCursorDrawable="@drawable/color_cursor"
-                android:maxLength="30"
+                android:maxLength="100"
                 android:layout_gravity="top"
                 android:gravity="top"
                 />

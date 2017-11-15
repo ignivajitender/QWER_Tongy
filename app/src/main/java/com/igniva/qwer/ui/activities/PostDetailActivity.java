@@ -125,16 +125,24 @@ public class PostDetailActivity extends BaseActivity {
         if (data != null) {
 
             if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.meeting))) {
-                mtvPostType.setBackgroundColor(getResources().getColor(R.color.yellow_color));
+                mtvPostType.setBackgroundColor(getResources().getColor(R.color.bg_blue));
                 mtvPostType.setText(data.getPost_type());
                 mivPostImage.setVisibility(View.GONE);
                 mivPrice.setImageResource(R.drawable.calendar_details);
-                mtvPrice.setText("Date and Time\n"+Utility.getTimeAgoPost(data.getStart_date_time(),PostDetailActivity.this)+" to "+Utility.getTimeAgoPost(data.getEnd_date_time(),PostDetailActivity.this));
+                mtvPrice.setText("Date and Time\n"+Utility.getDatePostDetail(data.getStart_date_time(),PostDetailActivity.this)+" To "+Utility.getDatePostDetail(data.getEnd_date_time(),PostDetailActivity.this)+"\n"
+                        +Utility.getTimePostDetail(data.getStart_date_time(),PostDetailActivity.this)+" to "+Utility.getTimePostDetail(data.getEnd_date_time(),PostDetailActivity.this));
                 mivDate.setImageResource(R.drawable.location__details);
                 mtvTimeAndDate.setText("Location\n"+data.getClass_location());
                 mtvTimeAndDate.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.location,0);
                 mivType.setImageResource(R.drawable.people_details);
-                mtvTypeOfClassOrPresenter.setText("Presenter\n");
+                StringBuilder builder=new StringBuilder();
+                if(data.getPost_member()!=null && data.getPost_member().size()>0)
+                {
+
+                    for(int i=0;i<data.getPost_member().size();i++)
+                        builder.append(data.getPost_member().get(i).getPresenter()+"\n");
+                    }
+                mtvTypeOfClassOrPresenter.setText("Presenter\n"+builder);
                 mView.setVisibility(View.VISIBLE);
                 mtvTimeAndDate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -144,12 +152,26 @@ public class PostDetailActivity extends BaseActivity {
                 });
             }
             if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.teaching))) {
-                mtvPostType.setBackgroundColor(getResources().getColor(R.color.bg_blue));
+                mtvPostType.setBackgroundColor(getResources().getColor(R.color.yellow_color));
                 mtvPostType.setText(data.getPost_type());
                 mivPostImage.setVisibility(View.GONE);
                 mtvPrice.setText("Price\n$"+data.getPrice());
-                mtvTimeAndDate.setText("Date and Time\n"+Utility.getTimeAgoPost(data.getStart_date_time(),PostDetailActivity.this)+" to "+Utility.getTimeAgoPost(data.getEnd_date_time(),PostDetailActivity.this));
-                mtvTypeOfClassOrPresenter.setText("Type of Class\n"+data.getClass_type()+"\nLocation\n"+data.getClass_location());
+                mtvTimeAndDate.setText("Date and Time\n"+Utility.getDatePostDetail(data.getStart_date_time(),PostDetailActivity.this)+" To "+Utility.getDatePostDetail(data.getEnd_date_time(),PostDetailActivity.this)+"\n"
+                        +Utility.getTimePostDetail(data.getStart_date_time(),PostDetailActivity.this)+" to "+Utility.getTimePostDetail(data.getEnd_date_time(),PostDetailActivity.this));
+
+                if(data.getClass_type().equalsIgnoreCase("physical")) {
+                    mtvTypeOfClassOrPresenter.setText("Type of Class\n" + data.getClass_type() + "\nLocation\n" + data.getClass_location());
+                    mtvTypeOfClassOrPresenter.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.location, 0);
+                    mtvTypeOfClassOrPresenter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(PostDetailActivity.this,LocationActivity.class).putExtra("dataPojo",data));
+                        }
+                    });
+                }
+                else
+                    mtvTypeOfClassOrPresenter.setText("Type of Class\n" + data.getClass_type());
+
                 mView.setVisibility(View.VISIBLE);
 
             }

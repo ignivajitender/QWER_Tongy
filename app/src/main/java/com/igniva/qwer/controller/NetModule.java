@@ -44,12 +44,14 @@ public class NetModule {
                     Log.e("NetModule-----", "--" + message);
                     if (message != null && message.contains("Token Expired")) {
                         Global.sAppContext.startActivity(new Intent(Global.sAppContext, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+//                        Utility.showToastMessageLong((Activity) Global.sAppContext, "Your session is expired. Please login again to continue");
                         PreferenceHandler.writeString(Global.sAppContext, PreferenceHandler.PREF_KEY_IS_USER_LOGIN, "false");
+                        PreferenceHandler.getEditor(Global.sAppContext).clear().commit();
                         mHandler = new Handler(Looper.getMainLooper()) {
                             @Override
                             public void handleMessage(Message message) {
-
-                                    Utility.showToastMessageLong((Activity) Global.sAppContext, "Your session is expired. Please login again to continue");
+                                Log.e("session expire","session expire");
+                                Utility.showToastMessageLong((Activity) Global.sAppContext, "Your session is expired. Please login again to continue");
                                 // This is where you do your work in the UI thread.
                                 // Your worker tells you in the message what to do.
                             }

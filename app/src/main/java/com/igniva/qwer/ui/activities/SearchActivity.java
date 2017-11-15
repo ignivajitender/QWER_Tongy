@@ -77,11 +77,15 @@ public class SearchActivity extends BaseActivity {
         setContentView(R.layout.activity_search);
 
         ButterKnife.bind(this);
-        setUpToolbar();
-        setUpLayout();
-        setDataInViewObjects();
+        try {
+            setUpToolbar();
+            setUpLayout();
+            setDataInViewObjects();
+        }
+    catch (Exception e){
+            Log.e("searchActivity",e.getMessage());
     }
-
+    }
     @Override
     protected void setDataInViewObjects() {
         //mautoCompleteSearch.performClick();
@@ -144,7 +148,9 @@ public class SearchActivity extends BaseActivity {
                     }
                     else
                     {
-                       setData(null);
+                        Log.e("status",response.body().getStatus()+"");
+                        mrecyclerView.setVisibility(View.GONE);
+                        mtvNoData.setVisibility(View.VISIBLE);
                     }
 
 

@@ -64,6 +64,7 @@ public class PostsListFragment extends BaseFragment {
     @BindView(R.id.tvNoData)
     TextView mtvNoData;
 
+
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -144,7 +145,10 @@ public class PostsListFragment extends BaseFragment {
         if (mListType == R.string.news_feed) {
             menuFloating.setVisibility(View.VISIBLE);
 
+
         }
+
+
         getPosts();
     }
 
@@ -154,6 +158,7 @@ public class PostsListFragment extends BaseFragment {
 
     @Override
     public void setDataInViewObjects() {
+
 
     }
 
