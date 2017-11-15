@@ -68,11 +68,11 @@
                     android:background="@drawable/edit_text_white_rounded_corners"
                     android:gravity="top"
                     android:hint="@string/add_description"
-                    android:inputType="textMultiLine"
                     android:padding="@dimen/_4dp"
                     android:textColor="@color/text_dark_grey"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:maxLength="600"
+                    android:scrollbars="horizontal"
                     />
 
 

@@ -216,12 +216,14 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PROFILE_SET, true);
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PREF_SET, true);
+                                PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_USER_ID,response.body().getData().id);
                                 for (int i = 0; i < response.headers().size(); i++) {
 
                                         String loginToken = response.headers().get("x-logintoken");
                                         Log.e(TAG1, loginToken);
                                         PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
                                         PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"false");
+
 
                                 }
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
