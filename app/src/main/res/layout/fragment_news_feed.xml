@@ -29,6 +29,16 @@
             android:layout_gravity="center"
             android:visibility="gone"
             />
+        <FrameLayout
+            android:id="@+id/fl_alpha"
+            android:layout_width="match_parent"
+            android:background="@android:color/black"
+            android:alpha="0.7"
+            android:visibility="gone"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+             android:layout_height="match_parent">
+        </FrameLayout>
 
     </FrameLayout>
 

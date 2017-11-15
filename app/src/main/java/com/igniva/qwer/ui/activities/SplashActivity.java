@@ -50,11 +50,11 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void launchHomeScreen() {
-//        if (!PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_PROFILE_SET, false))
-//            startActivity(new Intent(SplashActivity.this, MyProfileActivity.class));
-//        else if (!PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_PREF_SET, false))
-//            startActivity(new Intent(SplashActivity.this, SetPreferrencesActivity.class));
-//        else
+        if (!PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_PROFILE_SET, false))
+            startActivity(new Intent(SplashActivity.this, MyProfileActivity.class));
+        else if (!PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_PREF_SET, false))
+            startActivity(new Intent(SplashActivity.this, SetPreferrencesActivity.class));
+        else
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
     }

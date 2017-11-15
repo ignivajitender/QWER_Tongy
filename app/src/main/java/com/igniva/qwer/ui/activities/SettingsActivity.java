@@ -347,8 +347,8 @@ public class SettingsActivity extends BaseActivity {
                         if(response.body().getStatus() == 200){
                             finishAffinity();
                             Utility.showToastMessageShort(SettingsActivity.this,response.body().getDescription());
-                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.PreferenceHandler.IS_ALREADY_LOGIN, false);
-                            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                            PreferenceHandler.getEditor(SettingsActivity.this).clear().commit();
+                             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
                         else if(response.body().getStatus()==1000)

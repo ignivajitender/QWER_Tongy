@@ -7,6 +7,7 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -46,6 +47,8 @@ import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.predictionsPojo;
 import com.igniva.qwer.ui.activities.LocationActivity;
+import com.igniva.qwer.ui.activities.LoginActivity;
+import com.igniva.qwer.ui.activities.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -363,7 +366,8 @@ public class Utility {
                     Log.e("longitude", "" + lng);
                     Utility.latitude = lat;
                     Utility.longitude = lng;
-                    ((LocationActivity) context).setUpLayout();
+                    if (context instanceof LocationActivity)
+                        ((LocationActivity) context).setUpLayout();
 
 
                 } catch (JSONException e) {
@@ -463,10 +467,10 @@ public class Utility {
                 //type = 1;
                 mautocomTextviewDeliveryAddress.setSelection(mautocomTextviewDeliveryAddress.getText().length());
 
-                if (context instanceof LocationActivity) {
+//                if (context instanceof LocationActivity) {
                     getLatLngFromPDI(context);
 //                    getLatLngFromPlaceID(context, ((LocationActivity) context).mGeoDataClient);
-                }
+//                }
                 Log.e("placeid", placeId);
                 /*if (context instanceof HomeActivity)
 					searchCategories(context, null, null, placeId, aaTemp);
@@ -588,12 +592,13 @@ public class Utility {
         }
     }
 
-    public void showInvalidSessionDialog(final Activity mContext) {
+    public static void showInvalidSessionDialog(final Context mContext) {
         try {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext,
                     R.style.AppTheme);
             builder.setTitle(mContext.getResources().getString(R.string.invalid_session));
+            builder.setCancelable(false);
             builder.setMessage(mContext.getResources().getString(R.string.logout_device));
             builder.setPositiveButton("OK", new OnClickListener() {
 
@@ -602,16 +607,15 @@ public class Utility {
 
                     dialog.dismiss();
                     // TODO redirect to login screen
-                    ((Activity) mContext).finish();
+                    Global.sAppContext.startActivity(new Intent(mContext, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
                 }
             });
 
             builder.show();
         } catch (Exception e) {
-            showToastMessageLong(mContext,
-                    mContext.getResources().getString(R.string.no_internet));
-        }
+            Log.e(e);
+         }
     }
 
     public interface OnAlertOkClickListener {
@@ -628,7 +632,6 @@ public class Utility {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if (editText.getText().toString().trim().length() > 0) {
-
                         // textInputLayout.setErrorEnabled(false);
                         editText.setError(null);
                         linearLayout.setVisibility(View.VISIBLE);
@@ -646,6 +649,10 @@ public class Utility {
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if(context instanceof SearchActivity){
+                         ((SearchActivity) context).mtvNoData.setVisibility(View.GONE);
+                    }
                     editText.setText("");
 
                 }

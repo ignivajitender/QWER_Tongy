@@ -2,8 +2,7 @@ package com.igniva.qwer.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -34,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "SearchActivity";
 
@@ -56,11 +55,9 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.recyclerRants)
     RecyclerView mrecyclerView;
     @BindView(R.id.tvNoData)
-    TextView mtvNoData;
+   public TextView mtvNoData;
 
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    Boolean isLast = false;
+     Boolean isLast = false;
     public int pageNo = 1;
     int mListType;
     @BindView(R.id.llClear)
@@ -75,15 +72,13 @@ public class SearchActivity extends BaseActivity {
         ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-        ButterKnife.bind(this);
+         ButterKnife.bind(this);
         setUpToolbar();
         setUpLayout();
         setDataInViewObjects();
     }
 
-    @Override
-    protected void setDataInViewObjects() {
+     protected void setDataInViewObjects() {
         //mautoCompleteSearch.performClick();
         mautoCompleteSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -119,8 +114,7 @@ public class SearchActivity extends BaseActivity {
         Utility.onChangeClearButtonVisible(SearchActivity.this,mautoCompleteSearch , mllClear);
     }
 
-    @Override
-    protected void setUpToolbar() {
+     protected void setUpToolbar() {
         mtvTitle.setText(getResources().getString(R.string.search));
     }
 
@@ -170,12 +164,11 @@ public class SearchActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void setUpLayout() {
+     protected void setUpLayout() {
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(SearchActivity.this);
         mrecyclerView.setLayoutManager(mLayoutManager);
-        mrecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -188,18 +181,6 @@ public class SearchActivity extends BaseActivity {
         // Adds the scroll listener to RecyclerView
         mrecyclerView.addOnScrollListener(scrollListener);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Refresh items
-                swipeRefreshLayout.setRefreshing(false);
-                pageNo = 1;
-                isLast = false;
-                scrollListener.resetState();
-                adapter = null;
-                callSearchApi(mautoCompleteSearch.getText().toString().trim());
-            }
-        });
 
 
         //callSearchApi(mautoCompleteSearch.getText().toString().trim());
@@ -207,14 +188,11 @@ public class SearchActivity extends BaseActivity {
     }
 
     public void setData(PostPojo.PostDataPojo data){
-        if (data != null && data.getData() != null && data.getData().size() > 0) {
-
-            pageNo++;
-
-            if (pageNo >= data.getLast_page())
+        if (data != null && data.getData() != null && data.getData().size() > 0 && mautoCompleteSearch!=null && mautoCompleteSearch.getText().toString().trim().length()>0) {
+             pageNo++;
+             if (pageNo >= data.getLast_page())
                 isLast = true;
-
-            if (adapter == null) {
+             if (adapter == null) {
                 adapter = new RecyclerviewAdapter(SearchActivity.this, mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>)data.getData(),retrofit);
                 mrecyclerView.setAdapter(adapter);
             } else
@@ -223,6 +201,7 @@ public class SearchActivity extends BaseActivity {
             mtvNoData.setVisibility(View.GONE);
         } else {
             mrecyclerView.setVisibility(View.GONE);
+            if(mautoCompleteSearch!=null && mautoCompleteSearch.getText().toString().trim().length()>0)
             mtvNoData.setVisibility(View.VISIBLE);
             isLast = true;
             //Utility.showToastMessageLong(getActivity(), "No data");

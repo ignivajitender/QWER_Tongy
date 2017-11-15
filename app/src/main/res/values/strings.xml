@@ -210,7 +210,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="add_address">Add Address</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="search">Search</string>
-    <string name="no_data">No data found</string>
+    <string name="no_data">No record(s) found</string>
     <string name="report_post">Report Post!</string>
     <string name="please_select_your_reason">Select Your Reason?</string>
     <string name="your_comment">Your Comment</string>

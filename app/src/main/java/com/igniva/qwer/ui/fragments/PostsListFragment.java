@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -63,6 +64,8 @@ public class PostsListFragment extends BaseFragment {
     Boolean isLast = false;
     @BindView(R.id.tvNoData)
     TextView mtvNoData;
+    @BindView(R.id.fl_alpha)
+    FrameLayout flAlpha;
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -140,7 +143,17 @@ public class PostsListFragment extends BaseFragment {
                 getPosts();
             }
         });
+        menuFloating.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                 if (opened)
+                    flAlpha.setVisibility(View.VISIBLE);
+                else
+                    flAlpha.setVisibility(View.GONE);
 
+
+            }
+        });
         if (mListType == R.string.news_feed) {
             menuFloating.setVisibility(View.VISIBLE);
 
@@ -174,7 +187,7 @@ public class PostsListFragment extends BaseFragment {
                 isLast = true;
 
             if (adapter == null) {
-                adapter = new RecyclerviewAdapter(getActivity(), mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>) responsePojo.getData(),retrofit);
+                adapter = new RecyclerviewAdapter(getActivity(), mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>) responsePojo.getData(), retrofit);
                 mrecyclerView.setAdapter(adapter);
             } else
                 adapter.addAll(responsePojo.getData());

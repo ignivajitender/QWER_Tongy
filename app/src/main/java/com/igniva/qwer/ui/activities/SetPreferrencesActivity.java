@@ -385,7 +385,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 break;
             case R.id.tv_lets_learn:
                 if (setPref()) {
-                    Intent intent = new Intent(SetPreferrencesActivity.this, MyProfileActivity.class);
+                    Intent intent = new Intent(SetPreferrencesActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
                 break;

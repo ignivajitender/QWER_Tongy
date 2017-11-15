@@ -242,7 +242,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
                                 }
                                 Intent intent = new Intent(LoginActivity.this, MyProfileActivity.class);
-                                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.MYPROFILEEDITABLE, com.igniva.qwer.utils.fcm.Constants.INNER_PROFILE);
+//                                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.MYPROFILEEDITABLE, com.igniva.qwer.utils.fcm.Constants.INNER_PROFILE);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 

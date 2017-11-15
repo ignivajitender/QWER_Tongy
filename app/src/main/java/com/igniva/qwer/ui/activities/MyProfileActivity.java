@@ -319,7 +319,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     @Override
     protected void setUpLayout() {
 
-getLocation();
+        getLocation();
         if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
             mIvEditProfile.setVisibility(View.VISIBLE);
 //            Glide.with(this).load(R.drawable.pp4).into(mIvProilePic1);
@@ -485,7 +485,7 @@ getLocation();
 
     }
 
-    public void callSuccessPopUp(final MyProfileActivity myProfileActivity, String description) {
+    public void callSuccessPopUp(final MyProfileActivity myProfileActivity, String description,final boolean isSetPref) {
 
         // Create custom dialog object
         final Dialog dialog = new Dialog(this);
@@ -506,6 +506,9 @@ getLocation();
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                if(!isSetPref)
+                    startActivity(new Intent(myProfileActivity,SetPreferrencesActivity.class));
+                    else
                 myProfileActivity.finish();
                /* mCrossIcon1.setVisibility(View.INVISIBLE);
                 mCrossIcon2.setVisibility(View.INVISIBLE);
@@ -609,11 +612,18 @@ getLocation();
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 PreferenceHandler.writeBoolean(MyProfileActivity.this,PreferenceHandler.IS_PROFILE_SET,true);
-                                if(getIntent().hasExtra(Constants.MYPROFILEEDITABLE))
-                                callSuccessPopUp(MyProfileActivity.this, response.body().getDescription());
+
+                                if(getIntent().hasExtra(Constants.MYPROFILEEDITABLE)){
+                                      callSuccessPopUp(MyProfileActivity.this, response.body().getDescription(), PreferenceHandler.readBoolean(MyProfileActivity.this,PreferenceHandler.IS_PROFILE_SET,false));
+                                 }
                                 else
                                 {
-                                    Intent intent = new Intent(MyProfileActivity.this, MainActivity.class);
+                                    Intent intent=null;
+                                    if(PreferenceHandler.readBoolean(MyProfileActivity.this,PreferenceHandler.IS_PREF_SET,false))
+                                      intent = new Intent(MyProfileActivity.this, SetPreferrencesActivity.class);
+                                    else
+                                        intent = new Intent(MyProfileActivity.this, MainActivity.class);
+
                                     startActivity(intent);
                                     finish();
                                  }

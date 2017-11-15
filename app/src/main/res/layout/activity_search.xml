@@ -56,21 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="@dimen/_10dp"
-        >
-        <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
-
-            android:id="@+id/recyclerRants"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:visibility="gone"
-            />
-        </android.support.v4.widget.SwipeRefreshLayout>
+         >
         <TextView
             android:id="@+id/tvNoData"
             android:layout_width="match_parent"
@@ -79,20 +65,15 @@
             android:text="@string/no_data"
             android:textColor="@android:color/black"
             android:visibility="gone" />
-    </LinearLayout>
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/llshowprog"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_30dp"
-        android:gravity="center"
-        android:orientation="horizontal">
 
-        <ProgressBar
-            android:id="@+id/bar"
-            android:layout_width="wrap_content"
+
+        <android.support.v7.widget.RecyclerView
+
+            android:id="@+id/recyclerRants"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+             android:visibility="gone"
             />
-    </LinearLayout>
-</LinearLayout>
+
+     </LinearLayout>
+ </LinearLayout>

@@ -128,7 +128,8 @@ dependencies {
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-}
+ }
+
 // Add to the bottom of the file
 //if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {
 apply plugin: 'com.google.gms.google-services'
