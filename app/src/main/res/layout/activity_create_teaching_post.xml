@@ -68,12 +68,11 @@
                     android:background="@drawable/edit_text_white_rounded_corners"
                     android:gravity="top"
                     android:hint="@string/add_description"
-                    android:inputType="textMultiLine"
-                    android:maxLines="3"
                     android:padding="@dimen/_4dp"
                     android:textColor="@color/text_dark_grey"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:maxLength="500"
+                    android:scrollbars="horizontal"
                     />
 
 
@@ -309,6 +308,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/edit_text_white_rounded_corners"
                     android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/ivLocation"
                     />
 
                 <ImageView
@@ -319,6 +319,7 @@
                     android:layout_gravity="center|right"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
+
                     />
             </RelativeLayout>
 
