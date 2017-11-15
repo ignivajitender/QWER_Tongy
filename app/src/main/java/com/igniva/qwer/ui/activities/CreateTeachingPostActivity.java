@@ -129,6 +129,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @OnClick(R.id.ivLocation)
     public void openLocation() {
+        mautocomTextViewAddress.setText("");
         changeLocation();
     }
 
@@ -341,6 +342,13 @@ public class CreateTeachingPostActivity extends BaseActivity {
         if (Utility.address!=null)
             mautocomTextViewAddress.setText(Utility.address);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Utility.address="";
+    }
+
     public  void callSuccessPopUp(final Context context, String message) {
 
         // Create custom dialog object

@@ -121,9 +121,9 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
             drawMarker(Double.parseDouble(pojo.getLat()),Double.parseDouble(pojo.getLng()));
         }
          else if (Global.mLastLocation != null) {
-            drawMarker();
             Utility.latitude = Global.mLastLocation.getLatitude();
             Utility.longitude = Global.mLastLocation.getLongitude();
+            drawMarker();
             LocationAddress locationAddress = new LocationAddress();
             locationAddress.getAddressFromLocation(Utility.latitude, Utility.longitude,
                     getApplicationContext(), new GeocoderHandler());
@@ -198,7 +198,15 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
 
     @OnClick(R.id.fab_tick)
     public void onViewClicked() {
-        onBackPressed();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Utility.latitude=0.0;
+        Utility.longitude=0.0;
+        Utility.address="";
+        super.onBackPressed();
     }
 
     private class GeocoderHandler extends Handler {

@@ -157,7 +157,6 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 //
 //                }
 //            });
-
             holder.mibReport.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -167,9 +166,10 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                      * @param post_id
                      *
                      */
-                     openReportPopup(pojo.getId());
+                      openReportPopup(pojo.getId());
                 }
             });
+
              holder.mCardView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -180,7 +180,6 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
             holder.mTvDate.setText(Utility.getTimeAgoPost(pojo.getCreated_at(),(Activity) mContext));
         }
-
     }
 
     private void openReportPopup(final int post_id) {
