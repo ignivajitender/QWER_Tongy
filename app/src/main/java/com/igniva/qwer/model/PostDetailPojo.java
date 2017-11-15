@@ -89,6 +89,16 @@ public class PostDetailPojo implements Serializable {
         private List<PostUserPojo.FavPostPojo> post_fav;
         private ArrayList<PostCommmentCount> post_comment_count;
 
+        public ArrayList<PostMember> getPost_member() {
+            return post_member;
+        }
+
+        public void setPost_member(ArrayList<PostMember> post_member) {
+            this.post_member = post_member;
+        }
+
+        public ArrayList<PostMember> post_member;
+
         public List<PostUserPojo.FavPostPojo> getPost_fav() {
             return post_fav;
         }
@@ -382,5 +392,54 @@ public class PostDetailPojo implements Serializable {
                 }
             }
         }
+    }
+
+    public static class PostMember implements Serializable {
+       /*  [{
+            "id": 12,
+                    "post_id": "114",
+                    "presenter": "[tanmey",
+                    "created_at": "1510728595"
+        }, {
+            "id": 13,
+                    "post_id": "114",
+                    "presenter": " prerna]",
+                    "created_at": "1510728595"
+        }],*/
+
+        public String getPresenter() {
+            return presenter;
+        }
+
+        public void setPresenter(String presenter) {
+            this.presenter = presenter;
+        }
+
+        public String getPost_id() {
+            return post_id;
+        }
+
+        public void setPost_id(String post_id) {
+            this.post_id = post_id;
+        }
+
+        public String getCreated_at() {
+            return created_at;
+        }
+
+        public void setCreated_at(String created_at) {
+            this.created_at = created_at;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String presenter,post_id,created_at;
+       public int id;
     }
 }

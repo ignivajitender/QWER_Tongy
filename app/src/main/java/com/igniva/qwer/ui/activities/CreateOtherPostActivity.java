@@ -21,6 +21,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.ui.views.TextViewBold;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.ImagePicker;
+import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
 
 import java.io.File;
@@ -70,6 +71,7 @@ public class CreateOtherPostActivity extends BaseActivity {
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
+        Utility.hideSoftKeyboard(CreateOtherPostActivity.this);
         onBackPressed();
     }
     @OnClick(R.id.tvPostNow)
