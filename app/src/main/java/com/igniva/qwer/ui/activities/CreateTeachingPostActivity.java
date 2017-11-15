@@ -69,6 +69,32 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @BindView(R.id.ll_post_now)
     LinearLayout mLlPostNow;
+    @BindView(R.id.rlAddress)
+    RelativeLayout mrlAddress;
+    @BindView(R.id.autocomTextViewAddress)
+    AutoCompleteTextView mautocomTextViewAddress;
+    @Inject
+    OkHttpClient okHttpClient;
+    @Inject
+    Gson gson;
+    String typeOfClass = "online";
+    @BindView(R.id.et_schedule_start_date)
+    EditText metScheduleStartDate;
+    @BindView(R.id.et_schedule_end_date)
+    EditText metScheduleEndDate;
+    @BindView(R.id.llAddMembers)
+    LinearLayout mllAddMembers;
+    @BindView(R.id.llAddPrice)
+    LinearLayout mllAddPrice;
+    @BindView(R.id.llTypeOfClass)
+    LinearLayout mllTypeOfClass;
+    @BindView(R.id.llAddAddress)
+    LinearLayout mllAddAddress;
+    @BindView(R.id.et_add_members)
+    EditText metAddMembers;
+    @BindView(R.id.lv_add_members_list)
+    CustomExpandableListView mlvAddMembersList;
+    Calendar myCalendar = Calendar.getInstance();
     private ArrayList<String> todoList;
 
     @OnClick(R.id.ivbackIcon)
@@ -88,7 +114,6 @@ public class CreateTeachingPostActivity extends BaseActivity {
         showDialog(metScheduleEndDate);
     }
 
-
     @OnClick(R.id.et_start_time)
     public void openTime() {
         showDialogTime(mEtStartTime);
@@ -98,10 +123,6 @@ public class CreateTeachingPostActivity extends BaseActivity {
     public void openTime1() {
         showDialogTime(mEtEndTime);
     }
-
-
-    @BindView(R.id.rlAddress)
-    RelativeLayout mrlAddress;
 
     @OnClick(R.id.rb_online)
     public void hideAddress() {
@@ -117,23 +138,11 @@ public class CreateTeachingPostActivity extends BaseActivity {
         typeOfClass = "physical";
     }
 
-    @BindView(R.id.autocomTextViewAddress)
-    AutoCompleteTextView mautocomTextViewAddress;
-
-    @Inject
-    OkHttpClient okHttpClient;
-    @Inject
-    Gson gson;
-    String typeOfClass = "online";
-
-
     @OnClick(R.id.ivLocation)
     public void openLocation() {
         mautocomTextViewAddress.setText("");
         changeLocation();
     }
-
-
 
     private void showDialogTime(final EditText mEditText) {
         // Get Current time
@@ -168,7 +177,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                         else
                             minutes = String.valueOf(minute);
 
-                        mEditText.setText( hourOfDay + ":" + minutes+" "+timeSet);
+                        mEditText.setText(hourOfDay + ":" + minutes + " " + timeSet);
 
                     }
                 }, hour, minute, false);
@@ -177,37 +186,15 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @OnClick(R.id.tvPostNow)
     public void post() {
-        if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
+        if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
             // call api to create teaching post
             ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass);
-        }
-        else if(getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
+        } else if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
             // call api to create teaching post
-            ApiControllerClass.createMeetingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime,mlvAddMembersList,metAddMembers,todoList);
+            ApiControllerClass.createMeetingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, mlvAddMembersList, metAddMembers, todoList);
         }
 
     }
-
-    @BindView(R.id.et_schedule_start_date)
-    EditText metScheduleStartDate;
-    @BindView(R.id.et_schedule_end_date)
-    EditText metScheduleEndDate;
-
-    @BindView(R.id.llAddMembers)
-    LinearLayout mllAddMembers;
-    @BindView(R.id.llAddPrice)
-    LinearLayout mllAddPrice;
-    @BindView(R.id.llTypeOfClass)
-    LinearLayout mllTypeOfClass;
-    @BindView(R.id.llAddAddress)
-    LinearLayout mllAddAddress;
-
-    @BindView(R.id.et_add_members)
-    EditText metAddMembers;
-    @BindView(R.id.lv_add_members_list)
-    CustomExpandableListView mlvAddMembersList;
-
-    Calendar myCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,7 +236,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                 }*/
             }
         });
-         if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
+        if (getIntent() != null && getIntent().hasExtra("comingFrom")) {
             if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching"))
                 mllAddMembers.setVisibility(View.GONE);
             if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
@@ -269,20 +256,16 @@ public class CreateTeachingPostActivity extends BaseActivity {
         todoList = new ArrayList<String>();
 
 
-
         //Create an ArrayAdaptor object to be able to bind ArrayLists to ListViews
         final ArrayAdapter<String> arrayAdaptor = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoList);
         mlvAddMembersList.setAdapter(arrayAdaptor);
-
 
         //Listens for certain keys to be pushed, particular the dpad center key or enter key
         metAddMembers.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    if((keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER))
-                    {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if ((keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER)) {
                         //add item in the EditText to the todo list
                         todoList.add(0, metAddMembers.getText().toString());
                         //Update the view by notifying the ArrayAdapter of the data changes
@@ -298,16 +281,25 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     }
 
-    public void showDialog(EditText ed) {
+    public void showDialog(final EditText ed) {
         final EditText e = ed;
-        ed.setFocusable(false);
+//        ed.setFocusable(false);
+
         e.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 final Calendar c = Calendar.getInstance();
                 int mYear = c.get(Calendar.YEAR); // current year
                 int mMonth = c.get(Calendar.MONTH); // current month
                 int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+
+//                if(metScheduleStartDate !=ed && metScheduleStartDate.getText().toString().trim().length()>0){
+//                    String str[]=ed.getText().toString().trim().split("-");
+//                    mYear=Integer.valueOf(str[2]);
+//                    mMonth=Integer.valueOf(str[1]);
+//                    mDay=Integer.valueOf(str[0]);
+//                }
 
                 DatePickerDialog dpd = new DatePickerDialog(CreateTeachingPostActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -315,7 +307,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                         e.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                     }
                 }, mYear, mMonth, mDay);
-                dpd.show();
+                 dpd.show();
             }
         });
     }
@@ -339,17 +331,19 @@ public class CreateTeachingPostActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (Utility.address!=null)
+        if (Utility.address != null)
             mautocomTextViewAddress.setText(Utility.address);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Utility.address="";
+        Utility.address = "";
+        Utility.latitude = 0.0;
+        Utility.longitude = 0.0;
     }
 
-    public  void callSuccessPopUp(final Context context, String message) {
+    public void callSuccessPopUp(final Context context, String message) {
 
         // Create custom dialog object
         final Dialog dialog = new Dialog(context);

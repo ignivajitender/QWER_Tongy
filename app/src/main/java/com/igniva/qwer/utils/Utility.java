@@ -670,7 +670,11 @@ public class Utility {
     }
     public static String getTimePostDetail(String date, Activity activity) {
         long time = Long.valueOf(date);
-            Date date12 = new Date(time);
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+         Date date12 = new Date(time);
             return new SimpleDateFormat("hh:mm a").format(date12);
     }
 

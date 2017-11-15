@@ -222,8 +222,8 @@ public class ApiControllerClass {
 
                     if (typeOfClass.equalsIgnoreCase("physical")) {
                         changePasswordHashMap.put("class_location", Utility.address);
-                        changePasswordHashMap.put("lng", Utility.latitude + "");
-                        changePasswordHashMap.put("lat", Utility.longitude + "");
+                        changePasswordHashMap.put("lat", Utility.latitude + "");
+                        changePasswordHashMap.put("lng", Utility.longitude + "");
                     }
                     //Create a retrofit call object
                     Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).createTeachingPost(changePasswordHashMap);
@@ -604,8 +604,8 @@ public class ApiControllerClass {
                     JSONArray jsArray = new JSONArray(todoList);
                     Log.e("array",jsArray+"");
                     changePasswordHashMap.put("class_location", Utility.address);
-                    changePasswordHashMap.put("lng", Utility.latitude + "");
-                    changePasswordHashMap.put("lat", Utility.longitude + "");
+                    changePasswordHashMap.put("lat", Utility.latitude + "");
+                    changePasswordHashMap.put("lng", Utility.longitude + "");
                     changePasswordHashMap.put("tag",todoList.toString().trim().substring(1,todoList.toString().length()-1));
                    /* Utility.latitude=0.0;
                     Utility.longitude=0.0;
@@ -619,10 +619,7 @@ public class ApiControllerClass {
                         @Override
                         public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
 
-                            Utility.latitude=0.0;
-                            Utility.longitude=0.0;
-                            Utility.address="";
-                            if (response.body().getStatus() == 200) {
+                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 ((CreateTeachingPostActivity)context).callSuccessPopUp(context, response.body().getDescription());
                               } else if (response.body().getStatus() == 400) {
@@ -637,10 +634,7 @@ public class ApiControllerClass {
                         @Override
                         public void onFailure(Call<ResponsePojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.latitude=0.0;
-                            Utility.longitude=0.0;
-                            Utility.address="";
-                            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                             Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
                         }
                     });
