@@ -35,7 +35,7 @@
         <FrameLayout
             android:id="@+id/fl_alpha"
             android:layout_width="match_parent"
-            android:background="@android:color/black"
+            android:background="@color/bg_blue"
             android:alpha="0.7"
             android:visibility="gone"
             android:clickable="true"
@@ -88,7 +88,6 @@
         fab:menu_labels_style="@style/fabStyle"
         fab:menu_labels_position="left"
         fab:menu_openDirection="up"
-        fab:menu_backgroundColor="@android:color/transparent"
 
         >
 
@@ -98,7 +97,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/create_post"
             fab:fab_size="mini"
-            fab:fab_label="@string/create_post"
+             fab:fab_label="@string/create_post"
 
             />
         <com.github.clans.fab.FloatingActionButton

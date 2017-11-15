@@ -161,17 +161,16 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             holder.mibReport.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    /**
-                     * // open report popup
+                     /**
+                     * // open report or delete popup
                      *
                      * @param post_id
                      *
                      */
-                    openReportPopup(pojo.getId());
+                     openReportPopup(pojo.getId());
                 }
             });
-            holder.mCardView2.setOnClickListener(new View.OnClickListener() {
+             holder.mCardView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.e("post_id",pojo.getId()+"");
@@ -185,21 +184,16 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
     }
 
     private void openReportPopup(final int post_id) {
-
-        // Create custom dialog object
+         // Create custom dialog object
         final Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
-
-        dialog.setContentView(R.layout.layout_report_abuse);
-
-        final EditText metReason=(EditText)dialog.findViewById(R.id.etReason);
+         dialog.setContentView(R.layout.layout_report_abuse);
+         final EditText metReason=(EditText)dialog.findViewById(R.id.etReason);
         final EditText metComment=(EditText)dialog.findViewById(R.id.et_comment);
-
-
-        metReason.setOnClickListener(new View.OnClickListener() {
+         metReason.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu dropDownMenu = new PopupMenu(mContext, metReason);
@@ -218,10 +212,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 dropDownMenu.show();
             }
         });
-
-
-
-        TextView mBtnOk=(TextView)dialog.findViewById(R.id.btn_ok);
+         TextView mBtnOk=(TextView)dialog.findViewById(R.id.btn_ok);
         mBtnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -246,9 +237,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                     dialog.dismiss();
                     ApiControllerClass.callReportAbuseApi(mContext,retrofit,metReason,metComment,post_id,dialog);
                 }
-
-
-                //((Activity)mContext).finish();
+                 //((Activity)mContext).finish();
             }
         });
 
@@ -257,20 +246,12 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-
-
-                //((Activity)mContext).finish();
+                 //((Activity)mContext).finish();
             }
         });
-
-
-        dialog.setTitle("Custom Dialog");
-
-
-        dialog.show();
-
-
-    }
+//         dialog.setTitle("Custom Dialog");
+         dialog.show();
+     }
 
     @Override
     public int getItemCount() {

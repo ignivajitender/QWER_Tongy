@@ -172,17 +172,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
-
-                    android:layout_marginTop="24dp"
-
-                    android:layout_alignParentRight="true"
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@drawable/report_option"
-                    android:gravity="center"
+                     android:layout_marginTop="24dp"
+                     android:layout_alignParentRight="true"
+                    android:background="@drawable/report_option"
+                     android:gravity="center"
                     android:layout_centerInParent="true"
+                     tools:layout_editor_absoluteX="232dp" />
 
-
-                    tools:layout_editor_absoluteX="232dp" />
 
 
 

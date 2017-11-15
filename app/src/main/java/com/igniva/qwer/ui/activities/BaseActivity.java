@@ -113,7 +113,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //                                getLastLocation();
                          } else  {
                             if(!Utility.isLocationEnabled(Global.sAppContext))
-                                Utility.showAlertWithSingleButton(BaseActivity.this, getResources().getString(R.string.enable_location_setting), new Utility.OnAlertOkClickListener() {
+                                Utility.showAlertWithSingleButton(BaseActivity.this, getResources().getString(R.string.location), getResources().getString(R.string.enable_location_setting), new Utility.OnAlertOkClickListener() {
                                     @Override
                                     public void onOkButtonClicked() {
                                         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Global.sAppContext);

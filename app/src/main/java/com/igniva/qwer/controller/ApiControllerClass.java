@@ -661,8 +661,7 @@ public class ApiControllerClass {
     public static void callReportAbuseApi(final Context context, Retrofit retrofit, EditText metReason, EditText metComment, int post_id,final Dialog dialog) {
         try {
             if (Utility.isInternetConnection(context)) {
-
-          /*      {
+           /*      {
                     "post_id":"1",
                      "reason":"abuse",
                     “comment”:”text”,
@@ -673,9 +672,7 @@ public class ApiControllerClass {
                 changePasswordHashMap.put("post_id", post_id + "");
                 changePasswordHashMap.put("reason", metReason.getText().toString());
                 changePasswordHashMap.put("comment", metComment.getText().toString());
-
-
-                //Create a retrofit call object
+                 //Create a retrofit call object
                 Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).reportAbuse(changePasswordHashMap);
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
@@ -685,6 +682,53 @@ public class ApiControllerClass {
                             Utility.showToastMessageLong((Activity) context,response.body().getMessage());
                             //((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
                             dialog.dismiss();
+
+                        } else if (response.body().getStatus() == 400) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+
+    }
+    public static void deletePost(final Context context, Retrofit retrofit,int post_id,final Dialog dialog) {
+        try {
+            if (Utility.isInternetConnection(context)) {
+           /*      {
+                    "post_id":"1",
+                 }*/
+
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+//                HashMap<String, String> changePasswordHashMap = new HashMap<>();
+//                changePasswordHashMap.put("post_id", post_id + "");
+                  //Create a retrofit call object
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).deletePost(post_id+"");
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageLong((Activity) context,response.body().getMessage());
+                             dialog.dismiss();
 
                         } else if (response.body().getStatus() == 400) {
                             CallProgressWheel.dismissLoadingDialog();
