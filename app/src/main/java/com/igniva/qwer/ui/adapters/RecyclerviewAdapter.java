@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.PostPojo;
+import com.igniva.qwer.ui.activities.MyPostsActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.Log;
@@ -39,16 +40,16 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
 
     List<PostPojo.PostDataPojo.DataBean> postsList;
+    Retrofit retrofit;
     private Context mContext;
     private int listType;
-    Retrofit retrofit;
 
 
     public RecyclerviewAdapter(Context mContext, int listType, ArrayList<PostPojo.PostDataPojo.DataBean> data, Retrofit retrofit) {
         this.mContext = mContext;
         this.listType = listType;
         this.postsList = data;
-        this.retrofit=retrofit;
+        this.retrofit = retrofit;
     }
 
 
@@ -124,20 +125,23 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 Glide.with(mContext).load(pojo.getImage()).into(holder.mIvImage);
             }
 
-             holder.mTvPostType.setText(pojo.getPost_type());
-            if(pojo.getPost_user()!=null){
-                 if (pojo.getPost_user().getUser_image() != null && pojo.getPost_user().getUser_image().size() > 0) {
+            if (mContext instanceof MyPostsActivity)
+                holder.mibReport.setBackground(mContext.getResources().getDrawable(R.drawable.delete));
+
+            holder.mTvPostType.setText(pojo.getPost_type());
+            if (pojo.getPost_user() != null) {
+                if (pojo.getPost_user().getUser_image() != null && pojo.getPost_user().getUser_image().size() > 0) {
                     Glide.with(mContext).load(pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
                 }
                 holder.mTvName.setText(pojo.getPost_user().getName());
             }
 
-            if(pojo.getPost_fav()!=null && pojo.getPost_fav().size()>0)
+            if (pojo.getPost_fav() != null && pojo.getPost_fav().size() > 0)
                 holder.mIvFav.setImageResource(R.drawable.liked);
             else
                 holder.mIvFav.setImageResource(R.drawable.like);
 
-            if(pojo.getPost_comment_count()!=null && pojo.getPost_comment_count().size()>0)
+            if (pojo.getPost_comment_count() != null && pojo.getPost_comment_count().size() > 0)
                 holder.mIbChat.setText(pojo.getPost_comment_count().get(0).getCount());
             else
                 holder.mIbChat.setText("0");
@@ -160,39 +164,48 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             holder.mibReport.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                     /**
+                    /**
                      * // open report or delete popup
                      *
                      * @param post_id
                      *
                      */
-                      openReportPopup(pojo.getId());
+                    if (mContext instanceof MyPostsActivity) {
+                        Utility.showAlertWithCancelButton(mContext, mContext.getResources().getString(R.string.delete_this_post), mContext.getResources().getString(R.string.are_you_sure), new Utility.OnAlertOkClickListener() {
+                            @Override
+                            public void onOkButtonClicked() {
+                                ApiControllerClass.deletePost(mContext, retrofit, pojo, RecyclerviewAdapter.this);
+                            }
+                        });
+                    } else {
+                        openReportPopup(pojo.getId());
+                    }
                 }
             });
 
-             holder.mCardView2.setOnClickListener(new View.OnClickListener() {
+            holder.mCardView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("post_id",pojo.getId()+"");
-                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class).putExtra("post_id",pojo.getId()));
+                    Log.e("post_id", pojo.getId() + "");
+                    mContext.startActivity(new Intent(mContext, PostDetailActivity.class).putExtra("post_id", pojo.getId()));
                 }
             });
 
-            holder.mTvDate.setText(Utility.getTimeAgoPost(pojo.getCreated_at(),(Activity) mContext));
+            holder.mTvDate.setText(Utility.getTimeAgoPost(pojo.getCreated_at(), (Activity) mContext));
         }
     }
 
     private void openReportPopup(final int post_id) {
-         // Create custom dialog object
+        // Create custom dialog object
         final Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
-         dialog.setContentView(R.layout.layout_report_abuse);
-         final EditText metReason=(EditText)dialog.findViewById(R.id.etReason);
-        final EditText metComment=(EditText)dialog.findViewById(R.id.et_comment);
-         metReason.setOnClickListener(new View.OnClickListener() {
+        dialog.setContentView(R.layout.layout_report_abuse);
+        final EditText metReason = (EditText) dialog.findViewById(R.id.etReason);
+        final EditText metComment = (EditText) dialog.findViewById(R.id.et_comment);
+        metReason.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu dropDownMenu = new PopupMenu(mContext, metReason);
@@ -211,46 +224,41 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 dropDownMenu.show();
             }
         });
-         TextView mBtnOk=(TextView)dialog.findViewById(R.id.btn_ok);
+        TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
         mBtnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 metReason.setError(null);
                 metComment.setError(null);
-                if(FieldValidators.isNullOrEmpty(metReason))
-                {
+                if (FieldValidators.isNullOrEmpty(metReason)) {
                     metReason.setFocusable(true);
                     metReason.requestFocus();
                     metReason.setError("Please select reason for report");
                     return;
-                }
-                else if(FieldValidators.isNullOrEmpty(metComment))
-                {
+                } else if (FieldValidators.isNullOrEmpty(metComment)) {
                     metComment.setFocusable(true);
                     metComment.requestFocus();
                     metComment.setError("Please enter your comment");
                     return;
-                }
-                else
-                {
+                } else {
                     dialog.dismiss();
-                    ApiControllerClass.callReportAbuseApi(mContext,retrofit,metReason,metComment,post_id,dialog);
+                    ApiControllerClass.callReportAbuseApi(mContext, retrofit, metReason, metComment, post_id, dialog);
                 }
-                 //((Activity)mContext).finish();
+                //((Activity)mContext).finish();
             }
         });
 
-        TextView mbtnCancel=(TextView)dialog.findViewById(R.id.btn_cancel);
+        TextView mbtnCancel = (TextView) dialog.findViewById(R.id.btn_cancel);
         mbtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                 //((Activity)mContext).finish();
+                //((Activity)mContext).finish();
             }
         });
 //         dialog.setTitle("Custom Dialog");
-         dialog.show();
-     }
+        dialog.show();
+    }
 
     @Override
     public int getItemCount() {

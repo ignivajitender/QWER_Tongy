@@ -219,6 +219,27 @@ public class Utility {
         });
         builder.show();
     }
+    public static void showAlertWithCancelButton(Context context,String title, String message, final OnAlertOkClickListener onAlertOkClickListener) {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onAlertOkClickListener.onOkButtonClicked();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                 dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
 
     public static void callSuccessPopUp(final Context context, String message) {
          // Create custom dialog object

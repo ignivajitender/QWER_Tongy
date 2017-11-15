@@ -248,5 +248,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="meeting">Meeting</string>
     <string name="please_add_member">Please add members</string>
     <string name="enter_text_here">Enter text here.</string>
+    <string name="delete_this_post">Delete post</string>
+    <string name="are_you_sure">Are you sure you want to delete this post?</string>
 
 </resources>

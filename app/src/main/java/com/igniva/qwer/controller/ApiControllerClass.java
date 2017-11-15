@@ -20,6 +20,7 @@ import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
+import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.CustomExpandableListView;
@@ -704,36 +705,34 @@ public class ApiControllerClass {
 
 
     }
-    public static void deletePost(final Context context, Retrofit retrofit,int post_id,final Dialog dialog) {
+    public static void deletePost(final Context context, Retrofit retrofit, final PostPojo.PostDataPojo.DataBean postPojo, final RecyclerviewAdapter recyclerviewAdapter) {
         try {
             if (Utility.isInternetConnection(context)) {
            /*      {
                     "post_id":"1",
                  }*/
-
-                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                 CallProgressWheel.showLoadingDialog(context, "Loading...");
 //                HashMap<String, String> changePasswordHashMap = new HashMap<>();
 //                changePasswordHashMap.put("post_id", post_id + "");
                   //Create a retrofit call object
-                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).deletePost(post_id+"");
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).deletePost(postPojo.getId()+"");
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         if (response.body().getStatus() == 200) {
+                            if(recyclerviewAdapter!=null)
+                            recyclerviewAdapter.remove(postPojo);
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageLong((Activity) context,response.body().getMessage());
-                             dialog.dismiss();
-
-                        } else if (response.body().getStatus() == 400) {
+                             Utility.showToastMessageLong((Activity) context,response.body().getDescription());
+                         } else if (response.body().getStatus() == 400) {
                             CallProgressWheel.dismissLoadingDialog();
-                            Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                         } else {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
-                    @Override
+                     @Override
                     public void onFailure(Call<ResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();

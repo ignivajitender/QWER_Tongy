@@ -186,6 +186,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
     @OnClick(R.id.tvPostNow)
     public void post() {
+
         if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
             // call api to create teaching post
             ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass);
