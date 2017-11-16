@@ -194,7 +194,7 @@
                                 <View
                                     android:id="@+id/view"
                                     android:layout_width="@dimen/_10dp"
-                                    android:layout_height="@dimen/_80dp"
+                                    android:layout_height="@dimen/_100dp"
                                     android:layout_margin="@dimen/_8dp"
                                     android:background="@color/text_light_grey"
 
@@ -248,7 +248,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
                                             android:layout_margin="@dimen/_2dp"
-                                            android:maxLines="2"
+                                            android:lines="3"
+                                            android:maxLines="3"
                                             android:ellipsize="end"
                                             android:text="" />
                                     </LinearLayout>
@@ -272,7 +273,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
                                             android:layout_margin="@dimen/_2dp"
-                                            android:text="dfshifghi\ngdfsgfudsigfdsgfudfg\ndfgsygdfgds" />
+                                            android:gravity="left"
+                                             />
                                     </LinearLayout>
 
                                 </LinearLayout>

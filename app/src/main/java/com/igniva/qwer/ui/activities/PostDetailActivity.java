@@ -146,7 +146,7 @@ public class PostDetailActivity extends BaseActivity {
                 {
 
                     for(int i=0;i<data.getPost_member().size();i++)
-                        builder.append(data.getPost_member().get(i).getPresenter()+"\n");
+                        builder.append(data.getPost_member().get(i).getPresenter().toString().trim()+"\n");
                     }
                 mtvTypeOfClassOrPresenter.setText("Presenter\n"+builder);
                 mView.setVisibility(View.VISIBLE);

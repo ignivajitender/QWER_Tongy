@@ -232,7 +232,8 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
                             }else if (response.body().getStatus() == 800) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_USER_ID,response.body().getData().id);
+                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PROFILE_SET, false);
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PREF_SET, false);
                                 for (int i = 0; i < response.headers().size(); i++) {
@@ -250,6 +251,8 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
                             }else if (response.body().getStatus() == 900) {
                                 CallProgressWheel.dismissLoadingDialog();
+                                PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_USER_ID,response.body().getData().id);
+
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PROFILE_SET, true);
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PREF_SET, false);
@@ -351,8 +354,8 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_ALREADY_LOGIN, true);
+                                PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_USER_ID,response.body().getData().id);
                                 for (int i = 0; i < response.headers().size(); i++) {
-
                                         String loginToken = response.headers().get("x-logintoken");
                                         Log.e("loginActivity", loginToken);
                                         PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);

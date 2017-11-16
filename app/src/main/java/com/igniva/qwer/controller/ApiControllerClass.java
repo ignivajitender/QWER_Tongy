@@ -350,8 +350,7 @@ public class ApiControllerClass {
 //    http://tongy.ignivastaging.com/api/users/post?post=upcomming     for my upcomming post
 //    http://tongy.ignivastaging.com/api/users/post?post=ongoing           for my ongoing post
 //    http://tongy.ignivastaging.com/api/users/post?post=other               for my other/archuive post
-
-                //Create a retrofit call object
+                 //Create a retrofit call object
                 Call<PostPojo> posts = null;
                 if (listType == R.string.news_feed)
                     posts = retrofit.create(ApiInterface.class).getPosts(fragment.pageNo);
