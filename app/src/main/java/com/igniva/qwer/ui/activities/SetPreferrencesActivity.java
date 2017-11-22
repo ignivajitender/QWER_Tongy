@@ -29,6 +29,7 @@ import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.ui.adapters.LanguageListAdapter;
 import com.igniva.qwer.ui.callbacks.MyCallBack;
 import com.igniva.qwer.ui.views.TextViewRegular;
+import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.Utility;
@@ -36,7 +37,6 @@ import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnRangeSeekbarChange
 import com.igniva.qwer.utils.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.igniva.qwer.utils.crystalrangeseekbar.widgets.CrystalSeekbar;
-import com.igniva.qwer.utils.fcm.Constants;
 
 import java.util.ArrayList;
 

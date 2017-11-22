@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/iv_user_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_250"
+                    android:orientation="horizontal"
+
+                    />
+                <include layout="@layout/toolbar_other_profile" />
+
+
+                <LinearLayout
+                    android:id="@+id/dotsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_10" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/iv_videoCall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
+                        android:background="@drawable/video_call_red" />
+
+
+                    <ImageButton
+                        android:id="@+id/iv_voiceCall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
+                        android:background="@drawable/call_green" />
+
+                    <ImageButton
+                        android:id="@+id/iv_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:animateLayoutChanges="true"
+                        android:background="@drawable/message_yellow" />
+
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_8dp"
+                android:text="Matthew Hammon"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/text_color"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/_8dp">
+
+                <com.igniva.qwer.ui.views.TextViewLight
+                    android:id="@+id/tv_age_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableLeft="@drawable/male"
+                    android:drawablePadding="@dimen/_4dp"
+                    android:text="Age: "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+                <com.igniva.qwer.ui.views.TextViewLight
+                    android:id="@+id/tv_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="24 Years"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+                <com.igniva.qwer.ui.views.TextViewLight
+                    android:id="@+id/tv_radius"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingLeft="@dimen/_16dp"
+                    android:text="39 km away"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+
+            </LinearLayout>
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:id="@+id/languageSpeak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_8dp"
+                android:text="Language Speak"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/text_medium_grey"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_10dp"
+                android:textAllCaps="true"
+                android:textSize="@dimen/_14sp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvLanguageSpeaks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                ></android.support.v7.widget.RecyclerView>
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:id="@+id/tvInterestedIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_8dp"
+                android:text="Interested In"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/text_medium_grey"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_10dp"
+                android:textAllCaps="true"
+                android:textSize="@dimen/_14sp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvInterestedIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                ></android.support.v7.widget.RecyclerView>
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:id="@+id/tvAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_8dp"
+                android:text="@string/about"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/text_medium_grey"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_10dp"
+                android:textAllCaps="true"
+                android:textSize="@dimen/_14sp"
+                />
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:id="@+id/tvAboutDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_8dp"
+                android:text="@string/dummyText"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/black"
+
+                android:layout_marginTop="@dimen/_10dp"
+                android:textSize="@dimen/_12sp"
+                />
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:id="@+id/tvFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_8dp"
+                android:text="I am from"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/text_medium_grey"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_10dp"
+                android:textAllCaps="true"
+                android:textSize="@dimen/_14sp"
+                />
+
+            <com.igniva.qwer.ui.views.TextViewRegular
+                android:id="@+id/tvFromDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_8dp"
+                android:text="Mohali"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="@dimen/_10dp"
+                android:textSize="@dimen/_12sp"
+                />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

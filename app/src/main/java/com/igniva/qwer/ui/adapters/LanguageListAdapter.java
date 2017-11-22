@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.ui.callbacks.MyCallBack;
+import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.Log;
-import com.igniva.qwer.utils.fcm.Constants;
 
 import java.util.ArrayList;
 

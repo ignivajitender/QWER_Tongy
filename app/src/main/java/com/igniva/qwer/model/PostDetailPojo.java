@@ -18,7 +18,7 @@ public class PostDetailPojo implements Serializable {
 
     private int status;
     private String description;
-    private DataPojo data;
+    public DataPojo data;
 
     public int getStatus() {
         return status;
@@ -44,7 +44,7 @@ public class PostDetailPojo implements Serializable {
         this.data = data;
     }
 
-    public class DataPojo implements Serializable {
+    public static class DataPojo implements Serializable {
         ArrayList<CommentPojo> post_comment;
         /**
          * id : 49

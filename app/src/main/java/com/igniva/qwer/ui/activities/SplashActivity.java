@@ -6,7 +6,10 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.igniva.qwer.R;
+import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.PreferenceHandler;
 
 
@@ -21,7 +24,7 @@ public class SplashActivity extends BaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
 
     // Shared Preferences
-
+    private String token;
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -45,6 +48,37 @@ public class SplashActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ((Global) getApplicationContext()).getNetComponent().inject(SplashActivity.this);
+        try {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after 2sec
+                    try {
+                        token = FirebaseInstanceId.getInstance().getToken();
+                        if (token != null) {
+                            PreferenceHandler.writeFCM_KEY(SplashActivity.this, Constants.FCM_TOKEN, token);
+                            com.igniva.qwer.utils.Log.d("TOKEN1", token);
+                        } else {
+                            token = FirebaseInstanceId.getInstance().getToken();
+                            if (token != null) {
+                                PreferenceHandler.writeFCM_KEY(SplashActivity.this, Constants.FCM_TOKEN, token);
+                                com.igniva.qwer.utils.Log.d("TOKEN2", token);
+                            } else {
+                                PreferenceHandler.writeFCM_KEY(SplashActivity.this, Constants.FCM_TOKEN, PreferenceHandler.readFCM_KEY(SplashActivity.this, Constants.FCM_TOKEN, ""));
+                                com.igniva.qwer.utils.Log.d("TOKEN3", token);
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+                }
+            }, 1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         handler.postDelayed(runnable, SPLASH_TIME_OUT);
     }

@@ -21,9 +21,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.igniva.qwer.utils.fcm.Constants.ALPHA_ANIMATIONS_DURATION;
-import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_HIDE_TITLE_DETAILS;
-import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR;
+import static com.igniva.qwer.utils.Constants.ALPHA_ANIMATIONS_DURATION;
+import static com.igniva.qwer.utils.Constants.PERCENTAGE_TO_HIDE_TITLE_DETAILS;
+import static com.igniva.qwer.utils.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR;
+
 
 /**
  * Created by karanveer on 1/9/17.

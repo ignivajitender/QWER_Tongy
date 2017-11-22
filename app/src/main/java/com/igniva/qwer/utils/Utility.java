@@ -48,6 +48,7 @@ import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.predictionsPojo;
 import com.igniva.qwer.ui.activities.LocationActivity;
 import com.igniva.qwer.ui.activities.LoginActivity;
+import com.igniva.qwer.ui.activities.MyProfileActivity;
 import com.igniva.qwer.ui.activities.SearchActivity;
 
 import org.json.JSONArray;
@@ -629,6 +630,7 @@ public class Utility {
          }
     }
 
+
     public interface OnAlertOkClickListener {
         void onOkButtonClicked();
     }
@@ -696,5 +698,15 @@ public class Utility {
          Date date12 = new Date(time);
             return new SimpleDateFormat("hh:mm a").format(date12);
     }
+    public static String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
 
+		/*
+		* Use of the colored spanned
+		* String name = getColoredSpanned("Hiren", "#800000");
+		* String surName = getColoredSpanned("Patel","#000080");
+		* txtView.setText(Html.fromHtml(name+" "+surName));
+		* */
+    }
 }

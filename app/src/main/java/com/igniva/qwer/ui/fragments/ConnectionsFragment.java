@@ -1,7 +1,6 @@
 package com.igniva.qwer.ui.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,18 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
+import com.igniva.qwer.model.ConnectionPojo;
 import com.igniva.qwer.model.PostDetailPojo;
-import com.igniva.qwer.model.PostPojo;
-import com.igniva.qwer.ui.activities.CreateNewPostActivity;
-import com.igniva.qwer.ui.activities.MyFavActivity;
-import com.igniva.qwer.ui.activities.MyPostsActivity;
-import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
+import com.igniva.qwer.ui.adapters.ConnectionRecyclerviewAdapter;
 import com.igniva.qwer.utils.EndlessRecyclerViewScrollListener;
 import com.igniva.qwer.utils.Global;
 
@@ -36,7 +31,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Retrofit;
 
 /**
@@ -45,58 +39,39 @@ import retrofit2.Retrofit;
  * <p>
  * create an instance of this fragment.
  */
-public class PostsListFragment extends BaseFragment {
+public class ConnectionsFragment extends BaseFragment {
 
     public int pageNo = 1;
     View mView;
     @Inject
     public
     Retrofit retrofit;
-    RecyclerviewAdapter adapter;
+    ConnectionRecyclerviewAdapter adapter;
     List<PostDetailPojo.DataPojo> postList = null;
     @BindView(R.id.recyclerView)
     RecyclerView mrecyclerView;
     int mListType;
-    @BindView(R.id.menu)
-    FloatingActionMenu menuFloating;
+
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     Boolean isLast = false;
     @BindView(R.id.tvNoData)
     TextView mtvNoData;
-    @BindView(R.id.fl_alpha)
-    FrameLayout flAlpha;
+    @BindView(R.id.menu)
+    FloatingActionMenu menuFloating;
+
 
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    public static PostsListFragment newInstance(int listType) {
-        PostsListFragment fragment = new PostsListFragment();
-        fragment.mListType = listType;
+    public static ConnectionsFragment newInstance() {
+        ConnectionsFragment fragment = new ConnectionsFragment();
+
         return fragment;
     }
 
-    @OnClick({R.id.fabCreatePost, R.id.fabMyUploads, R.id.fabMyFavorites})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.fabCreatePost:
-                startActivity(new Intent(getActivity(), CreateNewPostActivity.class));
-                break;
-            case R.id.fabMyUploads:
-                startActivity(new Intent(getActivity(), MyPostsActivity.class));
-                //                Utility.showToastMessageLong(getActivity(), "clicked my uploads");
-                break;
-            case R.id.fabMyFavorites:
-                startActivity(new Intent(getActivity(), MyFavActivity.class));
-
-//                Utility.showToastMessageLong(getActivity(), "clicked my favorites");
-                break;
-        }
-
-
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
@@ -127,7 +102,7 @@ public class PostsListFragment extends BaseFragment {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
                 if (!isLast)
-                    getPosts();
+                    getConnections();
             }
         };
         // Adds the scroll listener to RecyclerView
@@ -142,32 +117,15 @@ public class PostsListFragment extends BaseFragment {
                 isLast = false;
                 scrollListener.resetState();
                 adapter = null;
-                getPosts();
+                getConnections();
             }
         });
-        menuFloating.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
-            @Override
-            public void onMenuToggle(boolean opened) {
-                 if (opened)
-                    flAlpha.setVisibility(View.VISIBLE);
-                else
-                    flAlpha.setVisibility(View.GONE);
 
-
-            }
-        });
-        if (mListType == R.string.news_feed) {
-            menuFloating.setVisibility(View.VISIBLE);
-
-
-        }
-
-
-        getPosts();
+        getConnections();
     }
 
-    private void getPosts() {
-        ApiControllerClass.getAllFeedsApi(retrofit, getActivity(), PostsListFragment.this, mListType);
+    private void getConnections() {
+        ApiControllerClass.getMyConnectionsApi(retrofit, getActivity(), ConnectionsFragment.this);
     }
 
     @Override
@@ -182,21 +140,21 @@ public class PostsListFragment extends BaseFragment {
 
     }
 
-    public void setDataInViewObjects(final PostPojo.PostDataPojo responsePojo) {
+    public void setDataInViewObjects(final ConnectionPojo responsePojo) {
 
 
-        if (responsePojo != null && responsePojo.getData() != null && responsePojo.getData().size() > 0) {
+        if (responsePojo != null && responsePojo.getData() != null && responsePojo.getData().getData().size() > 0) {
 
             pageNo++;
 
-            if (pageNo >= responsePojo.getLast_page())
+            if (pageNo >= responsePojo.getData().getLast_page())
                 isLast = true;
 
             if (adapter == null) {
-                adapter = new RecyclerviewAdapter(getActivity(), mListType, (ArrayList<PostDetailPojo.DataPojo>) responsePojo.getData(), retrofit);
+                adapter = new ConnectionRecyclerviewAdapter(getActivity(), (ArrayList<ConnectionPojo.ConnectionDataPojo.ContactDataPojo>) responsePojo.getData().getData(), retrofit);
                 mrecyclerView.setAdapter(adapter);
             } else
-                adapter.addAll(responsePojo.getData());
+                adapter.addAll((List<ConnectionPojo.ConnectionDataPojo.ContactDataPojo>) responsePojo.getData());
             mrecyclerView.setVisibility(View.VISIBLE);
             mtvNoData.setVisibility(View.GONE);
         } else {
@@ -211,6 +169,6 @@ public class PostsListFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        menuFloating.close(true);
+       // menuFloating.close(true);
     }
 }

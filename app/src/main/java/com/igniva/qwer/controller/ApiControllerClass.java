@@ -3,25 +3,34 @@ package com.igniva.qwer.controller;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.model.ConnectionPojo;
+import com.igniva.qwer.model.CountriesResponsePojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.predictionsCountriesPojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.CommentsActivity;
 import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
+import com.igniva.qwer.ui.activities.MyProfileActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
+import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
+import com.igniva.qwer.ui.fragments.ConnectionsFragment;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.CustomExpandableListView;
@@ -189,11 +198,11 @@ public class ApiControllerClass {
     /**
      * Call api to create teaching post
      */
-    public static void createTeachingPostApi(final Context context, Retrofit retrofit, EditText mEtTitle, EditText mEtDescription, EditText mEtPrice, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime, String typeOfClass) {
+    public static void createTeachingPostApi(final Context context, Retrofit retrofit, EditText mEtTitle, EditText mEtDescription,EditText mEtCurrency, EditText mEtPrice, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime, String typeOfClass) {
         try {
             Utility.hideSoftKeyboard((Activity) context);
             // check validations for current password,new password and confirm password
-            if (Validation.validateCreatePost((Activity) context, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass)) {
+            if (Validation.validateCreatePost((Activity) context, mEtTitle, mEtDescription,mEtCurrency, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass)) {
                 if (Utility.isInternetConnection(context)) {
 
                     /*
@@ -218,7 +227,7 @@ public class ApiControllerClass {
                     changePasswordHashMap.put("start_date", metScheduleStartDate.getText().toString().trim());
                     changePasswordHashMap.put("description", mEtDescription.getText().toString().trim());
                     changePasswordHashMap.put("title", mEtTitle.getText().toString().trim());
-                    changePasswordHashMap.put("currency", "usd");
+                    changePasswordHashMap.put("currency", mEtCurrency.getText().toString().trim().toLowerCase());
                     changePasswordHashMap.put("price", mEtPrice.getText().toString().trim());
                     changePasswordHashMap.put("post_type", "teaching");
 
@@ -706,7 +715,7 @@ public class ApiControllerClass {
 
 
     }
-    public static void deletePost(final Context context, Retrofit retrofit, final PostPojo.PostDataPojo.DataBean postPojo, final RecyclerviewAdapter recyclerviewAdapter) {
+    public static void deletePost(final Context context, Retrofit retrofit, final PostDetailPojo.DataPojo postPojo, final RecyclerviewAdapter recyclerviewAdapter) {
         try {
             if (Utility.isInternetConnection(context)) {
            /*      {
@@ -799,5 +808,299 @@ public class ApiControllerClass {
 
 
     }
+
+    /**
+     * get my connections api
+     * @param retrofit
+     * @param activity
+     * @param fragment
+     */
+
+    public static void getMyConnectionsApi(Retrofit retrofit, FragmentActivity activity,final ConnectionsFragment fragment) {
+        try {
+            if (Utility.isInternetConnection(activity)) {
+
+                CallProgressWheel.showLoadingDialog(activity, "Loading...");
+
+                Call<ConnectionPojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).getMyConnections(fragment.pageNo);
+
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<ConnectionPojo>() {
+                        @Override
+                        public void onResponse(Call<ConnectionPojo> call, retrofit2.Response<ConnectionPojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                if (fragment != null) {
+                                    fragment.setDataInViewObjects(response.body());
+                                    //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                    // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                                }
+                            }else {
+                                if (fragment != null)
+                                    fragment.setDataInViewObjects(null);
+
+                                CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                            }
+                        }
+
+
+                        @Override
+                        public void onFailure(Call<ConnectionPojo> call, Throwable t) {
+                            if (fragment != null)
+                                fragment.setDataInViewObjects(null);
+
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    public static void changeIsPushNotification(Retrofit retrofit, SettingsActivity activity, int isPushNotification,final SwitchCompat mswitchPushnotification) {
+
+        try {
+            if (Utility.isInternetConnection(activity)) {
+
+                CallProgressWheel.showLoadingDialog(activity, "Loading...");
+
+                Call<ResponsePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).notificationOnOff(isPushNotification);
+
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
+
+                                CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
+
+
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+    public static void changeIsVideoCall(Retrofit retrofit, SettingsActivity activity, int isVideoCall, SwitchCompat mswitchVideoCall) {
+
+
+        try {
+            if (Utility.isInternetConnection(activity)) {
+
+                CallProgressWheel.showLoadingDialog(activity, "Loading...");
+
+                Call<ResponsePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).videoOnOff(isVideoCall);
+
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
+
+                                CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
+
+
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public static void changeIsVoiceCall(Retrofit retrofit, SettingsActivity activity, int isVoiceCall, SwitchCompat mswitchVideoCall) {
+
+
+        try {
+            if (Utility.isInternetConnection(activity)) {
+
+                CallProgressWheel.showLoadingDialog(activity, "Loading...");
+
+                Call<ResponsePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).voiceOnOff(isVoiceCall);
+
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
+
+                                CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
+
+
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void callCountriesListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry) {
+        try {
+            if (Utility.isInternetConnection(activity)) {
+
+                //CallProgressWheel.showLoadingDialog(activity, "Loading...");
+
+                Call<CountriesResponsePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).getCountriesList();
+
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<CountriesResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<CountriesResponsePojo> call, retrofit2.Response<CountriesResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                //CallProgressWheel.dismissLoadingDialog();
+                                ArrayList<String> tempArr = new ArrayList<>();
+                                ((MyProfileActivity) activity).mAlLangList = response.body().getData();
+                               // ((MyProfileActivity)activity).countriesList(response.body().getData());
+                                for (predictionsCountriesPojo languagesPojo : response.body().getData()
+                                        ) {
+                                    tempArr.add(languagesPojo.country);
+                                }
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.layout_country_item, R.id.tvName, tempArr);
+
+                                ((MyProfileActivity) activity).mautocomTextViewCountry.setAdapter(adapter);
+
+                                //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
+
+                                //CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CountriesResponsePojo> call, Throwable t) {
+
+
+                            //CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+/*
+    public static void callCountriesListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry) {
+        try {
+            if (Utility.isInternetConnection(activity)) {
+
+                //CallProgressWheel.showLoadingDialog(activity, "Loading...");
+
+                Call<CountriesResponsePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).getCountriesList();
+
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<CountriesResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<CountriesResponsePojo> call, retrofit2.Response<CountriesResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                //CallProgressWheel.dismissLoadingDialog();
+                                ArrayList<String> tempArr = new ArrayList<>();
+                                ((MyProfileActivity) activity).mAlLangList = response.body().getData();
+                                for (predictionsCountriesPojo languagesPojo : response.body().getData()
+                                        ) {
+                                    tempArr.add(languagesPojo.country);
+                                }
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
+                                ((MyProfileActivity) activity).mautocomTextViewCountry.setAdapter(adapter);
+
+                                //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
+
+                                //CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CountriesResponsePojo> call, Throwable t) {
+
+
+                            //CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }*/
 }
 

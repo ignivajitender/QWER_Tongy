@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
-import com.igniva.qwer.model.PostPojo;
+import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.Log;
@@ -40,13 +40,13 @@ import retrofit2.Retrofit;
 public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.MyViewHolder> {
 
 
-    List<PostPojo.PostDataPojo.DataBean> postsList;
+    List<PostDetailPojo.DataPojo> postsList;
     Retrofit retrofit;
     private Context mContext;
     private int listType;
 
 
-    public RecyclerviewAdapter(Context mContext, int listType, ArrayList<PostPojo.PostDataPojo.DataBean> data, Retrofit retrofit) {
+    public RecyclerviewAdapter(Context mContext, int listType, ArrayList<PostDetailPojo.DataPojo> data, Retrofit retrofit) {
         this.mContext = mContext;
         this.listType = listType;
         this.postsList = data;
@@ -62,20 +62,20 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
         return new MyViewHolder(itemView);
     }
 
-    public void add(PostPojo.PostDataPojo.DataBean item) {
+    public void add(PostDetailPojo.DataPojo item) {
         if (!postsList.contains(item)) {
             postsList.add(item);
             notifyItemInserted(postsList.size() - 1);
         }
     }
 
-    public void addAll(List<PostPojo.PostDataPojo.DataBean> mcList) {
-        for (PostPojo.PostDataPojo.DataBean mc : mcList) {
+    public void addAll(List<PostDetailPojo.DataPojo> mcList) {
+        for (PostDetailPojo.DataPojo mc : mcList) {
             add(mc);
         }
     }
 
-    public void remove(PostPojo.PostDataPojo.DataBean item) {
+    public void remove(PostDetailPojo.DataPojo item) {
         int position = postsList.indexOf(item);
         if (position > -1) {
             postsList.remove(position);
@@ -89,7 +89,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
         }
     }
 
-    public PostPojo.PostDataPojo.DataBean getItem(int position) {
+    public PostDetailPojo.DataPojo getItem(int position) {
         return postsList.get(position);
     }
 
@@ -101,7 +101,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
-        final PostPojo.PostDataPojo.DataBean pojo = postsList.get(position);
+        final PostDetailPojo.DataPojo pojo = postsList.get(position);
         if (pojo != null) {
              holder.mDesc.setText(pojo.getDescription());
              holder.mTvTitle.setText(pojo.getTitle());
@@ -187,7 +187,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             holder.mTvDate.setText(Utility.getTimeAgoPost(pojo.getCreated_at(), (Activity) mContext));
         }
     }
-    private void callDeletePopUp(Context context, final Retrofit retrofit, final PostPojo.PostDataPojo.DataBean pojo, RecyclerviewAdapter recyclerviewAdapter) {
+    private void callDeletePopUp(Context context, final Retrofit retrofit, final PostDetailPojo.DataPojo pojo, RecyclerviewAdapter recyclerviewAdapter) {
         // Create custom dialog object
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

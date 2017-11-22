@@ -1,8 +1,11 @@
 package com.igniva.qwer.controller;
 
 
+import com.igniva.qwer.model.ConnectionPojo;
+import com.igniva.qwer.model.CountriesResponsePojo;
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
+import com.igniva.qwer.model.NotificationPojo;
 import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
@@ -14,7 +17,6 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit.Callback;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -82,7 +84,7 @@ public interface ApiInterface {
     Call<ResponsePojo> updateProfile(@FieldMap HashMap<String, String> updateProfilePayload);
 
     @GET("/api/country")
-    void getCountriesList(Callback<ResponsePojo> callback);
+    Call<CountriesResponsePojo>  getCountriesList();
 
     @Multipart
     @POST("/api/users/imageUpload")
@@ -137,4 +139,29 @@ public interface ApiInterface {
     //    http://tongy.ignivastaging.com/api/users/favPost
     @GET("/api/users/favPost")
     Call<PostPojo> getFavPosts(@Query("page") int pageNumber);
+
+    @GET("/api/users/getNotifications")
+    Call<NotificationPojo> getNotifications(@Query("page") int pageNumber);
+
+    @GET("/api/users/myConnection")
+    Call<ConnectionPojo> getMyConnections(@Query("page") int pageNumber);
+
+    @FormUrlEncoded
+    @POST("/api/users/removeNotifications")
+    Call<NotificationPojo> removeNotifications(@Field("notification_id") int post_id);
+
+    @FormUrlEncoded
+    @POST("/api/users/notificationOnOff")
+    Call<ResponsePojo> notificationOnOff(@Field("is_push_notification") int is_push_notification);
+
+
+    @FormUrlEncoded
+    @POST("/api/users/videoOnOff")
+    Call<ResponsePojo> videoOnOff(@Field("is_videocall") int is_videocall);
+
+
+    @FormUrlEncoded
+    @POST("/api/users/voiceOnOff")
+    Call<ResponsePojo> voiceOnOff(@Field("is_voicecall") int is_voicecall);
+
 }
