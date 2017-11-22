@@ -530,7 +530,7 @@ public class Validation {
         return true;
     }
 
-    public static boolean validateCreatePost(Activity context, EditText mEtTitle, EditText mEtDescription, EditText mEtPrice, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime, String typeOfClass) {
+    public static boolean validateCreatePost(Activity context, EditText mEtTitle, EditText mEtDescription,EditText mEtCurrency, EditText mEtPrice, EditText metScheduleStartDate, EditText metScheduleEndDate, EditText mEtStartTime, EditText mEtEndTime, String typeOfClass) {
 
         if(FieldValidators.isNullOrEmpty(mEtTitle)){
             mEtTitle.setFocusable(true);
@@ -548,6 +548,13 @@ public class Validation {
             mEtDescription.setFocusable(true);
             mEtDescription.requestFocus();
             mEtDescription.setError(context.getString(R.string.please_enter_description));
+            return false;
+        }
+        else if(FieldValidators.isNullOrEmpty(mEtCurrency)){
+            mEtCurrency.setFocusable(true);
+            mEtCurrency.requestFocus();
+            Utility.showToastMessageLong(context,context.getString(R.string.add_currency_error));
+            //mEtPrice.setError(context.getString(R.string.please_enter_price));
             return false;
         }
         else if(FieldValidators.isNullOrEmpty(mEtPrice)){
@@ -660,12 +667,12 @@ public class Validation {
             //mEtEndTime.setError(context.getString(R.string.please_enter_end_time));
             return false;
         }
-        else if(mlvAddMembersList.getCount()==0){
+      /*  else if(mlvAddMembersList.getCount()==0){
             metAddMembers.setFocusable(true);
             metAddMembers.requestFocus();
             metAddMembers.setError(context.getString(R.string.please_add_member));
             return false;
-        }
+        }*/
 
 
     return  true;

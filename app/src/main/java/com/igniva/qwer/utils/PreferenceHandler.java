@@ -86,4 +86,19 @@ public class PreferenceHandler {
 	public static Editor getEditor(Context context) {
 		return getPreferences(context).edit();
 	}
+	public static void writeFCM_KEY(Context context, String key, String value) {
+		Log.e("value",value);
+		getFCMEditor(context).putString(key, value).commit();
+	}
+
+	public static String readFCM_KEY(Context context, String key, String defValue) {
+		return getFCMPREFERENCE(context).getString(key, defValue);
+	}
+	public static SharedPreferences getFCMPREFERENCE(Context context) {
+		return context.getSharedPreferences(PREF_NAME, MODE);
+	}
+
+	public static Editor getFCMEditor(Context context) {
+		return getFCMPREFERENCE(context).edit();
+	}
 }

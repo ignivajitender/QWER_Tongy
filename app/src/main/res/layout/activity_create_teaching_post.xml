@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_with_heading" />
@@ -82,6 +83,39 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/llAddCurrency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
+
+                <com.igniva.qwer.ui.views.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_currency"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_medium_grey" />
+
+                <EditText
+                    android:id="@+id/et_currency"
+                    android:layout_marginTop="@dimen/_2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/add_currency"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:textColor="@color/text_dark_grey"
+                    android:background="@drawable/edit_text_white_rounded_corners"
+                    android:padding="@dimen/_4dp"
+                 />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/llAddPrice"
@@ -133,9 +167,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="2"
+
+
                     >
 
                     <EditText
+                        android:id="@+id/et_schedule_start_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:layout_marginRight="@dimen/_2dp"
+                        android:layout_marginTop="@dimen/_2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_white_rounded_corners"
+                        android:drawableRight="@drawable/calendar"
+                        android:hint="@string/add_start_date"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:padding="@dimen/_4dp"
+                        android:textColor="@color/text_dark_grey"
+                        android:textCursorDrawable="@drawable/color_cursor"
+
+                        />
+
+                 <!--   <EditText
                         android:id="@+id/et_schedule_start_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -149,12 +206,11 @@
                         android:maxLines="1"
                         android:padding="@dimen/_4dp"
                         android:textColor="@color/text_dark_grey"
-                        android:textCursorDrawable="@drawable/color_cursor"
                         android:editable="false"
                         android:focusableInTouchMode="false"
 
 
-                        />
+                        />-->
 
                     <EditText
                         android:id="@+id/et_schedule_end_date"
@@ -172,6 +228,7 @@
                         android:textColor="@color/text_dark_grey"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:editable="false"
+                        android:focusable="false"
                         android:focusableInTouchMode="false"
 
                         />

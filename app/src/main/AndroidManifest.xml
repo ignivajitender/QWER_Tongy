@@ -48,12 +48,12 @@
 
         <!-- GCM END -->
         <!-- Defining Services -->
-        <service android:name=".utils.fcm.MyFirebaseMessagingService">
+        <service android:name="com.igniva.qwer.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".utils.fcm.MyFirebaseInstanceIDService">
+        <service android:name="com.igniva.qwer.fcm.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -118,7 +118,7 @@
             android:name=".ui.activities.SignUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme1"
-             android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.activities.ChangePasswordActivity"
             android:screenOrientation="portrait" />
@@ -128,16 +128,14 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.activities.ForgotPasswordActivity"
-            android:theme="@style/AppTheme1"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".ui.activities.ContactUsActivity"
-            android:screenOrientation="portrait"
-
-            />
-        <activity android:name=".ui.activities.CreateNewPostActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.CreateNewPostActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.CreateTeachingPostActivity"
             android:label="@string/title_activity_create_teaching_post"
@@ -156,15 +154,21 @@
         <activity
             android:name=".ui.activities.SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activities.PostDetailActivity"
             android:label="@string/title_activity_post_detail"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activities.NotificationActivity"
+            android:label="@string/title_activity_notification"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activities.OtherUserProfileActivity"
+            android:label="@string/title_activity_other_user_profile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

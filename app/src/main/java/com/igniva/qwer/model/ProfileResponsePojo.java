@@ -95,6 +95,34 @@ public class ProfileResponsePojo {
         public String age;
         public String country;
         public String pincode;
+        public int is_voicecall;
+        public int is_videocall;
+
+        public int isIs_voicecall() {
+            return is_voicecall;
+        }
+
+        public void setIs_voicecall(int is_voicecall) {
+            this.is_voicecall = is_voicecall;
+        }
+
+        public int isIs_videocall() {
+            return is_videocall;
+        }
+
+        public void setIs_videocall(int is_videocall) {
+            this.is_videocall = is_videocall;
+        }
+
+        public int isIs_push_notification() {
+            return is_push_notification;
+        }
+
+        public void setIs_push_notification(int is_push_notification) {
+            this.is_push_notification = is_push_notification;
+        }
+
+        public int is_push_notification;
 
         public UserRoleBean getUser_role() {
             return user_role;

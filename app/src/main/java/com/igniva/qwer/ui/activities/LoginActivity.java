@@ -204,7 +204,14 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                     HashMap<String, String> signupHash = new HashMap<>();
                     signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                     signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
-                    signupHash.put(Constants.DEVICE_ID,"123456789");
+                    Log.e("token value",PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, "")+ "bgjkhbkjh");
+                    if (PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, "").length()>0) {
+                        signupHash.put(Constants.DEVICE_ID,PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, ""));
+
+                    } else {
+                        signupHash.put(Constants.DEVICE_ID, "1234567890");
+                    }
+                    signupHash.put(Constants.DEVICE_TYPE,"android");
                     //Create a retrofit call object
                     retrofit2.Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).login(signupHash);
 
@@ -245,7 +252,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
                                 }
                                 Intent intent = new Intent(LoginActivity.this, MyProfileActivity.class);
-//                                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.MYPROFILEEDITABLE, com.igniva.qwer.utils.fcm.Constants.INNER_PROFILE);
+//                                intent.putExtra(com.igniva.qwer.fcm.Constants.MYPROFILEEDITABLE, com.igniva.qwer.fcm.Constants.INNER_PROFILE);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 
@@ -265,7 +272,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
 
                                 }
                                 Intent intent = new Intent(LoginActivity.this, SetPreferrencesActivity.class);
-                                intent.putExtra(com.igniva.qwer.utils.fcm.Constants.TO_EDIT_PREFERENCES, "Yes");
+                                intent.putExtra(Constants.TO_EDIT_PREFERENCES, "Yes");
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 
@@ -334,8 +341,13 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
             signInFacebook.put(Constants.GENDER, facebookUser.gender);
             signInFacebook.put(Constants.NAME, facebookUser.name);
             signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
-            signInFacebook.put(Constants.DEVICE_ID,"123456789");
+            if (!PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, "").equalsIgnoreCase("")) {
+                signInFacebook.put(Constants.DEVICE_ID,PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, ""));
 
+            } else {
+                signInFacebook.put(Constants.DEVICE_ID, "1234567890");
+            }
+            signInFacebook.put(Constants.DEVICE_TYPE, "android");
             callSinInFacebookApi(signInFacebook);
         }
 

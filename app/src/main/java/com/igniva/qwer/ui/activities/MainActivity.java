@@ -16,9 +16,10 @@ import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
+import com.igniva.qwer.ui.fragments.ConnectionsFragment;
 import com.igniva.qwer.ui.fragments.HomeFragment;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
-import com.igniva.qwer.utils.fcm.Constants;
+import com.igniva.qwer.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,6 +97,7 @@ public class MainActivity extends BaseActivity {
                     replaceFragment(new HomeFragment());
                 } else if (tab.getPosition() == 2) {
                     //replaceFragment(new PostsListFragment());
+                    replaceFragment(new ConnectionsFragment());
                 }
 
 
@@ -129,7 +131,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.cross_icon, R.id.edit_pref_icon})
+    @OnClick({R.id.cross_icon, R.id.edit_pref_icon , R.id.notification_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cross_icon:
@@ -140,6 +142,10 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(MainActivity.this, SetPreferrencesActivity.class);
                 intent.putExtra(Constants.TO_EDIT_PREFERENCES, "Yes");
                 startActivity(intent);
+            case R.id.notification_icon:
+                Intent intentNotification = new Intent(MainActivity.this, NotificationActivity.class);
+                startActivity(intentNotification);
+
 
             default:
                 break;

@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
@@ -96,6 +97,9 @@ public class CreateTeachingPostActivity extends BaseActivity {
     CustomExpandableListView mlvAddMembersList;
     Calendar myCalendar = Calendar.getInstance();
     private ArrayList<String> todoList;
+    @BindView(R.id.llAddCurrency)
+    LinearLayout mllAddCurrency;
+
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
@@ -144,6 +148,42 @@ public class CreateTeachingPostActivity extends BaseActivity {
         changeLocation();
     }
 
+    @BindView(R.id.et_currency)
+    EditText metCurrency;
+
+    @OnClick(R.id.et_currency)
+    public void onViewClicked() {
+        getCurrencyList();
+    }
+
+
+    void getCurrencyList() {
+        ArrayList<String> tempArray = new ArrayList<>();
+        String[] sChannelsList= new String[]{"EUR","USD","GBP","INR","CNY"};
+        if(sChannelsList!=null && sChannelsList.length>0){
+            for (String rPojo : sChannelsList
+                    ) {
+                tempArray.add(rPojo);
+            }
+            new MaterialDialog.Builder(this)
+                    .title(R.string.add_currency)
+                    .items(tempArray)
+                    .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                        @Override
+                        public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            /**
+                             * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
+                             * returning false here won't allow the newly selected radio button to actually be selected.
+                             **/
+                            metCurrency.setText(text);
+                            return true;
+                        }
+                    })
+                    .positiveText(R.string.ok)
+                    .show();
+        }
+    }
+
     private void showDialogTime(final EditText mEditText) {
         // Get Current time
         final Calendar c = Calendar.getInstance();
@@ -185,7 +225,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
 
         if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("teaching")) {
             // call api to create teaching post
-            ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass);
+            ApiControllerClass.createTeachingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription,metCurrency, mEtPrice, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, typeOfClass);
         } else if (getIntent().getStringExtra("comingFrom").equalsIgnoreCase("meeting")) {
             // call api to create teaching post
             ApiControllerClass.createMeetingPostApi(CreateTeachingPostActivity.this, retrofit, mEtTitle, mEtDescription, metScheduleStartDate, metScheduleEndDate, mEtStartTime, mEtEndTime, mlvAddMembersList, metAddMembers, todoList);
@@ -241,6 +281,7 @@ public class CreateTeachingPostActivity extends BaseActivity {
                 mllAddAddress.setVisibility(View.VISIBLE);
                 mllAddPrice.setVisibility(View.GONE);
                 mllTypeOfClass.setVisibility(View.GONE);
+                mllAddCurrency.setVisibility(View.GONE);
 
             }
         }
@@ -289,14 +330,10 @@ public class CreateTeachingPostActivity extends BaseActivity {
         final EditText e = ed;
 //        ed.setFocusable(false);
 
-        e.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR); // current year
-                int mMonth = c.get(Calendar.MONTH); // current month
-                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
 
 //                if(metScheduleStartDate !=ed && metScheduleStartDate.getText().toString().trim().length()>0){
 //                    String str[]=ed.getText().toString().trim().split("-");
@@ -313,8 +350,8 @@ public class CreateTeachingPostActivity extends BaseActivity {
                 }, mYear, mMonth, mDay);
                  dpd.show();
             }
-        });
-    }
+
+
 
     private void updateLabel(EditText metScheduleStartDate) {
         String myFormat = "dd-MM-yy"; //In which you need put here

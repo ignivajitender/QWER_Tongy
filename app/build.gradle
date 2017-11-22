@@ -51,6 +51,9 @@ android {
       aaptOptions {
           noCompress 'apk'
       }*/
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 repositories {
@@ -91,12 +94,9 @@ dependencies {
 
     // BUTTER KNIFE
     compile "com.jakewharton:butterknife:${butterknifeVersion}"
-
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:25.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
-
     compile 'com.jakewharton.retrofit:retrofit1-okhttp3-client:1.1.0'
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -108,27 +108,34 @@ dependencies {
     compile 'link.fls:swipestack:0.3.0'
     compile 'com.jaredrummler:material-spinner:1.1.0'
     compile 'com.github.clans:fab:1.6.4'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
+
+    //compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:+'
 
     // easy permissions
     compile "pub.devrel:easypermissions:${easypermissions}"
-
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.google.dagger:dagger:2.10'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
-
     compile 'com.github.clans:fab:1.6.4'
-
     compile 'com.android.support:multidex:1.0.1'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
- }
+
+    // GOOGLE PLAY SERVICES
+    compile "com.google.android.gms:play-services:${gmsVersion}"
+    compile "com.google.firebase:firebase-core:${gmsVersion}"
+    compile "com.google.firebase:firebase-crash:${gmsVersion}"
+
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.1@aar') {
+        transitive = true
+    }
+}
 
 // Add to the bottom of the file
 //if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {

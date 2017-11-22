@@ -190,7 +190,14 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
                 signupHash.put(Constants.Name, mEtName.getText().toString());
                 signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                 signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
-                signupHash.put(Constants.DEVICE_ID,"123456789");
+
+                if (PreferenceHandler.readFCM_KEY(SignUpActivity.this, Constants.FCM_TOKEN, "").length()>0) {
+                    signupHash.put(Constants.DEVICE_ID,PreferenceHandler.readFCM_KEY(SignUpActivity.this, Constants.FCM_TOKEN, ""));
+
+                } else {
+                    signupHash.put(Constants.DEVICE_ID, "1234567890");
+                }
+                signupHash.put(Constants.DEVICE_TYPE,"android");
                 //Create a retrofit call object
                Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).signup(signupHash);
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
@@ -268,7 +275,13 @@ public class SignUpActivity extends BaseActivity implements FacebookResponse, Ut
             signInFacebook.put(Constants.GENDER, facebookUser.gender);
             signInFacebook.put(Constants.NAME, facebookUser.name);
             signInFacebook.put(Constants.PROFILE_PIC, facebookUser.profilePic);
-            signInFacebook.put(Constants.DEVICE_ID,"123456789");
+            if (!PreferenceHandler.readFCM_KEY(SignUpActivity.this, Constants.FCM_TOKEN, "").equalsIgnoreCase("")) {
+                signInFacebook.put(Constants.DEVICE_ID,PreferenceHandler.readFCM_KEY(SignUpActivity.this, Constants.FCM_TOKEN, ""));
+
+            } else {
+                signInFacebook.put(Constants.DEVICE_ID, "1234567890");
+            }
+            signInFacebook.put(Constants.DEVICE_TYPE,"android");
             callSinInFacebookApi(signInFacebook);
         }
     }

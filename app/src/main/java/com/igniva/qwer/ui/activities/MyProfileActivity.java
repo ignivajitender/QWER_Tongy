@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,18 +34,22 @@ import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.predictionsCountriesPojo;
+import com.igniva.qwer.ui.adapters.CountriesAdapter;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.ImagePicker;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
-import com.igniva.qwer.utils.fcm.Constants;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,10 +70,11 @@ import retrofit2.Retrofit;
 import static com.igniva.qwer.R.id.genderspinner;
 import static com.igniva.qwer.R.id.iv_edit_profile;
 import static com.igniva.qwer.R.id.textview_title;
+import static com.igniva.qwer.utils.Constants.ALPHA_ANIMATIONS_DURATION;
+import static com.igniva.qwer.utils.Constants.PERCENTAGE_TO_HIDE_TITLE_DETAILS;
+import static com.igniva.qwer.utils.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR;
 import static com.igniva.qwer.utils.ImagePicker.PIC_CROP;
-import static com.igniva.qwer.utils.fcm.Constants.ALPHA_ANIMATIONS_DURATION;
-import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_HIDE_TITLE_DETAILS;
-import static com.igniva.qwer.utils.fcm.Constants.PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR;
+
 
 /**
  * Created by karanveer on 21/9/17.
@@ -135,6 +142,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     @BindView(R.id.tvName)
     EditText mtvName;
     @BindView(R.id.autocomTextViewCountry)
+    public
     AutoCompleteTextView mautocomTextViewCountry;
     @BindView(R.id.ivaddImage1)
     ImageView mivaddImage1;
@@ -157,7 +165,10 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     private boolean mIsTheTitleContainerVisible = true;
     private boolean alreadyLogin;
     private String TAG = getClass().getName();
+    public ArrayList<predictionsCountriesPojo> mAlLangList;
 
+    @BindView(R.id.rvCountries)
+    RecyclerView mrvCountries;
     public static void startAlphaAnimation(View v, long duration, int visibility) {
         AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
                 ? new AlphaAnimation(0f, 1f)
@@ -234,6 +245,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         setUpLayout();
         getProfileApi();
         setDataInViewObjects();
+        ApiControllerClass.callCountriesListApi(MyProfileActivity.this,retrofit,mautocomTextViewCountry);
     }
 
     // call get profile api
@@ -380,6 +392,13 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mgenderSpinner.setAdapter(adapter_state);
         mgenderSpinner.setOnItemSelectedListener(this);
 
+        mautocomTextViewCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selection = (String) adapterView.getItemAtPosition(i);
+                //onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);
+            }
+        });
 
     }
 
@@ -458,11 +477,6 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
             @Override
             public void afterTextChanged(Editable s) {
-
-
-                // call google place api to fetch addresses
-                //Utility.callGoogleApi(MyProfileActivity.this, mautocomTextViewCountry, "");
-
 
             }
 
@@ -709,7 +723,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             }
         }
 
-        //user is returning from cropping the image
+        //user is returning frcountriesListom cropping the image
         else if (requestCode == PIC_CROP) {
             //get the returned data
             if (data != null) {
@@ -788,6 +802,12 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         }
     }
 
+    public void countriesList(ArrayList<predictionsCountriesPojo> data){
+        LinearLayoutManager manager=new LinearLayoutManager(MyProfileActivity.this,LinearLayoutManager.VERTICAL,false);
+        mrvCountries.setLayoutManager(manager);
+        CountriesAdapter mcountriesAdapter=new CountriesAdapter(MyProfileActivity.this,data);
+        mrvCountries.setAdapter(mcountriesAdapter);
+    }
 }
 
 

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.utils.EndlessRecyclerViewScrollListener;
@@ -194,7 +195,7 @@ public class SearchActivity extends AppCompatActivity {
                 isLast = true;
 //             if (adapter == null)
 //             {
-                adapter = new RecyclerviewAdapter(SearchActivity.this, mListType, (ArrayList<PostPojo.PostDataPojo.DataBean>)data.getData(),retrofit);
+                adapter = new RecyclerviewAdapter(SearchActivity.this, mListType, (ArrayList<PostDetailPojo.DataPojo>)data.getData(),retrofit);
                 mrecyclerView.setAdapter(adapter);
 //            } else
 //                adapter.addAll(data.getData());

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,14 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
-import com.igniva.qwer.utils.fcm.Constants;
 
 import java.util.HashMap;
 
@@ -90,6 +93,17 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.llMain)
     LinearLayout mLlMain;
 
+    @BindView(R.id.switchPushnotification)
+    SwitchCompat mswitchPushnotification;
+
+    @BindView(R.id.switchVoiceCall)
+    SwitchCompat mswitchVoiceCall;
+
+    @BindView(R.id.switchVideoCall)
+    SwitchCompat mswitchVideoCall;
+
+    int isPushNotification,isVideoCall,isVoicecall;
+
     @Inject
     Retrofit retrofit;
     @Override
@@ -108,6 +122,71 @@ public class SettingsActivity extends BaseActivity {
 
         setUpLayout();
         setDataInViewObjects();
+        getProfileApiSettings();
+    }
+    // call get profile api
+    private void getProfileApiSettings() {
+        try {
+            if (Utility.isInternetConnection(this)) {
+                CallProgressWheel.showLoadingDialog(this, "Loading...");
+                Call<ProfileResponsePojo> posts = retrofit.create(ApiInterface.class).getProfile();
+                posts.enqueue(new retrofit2.Callback<ProfileResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ProfileResponsePojo> call, retrofit2.Response<ProfileResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            //callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
+                            // Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
+                            //setDataInView(response.body());
+                           if(response.body().getData().is_push_notification==1) {
+                               mswitchPushnotification.setChecked(true);
+                               isPushNotification=1;
+                           }
+                           else {
+                               mswitchPushnotification.setChecked(false);
+                               isPushNotification=0;
+                           }
+                           if(response.body().getData().is_videocall==1) {
+                               mswitchVideoCall.setChecked(true);
+                               isVideoCall=1;
+                           }
+                           else{
+                               mswitchVideoCall.setChecked(false);
+                               isVideoCall=0;
+                           }
+
+                            if(response.body().getData().is_voicecall==1) {
+                                mswitchVoiceCall.setChecked(true);
+                                isVoicecall=1;
+                            }
+                            else {
+                                mswitchVoiceCall.setChecked(false);
+                                isVoicecall=0;
+                            }
+
+                        } else if (response.body().getStatus() == 400) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Log.e("profile", response.body().getDescription());
+                            // Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            // Log.e("profile",responsePojo.getDescription());
+                            //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ProfileResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
 
     }
 
@@ -240,7 +319,7 @@ public class SettingsActivity extends BaseActivity {
     @OnClick({R.id.iv_back, R.id.tv_tandC, R.id.tv_privacyPolicy, R.id.ll_back, R.id.ll_myProfile,
             R.id.ll_changePassword, R.id.ll_changeEmail, R.id.ll_aboutQwer, R.id.ll_DeleteAccount,
             R.id.ll_contactUs, R.id.ll_rate_us, R.id.ll_pushNotifications, R.id.ll_voiceCall,
-            R.id.ll_videoCall, R.id.ll_logout, R.id.ll_termsPrivacy})
+            R.id.ll_videoCall, R.id.ll_logout, R.id.ll_termsPrivacy,R.id.switchPushnotification,R.id.switchVideoCall,R.id.switchVoiceCall})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_back:
@@ -293,6 +372,35 @@ public class SettingsActivity extends BaseActivity {
             case R.id.iv_back:
                 finish();
                 break;
+
+            case R.id.switchPushnotification:
+                Log.e("status",isPushNotification+"");
+                if(mswitchPushnotification.isChecked())
+                    isPushNotification=1;
+                else
+                    isPushNotification=0;
+                ApiControllerClass.changeIsPushNotification(retrofit,SettingsActivity.this,isPushNotification,mswitchPushnotification);
+                break;
+            case R.id.switchVideoCall:
+                Log.e("status",isVideoCall+"");
+                if(mswitchVideoCall.isChecked())
+                    isVideoCall=1;
+                else
+                    isVideoCall=0;
+                ApiControllerClass.changeIsVideoCall(retrofit,SettingsActivity.this,isVideoCall,mswitchVideoCall);
+
+
+                break;
+            case R.id.switchVoiceCall:
+                Log.e("status",isVoicecall+"");
+                if(mswitchVoiceCall.isChecked())
+                    isVoicecall=1;
+                else
+                    isVoicecall=0;
+                ApiControllerClass.changeIsVoiceCall(retrofit,SettingsActivity.this,isVoicecall,mswitchVideoCall);
+
+
+                break;
             default:
                 break;
         }
@@ -342,7 +450,7 @@ public class SettingsActivity extends BaseActivity {
                             finishAffinity();
                             Utility.showToastMessageShort(SettingsActivity.this,response.body().getDescription());
                             PreferenceHandler.getEditor(SettingsActivity.this).clear().commit();
-                             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
                         else if(response.body().getStatus()==1000)
