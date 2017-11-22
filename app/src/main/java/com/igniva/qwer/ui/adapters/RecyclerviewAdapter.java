@@ -125,9 +125,10 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 //                holder.mibReport.setBackground(mContext.getResources().getDrawable(R.drawable.delete));
              holder.mTvPostType.setText(pojo.getPost_type());
             if (pojo.getPost_user() != null) {
-
-                if (PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, "").equals(pojo.getPost_user().getId() + ""))
+                 if (PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, "").equals(pojo.getPost_user().getId() + ""))
                     holder.mibReport.setBackground(mContext.getResources().getDrawable(R.drawable.delete));
+                    else
+                     holder.mibReport.setBackground(mContext.getResources().getDrawable(R.drawable.report_option));
 
                 if (pojo.getPost_user().getUser_image() != null && pojo.getPost_user().getUser_image().size() > 0) {
                     Glide.with(mContext).load(pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
