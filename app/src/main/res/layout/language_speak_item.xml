@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/edit_text_white_rounded_corners"
+    android:gravity="center_vertical"
+
+    >
+
+        <ImageView
+            android:id="@+id/ivProficiency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/intermediate" />
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:id="@+id/tvNameLanguage"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:text="Spanish"
+            android:gravity="left"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="8dp"
+            android:layout_gravity="left"
+
+            />
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:id="@+id/tvProficiency"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Intermediate"
+            android:gravity="left"
+            android:textColor="@color/text_light_grey"
+            android:layout_marginLeft="8dp"
+            android:textAllCaps="false"
+            />
+
+</LinearLayout>

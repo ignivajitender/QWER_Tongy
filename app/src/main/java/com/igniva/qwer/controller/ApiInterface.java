@@ -6,6 +6,7 @@ import com.igniva.qwer.model.CountriesResponsePojo;
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.NotificationPojo;
+import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
@@ -164,4 +165,19 @@ public interface ApiInterface {
     @POST("/api/users/voiceOnOff")
     Call<ResponsePojo> voiceOnOff(@Field("is_voicecall") int is_voicecall);
 
+    //http://tongy.ignivastaging.com/api/users/singleUser?user_id=59
+    @GET("/api/users/singleUser")
+    Call<OtherUserProfilePojo> getSingleUser(@Query("user_id") int userId);
+
+    @FormUrlEncoded
+    @POST("/api/users/blockUnblockUser")
+    Call<ResponsePojo> blockUnblockUser(@Field("blocked_to") int blocked_to);
+   // http://tongy.ignivastaging.com/api/users/reportUser
+    @FormUrlEncoded
+    @POST("api/users/reportUser")
+    Call<ResponsePojo> reportUser(@FieldMap HashMap<String, String> changePasswordHashMap);
+
+    @FormUrlEncoded
+    @POST("api/users/userAction")
+    Call<ResponsePojo> userAction(@FieldMap HashMap<String, String> changePasswordHashMap);
 }

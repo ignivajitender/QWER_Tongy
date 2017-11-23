@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/option_bg"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/layout_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/_15dp"
+        android:layout_marginRight="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:layout_marginBottom="@dimen/_5dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_tick1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/block_option"
+            />
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:id="@+id/tv_block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/block"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/_15dp"
+        android:layout_marginRight="@dimen/_15dp"
+        android:layout_marginBottom="@dimen/_5dp"
+      >
+
+        <ImageView
+            android:id="@+id/iv_tick2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/report_option"
+
+            android:visibility="visible" />
+
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:id="@+id/iv_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/report"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/_15dp"
+        android:layout_marginRight="@dimen/_15dp"
+       >
+
+        <ImageView
+            android:id="@+id/iv_tick3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/remove__option"
+
+            android:visibility="visible" />
+
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:id="@+id/tv_remove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/remove"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -10,8 +10,9 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
+import com.igniva.qwer.model.ConnectionPojo;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by igniva-android13 on 5/5/17.
@@ -21,14 +22,14 @@ public class MultiImages extends PagerAdapter {
     int id;
     private static final String LOG_TAG = "MultiImages";
     Context context;
-    ArrayList mImagesSlidingArray;
+    List<ConnectionPojo.ConnectionDataPojo.UserImagePojo>  mImagesSlidingArray;
     String path;
     LayoutInflater mLayoutInflater;
     private int[] imagesList= new int[]{R.drawable.login_bg,R.drawable.tongy_logo,R.drawable.login_bg,R.drawable.tongy_logo};
 
 
 
-    public MultiImages(Context context, ArrayList arr, String pathUrl) {
+    public MultiImages(Context context, List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> arr, String pathUrl) {
         try {
             this.context = context;
             mImagesSlidingArray = arr;
@@ -70,7 +71,7 @@ public class MultiImages extends PagerAdapter {
        // if (!mImagesSlidingArray.get(position).toString().equalsIgnoreCase("demo")) {
          //   Log.e(LOG_TAG, "onClick: "+"photopath " + mImagesSlidingArray.get(position)+ "" );
             Glide.with(context)
-                    .load(imagesList[position]).asBitmap()
+                    .load(mImagesSlidingArray.get(position).getImage()).asBitmap()
                     .into(photo);
 //
        // }
@@ -96,7 +97,7 @@ public class MultiImages extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return imagesList.length;
+        return mImagesSlidingArray.size();
     }
 
 

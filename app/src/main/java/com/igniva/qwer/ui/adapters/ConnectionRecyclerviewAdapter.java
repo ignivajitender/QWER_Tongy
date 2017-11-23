@@ -1,8 +1,10 @@
 package com.igniva.qwer.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.ConnectionPojo;
+import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.utils.CircularImageView;
 
 import java.util.ArrayList;
@@ -92,6 +95,14 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
         if(pojo.getUser_image()!=null && pojo.getUser_image().size()>0)
         Glide.with(mContext).load(pojo.getUser_image().get(0).getImage()).into(holder.mivImage);
 
+        holder.mcvConnection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(new Intent(mContext, OtherUserProfileActivity.class).putExtra("userId",pojo.getId()));
+                Log.e("adapter",pojo.getId()+"");
+
+            }
+        });
     }
 
 
