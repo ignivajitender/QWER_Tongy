@@ -12,6 +12,7 @@ import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.UsersResponsePojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -180,4 +181,14 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/users/userAction")
     Call<ResponsePojo> userAction(@FieldMap HashMap<String, String> changePasswordHashMap);
+
+    //http://tongy.ignivastaging.com/api/users/getUsers?lat=40.120749&lng=75.860596
+    @GET("/api/users/getUsers")
+    Call<UsersResponsePojo> getUsers(@Query("lat") double lat, @Query("lng") double lng, @Query("page") int pageNo);
+
+   // http://tongy.ignivastaging.com/api/users/requestSend
+    @FormUrlEncoded
+    @POST("api/users/requestSend")
+    Call<ResponsePojo> requestSend(@Field("request_to") int request_to);
+
 }

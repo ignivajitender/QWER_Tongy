@@ -1233,6 +1233,7 @@ public class ApiControllerClass {
                             CallProgressWheel.dismissLoadingDialog();
                             Utility.showToastMessageLong((Activity) context,response.body().getDescription());
                             //((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
+                            if(popup!=null)
                             popup.dismiss();
 
                         } else if (response.body().getStatus() == 400) {
@@ -1260,6 +1261,54 @@ public class ApiControllerClass {
             e.printStackTrace();
         }
 
+
+    }
+
+    public static void callAddContactApi(int request_to, Retrofit retrofit,final Context context) {
+        try {
+            if (Utility.isInternetConnection(context)) {
+           /*      {
+                    "post_id":"1",
+                     "reason":"abuse",
+                    “comment”:”text”,
+                }*/
+
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                //Create a retrofit call object
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).requestSend(request_to);
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Utility.showToastMessageLong((Activity) context,response.body().getDescription());
+                            //((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
+                            //popup.dismiss();
+
+                        } else if (response.body().getStatus() == 400) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
 
     }
 

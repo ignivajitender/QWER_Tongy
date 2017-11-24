@@ -227,7 +227,7 @@ public class OtherUserProfileActivity extends BaseActivity {
 
     }
 
-    private void buildCircles(int size) {
+    public void buildCircles(int size) {
         try {
             float scale = getResources().getDisplayMetrics().density;
             int padding = (int) (5 * scale + 0.5f);
@@ -248,7 +248,7 @@ public class OtherUserProfileActivity extends BaseActivity {
         }
     }
 
-    private void setIndicator(int index) {
+    public void setIndicator(int index) {
         if (index < size) {
             for (int i = 0; i < size; i++) {
                 ImageView circle = (ImageView) mdotsLayout.getChildAt(i);

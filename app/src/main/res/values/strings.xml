@@ -263,6 +263,8 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="report_user">Report User!</string>
     <string name="delete_action">delete</string>
     <string name="about_me">About me</string>
+    <string name="accept">accept</string>
+    <string name="accept_action">accept</string>
 
 
 </resources>
