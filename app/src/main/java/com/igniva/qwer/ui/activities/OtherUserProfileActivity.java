@@ -304,7 +304,7 @@ public class OtherUserProfileActivity extends BaseActivity {
         }
         else
         {
-           mivUserImage.setBackgroundResource(R.drawable.login_bg);
+           mivUserImage.setBackgroundResource(R.drawable.imgpsh_dummy);
         }
 
     }

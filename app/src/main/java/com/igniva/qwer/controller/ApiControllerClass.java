@@ -688,13 +688,13 @@ public class ApiControllerClass {
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageLong((Activity) context,response.body().getMessage());
+                            Utility.showToastMessageLong((Activity) context,response.body().getDescription());
                             //((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
                             dialog.dismiss();
 
                         } else if (response.body().getStatus() == 400) {
                             CallProgressWheel.dismissLoadingDialog();
-                            Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                         } else {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();

@@ -48,6 +48,16 @@ public class UsersResponsePojo {
          */
 
         public int current_page;
+
+        public int getLast_page() {
+            return last_page;
+        }
+
+        public void setLast_page(int last_page) {
+            this.last_page = last_page;
+        }
+
+        public int last_page;
         public List<UserDataPojo> data;
 
         public int getCurrent_page() {
@@ -138,6 +148,26 @@ public class UsersResponsePojo {
             public List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> user_image;
             public List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_speak;
             public List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_learn;
+            public int from;
+
+
+            public int getFrom() {
+                return from;
+            }
+
+            public void setFrom(int from) {
+                this.from = from;
+            }
+
+            public int getLast_page() {
+                return last_page;
+            }
+
+            public void setLast_page(int last_page) {
+                this.last_page = last_page;
+            }
+
+            public int last_page;
 
             public List<UserRecievePojo> getUser_recieve() {
                 return user_recieve;

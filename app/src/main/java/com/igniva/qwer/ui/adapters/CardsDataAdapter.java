@@ -109,10 +109,14 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
                 ll_contact.startAnimation(animation1);
                 ll_contact.setVisibility(View.VISIBLE);
-                if (iv_request.getDrawable() == context.getResources().getDrawable(R.drawable.request))
-                    ApiControllerClass.callAddContactApi(users.get(position).id, retrofit, context);
-                else
-                    ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(0).getRequest_from());
+                try {
+                  //  if (iv_request.getDrawable() == context.getResources().getDrawable(R.drawable.request))
+                        ApiControllerClass.callAddContactApi(users.get(position).id, retrofit, context);
+//                    else
+//                        ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(0).getRequest_from());
+                }catch (Exception e){
+                    Log.e("cardsadapter",e.getMessage());
+                }
             }
         });
 
@@ -190,7 +194,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             size = users.get(position).getUser_image().size();
             setIndicator(size, mdotsLayout);
         } else {
-            mViewPager.setBackgroundResource(R.drawable.login_bg);
+            mViewPager.setBackgroundResource(R.drawable.imgpsh_dummy);
         }
 
 

@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.UsersResponsePojo;
 import com.igniva.qwer.ui.adapters.CardsDataAdapter;
@@ -25,13 +28,16 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
  * Created by igniva-php-08 on 18/5/16.
  */
-public class HomeFragment extends BaseFragment  {
+public class HomeFragment extends BaseFragment {
 
     View mView;
     private CardStack mCardStack;
@@ -39,7 +45,7 @@ public class HomeFragment extends BaseFragment  {
     ViewPager viewPager;
     @Inject
     Retrofit retrofit;
-    int pageNo=1;
+    int pageNo = 1;
     @BindView(R.id.tvNoData)
     TextView mtvNoData;
 
@@ -56,7 +62,7 @@ public class HomeFragment extends BaseFragment  {
         ButterKnife.bind(this, mView);
         setUpLayout();
         setDataInViewObjects();
-        getUsersApi();
+        getUsersApi(pageNo);
         return mView;
     }
 
@@ -65,7 +71,8 @@ public class HomeFragment extends BaseFragment  {
         super.onAttach(context);
         ((Global) getActivity().getApplicationContext()).getNetComponent().inject(this);
     }
-    private void getUsersApi() {
+
+    private void getUsersApi(int pageNo) {
 
         try {
             if (Utility.isInternetConnection(getActivity())) {
@@ -73,7 +80,7 @@ public class HomeFragment extends BaseFragment  {
                 CallProgressWheel.showLoadingDialog(getActivity(), "Loading...");
 
                 Call<UsersResponsePojo> posts = null;
-                posts = retrofit.create(ApiInterface.class).getUsers(40.120749,75.860596,pageNo);
+                posts = retrofit.create(ApiInterface.class).getUsers(Utility.latitude, Utility.longitude, pageNo);
 
                 if (posts != null)
                     posts.enqueue(new retrofit2.Callback<UsersResponsePojo>() {
@@ -81,15 +88,16 @@ public class HomeFragment extends BaseFragment  {
                         public void onResponse(Call<UsersResponsePojo> call, retrofit2.Response<UsersResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
-                                setDatainCards(response.body().getUsers());
-                                  // setDataInViewObjects(response.body().getData());
+                                setDatainCards(response);
+                                // setDataInViewObjects(response.body().getData());
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                             } else {
                                /* if (fragment != null)
                                     fragment.setDataInViewObjects(null);
-*/                              mtvNoData.setVisibility(View.VISIBLE);
-                                mCardStack.setVisibility(View.GONE);
+*/
+                                mtvNoData.setVisibility(View.VISIBLE);
+                                //  mCardStack.setVisibility(View.GONE);
                                 CallProgressWheel.dismissLoadingDialog();
 
                                 //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
@@ -114,14 +122,69 @@ public class HomeFragment extends BaseFragment  {
 
     }
 
-    private void setDatainCards(final UsersResponsePojo.UsersPojo users) {
+    @SuppressLint("ClickableViewAccessibility")
+    private void setDatainCards(final Response<UsersResponsePojo> responsePojo) {
 
         mCardStack = (CardStack) mView.findViewById(R.id.container);
         mCardStack.setContentResource(R.layout.card_content);
         mCardStack.setStackMargin(20);
-        mCardAdapter = new CardsDataAdapter(getActivity(),getFragmentManager(),users.getData(),retrofit);
+        mCardAdapter = new CardsDataAdapter(getActivity(), getFragmentManager(), responsePojo.body().getUsers().getData(), retrofit);
         mCardStack.setAdapter(mCardAdapter);
 
+
+        mCardStack.setListener(new CardStack.CardEventListener() {
+            @Override
+            public boolean swipeEnd(int section, float distance) {
+                if (section == 0)
+
+                    return true;
+                else
+                    return false;
+            }
+
+            @Override
+            public boolean swipeStart(int section, float distance) {
+                return true;
+            }
+
+            @Override
+            public boolean swipeContinue(int section, float distanceX, float distanceY) {
+                return true;
+            }
+
+            @Override
+            public void discarded(int mIndex, int direction) {
+                int swiped_card_postion = mIndex - 1;
+
+                //getting the string attached with the card
+
+                String swiped_card_text = responsePojo.body().getUsers().getData().get(swiped_card_postion).getName();
+
+                if (direction == 1) {
+
+                    Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
+
+                } else if (direction == 0) {
+
+                   // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
+                    ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id);
+                } else {
+
+                    Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
+
+                }
+               /* if (mIndex == 0 && pageNo < responsePojo.body().getUsers().getLast_page()) {
+                    pageNo++;
+                    getUsersApi(pageNo);
+
+                }*/
+            }
+
+            @Override
+            public void topCardTapped() {
+
+            }
+        });
     }
 
 
@@ -160,6 +223,5 @@ public class HomeFragment extends BaseFragment  {
     public void onDestroyView() {
         super.onDestroyView();
     }
-
 
 }
