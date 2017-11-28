@@ -6,11 +6,13 @@ import com.igniva.qwer.model.CountriesResponsePojo;
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.NotificationPojo;
+import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.UsersResponsePojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -167,5 +169,30 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/api/users/twillo")
     Call<ResponsePojo> twillo(@Field("room_name") String room_name,@Field("identity") String identity);
+
+    //http://tongy.ignivastaging.com/api/users/singleUser?user_id=59
+    @GET("/api/users/singleUser")
+    Call<OtherUserProfilePojo> getSingleUser(@Query("user_id") int userId);
+
+    @FormUrlEncoded
+    @POST("/api/users/blockUnblockUser")
+    Call<ResponsePojo> blockUnblockUser(@Field("blocked_to") int blocked_to);
+   // http://tongy.ignivastaging.com/api/users/reportUser
+    @FormUrlEncoded
+    @POST("api/users/reportUser")
+    Call<ResponsePojo> reportUser(@FieldMap HashMap<String, String> changePasswordHashMap);
+
+    @FormUrlEncoded
+    @POST("api/users/userAction")
+    Call<ResponsePojo> userAction(@FieldMap HashMap<String, String> changePasswordHashMap);
+
+    //http://tongy.ignivastaging.com/api/users/getUsers?lat=40.120749&lng=75.860596
+    @GET("/api/users/getUsers")
+    Call<UsersResponsePojo> getUsers(@Query("lat") double lat, @Query("lng") double lng, @Query("page") int pageNo);
+
+   // http://tongy.ignivastaging.com/api/users/requestSend
+    @FormUrlEncoded
+    @POST("api/users/requestSend")
+    Call<ResponsePojo> requestSend(@Field("request_to") int request_to);
 
 }

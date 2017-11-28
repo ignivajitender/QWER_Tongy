@@ -456,7 +456,7 @@ public class SettingsActivity extends BaseActivity {
                         else if(response.body().getStatus()==1000)
                         {
                             CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageShort(SettingsActivity.this,response.body().getMessage());
+                            Utility.showToastMessageShort(SettingsActivity.this,response.body().getDescription());
                         }
                         else
                         {

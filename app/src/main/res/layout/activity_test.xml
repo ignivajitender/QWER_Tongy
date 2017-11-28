@@ -14,11 +14,18 @@
         android:gravity="center"
         android:padding="10dp"
         app:card_enable_loop="false"
-
         app:card_enable_rotation="true"
         app:card_gravity="top"
         app:card_margin="20dp"
         app:card_stack_size="2" />
 
+    <TextView
+        android:id="@+id/tvNoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/no_data"
+        android:gravity="center"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

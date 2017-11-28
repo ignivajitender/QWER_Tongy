@@ -20,6 +20,7 @@ import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.activities.SignUpActivity;
 import com.igniva.qwer.ui.activities.SplashActivity;
 import com.igniva.qwer.ui.fragments.ConnectionsFragment;
+import com.igniva.qwer.ui.fragments.HomeFragment;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 
 import javax.inject.Singleton;
@@ -66,4 +67,5 @@ public interface NetComponent {
     void inject(OtherUserProfileActivity activity);
     void inject(ConnectionsFragment fragment);
     void inject(SplashActivity activity);
+    void inject(HomeFragment fragment);
 }

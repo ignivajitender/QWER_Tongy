@@ -1,7 +1,6 @@
 package com.igniva.qwer.ui.adapters;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.NotificationPojo;
 import com.igniva.qwer.ui.activities.NotificationActivity;
-import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.utils.CircularImageView;
 import com.igniva.qwer.utils.Utility;
 
@@ -96,7 +94,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
-        NotificationPojo.NotificationDataPojo dataPojo=postsList.get(position);
+        final NotificationPojo.NotificationDataPojo dataPojo=postsList.get(position);
         holder.mtvName.setText(dataPojo.getSender_name());
         holder.mtvMessage.setText(Html.fromHtml(Utility.getColoredSpanned(dataPojo.getSender_name()+" ","#000000")+Utility.getColoredSpanned(dataPojo.getMessage(),"#c0c0c0")));
         //Glide.with(mContext).load(dataPojo.)
@@ -105,7 +103,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
         holder.mcvNotification.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, OtherUserProfileActivity.class));
+                   // mContext.startActivity(new Intent(mContext, OtherUserProfileActivity.class).putExtra("userId",dataPojo.getId()));
                 }
             });
 

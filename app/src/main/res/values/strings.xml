@@ -256,6 +256,15 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="add_currency">Add Currency</string>
     <string name="add_currency_error">Please add currency</string>
     <string name="i_am_from">I am from</string>
+    <string name="block">Block</string>
+    <string name="remove">Remove</string>
+    <string name="report">Report</string>
+    <string name="remove_action">remove</string>
+    <string name="report_user">Report User!</string>
+    <string name="delete_action">delete</string>
+    <string name="about_me">About me</string>
+    <string name="accept">accept</string>
+    <string name="accept_action">accept</string>
 
     <string name="room_status">status</string>
     <string name="error_retrieving_access_token">Error retrieving token</string>

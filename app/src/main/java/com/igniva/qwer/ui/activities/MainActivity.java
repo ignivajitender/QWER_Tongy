@@ -142,10 +142,11 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(MainActivity.this, SetPreferrencesActivity.class);
                 intent.putExtra(Constants.TO_EDIT_PREFERENCES, "Yes");
                 startActivity(intent);
+                break;
             case R.id.notification_icon:
                 Intent intentNotification = new Intent(MainActivity.this, NotificationActivity.class);
                 startActivity(intentNotification);
-
+                break;
 
             default:
                 break;
