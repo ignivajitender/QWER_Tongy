@@ -27,14 +27,12 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             // add refreshed token in preference
             if (PreferenceHandler.readFCM_KEY(MyFirebaseInstanceIDService.this, Constants.FCM_TOKEN, "").equalsIgnoreCase("")) {
                 PreferenceHandler.writeFCM_KEY(MyFirebaseInstanceIDService.this, Constants.FCM_TOKEN, refreshedToken);
-
-                if (!refreshedToken.equalsIgnoreCase(PreferenceHandler.readFCM_KEY(MyFirebaseInstanceIDService.this, Constants.FCM_TOKEN, ""))) {
+                 if (!refreshedToken.equalsIgnoreCase(PreferenceHandler.readFCM_KEY(MyFirebaseInstanceIDService.this, Constants.FCM_TOKEN, ""))) {
                     if (PreferenceHandler.readString(MyFirebaseInstanceIDService.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, "").isEmpty())
                         //ApiControllerClass.updateToken(MyFirebaseInstanceIDService.this, refreshedToken, retrofit);
                     Log.e("in token refresh", refreshedToken);
                 }
-
-            } else {
+             } else {
                 //ApiControllerClass.updateToken(MyFirebaseInstanceIDService.this, refreshedToken, retrofit);
                 PreferenceHandler.writeFCM_KEY(MyFirebaseInstanceIDService.this, Constants.FCM_TOKEN, refreshedToken);
             }

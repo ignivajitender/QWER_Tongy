@@ -164,4 +164,8 @@ public interface ApiInterface {
     @POST("/api/users/voiceOnOff")
     Call<ResponsePojo> voiceOnOff(@Field("is_voicecall") int is_voicecall);
 
+    @FormUrlEncoded
+    @POST("/api/users/twillo")
+    Call<ResponsePojo> twillo(@Field("room_name") String room_name,@Field("identity") String identity);
+
 }

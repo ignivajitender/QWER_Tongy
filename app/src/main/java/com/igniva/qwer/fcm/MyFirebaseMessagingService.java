@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.activities.SplashActivity;
+import com.igniva.qwer.utils.Constants;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -28,8 +30,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
        // Notification Message Body:
         // {receiver_id=59, post_id=156, type=comment on post, sender_id=98, sound=1, vibrate=1, notification=142, message=Jack commented on your post.}
         Log.e(TAG, "Notification Message Body: " + remoteMessage.getData().get("message"));
-
-        //Calling method to generate notification
+         //Calling method to generate notification
+        if (remoteMessage.getData().containsKey("token")) {
+            Intent intent = new Intent(Constants.VIDEO_CALL_RECEAVER);
+            intent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
+            intent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room_name"));
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            //open video call activity
+//            Intent dialogIntent = new Intent(this, VideoActivity.class);
+//            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            dialogIntent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
+//            dialogIntent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room_name"));
+//            dialogIntent.putExtra(Constants.TWILIO_INCOMMING, 1);
+//            startActivity(dialogIntent);
+         }else
         sendNotification(remoteMessage.getData().get("message"));
     }
 

@@ -414,7 +414,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
             prefInputPojo.setLearn(mAlLangListLearn);
             prefInputPojo.setPrefered_age_from(Integer.valueOf(mTvPreferredAgeMin.getText().toString().trim()));
             prefInputPojo.setPrefered_age_to(Integer.valueOf(mTvPreferredAgeMax.getText().toString().replace("+", "").trim()));
-            prefInputPojo.setPrefered_gender(mGender);
+            prefInputPojo.setPrefered_gender(mGender.toLowerCase().trim());
             prefInputPojo.setSpeak(mAlLangListSpeak);
             prefInputPojo.setPrefered_area_type(mAreaType);
             if (mAreaType.equals("nearby")) {

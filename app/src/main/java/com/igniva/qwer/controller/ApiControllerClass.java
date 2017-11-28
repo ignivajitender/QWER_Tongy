@@ -302,8 +302,7 @@ public class ApiControllerClass {
                             //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
-                    @Override
+                     @Override
                     public void onFailure(Call<LanguagesResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
@@ -354,8 +353,7 @@ public class ApiControllerClass {
     public static void getAllFeedsApi(Retrofit retrofit, final Context context, final PostsListFragment fragment, final int listType) {
         try {
             if (Utility.isInternetConnection(context)) {
-
-                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                 CallProgressWheel.showLoadingDialog(context, "Loading...");
 //    http://tongy.ignivastaging.com/api/users/post?post=upcomming     for my upcomming post
 //    http://tongy.ignivastaging.com/api/users/post?post=ongoing           for my ongoing post
 //    http://tongy.ignivastaging.com/api/users/post?post=other               for my other/archuive post
@@ -385,30 +383,22 @@ public class ApiControllerClass {
                             } else {
                                 if (fragment != null)
                                     fragment.setDataInViewObjects(null);
-
-                                CallProgressWheel.dismissLoadingDialog();
+                                 CallProgressWheel.dismissLoadingDialog();
                                 //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
                         }
-
-
-                        @Override
+                         @Override
                         public void onFailure(Call<PostPojo> call, Throwable t) {
                             if (fragment != null)
                                 fragment.setDataInViewObjects(null);
-
-                            CallProgressWheel.dismissLoadingDialog();
+                             CallProgressWheel.dismissLoadingDialog();
                         }
                     });
             }
-
-
-        } catch (Exception e) {
+         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-    }
+     }
 
     /**
      * Call api to mark favorite and unfavorite
@@ -649,7 +639,6 @@ public class ApiControllerClass {
 
                         }
                     });
-
                 }
             }
         } catch (Exception e) {
@@ -954,14 +943,41 @@ public class ApiControllerClass {
     }
 
 
+    public static void getVideoToken(Context context,Retrofit retrofit, String roomName, String identity) {
+         try {
+            if (Utility.isInternetConnection(context)) {
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                Call<ResponsePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).twillo(roomName,identity);
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                        @Override
+                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
+
+                                CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static void changeIsVoiceCall(Retrofit retrofit, SettingsActivity activity, int isVoiceCall, SwitchCompat mswitchVideoCall) {
-
-
         try {
             if (Utility.isInternetConnection(activity)) {
-
                 CallProgressWheel.showLoadingDialog(activity, "Loading...");
-
                 Call<ResponsePojo> posts = null;
                 posts = retrofit.create(ApiInterface.class).voiceOnOff(isVoiceCall);
 
@@ -977,20 +993,14 @@ public class ApiControllerClass {
 
                                 CallProgressWheel.dismissLoadingDialog();
                                 //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
-
                             }
                         }
-
                         @Override
                         public void onFailure(Call<ResponsePojo> call, Throwable t) {
-
-
                             CallProgressWheel.dismissLoadingDialog();
                         }
                     });
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

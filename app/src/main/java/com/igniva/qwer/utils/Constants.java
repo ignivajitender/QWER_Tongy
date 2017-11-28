@@ -10,6 +10,10 @@ public class Constants {
     public static final int GALLERY_CODE = 2444;
     public static final int CROPING_CODE = 2345;
 
+    public static final String TWILIO_TOKEN = "TWILIO_TOKEN";
+    public static final String TWILIO_ROOM = "TWILIO_ROOM";
+    public static final String VIDEO_CALL_RECEAVER = "VIDEO_CALL_RECEAVER";
+    public static final String TWILIO_INCOMMING = "TWILIO_INCOMMING";
 
 
     public static final String IS_GUEST_USER = "IS_GUEST_USER";
