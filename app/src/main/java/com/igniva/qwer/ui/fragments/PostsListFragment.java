@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,6 +127,7 @@ public class PostsListFragment extends BaseFragment {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
+                Log.e("isLast",isLast+"");
                 if (!isLast)
                     getPosts();
             }
@@ -189,7 +191,7 @@ public class PostsListFragment extends BaseFragment {
 
             pageNo++;
 
-            if (pageNo >= responsePojo.getLast_page())
+            if (responsePojo.getCurrent_page() >= responsePojo.getLast_page())
                 isLast = true;
 
             if (adapter == null) {

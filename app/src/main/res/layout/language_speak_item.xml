@@ -34,6 +34,7 @@
             android:textColor="@color/text_light_grey"
             android:layout_marginLeft="8dp"
             android:textAllCaps="false"
+
             />
 
 </LinearLayout>

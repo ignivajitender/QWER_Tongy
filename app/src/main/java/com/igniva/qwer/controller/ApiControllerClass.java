@@ -23,6 +23,9 @@ import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.StatePojo;
+import com.igniva.qwer.model.StateResponsePojo;
+import com.igniva.qwer.model.UsersResponsePojo;
 import com.igniva.qwer.model.predictionsCountriesPojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.CommentsActivity;
@@ -35,6 +38,7 @@ import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.ui.fragments.ConnectionsFragment;
+import com.igniva.qwer.ui.fragments.HomeFragment;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.CustomExpandableListView;
@@ -1120,12 +1124,13 @@ public class ApiControllerClass {
                                 {
                                     mtvBlockUnblock.setText("Unblock");
                                     text[0] = "Unblock";
-
+                                    (activity).type="Unblock";
                                 }else {
                                     mtvBlockUnblock.setText("Block");
-                                    text[0] = "Unblock";
+                                    text[0] = "Block";
+                                    (activity).type="Block";
                                 }
-                                //activity.openOptionsMenu(text[0]);
+                               // activity.openBlockMenu(text[0]);
                             } else {
 
                                 CallProgressWheel.dismissLoadingDialog();
@@ -1264,7 +1269,7 @@ public class ApiControllerClass {
 
     }
 
-    public static void callAddContactApi(int request_to, Retrofit retrofit,final Context context) {
+    public static void callAddContactApi(int request_to, Retrofit retrofit, final Context context, final List<UsersResponsePojo.UsersPojo.UserDataPojo> users, int position,final HomeFragment fragment) {
         try {
             if (Utility.isInternetConnection(context)) {
            /*      {
@@ -1282,6 +1287,7 @@ public class ApiControllerClass {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             Utility.showToastMessageLong((Activity) context,response.body().getDescription());
+                            ((HomeFragment)fragment).swipeRight();
                             //((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
                             //popup.dismiss();
 
@@ -1313,27 +1319,27 @@ public class ApiControllerClass {
     }
 
 
-/*
-    public static void callCountriesListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry) {
+
+    public static void callStateListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry, String country_id) {
         try {
             if (Utility.isInternetConnection(activity)) {
 
                 //CallProgressWheel.showLoadingDialog(activity, "Loading...");
 
-                Call<CountriesResponsePojo> posts = null;
-                posts = retrofit.create(ApiInterface.class).getCountriesList();
+                Call<StateResponsePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).getStateList(country_id);
 
                 if (posts != null)
-                    posts.enqueue(new retrofit2.Callback<CountriesResponsePojo>() {
+                    posts.enqueue(new retrofit2.Callback<StateResponsePojo>() {
                         @Override
-                        public void onResponse(Call<CountriesResponsePojo> call, retrofit2.Response<CountriesResponsePojo> response) {
+                        public void onResponse(Call<StateResponsePojo> call, retrofit2.Response<StateResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 //CallProgressWheel.dismissLoadingDialog();
                                 ArrayList<String> tempArr = new ArrayList<>();
-                                ((MyProfileActivity) activity).mAlLangList = response.body().getData();
-                                for (predictionsCountriesPojo languagesPojo : response.body().getData()
+                                ((MyProfileActivity) activity).mAllStateList = response.body().getData();
+                                for (StatePojo languagesPojo : response.body().getData()
                                         ) {
-                                    tempArr.add(languagesPojo.country);
+                                    tempArr.add(languagesPojo.name);
                                 }
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
                                 ((MyProfileActivity) activity).mautocomTextViewCountry.setAdapter(adapter);
@@ -1349,7 +1355,7 @@ public class ApiControllerClass {
                         }
 
                         @Override
-                        public void onFailure(Call<CountriesResponsePojo> call, Throwable t) {
+                        public void onFailure(Call<StateResponsePojo> call, Throwable t) {
 
 
                             //CallProgressWheel.dismissLoadingDialog();
@@ -1363,6 +1369,6 @@ public class ApiControllerClass {
         }
 
 
-    }*/
+    }
 }
 

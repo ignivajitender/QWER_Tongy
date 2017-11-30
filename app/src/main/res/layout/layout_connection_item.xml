@@ -30,7 +30,9 @@
                     android:layout_width="@dimen/_20dp"
                     android:layout_height="@dimen/_20dp"
                     android:layout_gravity="bottom|center|left"
-                    android:src="@drawable/tongy_logo" />
+                    android:src="@drawable/tongy_logo"
+
+                    />
 
 
             </FrameLayout>
@@ -56,6 +58,8 @@
                         android:layout_height="wrap_content"
                         android:text="james Hammon"
                         android:padding="@dimen/_2dp"
+                        android:textStyle="bold"
+
                         />
                     <TextView
                         android:id="@+id/tvCountryName"
@@ -63,6 +67,8 @@
                         android:layout_height="wrap_content"
                         android:text="james Hammon"
                         android:padding="@dimen/_2dp"
+                        android:inputType="textCapSentences"
+                        android:capitalize="sentences"
                         />
 
 

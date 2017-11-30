@@ -73,7 +73,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="selectConnections">Select Connections!</string>
     <string name="learnLessons"><![CDATA[Learn lessons & do online interactions]]></string>
     <string name="makeyourPost">Make Your Post!</string>
-    <string name="dummyText">Lorem ipsum idor idada iddada Lorem ipsum idor Lorem ipsum idor Lorem ipsum idor idor Lorem ipsum idor</string>
+    <string name="dummyText">Lorem ipsum idor idada iddada Lorem ipsum idor Lorem ipsum idor Lorem ipsum idor idor Lorem ipsum idor Lorem ipsum idor idor Lorem ipsum Lorem ipsum idor idada iddada Lorem ipsum idor Lorem ipsum  </string>
     <string name="myProfile">My Profile</string>
     <string name="changePassword">Change Password</string>
     <string name="changeEmail">Change Email Address</string>
@@ -265,6 +265,8 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="about_me">About me</string>
     <string name="accept">accept</string>
     <string name="accept_action">accept</string>
-
+    <string name="connections">Connections</string>
+    <string name="remove_user">Remove User!</string>
+    <string name="remove_user_message">Are you sure you want to remove this user?</string>
 
 </resources>

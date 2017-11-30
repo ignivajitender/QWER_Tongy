@@ -144,7 +144,7 @@ public class NotificationPojo {
 
         private int id;
         private String is_read;
-        private String post_id;
+        private int post_id;
         private int sender_id;
         private String sender_name;
         private String message;
@@ -166,11 +166,11 @@ public class NotificationPojo {
             this.is_read = is_read;
         }
 
-        public String getPost_id() {
+        public int getPost_id() {
             return post_id;
         }
 
-        public void setPost_id(String post_id) {
+        public void setPost_id(int post_id) {
             this.post_id = post_id;
         }
 

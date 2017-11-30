@@ -12,6 +12,7 @@ import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.StateResponsePojo;
 import com.igniva.qwer.model.UsersResponsePojo;
 
 import java.util.HashMap;
@@ -190,5 +191,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/users/requestSend")
     Call<ResponsePojo> requestSend(@Field("request_to") int request_to);
+
+    @GET("/api/state")
+    Call<StateResponsePojo>  getStateList(@Query("country_id") String country_id);
 
 }

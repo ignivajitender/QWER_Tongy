@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,9 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.model.UsersResponsePojo;
+import com.igniva.qwer.ui.fragments.HomeFragment;
 import com.igniva.qwer.utils.GridSpacingItemDecoration;
+import com.igniva.qwer.utils.Utility;
 
 import java.util.List;
 
@@ -58,14 +62,16 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
 
     private int size;
     Retrofit retrofit;
+    HomeFragment fragment;
 
-    public CardsDataAdapter(Context context, FragmentManager childFragmentManager, List<UsersResponsePojo.UsersPojo.UserDataPojo> users, Retrofit retrofit) {
+    public CardsDataAdapter(Context context, FragmentManager childFragmentManager, List<UsersResponsePojo.UsersPojo.UserDataPojo> users, Retrofit retrofit, HomeFragment homeFragment) {
 
         super(context, R.layout.card_content);
         this.context = context;
         this.fragmentManagerChild = childFragmentManager;
         this.users = users;
         this.retrofit = retrofit;
+        this.fragment=homeFragment;
     }
 
     @Override
@@ -99,10 +105,10 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
                 AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.right_in);
         ll_contact.startAnimation(animation1);
 
-        if (users.get(position).getUser_recieve() != null)
-            iv_request.setImageResource(R.drawable.request);
-        else
-            iv_request.setImageResource(R.drawable.requested);
+
+       // if(users.get(position).getUser_recieve()!=null && users.get(position).getUser_recieve().get(0).getStatus()==0)
+
+
 
         iv_request.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,10 +116,15 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
                 ll_contact.startAnimation(animation1);
                 ll_contact.setVisibility(View.VISIBLE);
                 try {
-                  //  if (iv_request.getDrawable() == context.getResources().getDrawable(R.drawable.request))
-                        ApiControllerClass.callAddContactApi(users.get(position).id, retrofit, context);
-//                    else
-//                        ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(0).getRequest_from());
+                 if (users.get(position).getUser_recieve().size()==0 && users.get(position).getUser_send().size()==0) {
+                     ApiControllerClass.callAddContactApi(users.get(position).id, retrofit, context,users,position,fragment);
+                 }
+                   else if(users.get(position).getUser_send().size()!=0)
+                 {
+                     Utility.showToastMessageLong((Activity) context,"Request already sent.");
+                 }
+                 else if(users.get(position).getUser_recieve().get(0).getStatus()==0)
+                        ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(position).getRequest_from());
                 }catch (Exception e){
                     Log.e("cardsadapter",e.getMessage());
                 }
@@ -123,7 +134,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
 
         tabLayoutLangage.addTab(tabLayoutLangage.newTab().setText(context.getResources().getString(R.string.speaks)));
         tabLayoutLangage.addTab(tabLayoutLangage.newTab().setText(context.getResources().getString(R.string.learn)));
-        tabLayoutLangage.addTab(tabLayoutLangage.newTab().setText(context.getResources().getString(R.string.about)));
+        tabLayoutLangage.addTab(tabLayoutLangage.newTab().setText(context.getResources().getString(R.string.aboutTab)));
         showRecyclerViewList(users.get(position).getUser_speak(), mrvLanguage, mtvAboutDetails, "speak");
         tabLayoutLangage.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -132,10 +143,10 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
                 if (tab.getPosition() == 0) {
                     showRecyclerViewList(users.get(position).getUser_speak(), mrvLanguage, mtvAboutDetails, "speak");
                 } else if (tab.getPosition() == 1) {
-                    showRecyclerViewList(users.get(position).getUser_speak(), mrvLanguage, mtvAboutDetails, "learn");
+                    showRecyclerViewList(users.get(position).getUser_learn(), mrvLanguage, mtvAboutDetails, "learn");
                 } else if (tab.getPosition() == 2) {
                     //replaceFragment(new PostsListFragment());
-                    showAbout(users.get(position).getAbout(), mtvAboutDetails, mrvLanguage);
+                    showAbout(users.get(position).getAbout(), mtvAboutDetails, mrvLanguage,users.get(position));
 
                 }
 
@@ -201,10 +212,10 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
         return contentView;
     }
 
-    private void showAbout(String about, TextView mtvAboutDetails, RecyclerView mrvLanguage) {
+    private void showAbout(String about, TextView mtvAboutDetails, RecyclerView mrvLanguage, UsersResponsePojo.UsersPojo.UserDataPojo userDataPojo) {
         mrvLanguage.setVisibility(View.GONE);
         mtvAboutDetails.setVisibility(View.VISIBLE);
-        mtvAboutDetails.setText(about);
+        mtvAboutDetails.setText(Html.fromHtml(Utility.getColoredSpanned(context.getResources().getString(R.string.i_am_from).toUpperCase(),"#767676")+" "+Utility.getColoredSpanned(userDataPojo.getCountry(),"#90cbf6")+"<br>"+Utility.getColoredSpanned(about,"#000000")));
     }
 
     private void showRecyclerViewList(List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_speak, RecyclerView mrvLanguage, TextView mtvAboutDetails, String type) {
@@ -212,12 +223,15 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
         mrvLanguage.setVisibility(View.VISIBLE);
         GridLayoutManager linearLayoutManager1 = new GridLayoutManager(context, 3);
         mrvLanguage.setLayoutManager(linearLayoutManager1);
+        mrvLanguage.setNestedScrollingEnabled(false);
+
         mrvLanguage.addItemDecoration(new GridSpacingItemDecoration(3, 10, false));
         if (type.equalsIgnoreCase("speak")) {
             LanguageAdapter adapter1 = new LanguageAdapter(context, user_speak);
             mrvLanguage.setAdapter(adapter1);
+
         } else {
-            LanguageSpeakAdapter adapter = new LanguageSpeakAdapter(context, user_speak);
+            LanguageSpeakAdapter adapter = new LanguageSpeakAdapter(context, user_speak,"learn");
             mrvLanguage.setAdapter(adapter);
         }
 

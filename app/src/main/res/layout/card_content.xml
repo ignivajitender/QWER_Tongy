@@ -102,7 +102,7 @@
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/_8dp"
+
                 android:text="Matthew Hammon"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="@color/text_color"
@@ -112,7 +112,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/_8dp">
+
+                android:layout_marginTop="@dimen/_5dp"
+                >
 
                 <com.igniva.qwer.ui.views.TextViewLight
                     android:id="@+id/tv_age_heading"
@@ -122,6 +124,8 @@
                     android:drawableLeft="@drawable/male"
                     android:drawablePadding="@dimen/_4dp"
                     android:text="Age: "
+                    android:textSize="@dimen/_10sp"
+                    android:textColor="@color/text_dark_grey"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
                 <com.igniva.qwer.ui.views.TextViewLight
@@ -130,6 +134,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="24 Years"
+                    android:textSize="@dimen/_10sp"
+                    android:textColor="@color/text_dark_grey"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
                 <com.igniva.qwer.ui.views.TextViewLight
@@ -139,9 +145,18 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingLeft="@dimen/_16dp"
                     android:text="39 km away"
+                    android:textColor="@color/text_dark_grey"
+                    android:textSize="@dimen/_10sp"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
             </LinearLayout>
+
+            <View
+                android:layout_marginTop="@dimen/_5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_light_grey"
+                />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout_language"
@@ -154,7 +169,14 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                 app:tabTextColor="@color/text_medium_grey" />
-        <LinearLayout
+
+            <View
+                android:layout_marginTop="-1dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_light_grey"
+                />
+            <LinearLayout
             android:id="@+id/ll_language"
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -180,6 +202,10 @@
                 android:layout_marginTop="@dimen/_10dp"
                 android:textSize="@dimen/_10sp"
                 android:visibility="gone"
+                android:maxLines="3"
+
+                android:ellipsize="end"
+
                 />
         </LinearLayout>
 

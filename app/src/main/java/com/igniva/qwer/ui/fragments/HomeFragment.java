@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
@@ -30,8 +29,6 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -128,18 +125,19 @@ public class HomeFragment extends BaseFragment {
         mCardStack = (CardStack) mView.findViewById(R.id.container);
         mCardStack.setContentResource(R.layout.card_content);
         mCardStack.setStackMargin(20);
-        mCardAdapter = new CardsDataAdapter(getActivity(), getFragmentManager(), responsePojo.body().getUsers().getData(), retrofit);
+        mCardAdapter = new CardsDataAdapter(getActivity(), getFragmentManager(), responsePojo.body().getUsers().getData(), retrofit,HomeFragment.this);
         mCardStack.setAdapter(mCardAdapter);
 
 
         mCardStack.setListener(new CardStack.CardEventListener() {
             @Override
             public boolean swipeEnd(int section, float distance) {
-                if (section == 0)
-
-                    return true;
-                else
-                    return false;
+//                if (section == 0)
+//
+//                    return true;
+//                else
+//                    return false;
+                return true;
             }
 
             @Override
@@ -162,7 +160,7 @@ public class HomeFragment extends BaseFragment {
 
                 if (direction == 1) {
 
-                    Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
 
                 } else if (direction == 0) {
 
@@ -170,14 +168,14 @@ public class HomeFragment extends BaseFragment {
                     ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id);
                 } else {
 
-                    Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
 
                 }
-               /* if (mIndex == 0 && pageNo < responsePojo.body().getUsers().getLast_page()) {
+                if (mIndex == 0 && pageNo < responsePojo.body().getUsers().getLast_page()) {
                     pageNo++;
                     getUsersApi(pageNo);
 
-                }*/
+                }
             }
 
             @Override
@@ -187,6 +185,9 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
+    public void swipeRight(){
+        mCardStack.discardTop(1);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

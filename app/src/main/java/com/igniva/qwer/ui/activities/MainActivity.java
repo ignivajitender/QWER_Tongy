@@ -1,6 +1,7 @@
 package com.igniva.qwer.ui.activities;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -77,16 +78,20 @@ public class MainActivity extends BaseActivity {
     protected void setUpLayout() {
         getLocation();
         replaceFragment(new HomeFragment());
+
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.news_feeds));
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.home),true);
         tab_layout.addTab(tab_layout.newTab().setIcon(R.drawable.connections));
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        tab_layout.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.bg_blue), PorterDuff.Mode.SRC_IN);
         //tab_layout.setupWithViewPager(mViewPager1);
          tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.select();
+                tab.getIcon().setColorFilter(getResources().getColor(R.color.bg_blue), PorterDuff.Mode.SRC_IN);
                 if (tab.getPosition() == 0) {
                     mTvToolbar.setText(R.string.news_feed);
                     isshowSearch(true);
@@ -97,6 +102,9 @@ public class MainActivity extends BaseActivity {
                     replaceFragment(new HomeFragment());
                 } else if (tab.getPosition() == 2) {
                     //replaceFragment(new PostsListFragment());
+                    mTvToolbar.setText(R.string.connections);
+                    isshowSearch(false);
+                    mEditPrefIcon.setVisibility(View.GONE);
                     replaceFragment(new ConnectionsFragment());
                 }
 
@@ -105,7 +113,9 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                tab_layout.getTabAt(0).getIcon().clearColorFilter();
+                //for other tabs
+                tab.getIcon().clearColorFilter();
             }
 
             @Override
@@ -202,6 +212,13 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.ivSearch)
     public void openSearch(){
         startActivity(new Intent(MainActivity.this,SearchActivity.class));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tab_layout.getTabAt(0).getIcon().clearColorFilter();
+        tab_layout.getTabAt(2).getIcon().clearColorFilter();
     }
 }
 

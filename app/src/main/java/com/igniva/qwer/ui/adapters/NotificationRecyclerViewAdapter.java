@@ -1,6 +1,7 @@
 package com.igniva.qwer.ui.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.NotificationPojo;
 import com.igniva.qwer.ui.activities.NotificationActivity;
+import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
+import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.utils.CircularImageView;
 import com.igniva.qwer.utils.Utility;
 
@@ -98,6 +101,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
         holder.mtvName.setText(dataPojo.getSender_name());
         holder.mtvMessage.setText(Html.fromHtml(Utility.getColoredSpanned(dataPojo.getSender_name()+" ","#000000")+Utility.getColoredSpanned(dataPojo.getMessage(),"#c0c0c0")));
         //Glide.with(mContext).load(dataPojo.)
+
         holder.mtvTimeAndDate.setText(Utility.getTimeAgoPost(dataPojo.getCreated_at(),(Activity) mContext));
 
         holder.mcvNotification.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +111,29 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
                 }
             });
 
+        if(dataPojo.getMessage().equalsIgnoreCase("Commented on your post."))
+        {
+            holder.mviewColor.setBackgroundColor(mContext.getResources().getColor(R.color.yellow_color));
+        }
+        else if(dataPojo.getMessage().equalsIgnoreCase("accepted your request.")){
+            holder.mviewColor.setBackgroundColor(mContext.getResources().getColor(R.color.bg_red));
+        }
+        else
+            holder.mviewColor.setBackgroundColor(mContext.getResources().getColor(R.color.bg_blue));
+
+       holder.mcvNotification.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               if(dataPojo.getMessage().equalsIgnoreCase("Commented on your post."))
+               {
+                   mContext.startActivity(new Intent(mContext, PostDetailActivity.class).putExtra("post_id", dataPojo.getPost_id()));
+               }
+               else if(dataPojo.getMessage().equalsIgnoreCase("accepted your request."))
+               {
+                   mContext.startActivity(new Intent(mContext, OtherUserProfileActivity.class).putExtra("userId", dataPojo.getSender_id()));
+               }
+           }
+       });
 
         }
 
@@ -133,6 +160,8 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
         TextView mtvMessage;
         @BindView(R.id.cvNotification)
         CardView mcvNotification;
+        @BindView(R.id.viewColor)
+        View mviewColor;
 
         public MyViewHolder(View view) {
             super(view);

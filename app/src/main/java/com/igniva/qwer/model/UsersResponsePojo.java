@@ -707,14 +707,14 @@ public class UsersResponsePojo {
             this.request_to = request_to;
         }
 
-        public String getStatus() {
+        public int getStatus() {
             return status;
         }
 
-        public void setStatus(String status) {
+        public void setStatus(int status) {
             this.status = status;
         }
 
-        String status;
+        int status;
     }
 }
