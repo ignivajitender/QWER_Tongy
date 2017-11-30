@@ -186,13 +186,10 @@ public class PostsListFragment extends BaseFragment {
 
 
         if (responsePojo != null && responsePojo.getData() != null && responsePojo.getData().size() > 0) {
-
-            pageNo++;
-
-            if (pageNo >= responsePojo.getLast_page())
+             pageNo++;
+             if (pageNo >= responsePojo.getLast_page())
                 isLast = true;
-
-            if (adapter == null) {
+             if (adapter == null) {
                 adapter = new RecyclerviewAdapter(getActivity(), mListType, (ArrayList<PostDetailPojo.DataPojo>) responsePojo.getData(), retrofit);
                 mrecyclerView.setAdapter(adapter);
             } else

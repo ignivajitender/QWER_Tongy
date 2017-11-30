@@ -99,11 +99,8 @@ public class MainActivity extends BaseActivity {
                     //replaceFragment(new PostsListFragment());
                     replaceFragment(new ConnectionsFragment());
                 }
-
-
-            }
-
-            @Override
+              }
+             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }

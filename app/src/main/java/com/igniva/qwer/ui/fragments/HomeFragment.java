@@ -20,6 +20,7 @@ import com.igniva.qwer.model.UsersResponsePojo;
 import com.igniva.qwer.ui.adapters.CardsDataAdapter;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Global;
+import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.wenchao.cardstack.CardStack;
 
@@ -63,6 +64,10 @@ public class HomeFragment extends BaseFragment {
         setUpLayout();
         setDataInViewObjects();
         getUsersApi(pageNo);
+//        ApiControllerClass.getVideoToken(getActivity(), retrofit, "103", PreferenceHandler.readString(getActivity(),PreferenceHandler.PREF_KEY_USER_ID,""));
+       if(!PreferenceHandler.readString(getActivity(),PreferenceHandler.PREF_KEY_USER_ID,"").equals("103"))
+        ApiControllerClass.getVideoToken(getActivity(), retrofit, "103", "103");
+
         return mView;
     }
 
@@ -73,7 +78,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void getUsersApi(int pageNo) {
-
         try {
             if (Utility.isInternetConnection(getActivity())) {
 

@@ -3,6 +3,7 @@ package com.igniva.qwer.controller;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.TokenPojo;
 import com.igniva.qwer.model.predictionsCountriesPojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.CommentsActivity;
@@ -33,16 +35,21 @@ import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
 import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.activities.SettingsActivity;
+import com.igniva.qwer.ui.activities.TwilioVideoActivity;
+import com.igniva.qwer.ui.activities.VideoActivity;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.ui.fragments.ConnectionsFragment;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
+import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.CustomExpandableListView;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,6 +60,7 @@ import java.util.Map;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit.mime.TypedInput;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
@@ -947,27 +955,53 @@ public class ApiControllerClass {
     }
 
 
-    public static void getVideoToken(Context context,Retrofit retrofit, String roomName, String identity) {
+    public static void getVideoToken(final Context context, Retrofit retrofit, final String roomName, String identity) {
          try {
             if (Utility.isInternetConnection(context)) {
                 CallProgressWheel.showLoadingDialog(context, "Loading...");
-                Call<ResponsePojo> posts = null;
-                posts = retrofit.create(ApiInterface.class).twillo(roomName,identity);
-                if (posts != null)
-                    posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
-                        @Override
-                        public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
-                            if (response.body().getStatus() == 200) {
-                                CallProgressWheel.dismissLoadingDialog();
-                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
-                            } else {
+                Call<TokenPojo> posts = null;
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("room_name",   roomName);
+                JSONArray jsonArray=new JSONArray();
+                ArrayList<String>arrayList=new ArrayList<>();
+                jsonArray.put(new JSONObject().put("id",  identity));
+                jsonArray.put(new JSONObject().put("id",  PreferenceHandler.readString(context,PreferenceHandler.PREF_KEY_USER_ID,"")));
+                jsonObject.put("identity", jsonArray);
+                TypedInput in = null;
+                RequestBody myreqbody = null;
+                try {
+                    myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                            (new JSONObject(String.valueOf(jsonObject))).toString());
+                    posts = retrofit.create(ApiInterface.class).getVideoToken(myreqbody);
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                try {
+//                    in = new TypedByteArray("application/json", jsonObject.toString().getBytes("UTF-8"));
+//                    posts = retrofit.create(ApiInterface.class).getVideoToken(in);
+//                 } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<TokenPojo>() {
+                        @Override
+                        public void onResponse(Call<TokenPojo> call, retrofit2.Response<TokenPojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                Log.e(TAG, "getVideoToken token: " + response.body().getToken());
+                                Log.e(TAG, "getVideoToken room_name: " + roomName);
+                                CallProgressWheel.dismissLoadingDialog();
+                                VideoActivity.TWILIO_ACCESS_TOKEN=response.body().getToken();
+                                VideoActivity.TWILIO_ROOM_ID=roomName ;
+                                context.startActivity(new Intent(context, TwilioVideoActivity.class).putExtra(Constants.TWILIO_TOKEN,response.body().getToken()).putExtra(Constants.TWILIO_ROOM,roomName));
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
                                 CallProgressWheel.dismissLoadingDialog();
                                 //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
                         }
                         @Override
-                        public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        public void onFailure(Call<TokenPojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
                         }
                     });
@@ -975,7 +1009,6 @@ public class ApiControllerClass {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void changeIsVoiceCall(Retrofit retrofit, SettingsActivity activity, int isVoiceCall, SwitchCompat mswitchVideoCall) {

@@ -10,7 +10,12 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.igniva.qwer.R;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.Global;
+import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.PreferenceHandler;
+
+import javax.inject.Inject;
+
+import retrofit2.Retrofit;
 
 
 /**
@@ -22,9 +27,6 @@ public class SplashActivity extends BaseActivity {
     //private PREFERENCES prefs;
     // SplashActivity screen timer
     private static int SPLASH_TIME_OUT = 3000;
-
-    // Shared Preferences
-    private String token;
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -37,6 +39,10 @@ public class SplashActivity extends BaseActivity {
             }
         }
     };
+    // Shared Preferences
+    private String token;
+    @Inject
+    Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +90,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void launchHomeScreen() {
+        Log.e("SplashActivity", "userID----" +  PreferenceHandler.readString(SplashActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""));
         if (!PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_PROFILE_SET, false))
             startActivity(new Intent(SplashActivity.this, MyProfileActivity.class));
         else if (!PreferenceHandler.readBoolean(SplashActivity.this, PreferenceHandler.IS_PREF_SET, false))
@@ -91,6 +98,7 @@ public class SplashActivity extends BaseActivity {
         else
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
+
     }
 
     private void launchWalkThroughScreen() {

@@ -21,6 +21,10 @@
         <item name="windowNoTitle">true</item>
 
     </style>
+    <style name="MainActionBar.Popup" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:actionLayout">@layout/item_layout_menu</item>
+    </style>
 
 
     <style name="Theme_Dialog" parent="android:Theme.Holo.Dialog">

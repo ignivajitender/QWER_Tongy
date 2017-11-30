@@ -12,6 +12,7 @@ import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.TokenPojo;
 import com.igniva.qwer.model.UsersResponsePojo;
 
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -168,7 +170,10 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/api/users/twillo")
-    Call<ResponsePojo> twillo(@Field("room_name") String room_name,@Field("identity") String identity);
+    Call<TokenPojo> twillo(@Field("room_name") String room_name, @Field("identity") String identity);
+    @Headers( "Content-Type: application/json; charset=utf-8")
+     @POST("/api/twilios/get-vedio-token")
+    Call<TokenPojo> getVideoToken(@Body RequestBody body);
 
     //http://tongy.ignivastaging.com/api/users/singleUser?user_id=59
     @GET("/api/users/singleUser")

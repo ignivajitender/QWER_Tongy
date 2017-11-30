@@ -81,6 +81,12 @@
             android:name=".ui.activities.MyProfileActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activities.VideoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.TwilioVideoActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activities.CommentsActivity"
             android:screenOrientation="portrait" />
         <activity

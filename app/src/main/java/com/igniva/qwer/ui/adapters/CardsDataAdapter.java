@@ -24,6 +24,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.model.UsersResponsePojo;
 import com.igniva.qwer.utils.GridSpacingItemDecoration;
+import com.igniva.qwer.utils.PreferenceHandler;
 
 import java.util.List;
 
@@ -115,6 +116,16 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
 //                    else
 //                        ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(0).getRequest_from());
                 }catch (Exception e){
+                    Log.e("cardsadapter",e.getMessage());
+                }
+            }
+        });
+        iv_videoCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 try {
+                         ApiControllerClass.getVideoToken(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""),users.get(position).id+"");
+                 }catch (Exception e){
                     Log.e("cardsadapter",e.getMessage());
                 }
             }
