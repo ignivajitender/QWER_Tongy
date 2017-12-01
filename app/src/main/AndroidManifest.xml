@@ -49,12 +49,12 @@
 
         <!-- GCM END -->
         <!-- Defining Services -->
-        <service android:name="com.igniva.qwer.fcm.MyFirebaseMessagingService">
+        <service android:name=".fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.igniva.qwer.fcm.MyFirebaseInstanceIDService">
+        <service android:name=".fcm.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -86,7 +86,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ui.activities.MyProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+
+            />
         <activity
             android:name=".ui.activities.VideoActivity"
             android:screenOrientation="portrait" />
@@ -186,11 +188,21 @@
         <activity
             android:name=".ui.activities.NotificationActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.activities.OtherUserProfileActivity"
             android:label="@string/title_activity_other_user_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.activities.ConnectionAcceptedActivity"
+            android:label="@string/title_activity_connection_accepted"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>

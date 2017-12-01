@@ -148,6 +148,26 @@ public class UsersResponsePojo {
             public List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> user_image;
             public List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_speak;
             public List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_learn;
+
+            public String getDistance() {
+                return distance;
+            }
+
+            public void setDistance(String distance) {
+                this.distance = distance;
+            }
+
+            public String distance;
+
+            public ConnectionPojo.ConnectionDataPojo.UserCountryPojo getUser_country() {
+                return user_country;
+            }
+
+            public void setUser_country(ConnectionPojo.ConnectionDataPojo.UserCountryPojo user_country) {
+                this.user_country = user_country;
+            }
+
+            public ConnectionPojo.ConnectionDataPojo.UserCountryPojo user_country;
             public int from;
 
 

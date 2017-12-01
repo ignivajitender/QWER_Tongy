@@ -87,7 +87,8 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
 
         mtvName.setText(users.get(position).name);
         mTvAge.setText(users.get(position).getAge() + " Years");
-        //mTvRadius.setText(users.get(position).ge);
+        String beforeFirstDot = users.get(position).getDistance().split("\\.")[0];
+        mTvRadius.setText(beforeFirstDot+" km away");
 
         final RecyclerView mrvLanguage = (RecyclerView) (contentView.findViewById(R.id.rvLanguages));
         final TextView mtvAboutDetails = (TextView) (contentView.findViewById(R.id.tvAboutDetails));
@@ -106,10 +107,16 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
 
 
        // if(users.get(position).getUser_recieve()!=null && users.get(position).getUser_recieve().get(0).getStatus()==0)
+        if(users.get(position).getUser_recieve().size()!=0 &&users.get(position).getUser_recieve().get(0).getStatus()==0){
+            iv_request.setImageResource(R.drawable.requested);
+        }else
+        {
+            iv_request.setImageResource(R.drawable.request);
+        }
 
 
 
-        iv_request.setOnClickListener(new View.OnClickListener() {
+            iv_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ll_contact.startAnimation(animation1);
@@ -123,7 +130,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
                      Utility.showToastMessageLong((Activity) context,"Request already sent.");
                  }
                  else if(users.get(position).getUser_recieve().get(0).getStatus()==0)
-                        ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(position).getRequest_from());
+                        ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(position).getRequest_from(),fragment);
                 }catch (Exception e){
                     Log.e("cardsadapter",e.getMessage());
                 }
@@ -234,7 +241,10 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
     private void showAbout(String about, TextView mtvAboutDetails, RecyclerView mrvLanguage, UsersResponsePojo.UsersPojo.UserDataPojo userDataPojo) {
         mrvLanguage.setVisibility(View.GONE);
         mtvAboutDetails.setVisibility(View.VISIBLE);
-        mtvAboutDetails.setText(Html.fromHtml(Utility.getColoredSpanned(context.getResources().getString(R.string.i_am_from).toUpperCase(),"#767676")+" "+Utility.getColoredSpanned(userDataPojo.getCountry(),"#90cbf6")+"<br>"+Utility.getColoredSpanned(about,"#000000")));
+        if(userDataPojo.getUser_country()!=null)
+        mtvAboutDetails.setText(Html.fromHtml("<b>"+Utility.getColoredSpanned(context.getResources().getString(R.string.i_am_from).toUpperCase(),"#767676")+" "+Utility.getColoredSpanned(userDataPojo.getUser_country().getCountry(),"#90cbf6")+"</b>"+"<br>"+Utility.getColoredSpanned(about,"#000000")));
+        else
+            mtvAboutDetails.setText(Html.fromHtml(Utility.getColoredSpanned(about,"#000000")));
     }
 
     private void showRecyclerViewList(List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_speak, RecyclerView mrvLanguage, TextView mtvAboutDetails, String type) {

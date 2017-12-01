@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,8 @@ import retrofit2.Retrofit;
 public class HomeFragment extends BaseFragment {
 
     View mView;
+    private CardStack mCardStack;
+    private CardsDataAdapter mCardAdapter;
     ViewPager viewPager;
     @Inject
     Retrofit retrofit;
@@ -140,12 +143,12 @@ public class HomeFragment extends BaseFragment {
         mCardStack.setListener(new CardStack.CardEventListener() {
             @Override
             public boolean swipeEnd(int section, float distance) {
-//                if (section == 0)
-//
-//                    return true;
-//                else
-//                    return false;
-                return true;
+                if (section == 0 || section == 1)
+
+                    return true;
+                else
+                    return false;
+               // return true;
             }
 
             @Override
@@ -168,24 +171,26 @@ public class HomeFragment extends BaseFragment {
 
                 if (direction == 1) {
 
-                    // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
 
                 } else if (direction == 0) {
 
-                    // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
-                    ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id);
+                   // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
+                    ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id, null);
                 } else {
 
                     //Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
 
                 }
-                if (mIndex == 0 && responsePojo.body().getUsers().getCurrent_page() <= responsePojo.body().getUsers().getLast_page()) {
-                    getUsersApi(responsePojo.body().getUsers().getCurrent_page() + 1);
+                Log.e("mIndex",mIndex+"");
+                if (mIndex == 10 && responsePojo.body().getUsers().getCurrent_page() <= responsePojo.body().getUsers().getLast_page()) {
+                    getUsersApi(responsePojo.body().getUsers().getCurrent_page()+1);
                 }
             }
 
             @Override
             public void topCardTapped() {
+
 
             }
         });
@@ -198,7 +203,9 @@ public class HomeFragment extends BaseFragment {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setUpLayout() {
-
+        mCardStack = (CardStack) mView.findViewById(R.id.container);
+        mCardStack.setContentResource(R.layout.card_content);
+        mCardStack.setStackMargin(20);
 
         /* mCardStack = (CardStack) mView.findViewById(R.id.container);
         mCardStack.setContentResource(R.layout.card_content);

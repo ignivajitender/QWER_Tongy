@@ -37,7 +37,6 @@ import com.igniva.qwer.utils.CircularImageView;
 import com.igniva.qwer.utils.DepthPageTransformer;
 import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.Global;
-import com.igniva.qwer.utils.GridSpacingItemDecoration;
 import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ public class OtherUserProfileActivity extends BaseActivity {
 
     @BindView(R.id.iv_countryImage)
     CircularImageView mivImageCountry;
-    public String type;
+    public String type="Block";
 
     @OnClick(R.id.ivbackIcon)
     public void back(){
@@ -138,7 +137,7 @@ public class OtherUserProfileActivity extends BaseActivity {
         LinearLayout layout_report = (LinearLayout) layout.findViewById(R.id.layout_report);
         LinearLayout layout_remove = (LinearLayout) layout.findViewById(R.id.layout_remove);
         final TextView mtvBlockUnblock=(TextView)layout.findViewById(R.id.tv_block);
-        mtvBlockUnblock.setText(type);
+        mtvBlockUnblock.setText(blockUnblock);
 
         layout_block.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +171,7 @@ public class OtherUserProfileActivity extends BaseActivity {
                     public void onClick(View v) {
                         dialog.dismiss();
                         popup.dismiss();
-                        ApiControllerClass.callUserAction(OtherUserProfileActivity.this,retrofit,getResources().getString(R.string.delete_action),popup,userId);
+                        ApiControllerClass.callUserAction(OtherUserProfileActivity.this,retrofit,getResources().getString(R.string.delete_action),popup,userId,null);
 
 
                     }
@@ -305,7 +304,8 @@ public class OtherUserProfileActivity extends BaseActivity {
         if(response.body().getUsers().getAge()!=null)
         tvAge.setText(response.body().getUsers().getAge()+" Years");
         mtvName.setText(response.body().getUsers().getName());
-        //tvRadius.setText(response.body().getUsers().get);
+        String beforeFirstDot = response.body().getUsers().getDistance().split("\\.")[0];
+        tvRadius.setText(beforeFirstDot+" km away");
 
         if(response.body().getUsers().getIs_videocall()==1)
             ivVideoCall.setVisibility(View.VISIBLE);
@@ -319,12 +319,11 @@ public class OtherUserProfileActivity extends BaseActivity {
 
         GridLayoutManager linearLayoutManager = new GridLayoutManager(OtherUserProfileActivity.this,3);
         mrvInterestedIn.setLayoutManager(linearLayoutManager);
-        mrvInterestedIn.addItemDecoration(new GridSpacingItemDecoration(3, 20, false));
+       // mrvInterestedIn.addItemDecoration(new GridSpacingItemDecoration(3, 20, false));
 
         GridLayoutManager linearLayoutManager1 = new GridLayoutManager(OtherUserProfileActivity.this,3);
         mrvLanguageSpeaks.setLayoutManager(linearLayoutManager1);
-        mrvLanguageSpeaks.addItemDecoration(new GridSpacingItemDecoration(3, 20, false));
-
+       // mrvLanguageSpeaks.addItemDecoration(new GridSpacingItemDecoration(3, 20, false));
 
         mrvInterestedIn.setVisibility(View.VISIBLE);
         mrvLanguageSpeaks.setVisibility(View.VISIBLE);
@@ -345,8 +344,8 @@ public class OtherUserProfileActivity extends BaseActivity {
            mivUserImage.setBackgroundResource(R.drawable.imgpsh_dummy);
         }
 
-        mtvFromDetails.setText(response.body().getUsers().getCountry());
-        Glide.with(OtherUserProfileActivity.this).load("http://tongy.ignivastaging.com/img/countries_flag/india.png").into(mivImageCountry);
+        mtvFromDetails.setText(response.body().getUsers().getUser_country().getCountry());
+        Glide.with(OtherUserProfileActivity.this).load(response.body().getUsers().getUser_country().getCountry_flag()).into(mivImageCountry);
 
 
         if(response.body().getUsers().getUser_block().size()>0) {

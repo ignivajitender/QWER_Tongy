@@ -126,6 +126,8 @@
                             android:drawableLeft="@drawable/male"
                             android:drawablePadding="@dimen/_4dp"
                             android:text="Age: "
+                            android:textSize="@dimen/_10sp"
+                            android:textColor="@color/text_dark_grey"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
                         <com.igniva.qwer.ui.views.TextViewLight
@@ -134,15 +136,27 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:text="24 Years"
+                            android:textSize="@dimen/_10sp"
+                            android:textColor="@color/text_dark_grey"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/text_medium_grey"
+                            android:layout_marginLeft="@dimen/_5dp"
+
+                            />
 
                         <com.igniva.qwer.ui.views.TextViewLight
                             android:id="@+id/tv_radius"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:paddingLeft="@dimen/_16dp"
+                            android:paddingLeft="@dimen/_5dp"
                             android:text="39 km away"
+                            android:textColor="@color/text_dark_grey"
+                            android:textSize="@dimen/_10sp"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
 
@@ -245,7 +259,7 @@
                         android:layout_height="wrap_content"
 
                         android:layout_marginTop="@dimen/_10dp"
-                        android:text="@string/dummyText"
+                        android:text=""
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
 
                         android:textColor="@android:color/black"

@@ -159,6 +159,15 @@ public class ConnectionPojo {
             private String country;
             private List<UserImagePojo> user_image;
 
+            public UserCountryPojo getUser_country() {
+                return user_country;
+            }
+
+            public void setUser_country(UserCountryPojo user_country) {
+                this.user_country = user_country;
+            }
+
+            UserCountryPojo user_country;
             public int getId() {
                 return id;
             }
@@ -243,6 +252,40 @@ public class ConnectionPojo {
 
             String is_cover_image;
             String created_at;
+
+        }
+        public static class UserCountryPojo {
+
+       /*     "user_image":[{"id":30,"user_id":"98",
+                    "image":"http:\/\/tongy.ignivastaging.com\/images\/profile_image\/1509428842-965B1263.jpg",
+                    "is_cover_image":"0","created_at":"1509428842"}*/
+
+            int id;
+            String country;
+
+            public String getCountry() {
+                return country;
+            }
+
+            public void setCountry(String country) {
+                this.country = country;
+            }
+
+            public String getCountry_flag() {
+                return country_flag;
+            }
+
+            public void setCountry_flag(String country_flag) {
+                this.country_flag = country_flag;
+            }
+
+            String country_flag;
+
+            public int getId() {
+                return id;
+            }
+
+
 
         }
     }

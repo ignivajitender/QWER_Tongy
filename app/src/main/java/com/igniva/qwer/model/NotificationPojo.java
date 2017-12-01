@@ -150,6 +150,16 @@ public class NotificationPojo {
         private String message;
         private String created_at;
 
+        public List<SenderImagePojo> getSender_profile() {
+            return sender_profile;
+        }
+
+        public void setSender_profile(List<SenderImagePojo> sender_profile) {
+            this.sender_profile = sender_profile;
+        }
+
+        public List<SenderImagePojo> sender_profile;
+
         public int getId() {
             return id;
         }
@@ -205,5 +215,44 @@ public class NotificationPojo {
         public void setCreated_at(String created_at) {
             this.created_at = created_at;
         }
+
+
+    }
+    public static class SenderImagePojo {
+/*"sender_profile": [{
+            "user_id": "143",
+                    "image": "http:\/\/tongy.ignivastaging.com\/images\/profile_image\/1512033960-4895E566.jpg",
+                    "is_cover_image": "0"
+        }],*/
+
+    public String image;
+    public String user_id;
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
+
+        public String getIs_cover_image() {
+            return is_cover_image;
+        }
+
+        public void setIs_cover_image(String is_cover_image) {
+            this.is_cover_image = is_cover_image;
+        }
+
+        public String is_cover_image;
+
     }
 }
