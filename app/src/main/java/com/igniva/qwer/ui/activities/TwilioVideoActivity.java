@@ -944,8 +944,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
               */
 
             if (room != null && member == 0) {
-
-//        JSONObject jsonObject = new JSONObject();
+ //        JSONObject jsonObject = new JSONObject();
 //        try {
 //        jsonObject.put("user_id", AllFollowersTwilioFragment.arrayData);
 //        jsonObject.put("status", 2);

@@ -20,7 +20,6 @@ import com.igniva.qwer.model.UsersResponsePojo;
 import com.igniva.qwer.ui.adapters.CardsDataAdapter;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Global;
-import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.wenchao.cardstack.CardStack;
 
@@ -39,9 +38,7 @@ import retrofit2.Retrofit;
 public class HomeFragment extends BaseFragment {
 
     View mView;
-    private CardStack mCardStack;
-    private CardsDataAdapter mCardAdapter;
-    ViewPager viewPager;
+     ViewPager viewPager;
     @Inject
     Retrofit retrofit;
     int pageNo = 1;
@@ -69,8 +66,8 @@ public class HomeFragment extends BaseFragment {
 //        ApiControllerClass.getVideoToken(getActivity(), retrofit, "103", "103");
 
 //       Voice Test
-        if (!PreferenceHandler.readString(getActivity(), PreferenceHandler.PREF_KEY_USER_ID, "").equals("103"))
-            ApiControllerClass.sendTwilioVoiceNotification(getActivity(), retrofit, PreferenceHandler.readString(getActivity(), PreferenceHandler.PREF_KEY_USER_ID, ""), "103", "Tanmey");
+//        if (!PreferenceHandler.readString(getActivity(), PreferenceHandler.PREF_KEY_USER_ID, "").equals("103"))
+//            ApiControllerClass.sendTwilioVoiceNotification(getActivity(), retrofit, PreferenceHandler.readString(getActivity(), PreferenceHandler.PREF_KEY_USER_ID, ""), "103", "Tanmey");
 
         return mView;
     }

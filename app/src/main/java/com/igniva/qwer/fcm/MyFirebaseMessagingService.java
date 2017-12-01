@@ -71,7 +71,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             dialogIntent.putExtra(Constants.TWILIO_SENDER_ID, remoteMessage.getData().get("sender_id"));
 
             try {
-                dialogIntent.putExtra(Constants.ROOM_TITLE, remoteMessage.getData().get("room_name"));
+                dialogIntent.putExtra(Constants.ROOM_TITLE, remoteMessage.getData().get("sender_name"));
             } catch (Exception e) {
                 e.printStackTrace();
             }

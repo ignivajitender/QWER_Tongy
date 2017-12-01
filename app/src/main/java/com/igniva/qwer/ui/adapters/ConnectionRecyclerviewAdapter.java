@@ -91,6 +91,7 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
 
         final ConnectionPojo.ConnectionDataPojo.ContactDataPojo pojo = postsList.get(position);
         holder.mtvName.setText(pojo.getName());
+        if(pojo.getUser_country()!=null && pojo.getUser_country().getCountry()!=null)
         holder.mtvCountryName.setText(pojo.getUser_country().getCountry());
         if(pojo.getUser_image()!=null && pojo.getUser_image().size()>0)
         Glide.with(mContext).load(pojo.getUser_image().get(0).getImage()).into(holder.mivImage);
@@ -104,6 +105,7 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
             }
         });
 
+        if(pojo.getUser_country()!=null && pojo.getUser_country().getCountry_flag()!=null)
         Glide.with(mContext).load(pojo.getUser_country().getCountry_flag()).into(holder.mivImageCountry);
     }
 

@@ -25,7 +25,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -130,6 +130,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
     private String strClientToken = "null";
 
     private TextView tvConnecting;
+    private ImageView imgReceaverImage;
 
     Ringtone ringTone;
     Uri uriRingtone;
@@ -167,6 +168,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 
         callView = (View) findViewById(R.id.call_layout);
         capabilityPropertiesView = (View) findViewById(R.id.capability_properties);
+//        imgReceaverImage = (ImageView) findViewById(R.id.img_receaver_image);
 
         tvConnecting = (TextView) findViewById(R.id.tv_connecting);
         callActionFab = (FloatingActionButton) findViewById(R.id.call_action_fab);
@@ -186,12 +188,19 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //            tvTitle.setText(StringEscapeUtils.unescapeJava(getIntent().getStringExtra(Constants.SKIPROOM_TITLE)));
 //            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.SKIPROOM_TITLE));
 //        }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+//        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
+//            Picasso.with(this)
+//                    .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
+//                    .transform(new CropCircleTransformation())
+//                    .into(imgReceaverImage);
+//            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE));
+//        }
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
 
         if(getIntent().hasExtra(Constants.TWILIO_SENDER_NAME)) {
             Log.d(TAG, "TWILIO_SENDER_NAME: " + getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));
@@ -382,11 +391,11 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
      * Request a Capability Token from your public accessible server
      */
     private void retrieveCapabilityToken(final ClientProfile newClientProfile) {
-                            // Update the current Client Profile to represent current properties
-                            TwilioVoiceClientActivity.this.clientProfile = newClientProfile;
+        // Update the current Client Profile to represent current properties
+        TwilioVoiceClientActivity.this.clientProfile = newClientProfile;
 
-                            // Create a Device with the Capability Token
-                            createDevice(strClientToken);//maraj
+        // Create a Device with the Capability Token
+        createDevice(strClientToken);//maraj
     }
 
     /*
@@ -425,8 +434,8 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
         } catch (Exception e) {
             e.printStackTrace();
         }
-         if (activeConnection != null) {
-             Log.d(TAG, "activeConnection: disconnect");
+        if (activeConnection != null) {
+            Log.d(TAG, "activeConnection: disconnect");
             activeConnection.disconnect();
             activeConnection = null;
         }if (clientDevice != null) {
@@ -509,11 +518,10 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //        alertDialog = TwilioDialog.createRegisterDialog(updateTokenClickListener(), cancelCallClickListener(), clientProfile, this);
 //        alertDialog.show();
 //    }
-
-    /*
-    .
-     * Create an outgoing call UI dialog
-     */
+//
+//    /*
+//     * Create an outgoing call UI dialog
+//     */
 //    private void showCallDialog() {
 //        alertDialog = TwilioDialog.createCallDialog(callClickListener(), cancelCallClickListener(), this);
 //        alertDialog.show();
@@ -530,30 +538,30 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //        alertDialog.show();
     }
 
-    private DialogInterface.OnClickListener callClickListener() {
-        return new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                /*
-                 * Making an outgoing call
-                 */
-                EditText contact = (EditText) ((AlertDialog) dialog).findViewById(R.id.contact);
+//    private DialogInterface.OnClickListener callClickListener() {
+//        return new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                /*
+//                 * Making an outgoing call
+//                 */
+//                EditText contact = (EditText) ((AlertDialog) dialog).findViewById(R.id.contact);
 //                Spinner spinner = (Spinner) ((AlertDialog) dialog).findViewById(R.id.typeSpinner);
 //                boolean isPhoneNumber = spinner.getSelectedItemPosition() == 1 ? true : false;
-
-                // Create an outgoing connection
+//
+//                // Create an outgoing connection
 //                connect(contact.getText().toString(), isPhoneNumber);
-                alertDialog.dismiss();
-            }
-        };
-    }
+//                alertDialog.dismiss();
+//            }
+//        };
+//    }
 
-    private DialogInterface.OnClickListener updateTokenClickListener() {
-        return new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+//    private DialogInterface.OnClickListener updateTokenClickListener() {
+//        return new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
 //                EditText clientEditText = (EditText) ((AlertDialog) dialog).findViewById(R.id.client_name_edittext);
 //                String clientName = clientEditText.getText().toString();
 //
@@ -566,9 +574,9 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //                ClientProfile newClientProfile = new ClientProfile(clientName, allowOutgoing, allowIncoming);
 //                alertDialog.dismiss();
 //                retrieveCapabilityToken(newClientProfile);
-            }
-        };
-    }
+//            }
+//        };
+//    }
 
     private DialogInterface.OnClickListener cancelCallClickListener() {
         return new DialogInterface.OnClickListener() {
@@ -736,9 +744,11 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
                     }
                 });
             }
-            Log.d(TAG, "Disconnect");
+             Log.d(TAG, "Disconnect");
         }
-//        if(isCallStarted){
+        if(isCallStarted){
+            finish();
+        }
 //
 //            JSONObject jsonObject = new JSONObject();
 //            try {
@@ -749,8 +759,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //                e.printStackTrace();
 //            }
 //            ApiControllerClass.saveDeclineNotification(TwilioVoiceClientActivity.this, jsonObject.toString(), this);
-//
-//        }else {
+//         }else {
 //
 //            JSONObject jsonObject = new JSONObject();
 //            try {
@@ -763,7 +772,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //            ApiControllerClass.saveDeclineNotification(TwilioVoiceClientActivity.this, jsonObject.toString(), this);
 //
 //        }
-
+//
     }
 
     /* Connection Listener */

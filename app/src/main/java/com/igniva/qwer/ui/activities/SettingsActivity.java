@@ -138,6 +138,7 @@ public class SettingsActivity extends BaseActivity {
                             //callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
                             // Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
                             //setDataInView(response.body());
+                             PreferenceHandler.writeString(SettingsActivity.this,PreferenceHandler.PREF_KEY_USER_NAME,response.body().getData().name);
                            if(response.body().getData().is_push_notification==1) {
                                mswitchPushnotification.setChecked(true);
                                isPushNotification=1;

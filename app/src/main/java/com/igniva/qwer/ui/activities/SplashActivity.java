@@ -10,12 +10,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.igniva.qwer.R;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.Global;
-import com.igniva.qwer.utils.Log;
 import com.igniva.qwer.utils.PreferenceHandler;
-
-import javax.inject.Inject;
-
-import retrofit2.Retrofit;
 
 
 /**
@@ -27,6 +22,10 @@ public class SplashActivity extends BaseActivity {
     //private PREFERENCES prefs;
     // SplashActivity screen timer
     private static int SPLASH_TIME_OUT = 3000;
+
+    // Shared Preferences
+    public static String token;
+
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
