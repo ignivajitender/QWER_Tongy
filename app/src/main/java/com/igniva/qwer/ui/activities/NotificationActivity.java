@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -61,7 +62,8 @@ public class NotificationActivity extends BaseActivity {
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
-
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void setUpLayout() {
@@ -81,7 +83,18 @@ public class NotificationActivity extends BaseActivity {
         };
         // Adds the scroll listener to RecyclerView
         mrecyclerView.addOnScrollListener(scrollListener);
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                swipeRefreshLayout.setRefreshing(false);
+                pageNo = 1;
+                isLast = false;
+                scrollListener.resetState();
+                adapter = null;
+                getNotifications();
+            }
+        });
     }
 
     @Override
@@ -194,7 +207,7 @@ public class NotificationActivity extends BaseActivity {
      */
     private void initSwipe() {
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -208,9 +221,9 @@ public class NotificationActivity extends BaseActivity {
                 if (direction == ItemTouchHelper.LEFT) {
                     adapter.removeItem(position);
                 }
-                //else if (direction == ItemTouchHelper.RIGHT) {
-//                    adapter.removeItem(position);
-//                }
+               /* else if (direction == ItemTouchHelper.RIGHT) {
+                    adapter.removeItem(position);
+                }*/
             }
 
             @Override

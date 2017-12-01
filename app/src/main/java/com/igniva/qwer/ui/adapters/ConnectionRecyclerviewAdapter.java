@@ -103,6 +103,8 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
 
             }
         });
+
+        Glide.with(mContext).load("http://tongy.ignivastaging.com/img/countries_flag/india.png").into(holder.mivImageCountry);
     }
 
 

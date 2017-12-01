@@ -12,6 +12,7 @@ import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.StateResponsePojo;
 import com.igniva.qwer.model.TokenPojo;
 import com.igniva.qwer.model.UsersResponsePojo;
 
@@ -175,6 +176,10 @@ public interface ApiInterface {
      @POST("/api/twilios/get-vedio-token")
     Call<TokenPojo> getVideoToken(@Body RequestBody body);
 
+    @POST("/api/twilios/send-twilio-voice-notification")
+    Call<TokenPojo>  sendTwilioVoiceNotification(@Body RequestBody body);
+
+
     //http://tongy.ignivastaging.com/api/users/singleUser?user_id=59
     @GET("/api/users/singleUser")
     Call<OtherUserProfilePojo> getSingleUser(@Query("user_id") int userId);
@@ -199,5 +204,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/users/requestSend")
     Call<ResponsePojo> requestSend(@Field("request_to") int request_to);
+
+    @GET("/api/state")
+    Call<StateResponsePojo>  getStateList(@Query("country_id") String country_id);
 
 }

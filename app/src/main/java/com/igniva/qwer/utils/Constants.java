@@ -14,6 +14,12 @@ public class Constants {
     public static final String TWILIO_ROOM = "TWILIO_ROOM";
     public static final String VIDEO_CALL_RECEAVER = "VIDEO_CALL_RECEAVER";
     public static final String TWILIO_INCOMMING = "TWILIO_INCOMMING";
+    public static final String TWILIO_SENDER_NAME = "TWILIO_SENDER_NAME";
+    public static final String TWILIO_CALLER_ID = "TWILIO_CALLER_ID";
+    public static final String TWILIO_SENDER_ID = "TWILIO_SENDER_ID";
+    public static final String TWILIO_RECEAVER_NAME = "TWILIO_RECEAVER_NAME";
+    public static final String VOICE_CALL_RECEAVER = "VOICE_CALL_RECEAVER";
+    public static final String ROOM_TITLE ="ROOM_TITLE" ;
 
 
     public static final String IS_GUEST_USER = "IS_GUEST_USER";

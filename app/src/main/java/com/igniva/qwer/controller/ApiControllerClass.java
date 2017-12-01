@@ -24,7 +24,10 @@ import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.StatePojo;
+import com.igniva.qwer.model.StateResponsePojo;
 import com.igniva.qwer.model.TokenPojo;
+import com.igniva.qwer.model.UsersResponsePojo;
 import com.igniva.qwer.model.predictionsCountriesPojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.CommentsActivity;
@@ -37,8 +40,10 @@ import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.activities.TwilioVideoActivity;
 import com.igniva.qwer.ui.activities.VideoActivity;
+import com.igniva.qwer.ui.activities.voice.TwilioVoiceClientActivity;
 import com.igniva.qwer.ui.adapters.RecyclerviewAdapter;
 import com.igniva.qwer.ui.fragments.ConnectionsFragment;
+import com.igniva.qwer.ui.fragments.HomeFragment;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Constants;
@@ -399,18 +404,25 @@ public class ApiControllerClass {
                                 //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
                         }
-                         @Override
+
+
+                        @Override
                         public void onFailure(Call<PostPojo> call, Throwable t) {
                             if (fragment != null)
                                 fragment.setDataInViewObjects(null);
-                             CallProgressWheel.dismissLoadingDialog();
+
+                            CallProgressWheel.dismissLoadingDialog();
                         }
                     });
             }
-         } catch (Exception e) {
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-     }
+
+
+    }
 
     /**
      * Call api to mark favorite and unfavorite
@@ -489,10 +501,8 @@ public class ApiControllerClass {
                             CallProgressWheel.dismissLoadingDialog();
                             Log.e("success", response.message());
                             getPostDetail(post_id, retrofit, (Activity) context);
-
-                            Utility.showToastMessageShort((Activity) context, response.body().getDescription());
-
-                        } else {
+                             Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                         } else {
                             CallProgressWheel.dismissLoadingDialog();
                             Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                         }
@@ -651,6 +661,7 @@ public class ApiControllerClass {
 
                         }
                     });
+
                 }
             }
         } catch (Exception e) {
@@ -954,6 +965,68 @@ public class ApiControllerClass {
 
     }
 
+    public static void sendTwilioVoiceNotification(final Context context, Retrofit retrofit, final String roomName, String identity, final String receaverName ) {
+
+        try {
+            if (Utility.isInternetConnection(context)) {
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                Call<TokenPojo> posts = null;
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("reciver_name", receaverName);
+                jsonObject.put("sender_name", PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_NAME, "Caller").replaceAll(" ", "_"));
+                 jsonObject.put("room_name",   roomName);
+                jsonObject.put("room_id",   roomName);
+                JSONArray jsonArray=new JSONArray();
+                ArrayList<String>arrayList=new ArrayList<>();
+                jsonArray.put(new JSONObject().put("id",  identity));
+//                jsonArray.put(new JSONObject().put("id",  PreferenceHandler.readString(context,PreferenceHandler.PREF_KEY_USER_ID,"")));
+                jsonObject.put("identity", jsonArray);
+                TypedInput in = null;
+                RequestBody myreqbody = null;
+                try {
+                    myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                            (new JSONObject(String.valueOf(jsonObject))).toString());
+                    posts = retrofit.create(ApiInterface.class).sendTwilioVoiceNotification(myreqbody);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                try {
+//                    in = new TypedByteArray("application/json", jsonObject.toString().getBytes("UTF-8"));
+//                    posts = retrofit.create(ApiInterface.class).getVideoToken(in);
+//                 } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<TokenPojo>() {
+                        @Override
+                        public void onResponse(Call<TokenPojo> call, retrofit2.Response<TokenPojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                Log.e(TAG, "sendTwilioVoiceNotification token: " + response.body().getToken());
+                                Log.e(TAG, "sendTwilioVoiceNotification room_name: " + roomName);
+                                CallProgressWheel.dismissLoadingDialog();
+                                Intent intent = new Intent(context, TwilioVoiceClientActivity.class);
+                                intent.putExtra(Constants.TWILIO_TOKEN, "" + response.body().getToken());
+                                intent.putExtra(Constants.TWILIO_SENDER_NAME, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_NAME, "Caller").replaceAll(" ", "_"));
+                                intent.putExtra(Constants.TWILIO_RECEAVER_NAME, receaverName);
+                                intent.putExtra(Constants.ROOM_TITLE, "Voice Call");
+                                 context.startActivity(intent);
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
+                                CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<TokenPojo> call, Throwable t) {
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void getVideoToken(final Context context, Retrofit retrofit, final String roomName, String identity) {
          try {
@@ -962,6 +1035,7 @@ public class ApiControllerClass {
                 Call<TokenPojo> posts = null;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("room_name",   roomName);
+                jsonObject.put("room_id",   roomName);
                 JSONArray jsonArray=new JSONArray();
                 ArrayList<String>arrayList=new ArrayList<>();
                 jsonArray.put(new JSONObject().put("id",  identity));
@@ -1035,6 +1109,7 @@ public class ApiControllerClass {
 
                             }
                         }
+
                         @Override
                         public void onFailure(Call<ResponsePojo> call, Throwable t) {
 
@@ -1043,6 +1118,8 @@ public class ApiControllerClass {
                         }
                     });
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1168,12 +1245,13 @@ public class ApiControllerClass {
                                 {
                                     mtvBlockUnblock.setText("Unblock");
                                     text[0] = "Unblock";
-
+                                    (activity).type="Unblock";
                                 }else {
                                     mtvBlockUnblock.setText("Block");
-                                    text[0] = "Unblock";
+                                    text[0] = "Block";
+                                    (activity).type="Block";
                                 }
-                                //activity.openOptionsMenu(text[0]);
+                               // activity.openBlockMenu(text[0]);
                             } else {
 
                                 CallProgressWheel.dismissLoadingDialog();
@@ -1312,7 +1390,7 @@ public class ApiControllerClass {
 
     }
 
-    public static void callAddContactApi(int request_to, Retrofit retrofit,final Context context) {
+    public static void callAddContactApi(int request_to, Retrofit retrofit, final Context context, final List<UsersResponsePojo.UsersPojo.UserDataPojo> users, int position,final HomeFragment fragment) {
         try {
             if (Utility.isInternetConnection(context)) {
            /*      {
@@ -1330,6 +1408,7 @@ public class ApiControllerClass {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             Utility.showToastMessageLong((Activity) context,response.body().getDescription());
+                            ((HomeFragment)fragment).swipeRight();
                             //((ChangePasswordActivity) context).callSuccessPopUp(context, response.body().getDescription());
                             //popup.dismiss();
 
@@ -1361,27 +1440,27 @@ public class ApiControllerClass {
     }
 
 
-/*
-    public static void callCountriesListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry) {
+
+    public static void callStateListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry, String country_id) {
         try {
             if (Utility.isInternetConnection(activity)) {
 
                 //CallProgressWheel.showLoadingDialog(activity, "Loading...");
 
-                Call<CountriesResponsePojo> posts = null;
-                posts = retrofit.create(ApiInterface.class).getCountriesList();
+                Call<StateResponsePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).getStateList(country_id);
 
                 if (posts != null)
-                    posts.enqueue(new retrofit2.Callback<CountriesResponsePojo>() {
+                    posts.enqueue(new retrofit2.Callback<StateResponsePojo>() {
                         @Override
-                        public void onResponse(Call<CountriesResponsePojo> call, retrofit2.Response<CountriesResponsePojo> response) {
+                        public void onResponse(Call<StateResponsePojo> call, retrofit2.Response<StateResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 //CallProgressWheel.dismissLoadingDialog();
                                 ArrayList<String> tempArr = new ArrayList<>();
-                                ((MyProfileActivity) activity).mAlLangList = response.body().getData();
-                                for (predictionsCountriesPojo languagesPojo : response.body().getData()
+                                ((MyProfileActivity) activity).mAllStateList = response.body().getData();
+                                for (StatePojo languagesPojo : response.body().getData()
                                         ) {
-                                    tempArr.add(languagesPojo.country);
+                                    tempArr.add(languagesPojo.name);
                                 }
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
                                 ((MyProfileActivity) activity).mautocomTextViewCountry.setAdapter(adapter);
@@ -1397,7 +1476,7 @@ public class ApiControllerClass {
                         }
 
                         @Override
-                        public void onFailure(Call<CountriesResponsePojo> call, Throwable t) {
+                        public void onFailure(Call<StateResponsePojo> call, Throwable t) {
 
 
                             //CallProgressWheel.dismissLoadingDialog();
@@ -1411,6 +1490,6 @@ public class ApiControllerClass {
         }
 
 
-    }*/
+    }
 }
 

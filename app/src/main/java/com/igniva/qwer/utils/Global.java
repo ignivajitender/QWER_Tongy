@@ -44,9 +44,9 @@ public class Global extends MultiDexApplication {
         prefs = new PreferenceHandler(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
-//    void setComponets(Activity context){
+//    void setComponets(Activity context, Object object){
 //        getNetComponent().inject((Activity) context);
-//        ButterKnife.bind(context);
+//        ButterKnife.bind(object);
 //     }
 
     public NetComponent getNetComponent() {

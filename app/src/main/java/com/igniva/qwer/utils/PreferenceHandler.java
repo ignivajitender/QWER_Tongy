@@ -87,7 +87,7 @@ public class PreferenceHandler {
 		return getPreferences(context).edit();
 	}
 	public static void writeFCM_KEY(Context context, String key, String value) {
-		Log.e("value",value);
+		Log.e("value device_id",value);
 		getFCMEditor(context).putString(key, value).commit();
 	}
 

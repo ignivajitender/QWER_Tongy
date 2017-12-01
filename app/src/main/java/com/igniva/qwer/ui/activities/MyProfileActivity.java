@@ -38,6 +38,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
+import com.igniva.qwer.model.StatePojo;
 import com.igniva.qwer.model.predictionsCountriesPojo;
 import com.igniva.qwer.ui.adapters.CountriesAdapter;
 import com.igniva.qwer.ui.views.CallProgressWheel;
@@ -98,7 +99,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     @BindView(R.id.et_country)
     EditText mEtCountry;
     @BindView(R.id.et_city)
-    EditText mEtCity;
+    public
+    AutoCompleteTextView mEtCity;
     @BindView(R.id.et_pincode)
     EditText mEtPincode;
     @BindView(R.id.et_age)
@@ -166,9 +168,13 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     private boolean alreadyLogin;
     private String TAG = getClass().getName();
     public ArrayList<predictionsCountriesPojo> mAlLangList;
+    public ArrayList<StatePojo> mAllStateList;
+
 
     @BindView(R.id.rvCountries)
     RecyclerView mrvCountries;
+    private String country_id;
+
     public static void startAlphaAnimation(View v, long duration, int visibility) {
         AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
                 ? new AlphaAnimation(0f, 1f)
@@ -393,9 +399,25 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mgenderSpinner.setOnItemSelectedListener(this);
 
         mautocomTextViewCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selection = (String) adapterView.getItemAtPosition(i);
+                country_id = mAlLangList.get(i).getId();
+                Log.e("countryid",country_id);
+               // ApiControllerClass.callStateListApi(MyProfileActivity.this,retrofit,mEtCity,country_id);
+                //onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);
+            }
+        });
+
+        mEtCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selection = (String) adapterView.getItemAtPosition(i);
+
                 //onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);
             }
         });
@@ -496,6 +518,28 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             }
         });
 
+        mEtCity.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+               /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
+                    mbtnClearAddress.setVisibility(View.VISIBLE);
+                } else { //not include text
+                    mbtnClearAddress.setVisibility(View.GONE);
+                }*/
+            }
+        });
 
     }
 
@@ -611,6 +655,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                     updateProfilePayload.put("about", mEtAbout.getText().toString().trim());
                     updateProfilePayload.put("age", mEtAge.getText().toString().trim());
                     updateProfilePayload.put("name", mtvName.getText().toString().trim());
+                    //updateProfilePayload.put("country)id", country_id);
                     if(Global.mLastLocation!=null ){
 
                         updateProfilePayload.put("lat",Global.mLastLocation.getLatitude()+"");

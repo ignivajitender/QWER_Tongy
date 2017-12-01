@@ -53,7 +53,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 
         OtherUserProfilePojo.UsersPojo.UserSpeakPojo pojo = items.get(position);
         holder.mtvNameLanguage.setText(pojo.getLanguages().getName());
-        holder.mtvProficiency.setText(pojo.getProficiency());
+        holder.mtvProficiency.setText(capitalize(pojo.getProficiency().toLowerCase()));
         if(pojo.getProficiency().equalsIgnoreCase("beginner"))
             holder.mivProficiency.setImageResource(R.drawable.beginner);
         else if (pojo.getProficiency().equalsIgnoreCase("intermediate"))
@@ -63,8 +63,12 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 
 
 
+
     }
 
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
+    }
 
     @Override
     public int getItemCount() {

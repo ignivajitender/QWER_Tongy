@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/bg_blue"
+        app:contentInsetLeft="0dp"
+        android:visibility="gone"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:popupTheme="@style/MainActionBar.Popup"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|center_horizontal"
+            android:singleLine="true"
+            android:layout_gravity="center"
+            android:text="Calling"
+            android:textColor="@color/bg_white"
+            android:textSize="@dimen/_18sp" />
+    </android.support.v7.widget.Toolbar>
+    <TextView
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/tv_connecting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"
+        android:gravity="center"
+        android:text="Call Connecting..."
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/_20sp"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:layout_marginTop="@dimen/_100dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_bottom"
+        android:layout_marginBottom="@dimen/_8dp"
+        android:src="@drawable/placeholder"
+        />
+    <LinearLayout
+        android:layout_below="@+id/tv_connecting"
+        android:id="@+id/capability_properties"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="top|right"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/client_name_registered_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:editable="false"
+            android:gravity="center"
+            android:text="Calling..."
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_20sp"
+
+            />
+
+        <TextView
+            android:id="@+id/incoming_capability_registered_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/outgoing_capability_registered_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/library_version_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/capability_properties"
+        android:layout_centerInParent="true"
+        android:layout_gravity="bottom|top"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/_36dp"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:gravity="center">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/accept_action_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15dp"
+            android:src="@android:drawable/ic_menu_call"
+            android:visibility="visible"
+            app:backgroundTint="@android:color/holo_green_light"
+             app:fabSize="normal" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/hangup_action_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15dp"
+            android:src="@android:drawable/ic_menu_call"
+            android:text="Accept"
+            app:backgroundTint="@color/bg_red"
+            app:fabSize="normal" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/call_action_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:src="@android:drawable/ic_menu_call"
+        android:visibility="invisible" />
+
+    <RelativeLayout
+        android:id="@+id/call_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"
+        android:layout_margin="@dimen/dp_18"
+        >
+
+        <!--  <View
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:layout_weight="1"/>-->
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/speaker_action_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/quantum_ic_volume_off_white_36" />
+
+        <!--<View
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>-->
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/mute_action_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_mic_white_24dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -487,7 +487,7 @@ public class Validation {
     }
 
 
-    public static boolean validateUpdateProfile(Activity activity, AutoCompleteTextView mEtCountry, EditText mEtPincode, EditText mEtAbout, EditText mEtCity, EditText mEtAge,EditText mName) {
+    public static boolean validateUpdateProfile(Activity activity, AutoCompleteTextView mEtCountry, EditText mEtPincode, EditText mEtAbout, AutoCompleteTextView mEtCity, EditText mEtAge,EditText mName) {
 
         if(FieldValidators.isNullOrEmpty(mName)){
             mName.setFocusable(true);

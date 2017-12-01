@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.OtherUserProfilePojo;
@@ -31,6 +33,7 @@ import com.igniva.qwer.ui.adapters.LanguageAdapter;
 import com.igniva.qwer.ui.adapters.LanguageSpeakAdapter;
 import com.igniva.qwer.ui.adapters.MultiImages;
 import com.igniva.qwer.ui.views.TextViewLight;
+import com.igniva.qwer.utils.CircularImageView;
 import com.igniva.qwer.utils.DepthPageTransformer;
 import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.Global;
@@ -100,6 +103,10 @@ public class OtherUserProfileActivity extends BaseActivity {
     private int userId;
     private int size;
 
+    @BindView(R.id.iv_countryImage)
+    CircularImageView mivImageCountry;
+    public String type;
+
     @OnClick(R.id.ivbackIcon)
     public void back(){
         Utility.hideSoftKeyboard(OtherUserProfileActivity.this);
@@ -107,6 +114,11 @@ public class OtherUserProfileActivity extends BaseActivity {
     }
     @OnClick(R.id.ivDotIcon)
     public void openOptionsMenu(){
+        openBlockMenu(type);
+
+    }
+
+    public void openBlockMenu(String blockUnblock) {
         final PopupWindow popup = new PopupWindow(OtherUserProfileActivity.this);
         View layout = LayoutInflater.from(OtherUserProfileActivity.this).inflate(R.layout.layout_options_popup, null);
         //popup.showAtLocation(layout, Gravity.RIGHT, 0, 0);
@@ -126,13 +138,7 @@ public class OtherUserProfileActivity extends BaseActivity {
         LinearLayout layout_report = (LinearLayout) layout.findViewById(R.id.layout_report);
         LinearLayout layout_remove = (LinearLayout) layout.findViewById(R.id.layout_remove);
         final TextView mtvBlockUnblock=(TextView)layout.findViewById(R.id.tv_block);
-/*
-
-        if(text.equalsIgnoreCase("") && text.equalsIgnoreCase("block"))
-            mtvBlockUnblock.setText("Block");
-        else
-            mtvBlockUnblock.setText("Unblock");
-*/
+        mtvBlockUnblock.setText(type);
 
         layout_block.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,8 +150,42 @@ public class OtherUserProfileActivity extends BaseActivity {
         layout_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popup.dismiss();
-                ApiControllerClass.callUserAction(OtherUserProfileActivity.this,retrofit,getResources().getString(R.string.delete_action),popup,userId);
+                // Create custom dialog object
+                final Dialog dialog = new Dialog(OtherUserProfileActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+
+                dialog.setContentView(R.layout.logout_account_pop_up);
+
+                Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
+                Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
+                TextView mtitle=(TextView)dialog.findViewById(R.id.title);
+                mtitle.setText(getResources().getString(R.string.remove_user));
+
+                TextView mMessage=(TextView)dialog.findViewById(R.id.message);
+                mMessage.setText(getResources().getString(R.string.remove_user_message));
+
+                mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        popup.dismiss();
+                        ApiControllerClass.callUserAction(OtherUserProfileActivity.this,retrofit,getResources().getString(R.string.delete_action),popup,userId);
+
+
+                    }
+                });
+                mBtnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setTitle("Custom Dialog");
+                dialog.show();
+
             }
         });
         layout_report.setOnClickListener(new View.OnClickListener() {
@@ -157,10 +197,7 @@ public class OtherUserProfileActivity extends BaseActivity {
         });
 
         popup.showAsDropDown(mivDotIcon);
-
     }
-
-
 
 
     @Override
@@ -184,8 +221,9 @@ public class OtherUserProfileActivity extends BaseActivity {
 
         mivUserImage.setAdapter(multiImages);
         mivUserImage.setPageTransformer(true, new DepthPageTransformer());
-
-
+        int color = Color.parseColor("#FF0000"); //The color u want
+        mivbackIcon.setColorFilter(color);
+        mivDotIcon.setColorFilter(color);
     }
 
     @Override
@@ -290,7 +328,7 @@ public class OtherUserProfileActivity extends BaseActivity {
 
         mrvInterestedIn.setVisibility(View.VISIBLE);
         mrvLanguageSpeaks.setVisibility(View.VISIBLE);
-        LanguageSpeakAdapter adapter = new LanguageSpeakAdapter(OtherUserProfileActivity.this, response.body().getUsers().getUser_learn());
+        LanguageSpeakAdapter adapter = new LanguageSpeakAdapter(OtherUserProfileActivity.this, response.body().getUsers().getUser_learn(), "");
         mrvInterestedIn.setAdapter(adapter);
 
         LanguageAdapter adapter1 = new LanguageAdapter(OtherUserProfileActivity.this, response.body().getUsers().getUser_speak());
@@ -307,6 +345,15 @@ public class OtherUserProfileActivity extends BaseActivity {
            mivUserImage.setBackgroundResource(R.drawable.imgpsh_dummy);
         }
 
+        mtvFromDetails.setText(response.body().getUsers().getCountry());
+        Glide.with(OtherUserProfileActivity.this).load("http://tongy.ignivastaging.com/img/countries_flag/india.png").into(mivImageCountry);
+
+
+        if(response.body().getUsers().getUser_block().size()>0) {
+            //openBlockMenu("Unblock");
+            Log.e("size",response.body().getUsers().getUser_block().size()+"jfjg");
+            type ="Unblock";
+        }
     }
 
 

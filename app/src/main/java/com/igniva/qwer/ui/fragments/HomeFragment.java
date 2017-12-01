@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
@@ -32,8 +31,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 
 /**
  * Created by igniva-php-08 on 18/5/16.
@@ -41,14 +38,14 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class HomeFragment extends BaseFragment {
 
     View mView;
-    private CardStack mCardStack;
-    private CardsDataAdapter mCardAdapter;
     ViewPager viewPager;
     @Inject
     Retrofit retrofit;
     int pageNo = 1;
     @BindView(R.id.tvNoData)
     TextView mtvNoData;
+    private CardStack mCardStack;
+    private CardsDataAdapter mCardAdapter;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -64,9 +61,13 @@ public class HomeFragment extends BaseFragment {
         setUpLayout();
         setDataInViewObjects();
         getUsersApi(pageNo);
-//        ApiControllerClass.getVideoToken(getActivity(), retrofit, "103", PreferenceHandler.readString(getActivity(),PreferenceHandler.PREF_KEY_USER_ID,""));
-       if(!PreferenceHandler.readString(getActivity(),PreferenceHandler.PREF_KEY_USER_ID,"").equals("103"))
-        ApiControllerClass.getVideoToken(getActivity(), retrofit, "103", "103");
+        // Video Test
+        //       if(!PreferenceHandler.readString(getActivity(),PreferenceHandler.PREF_KEY_USER_ID,"").equals("103"))
+//        ApiControllerClass.getVideoToken(getActivity(), retrofit, "103", "103");
+
+//       Voice Test
+        if (!PreferenceHandler.readString(getActivity(), PreferenceHandler.PREF_KEY_USER_ID, "").equals("103"))
+            ApiControllerClass.sendTwilioVoiceNotification(getActivity(), retrofit, PreferenceHandler.readString(getActivity(), PreferenceHandler.PREF_KEY_USER_ID, ""), "103", "Tanmey");
 
         return mView;
     }
@@ -132,18 +133,19 @@ public class HomeFragment extends BaseFragment {
         mCardStack = (CardStack) mView.findViewById(R.id.container);
         mCardStack.setContentResource(R.layout.card_content);
         mCardStack.setStackMargin(20);
-        mCardAdapter = new CardsDataAdapter(getActivity(), getFragmentManager(), responsePojo.body().getUsers().getData(), retrofit);
+        mCardAdapter = new CardsDataAdapter(getActivity(), getFragmentManager(), responsePojo.body().getUsers().getData(), retrofit, HomeFragment.this);
         mCardStack.setAdapter(mCardAdapter);
 
 
         mCardStack.setListener(new CardStack.CardEventListener() {
             @Override
             public boolean swipeEnd(int section, float distance) {
-                if (section == 0)
-
-                    return true;
-                else
-                    return false;
+//                if (section == 0)
+//
+//                    return true;
+//                else
+//                    return false;
+                return true;
             }
 
             @Override
@@ -166,22 +168,20 @@ public class HomeFragment extends BaseFragment {
 
                 if (direction == 1) {
 
-                    Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
 
                 } else if (direction == 0) {
 
-                   // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
                     ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id);
                 } else {
 
-                    Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
 
                 }
-               /* if (mIndex == 0 && pageNo < responsePojo.body().getUsers().getLast_page()) {
-                    pageNo++;
-                    getUsersApi(pageNo);
-
-                }*/
+                if (mIndex == 0 && responsePojo.body().getUsers().getCurrent_page() <= responsePojo.body().getUsers().getLast_page()) {
+                    getUsersApi(responsePojo.body().getUsers().getCurrent_page() + 1);
+                }
             }
 
             @Override
@@ -191,6 +191,9 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
+    public void swipeRight() {
+        mCardStack.discardTop(1);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

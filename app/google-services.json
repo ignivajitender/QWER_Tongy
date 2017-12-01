@@ -656,6 +656,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "319569902925-k7av48qd1hm37sg105u7fa9s58b7qd55.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.igniva.qwer",
+            "certificate_hash": "b88768483ea81a126eb11f0c430b3e19458b726a"
+          }
+        },
+        {
           "client_id": "319569902925-jp29dc376o5teq1qtgmu2cso7tgo3e8s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

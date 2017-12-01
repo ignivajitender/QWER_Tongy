@@ -107,6 +107,17 @@ public class OtherUserProfilePojo {
         private String created_at;
         private String updated_at;
         private String role_id;
+
+        public List<UserBlockPojo> getUser_block() {
+            return user_block;
+        }
+
+        public void setUser_block(List<UserBlockPojo> user_block) {
+            this.user_block = user_block;
+        }
+
+        public List<UserBlockPojo> user_block;
+
         private List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> user_image;
 
         public List<UserSpeakPojo> getUser_speak() {
@@ -487,33 +498,56 @@ public class OtherUserProfilePojo {
              * status : 1
              */
 
-            private String request_from;
-            private String request_to;
-            private String status;
+            public int request_from;
+            public int request_to;
+            public int status;
 
-            public String getRequest_from() {
+            public int getRequest_from() {
                 return request_from;
             }
 
-            public void setRequest_from(String request_from) {
+            public void setRequest_from(int request_from) {
                 this.request_from = request_from;
             }
 
-            public String getRequest_to() {
+            public int getRequest_to() {
                 return request_to;
             }
 
-            public void setRequest_to(String request_to) {
+            public void setRequest_to(int request_to) {
                 this.request_to = request_to;
             }
 
-            public String getStatus() {
+            public int getStatus() {
                 return status;
             }
 
-            public void setStatus(String status) {
+            public void setStatus(int status) {
                 this.status = status;
             }
         }
+    }
+
+    public static class UserBlockPojo {
+        String blocked_to;
+
+        public String getBlocked_to() {
+            return blocked_to;
+        }
+
+        public void setBlocked_to(String blocked_to) {
+            this.blocked_to = blocked_to;
+        }
+
+        public String getBlocked_by() {
+            return blocked_by;
+        }
+
+        public void setBlocked_by(String blocked_by) {
+            this.blocked_by = blocked_by;
+        }
+
+        String blocked_by;
+
     }
 }

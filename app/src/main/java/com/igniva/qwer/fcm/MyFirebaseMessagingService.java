@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -16,7 +17,9 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.ui.activities.SplashActivity;
 import com.igniva.qwer.ui.activities.TwilioVideoActivity;
 import com.igniva.qwer.ui.activities.VideoActivity;
+import com.igniva.qwer.ui.activities.voice.TwilioVoiceClientActivity;
 import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.PreferenceHandler;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -32,24 +35,55 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Notification Message Body:
         // {receiver_id=59, post_id=156, type=comment on post, sender_id=98, sound=1, vibrate=1, notification=142, message=Jack commented on your post.}
         Log.e(TAG, "Notification Message getData: " + remoteMessage.getData());
-        Log.e(TAG, "Notification Message Body: " + remoteMessage.getData().get("message"));
-        Log.e(TAG, "Notification token: " + remoteMessage.getData().get("token"));
-        Log.e(TAG, "Notification room_name: " + remoteMessage.getData().get("room"));
         //Calling method to generate notification
-        if (remoteMessage.getData().containsKey("token")) {
-            Intent intent = new Intent(Constants.VIDEO_CALL_RECEAVER);
+        if (remoteMessage.getData().containsKey("token") && remoteMessage.getData().get("notification").equalsIgnoreCase("20")) {
+//            if (!PreferenceHandler.readString(this, PreferenceHandler.PREF_KEY_USER_ID, "").equals(remoteMessage.getData().get("room_name"))) {
+                Intent intent = new Intent(Constants.VIDEO_CALL_RECEAVER);
+                 intent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
+                intent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room_name"));
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                //open video call activity
+                Intent dialogIntent = new Intent(this, TwilioVideoActivity.class);
+                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                dialogIntent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
+                dialogIntent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room_name"));
+                dialogIntent.putExtra(Constants.TWILIO_INCOMMING, 1);
+                VideoActivity.TWILIO_ACCESS_TOKEN = remoteMessage.getData().get("token");
+                VideoActivity.TWILIO_ROOM_ID = remoteMessage.getData().get("room_name");
+                startActivity(dialogIntent);
+//            }
+
+        } else if (remoteMessage.getData().containsKey("token") && remoteMessage.getData().get("notification").equalsIgnoreCase("21")) {
+
+            Intent intent = new Intent(Constants.VOICE_CALL_RECEAVER);
             intent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
-            intent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room_name"));
+            intent.putExtra(Constants.TWILIO_SENDER_NAME, remoteMessage.getData().get("reciver_name"));
+
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
             //open video call activity
-            Intent dialogIntent = new Intent(this, TwilioVideoActivity.class);
+
+            Intent dialogIntent = new Intent(this, TwilioVoiceClientActivity.class);
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             dialogIntent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
-            dialogIntent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room"));
+            dialogIntent.putExtra(Constants.TWILIO_SENDER_NAME, remoteMessage.getData().get("sender_name"));
+            dialogIntent.putExtra(Constants.TWILIO_RECEAVER_NAME, remoteMessage.getData().get("sender_name"));
+            dialogIntent.putExtra(Constants.TWILIO_CALLER_ID, remoteMessage.getData().get("caller_id"));
+            dialogIntent.putExtra(Constants.TWILIO_SENDER_ID, remoteMessage.getData().get("sender_id"));
+
+            try {
+                dialogIntent.putExtra(Constants.ROOM_TITLE, remoteMessage.getData().get("room_name"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             dialogIntent.putExtra(Constants.TWILIO_INCOMMING, 1);
-            VideoActivity.TWILIO_ACCESS_TOKEN = remoteMessage.getData().get("token");
-            VideoActivity.TWILIO_ROOM_ID = remoteMessage.getData().get("room");
-             startActivity(dialogIntent);
+            dialogIntent.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED +
+                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON +
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+            startActivity(dialogIntent);
+
+            Log.d(TAG, "TWILIO_TOKEN: " + remoteMessage.getData().get("token"));
+            Log.d(TAG, "TWILIO_SENDER_NAME: " + remoteMessage.getData().get("reciver_name"));
         } else
             sendNotification(remoteMessage.getData().get("message"));
     }
