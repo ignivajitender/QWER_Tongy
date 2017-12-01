@@ -268,5 +268,11 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="connections">Connections</string>
     <string name="remove_user">Remove User!</string>
     <string name="remove_user_message">Are you sure you want to remove this user?</string>
+    <string name="title_activity_connection_accepted">ConnectionAcceptedActivity</string>
+    <string name="new_connection">New \nConnection!</string>
+    <string name="lets_chat">Let\'s Chat</string>
+    <string name="find_other_connection">Find Other Connection</string>
+    <string name="connection">Connection!</string>
+    <string name="new1">New</string>
 
 </resources>

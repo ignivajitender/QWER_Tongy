@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/connection_bg"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    tools:context="com.igniva.qwer.ui.activities.ConnectionAcceptedActivity">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/new1"
+            android:textColor="@color/bg_white"
+            android:gravity="center"
+            android:id="@+id/tvTitle1"
+            android:textSize="@dimen/_40sp"
+            android:textStyle="bold"
+
+            />
+
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/connection"
+            android:textColor="@color/bg_white"
+            android:gravity="center"
+            android:id="@+id/tvTitle2"
+            android:textSize="@dimen/_40sp"
+            android:textStyle="bold"
+            android:layout_below="@id/tvTitle1"
+            android:layout_marginTop="-10dp"
+            />
+
+        <com.igniva.qwer.utils.CircularImageView
+            android:id="@+id/ivImage"
+            android:layout_width="@dimen/_150dp"
+            android:layout_height="@dimen/_150dp"
+            android:src="@drawable/login_bg"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/tvTitle2"
+            android:layout_marginTop="@dimen/_30dp"
+            />
+        <com.igniva.qwer.ui.views.TextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/bg_white"
+            android:gravity="center"
+            android:id="@+id/tvName"
+            android:textSize="@dimen/_20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/ivImage"
+            />
+
+        <Button
+            android:id="@+id/btn_signUp"
+            style="?android:textAppearanceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/_40dp"
+            android:layout_marginRight="@dimen/_40dp"
+            android:background="@drawable/ripple_button_background_white"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_20dp"
+            android:text="@string/lets_chat"
+            android:textAllCaps="true"
+            android:textColor="@color/bg_blue"
+            android:textSize="@dimen/_15sp"></Button>
+
+
+        <Button
+            android:id="@+id/btnHome"
+            style="?android:textAppearanceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_signUp"
+
+            android:layout_marginLeft="@dimen/_40dp"
+            android:layout_marginRight="@dimen/_40dp"
+            android:background="@drawable/ripple_button_outline_white"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_20dp"
+            android:text="@string/find_other_connection"
+            android:textAllCaps="true"
+            android:textColor="@color/bg_white"
+            android:textSize="@dimen/_15sp"></Button>
+
+    </RelativeLayout>
+
+</LinearLayout>
+</ScrollView>

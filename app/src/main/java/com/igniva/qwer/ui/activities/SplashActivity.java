@@ -24,7 +24,8 @@ public class SplashActivity extends BaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
 
     // Shared Preferences
-    private String token;
+    public static String token;
+
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override

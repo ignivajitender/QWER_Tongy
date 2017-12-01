@@ -91,7 +91,7 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
 
         final ConnectionPojo.ConnectionDataPojo.ContactDataPojo pojo = postsList.get(position);
         holder.mtvName.setText(pojo.getName());
-        holder.mtvCountryName.setText(pojo.getCountry());
+        holder.mtvCountryName.setText(pojo.getUser_country().getCountry());
         if(pojo.getUser_image()!=null && pojo.getUser_image().size()>0)
         Glide.with(mContext).load(pojo.getUser_image().get(0).getImage()).into(holder.mivImage);
 
@@ -104,7 +104,7 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
             }
         });
 
-        Glide.with(mContext).load("http://tongy.ignivastaging.com/img/countries_flag/india.png").into(holder.mivImageCountry);
+        Glide.with(mContext).load(pojo.getUser_country().getCountry_flag()).into(holder.mivImageCountry);
     }
 
 

@@ -209,7 +209,7 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                         signupHash.put(Constants.DEVICE_ID,PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, ""));
 
                     } else {
-                        signupHash.put(Constants.DEVICE_ID, "1234567890");
+                        signupHash.put(Constants.DEVICE_ID,SplashActivity.token);
                     }
                     signupHash.put(Constants.DEVICE_TYPE,"android");
                     //Create a retrofit call object

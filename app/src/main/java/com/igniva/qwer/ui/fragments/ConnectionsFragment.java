@@ -169,6 +169,6 @@ public class ConnectionsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-       // menuFloating.close(true);
+       // getConnections();
     }
 }

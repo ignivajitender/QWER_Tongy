@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,9 +123,7 @@ public class HomeFragment extends BaseFragment {
     @SuppressLint("ClickableViewAccessibility")
     private void setDatainCards(final Response<UsersResponsePojo> responsePojo) {
 
-        mCardStack = (CardStack) mView.findViewById(R.id.container);
-        mCardStack.setContentResource(R.layout.card_content);
-        mCardStack.setStackMargin(20);
+
         mCardAdapter = new CardsDataAdapter(getActivity(), getFragmentManager(), responsePojo.body().getUsers().getData(), retrofit,HomeFragment.this);
         mCardStack.setAdapter(mCardAdapter);
 
@@ -132,12 +131,12 @@ public class HomeFragment extends BaseFragment {
         mCardStack.setListener(new CardStack.CardEventListener() {
             @Override
             public boolean swipeEnd(int section, float distance) {
-//                if (section == 0)
-//
-//                    return true;
-//                else
-//                    return false;
-                return true;
+                if (section == 0 || section == 1)
+
+                    return true;
+                else
+                    return false;
+               // return true;
             }
 
             @Override
@@ -165,21 +164,21 @@ public class HomeFragment extends BaseFragment {
                 } else if (direction == 0) {
 
                    // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
-                    ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id);
+                    ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id, null);
                 } else {
 
                     //Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
 
                 }
-                if (mIndex == 0 && pageNo < responsePojo.body().getUsers().getLast_page()) {
-                    pageNo++;
-                    getUsersApi(pageNo);
-
+                Log.e("mIndex",mIndex+"");
+                if (mIndex == 10 && responsePojo.body().getUsers().getCurrent_page() <= responsePojo.body().getUsers().getLast_page()) {
+                    getUsersApi(responsePojo.body().getUsers().getCurrent_page()+1);
                 }
             }
 
             @Override
             public void topCardTapped() {
+
 
             }
         });
@@ -192,7 +191,9 @@ public class HomeFragment extends BaseFragment {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setUpLayout() {
-
+        mCardStack = (CardStack) mView.findViewById(R.id.container);
+        mCardStack.setContentResource(R.layout.card_content);
+        mCardStack.setStackMargin(20);
 
         /* mCardStack = (CardStack) mView.findViewById(R.id.container);
         mCardStack.setContentResource(R.layout.card_content);

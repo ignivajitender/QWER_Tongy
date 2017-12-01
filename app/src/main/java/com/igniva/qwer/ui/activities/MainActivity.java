@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
 
         mHandler.postDelayed(mRunnable, 2000);
     }

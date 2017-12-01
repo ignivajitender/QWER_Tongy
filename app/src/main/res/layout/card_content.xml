@@ -138,12 +138,19 @@
                     android:textColor="@color/text_dark_grey"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_medium_grey"
+                    android:layout_marginLeft="@dimen/_5dp"
+
+                    />
                 <com.igniva.qwer.ui.views.TextViewLight
                     android:id="@+id/tv_radius"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="@dimen/_16dp"
+                    android:paddingLeft="@dimen/_5dp"
                     android:text="39 km away"
                     android:textColor="@color/text_dark_grey"
                     android:textSize="@dimen/_10sp"

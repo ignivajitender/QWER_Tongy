@@ -648,14 +648,14 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             }
                             */
                     HashMap<String, String> updateProfilePayload = new HashMap<>();
-                    updateProfilePayload.put("country", mautocomTextViewCountry.getText().toString().trim());
+                    updateProfilePayload.put("country", "101");
                     updateProfilePayload.put("city", mEtCity.getText().toString().trim());
                     updateProfilePayload.put("gender", selGender);
                     updateProfilePayload.put("pincode", mEtPincode.getText().toString().trim());
                     updateProfilePayload.put("about", mEtAbout.getText().toString().trim());
                     updateProfilePayload.put("age", mEtAge.getText().toString().trim());
                     updateProfilePayload.put("name", mtvName.getText().toString().trim());
-                    //updateProfilePayload.put("country)id", country_id);
+                   // updateProfilePayload.put("country_id", "101");
                     if(Global.mLastLocation!=null ){
 
                         updateProfilePayload.put("lat",Global.mLastLocation.getLatitude()+"");

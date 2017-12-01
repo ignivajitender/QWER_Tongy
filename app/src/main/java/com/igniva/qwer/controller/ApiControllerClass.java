@@ -3,6 +3,7 @@ package com.igniva.qwer.controller;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.igniva.qwer.model.UsersResponsePojo;
 import com.igniva.qwer.model.predictionsCountriesPojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.CommentsActivity;
+import com.igniva.qwer.ui.activities.ConnectionAcceptedActivity;
 import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
 import com.igniva.qwer.ui.activities.MyProfileActivity;
@@ -1101,6 +1103,48 @@ public class ApiControllerClass {
         }
 
     }
+    public static void getConnectionUserProfile(Retrofit retrofit, final ConnectionAcceptedActivity activity, int userId) {
+
+        try {
+            if (Utility.isInternetConnection(activity)) {
+
+                CallProgressWheel.showLoadingDialog(activity, "Loading...");
+
+                Call<OtherUserProfilePojo> posts = null;
+                posts = retrofit.create(ApiInterface.class).getSingleUser(userId);
+
+                if (posts != null)
+                    posts.enqueue(new retrofit2.Callback<OtherUserProfilePojo>() {
+                        @Override
+                        public void onResponse(Call<OtherUserProfilePojo> call, retrofit2.Response<OtherUserProfilePojo> response) {
+                            if (response.body().getStatus() == 200) {
+                                CallProgressWheel.dismissLoadingDialog();
+                                activity.setData(response);
+                                //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                            } else {
+
+                                CallProgressWheel.dismissLoadingDialog();
+                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<OtherUserProfilePojo> call, Throwable t) {
+
+
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
+                    });
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void callblockApi(final OtherUserProfileActivity activity, Retrofit retrofit, int userId, final PopupWindow popup,final TextView mtvBlockUnblock) {
         try {
@@ -1214,8 +1258,9 @@ public class ApiControllerClass {
      * @param action
      * @param popup
      * @param userId
+     * @param fragment
      */
-    public static void callUserAction(final Context context, Retrofit retrofit, String action, final PopupWindow popup, int userId) {
+    public static void callUserAction(final Context context, Retrofit retrofit, String action, final PopupWindow popup,final int userId, final HomeFragment fragment) {
         try {
             if (Utility.isInternetConnection(context)) {
            /*      {
@@ -1241,6 +1286,11 @@ public class ApiControllerClass {
                             if(popup!=null)
                             popup.dismiss();
 
+
+                            if(response.body().getDescription().equalsIgnoreCase("Request accepted.")){
+                                ((HomeFragment)fragment).swipeRight();
+                                context.startActivity(new Intent(context, ConnectionAcceptedActivity.class).putExtra("userId",userId));
+                            }
                         } else if (response.body().getStatus() == 400) {
                             CallProgressWheel.dismissLoadingDialog();
                             Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();

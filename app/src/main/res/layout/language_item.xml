@@ -9,7 +9,7 @@
     >
 
 
-        <com.igniva.qwer.ui.views.TextViewRegular
+        <com.igniva.qwer.ui.views.TextViewBold
             android:id="@+id/tvdayName"
             android:layout_width="80dp"
             android:layout_height="match_parent"
