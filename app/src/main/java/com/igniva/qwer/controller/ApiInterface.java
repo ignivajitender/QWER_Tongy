@@ -209,15 +209,15 @@ public interface ApiInterface {
     Call<StateResponsePojo>  getStateList(@Query("country_id") String country_id);
 
     @FormUrlEncoded
-    @POST("/twilios/messages")
+    @POST("/api/twilios/messages")
     Call<TokenPojo>  getMessageToken(@FieldMap Map<String, String> params);
 //
     @FormUrlEncoded
-    @POST("/twilios/create-channel")
+    @POST("/api/twilios/create-channel")
     Call<ResponsePojo> createChannelName(@FieldMap Map<String, String> params);
 //
 
-    @POST("/twilios/messages-notification")
+    @POST("/api/twilios/messages-notification")
     Call<ResponsePojo> sendTwilioChatNotification(@Body TypedInput body);
 
 }

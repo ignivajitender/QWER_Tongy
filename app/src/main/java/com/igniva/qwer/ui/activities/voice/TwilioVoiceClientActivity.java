@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.callBack.DeclinCallback;
@@ -126,8 +127,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 
         callView = (View) findViewById(R.id.call_layout);
         capabilityPropertiesView = (View) findViewById(R.id.capability_properties);
-//        imgReceaverImage = (ImageView) findViewById(R.id.img_receaver_image);
-
+        imgReceaverImage = (ImageView) findViewById(R.id.iv_user_image);
         tvConnecting = (TextView) findViewById(R.id.tv_connecting);
         callActionFab = (FloatingActionButton) findViewById(R.id.call_action_fab);
         hangupActionFab = (FloatingActionButton) findViewById(R.id.hangup_action_fab);
@@ -142,19 +142,13 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
         } else {
             tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_NAME));
         }
-//        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
-//            Picasso.with(this)
-//                    .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
-//                    .transform(new CropCircleTransformation())
-//                    .into(imgReceaverImage);
-//            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE));
-//        }
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
+        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
+
+            Glide.with(this)
+                    .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
+                     .into(imgReceaverImage);
+            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE));
+        }
 
         if (getIntent().hasExtra(Constants.TWILIO_SENDER_NAME)) {
             Log.d(TAG, "TWILIO_SENDER_NAME: " + getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));

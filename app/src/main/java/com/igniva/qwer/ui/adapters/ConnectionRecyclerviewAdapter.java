@@ -1,5 +1,6 @@
 package com.igniva.qwer.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -16,6 +17,8 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.model.ConnectionPojo;
 import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.utils.CircularImageView;
+import com.igniva.qwer.utils.PreferenceHandler;
+import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,22 +94,28 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
 
         final ConnectionPojo.ConnectionDataPojo.ContactDataPojo pojo = postsList.get(position);
         holder.mtvName.setText(pojo.getName());
-        if(pojo.getUser_country()!=null && pojo.getUser_country().getCountry()!=null)
-        holder.mtvCountryName.setText(pojo.getUser_country().getCountry());
-        if(pojo.getUser_image()!=null && pojo.getUser_image().size()>0)
-        Glide.with(mContext).load(pojo.getUser_image().get(0).getImage()).into(holder.mivImage);
+        if (pojo.getUser_country() != null && pojo.getUser_country().getCountry() != null)
+            holder.mtvCountryName.setText(pojo.getUser_country().getCountry());
+        if (pojo.getUser_image() != null && pojo.getUser_image().size() > 0)
+            Glide.with(mContext).load(pojo.getUser_image().get(0).getImage()).into(holder.mivImage);
 
+        holder.mivImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(new Intent(mContext, OtherUserProfileActivity.class).putExtra("userId", pojo.getId()));
+                Log.e("adapter", pojo.getId() + "");
+            }
+        });
         holder.mcvConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext, OtherUserProfileActivity.class).putExtra("userId",pojo.getId()));
-                Log.e("adapter",pojo.getId()+"");
-
+                Utility.goToChatActivity((Activity) mContext,pojo.getId(), PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""),pojo.getName());
+//                ApiControllerClass.createChannel(retrofit, mContext, pojo.getId(), PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""));
             }
         });
 
-        if(pojo.getUser_country()!=null && pojo.getUser_country().getCountry_flag()!=null)
-        Glide.with(mContext).load(pojo.getUser_country().getCountry_flag()).into(holder.mivImageCountry);
+        if (pojo.getUser_country() != null && pojo.getUser_country().getCountry_flag() != null)
+            Glide.with(mContext).load(pojo.getUser_country().getCountry_flag()).into(holder.mivImageCountry);
     }
 
 

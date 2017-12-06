@@ -48,8 +48,8 @@ import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.predictionsPojo;
 import com.igniva.qwer.ui.activities.LocationActivity;
 import com.igniva.qwer.ui.activities.LoginActivity;
-import com.igniva.qwer.ui.activities.MyProfileActivity;
 import com.igniva.qwer.ui.activities.SearchActivity;
+import com.igniva.qwer.ui.activities.twilio_chat.MainChatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -701,12 +701,23 @@ public class Utility {
     public static String getColoredSpanned(String text, String color) {
         String input = "<font color=" + color + ">" + text + "</font>";
         return input;
-
-		/*
+ 		/*
 		* Use of the colored spanned
 		* String name = getColoredSpanned("Hiren", "#800000");
 		* String surName = getColoredSpanned("Patel","#000080");
 		* txtView.setText(Html.fromHtml(name+" "+surName));
 		* */
     }
-}
+
+    public static void goToChatActivity(Activity context, int toUserId, final String fromUserID, String userName) {
+        String channelName = toUserId + "_" + fromUserID;
+        if (Integer.valueOf(toUserId) > Integer.valueOf(fromUserID))
+            channelName = fromUserID + "_" + toUserId;
+
+        Intent intent2 = new Intent(context, MainChatActivity.class);
+        intent2.putExtra(Constants.CHANNEL_NAME, channelName);
+        intent2.putExtra(Constants.ROOM_USER_NAME, userName);
+        context.startActivity(intent2);
+        context.overridePendingTransition(R.anim.right_in, R.anim.right_out);
+    }
+ }

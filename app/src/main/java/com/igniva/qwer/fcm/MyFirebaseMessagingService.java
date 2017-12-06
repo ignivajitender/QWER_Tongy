@@ -66,7 +66,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             dialogIntent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
             dialogIntent.putExtra(Constants.TWILIO_SENDER_NAME, remoteMessage.getData().get("sender_name"));
-            dialogIntent.putExtra(Constants.TWILIO_RECEAVER_NAME, remoteMessage.getData().get("sender_name"));
+            dialogIntent.putExtra(Constants.TWILIO_RECEAVER_IMAGE, remoteMessage.getData().get("sender_image"));
             dialogIntent.putExtra(Constants.TWILIO_CALLER_ID, remoteMessage.getData().get("caller_id"));
             dialogIntent.putExtra(Constants.TWILIO_SENDER_ID, remoteMessage.getData().get("sender_id"));
 
@@ -105,15 +105,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 .bigText(remoteMessage.getData().get("message")))
                         .setAutoCancel(true)
                          .setContentIntent(pendingIntent);
-
-                NotificationManager notificationManager =
+                 NotificationManager notificationManager =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                Random random = new Random();
+                 Random random = new Random();
                 int not_id = random.nextInt(10000);
                 notificationManager.notify(not_id, notificationBuilder.build());
-
-            }
+             }
         } else
             sendNotification(remoteMessage.getData().get("message"));
     }

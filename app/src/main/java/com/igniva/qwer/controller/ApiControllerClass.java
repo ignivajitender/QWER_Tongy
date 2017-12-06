@@ -76,7 +76,7 @@ import static com.igniva.qwer.utils.Utility.callSuccessPopUp;
 
 public class ApiControllerClass {
     public static String TAG = "ApiControllerClass";
-
+    public static String receiverImage = "";
 
     /**
      * Call api to change the current email
@@ -677,7 +677,6 @@ public class ApiControllerClass {
 
     }
 
-
     public static void callReportAbuseApi(final Context context, Retrofit retrofit, EditText metReason, EditText metComment, int post_id, final Dialog dialog) {
         try {
             if (Utility.isInternetConnection(context)) {
@@ -970,11 +969,14 @@ public class ApiControllerClass {
 
     }
 
-    public static void sendTwilioVoiceNotification(final Context context, Retrofit retrofit, final String roomName, String identity, final String receaverName) {
+    public static void sendTwilioVoiceNotification(final Context context, Retrofit retrofit, final String roomName, String identity, final String receaverName, final List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> userImages) {
 
         try {
+
             if (Utility.isInternetConnection(context)) {
                 CallProgressWheel.showLoadingDialog(context, "Loading...");
+                if (userImages != null && userImages.size() > 0)
+                    receiverImage = userImages.get(0).getImage();
                 Call<TokenPojo> posts = null;
                 JSONObject jsonObject = new JSONObject();
                 String receaverNameNormalized = Normalizer.normalize(receaverName, Normalizer.Form.NFD);
@@ -1016,7 +1018,9 @@ public class ApiControllerClass {
                                 intent.putExtra(Constants.TWILIO_TOKEN, "" + response.body().getToken());
                                 intent.putExtra(Constants.TWILIO_SENDER_NAME, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_NAME, "Caller").replaceAll(" ", "_"));
                                 intent.putExtra(Constants.TWILIO_RECEAVER_NAME, receaverName);
+                                intent.putExtra(Constants.TWILIO_RECEAVER_IMAGE, receiverImage);
                                 intent.putExtra(Constants.ROOM_TITLE, "Voice Call");
+
                                 context.startActivity(intent);
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                             } else {
@@ -1538,27 +1542,30 @@ public class ApiControllerClass {
                         }
                     });
             }
-          } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-     }
+    }
 
-    public static void createChannel(final Retrofit retrofit, final Activity mContext, int toUserId, final String fromUserID) {
+    public static void createChannel(final Retrofit retrofit, final Context mContext, int toUserId, final String fromUserID) {
         try {
             CallProgressWheel.showLoadingDialog(mContext, "Loading...");
             HashMap<String, String> params = new HashMap<>();
             params.put("to", "" + toUserId);
-            String channelName=toUserId+"_"+fromUserID;
-            if(Integer.valueOf(toUserId)>Integer.valueOf(fromUserID))
-                channelName=fromUserID+"_"+toUserId;
-            params.put("name",  channelName);
+            String channelName = toUserId + "_" + fromUserID;
+            if (Integer.valueOf(toUserId) > Integer.valueOf(fromUserID))
+                channelName = fromUserID + "_" + toUserId;
+            params.put("name", channelName);
             Call<ResponsePojo> posts = null;
-            posts = retrofit.create(ApiInterface.class).createChannelName(params);
-            if (posts != null)
+//            posts = retrofit.create(ApiInterface.class).createChannelName(params);
+
+             if (posts != null)
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
                         CallProgressWheel.dismissLoadingDialog();
+//                        goToChatActivity(dataItem.channel_name, dataItem.gcm_id, holder.mTvUserName.getText().toString(),dataItem.id);
+
 //                        String jsonString = new String(((TypedByteArray) response.body()).getBytes());
 //                        android.util.Log.e(TAG, "Success " + jsonString);
 //                        if (responseObjectPojo.status == 200) {
@@ -1586,25 +1593,25 @@ public class ApiControllerClass {
         }
     }
 
-    public static void sendTwilioChatNotification(Retrofit retrofit,Activity mainActivity, String s) {
+    public static void sendTwilioChatNotification(Retrofit retrofit, Activity mainActivity, String s) {
 //        ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, mContext);
 //            CallProgressWheel.showLoadingDialog(mContext, "Loading...");
-try {
-        TypedInput in = null;
-         try {
-            in = new TypedByteArray("application/json", s.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        try {
+            TypedInput in = null;
+            try {
+                in = new TypedByteArray("application/json", s.getBytes("UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
 
-        Call<ResponsePojo> posts = null;
-        posts = retrofit.create(ApiInterface.class).sendTwilioChatNotification(in);
-        if (posts != null)
-            posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
-                @Override
-                public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
-                    CallProgressWheel.dismissLoadingDialog();
+            Call<ResponsePojo> posts = null;
+            posts = retrofit.create(ApiInterface.class).sendTwilioChatNotification(in);
+            if (posts != null)
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        CallProgressWheel.dismissLoadingDialog();
 //                    String jsonString = new String(((TypedByteArray) response.getBody()).getBytes());
 //                    android.util.Log.e(TAG, "Success " + jsonString);
 //                    if (responseObjectPojo.status == 200) {
@@ -1617,18 +1624,17 @@ try {
 //                    } else {
 //                        Utility.showDialogWithSingleButton(mContext, responseObjectPojo.message, "OK", null);
 //                    }
-                }
+                    }
 
-                @Override
-                public void onFailure(Call<ResponsePojo> call, Throwable t) {
-                    //CallProgressWheel.dismissLoadingDialog();
-                    CallProgressWheel.dismissLoadingDialog();
-                }
-            });
-    } catch (Exception e) {
-        e.printStackTrace();
+                    @Override
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        //CallProgressWheel.dismissLoadingDialog();
+                        CallProgressWheel.dismissLoadingDialog();
+                    }
+                });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-}
 }
 

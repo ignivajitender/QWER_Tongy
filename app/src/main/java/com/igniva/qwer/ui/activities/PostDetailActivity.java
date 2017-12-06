@@ -121,7 +121,7 @@ public class PostDetailActivity extends BaseActivity {
     protected void setUpToolbar() {
         mtvTitle.setText(getResources().getString(R.string.post_details));
     }
-
+    PostDetailPojo.DataPojo mPostDetail =null;
     /**
      * set post detail data coming from server
      *
@@ -129,31 +129,30 @@ public class PostDetailActivity extends BaseActivity {
      */
     public void setData(final PostDetailPojo.DataPojo data) {
         if (data != null) {
-
+mPostDetail=data;
             if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.meeting))) {
                 mtvPostType.setBackgroundColor(getResources().getColor(R.color.bg_blue));
                 mtvPostType.setText(data.getPost_type());
                 mivPostImage.setVisibility(View.GONE);
                 mivPrice.setImageResource(R.drawable.calendar_details);
-                mtvPrice.setText("Date and Time\n"+Utility.getDatePostDetail(data.getStart_date_time(),PostDetailActivity.this)+" To "+Utility.getDatePostDetail(data.getEnd_date_time(),PostDetailActivity.this)+"\n"
-                        +Utility.getTimePostDetail(data.getStart_date_time(),PostDetailActivity.this)+" to "+Utility.getTimePostDetail(data.getEnd_date_time(),PostDetailActivity.this));
+                mtvPrice.setText("Date and Time\n" + Utility.getDatePostDetail(data.getStart_date_time(), PostDetailActivity.this) + " To " + Utility.getDatePostDetail(data.getEnd_date_time(), PostDetailActivity.this) + "\n"
+                        + Utility.getTimePostDetail(data.getStart_date_time(), PostDetailActivity.this) + " to " + Utility.getTimePostDetail(data.getEnd_date_time(), PostDetailActivity.this));
                 mivDate.setImageResource(R.drawable.location__details);
-                mtvTimeAndDate.setText("Location\n"+data.getClass_location());
-                mtvTimeAndDate.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.location,0);
+                mtvTimeAndDate.setText("Location\n" + data.getClass_location());
+                mtvTimeAndDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.location, 0);
                 mivType.setImageResource(R.drawable.people_details);
-                StringBuilder builder=new StringBuilder();
-                if(data.getPost_member()!=null && data.getPost_member().size()>0)
-                {
+                StringBuilder builder = new StringBuilder();
+                if (data.getPost_member() != null && data.getPost_member().size() > 0) {
 
-                    for(int i=0;i<data.getPost_member().size();i++)
-                        builder.append(data.getPost_member().get(i).getPresenter().toString().trim()+"\n");
-                    }
-                mtvTypeOfClassOrPresenter.setText("Presenter\n"+builder);
+                    for (int i = 0; i < data.getPost_member().size(); i++)
+                        builder.append(data.getPost_member().get(i).getPresenter().toString().trim() + "\n");
+                }
+                mtvTypeOfClassOrPresenter.setText("Presenter\n" + builder);
                 mView.setVisibility(View.VISIBLE);
                 mtvTimeAndDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(PostDetailActivity.this,LocationActivity.class).putExtra("dataPojo",data));
+                        startActivity(new Intent(PostDetailActivity.this, LocationActivity.class).putExtra("dataPojo", data));
                     }
                 });
             }
@@ -161,21 +160,20 @@ public class PostDetailActivity extends BaseActivity {
                 mtvPostType.setBackgroundColor(getResources().getColor(R.color.yellow_color));
                 mtvPostType.setText(data.getPost_type());
                 mivPostImage.setVisibility(View.GONE);
-                mtvPrice.setText("Price\n$"+data.getPrice());
-                mtvTimeAndDate.setText("Date and Time\n"+Utility.getDatePostDetail(data.getStart_date_time(),PostDetailActivity.this)+" To "+Utility.getDatePostDetail(data.getEnd_date_time(),PostDetailActivity.this)+"\n"
-                        +Utility.getTimePostDetail(data.getStart_date_time(),PostDetailActivity.this)+" to "+Utility.getTimePostDetail(data.getEnd_date_time(),PostDetailActivity.this));
+                mtvPrice.setText("Price\n$" + data.getPrice());
+                mtvTimeAndDate.setText("Date and Time\n" + Utility.getDatePostDetail(data.getStart_date_time(), PostDetailActivity.this) + " To " + Utility.getDatePostDetail(data.getEnd_date_time(), PostDetailActivity.this) + "\n"
+                        + Utility.getTimePostDetail(data.getStart_date_time(), PostDetailActivity.this) + " to " + Utility.getTimePostDetail(data.getEnd_date_time(), PostDetailActivity.this));
 
-                if(data.getClass_type().equalsIgnoreCase("physical")) {
+                if (data.getClass_type().equalsIgnoreCase("physical")) {
                     mtvTypeOfClassOrPresenter.setText("Type of Class\n" + data.getClass_type() + "\nLocation\n" + data.getClass_location());
                     mtvTypeOfClassOrPresenter.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.location, 0);
                     mtvTypeOfClassOrPresenter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(new Intent(PostDetailActivity.this,LocationActivity.class).putExtra("dataPojo",data));
+                            startActivity(new Intent(PostDetailActivity.this, LocationActivity.class).putExtra("dataPojo", data));
                         }
                     });
-                }
-                else
+                } else
                     mtvTypeOfClassOrPresenter.setText("Type of Class\n" + data.getClass_type());
 
                 mView.setVisibility(View.VISIBLE);
@@ -195,36 +193,43 @@ public class PostDetailActivity extends BaseActivity {
                 mView.setVisibility(View.GONE);
             }
 
-            if(data.getPost_user().getUser_image()!=null && data.getPost_user().getUser_image().size()>0)
-            Glide.with(PostDetailActivity.this).load(data.getPost_user().getUser_image().get(0).getImage()).into(mivProfile);
-            if(data.getPost_comment_count()!=null && data.getPost_comment_count().size()>0)
+            if (data.getPost_user().getUser_image() != null && data.getPost_user().getUser_image().size() > 0)
+                Glide.with(PostDetailActivity.this).load(data.getPost_user().getUser_image().get(0).getImage()).into(mivProfile);
+            if (data.getPost_comment_count() != null && data.getPost_comment_count().size() > 0)
                 mibChat.setText(data.getPost_comment_count().get(0).getCount());
             else
                 mibChat.setText("0");
 
-            if(data.getPost_fav()!=null && data.getPost_fav().size()>0)
+            if (data.getPost_fav() != null && data.getPost_fav().size() > 0)
                 mtvFav.setImageResource(R.drawable.liked);
             else
                 mtvFav.setImageResource(R.drawable.like);
 
             mtvName.setText(data.getPost_user().getName());
-            mtvDate.setText(Utility.getTimeAgoPost(data.getCreated_at(),PostDetailActivity.this));
+            mtvDate.setText(Utility.getTimeAgoPost(data.getCreated_at(), PostDetailActivity.this));
             mtvPostTitle.setText(data.getTitle());
             mtvDesc.setText(data.getDescription());
             mtvFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ApiControllerClass.markFavoriteUnfavorite(retrofit, PostDetailActivity.this, data.getPost_fav(),mtvFav, data.getId());
+                    ApiControllerClass.markFavoriteUnfavorite(retrofit, PostDetailActivity.this, data.getPost_fav(), mtvFav, data.getId());
                 }
             });
             mibChat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(PostDetailActivity.this,CommentsActivity.class).putExtra("dataPojo",data));
+                    startActivity(new Intent(PostDetailActivity.this, CommentsActivity.class).putExtra("dataPojo", data));
 
                 }
             });
 
         }
+    }
+
+    @OnClick(R.id.iv_profile)
+    public void onViewClicked() {
+        if(mPostDetail!=null)
+         startActivity(new Intent(PostDetailActivity.this, OtherUserProfileActivity.class).putExtra("userId",Integer.valueOf(mPostDetail.getUser_id())));
+
     }
 }

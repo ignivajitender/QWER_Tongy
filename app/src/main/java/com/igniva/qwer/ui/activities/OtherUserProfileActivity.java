@@ -442,7 +442,7 @@ OtherUserProfilePojo otherUserProfilePojo;
     @OnClick(R.id.iv_voiceCall)
     public void onIvVoiceCallClicked() {
         try {
-            ApiControllerClass.sendTwilioVoiceNotification(OtherUserProfileActivity.this, retrofit, PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""),otherUserProfilePojo.getUsers().getId()+"",otherUserProfilePojo.getUsers().getName());
+            ApiControllerClass.sendTwilioVoiceNotification(OtherUserProfileActivity.this, retrofit, PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""),otherUserProfilePojo.getUsers().getId()+"",otherUserProfilePojo.getUsers().getName(), otherUserProfilePojo.getUsers().getUser_image());
         } catch (Exception e) {
             e.printStackTrace();
         }

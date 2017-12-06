@@ -391,7 +391,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
                 .minVideoDimensions(VideoDimensions.CIF_VIDEO_DIMENSIONS)
                 .maxVideoDimensions(VideoDimensions.HD_720P_VIDEO_DIMENSIONS)
                 .minFps(5)
-                .maxFps(24)
+                .maxFps(30)
                 .build();
 
         // Share your microphone

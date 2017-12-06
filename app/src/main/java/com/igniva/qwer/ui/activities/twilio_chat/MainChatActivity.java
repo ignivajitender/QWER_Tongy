@@ -39,9 +39,9 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
     private ProgressDialog progressDialog;
 
     private String channelName;
-    public String gcmId;
-    public String ROOMId;
-    public String userId;
+//    public String gcmId;
+//    public String ROOMId;
+//    public String userId;
 
     @Override
     protected void onDestroy() {
@@ -70,9 +70,9 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
             }
         });
 
-        if(getIntent().hasExtra(Constants.ROOM_TITLE)) {
+//        if(getIntent().hasExtra(Constants.ROOM_TITLE)) {
 //            getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.ROOM_TITLE));
-        }
+//        }
 
         if(getIntent().hasExtra(Constants.ROOM_USER_NAME)) {
             getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.ROOM_USER_NAME));
@@ -81,15 +81,15 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
         if (getIntent().hasExtra(Constants.CHANNEL_NAME)) {
             channelName = getIntent().getStringExtra(Constants.CHANNEL_NAME);
         }
-        if (getIntent().hasExtra(Constants.CHAT_GCM_ID)) {
-            gcmId = getIntent().getStringExtra(Constants.CHAT_GCM_ID);
-        }
-        if (getIntent().hasExtra(Constants.ROOM_ID)) {
-            ROOMId = getIntent().getStringExtra(Constants.ROOM_ID);
-        }
-        if (getIntent().hasExtra(Constants.ROOM_USER_ID)) {
-            userId = getIntent().getStringExtra(Constants.ROOM_USER_ID);
-        }
+//        if (getIntent().hasExtra(Constants.CHAT_GCM_ID)) {
+//            gcmId = getIntent().getStringExtra(Constants.CHAT_GCM_ID);
+//        }
+//        if (getIntent().hasExtra(Constants.ROOM_ID)) {
+//            ROOMId = getIntent().getStringExtra(Constants.ROOM_ID);
+//        }
+//        if (getIntent().hasExtra(Constants.ROOM_USER_ID)) {
+//            userId = getIntent().getStringExtra(Constants.ROOM_USER_ID);
+//        }
 
         chatFragment = new MainChatFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatFragment).commit();

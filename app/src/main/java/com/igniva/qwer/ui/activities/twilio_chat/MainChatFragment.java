@@ -28,6 +28,7 @@ import com.igniva.qwer.ui.activities.twilio_chat.messages.LeftStatusMessage;
 import com.igniva.qwer.ui.activities.twilio_chat.messages.MessageAdapter;
 import com.igniva.qwer.ui.activities.twilio_chat.messages.StatusMessage;
 import com.igniva.qwer.utils.Global;
+import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.twilio.chat.CallbackListener;
 import com.twilio.chat.Channel;
@@ -257,7 +258,7 @@ public class MainChatFragment extends Fragment implements ChannelListener {
         JSONObject jsonObject = new JSONObject();
         JSONArray array = new JSONArray();
         try {
-            array.put(new JSONObject().put("id", ((MainChatActivity)mainActivity).userId));
+            array.put(new JSONObject().put("id", PreferenceHandler.readString(context,PreferenceHandler.PREF_KEY_USER_ID,"")));
             jsonObject.put("identity", array);
             jsonObject.put("channel_name", currentChannel.getUniqueName());
         } catch (JSONException e) {

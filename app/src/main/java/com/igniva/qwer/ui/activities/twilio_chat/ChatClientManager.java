@@ -48,7 +48,7 @@ public class ChatClientManager implements AccessManager.Listener, AccessManager.
     public void connectClient(final TaskCompletionListener<Void, String> listener) {
         ChatClient.setLogLevel(android.util.Log.DEBUG);
 
-        String loginUserId = "" + PreferenceHandler.readInteger(context, PreferenceHandler.PREF_KEY_USER_ID, 0);
+        String loginUserId = "" + PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, "");
         accessTokenFetcher.fetch(retrofit,loginUserId, new TaskCompletionListener<String, String>() {
             @Override
             public void onSuccess(String token) {
@@ -93,7 +93,7 @@ public class ChatClientManager implements AccessManager.Listener, AccessManager.
     @Override
     public void onTokenExpired(AccessManager accessManager) {
         System.out.println("token expired.");
-        String loginUserId = "" + PreferenceHandler.readInteger(context, PreferenceHandler.PREF_KEY_USER_ID, 0);
+        String loginUserId = "" + PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, "");
         accessTokenFetcher.fetch(retrofit,loginUserId, new TaskCompletionListener<String, String>() {
             @Override
             public void onSuccess(String token) {

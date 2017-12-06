@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -152,7 +153,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                  try {
-                          ApiControllerClass.sendTwilioVoiceNotification(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""),users.get(position).id+"",users.get(position).name);
+                          ApiControllerClass.sendTwilioVoiceNotification(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""),users.get(position).id+"",users.get(position).name,users.get(position).getUser_image());
                  }catch (Exception e){
                     Log.e("cardsadapter",e.getMessage());
                 }
@@ -250,8 +251,8 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
     private void showRecyclerViewList(List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_speak, RecyclerView mrvLanguage, TextView mtvAboutDetails, String type) {
         mtvAboutDetails.setVisibility(View.GONE);
         mrvLanguage.setVisibility(View.VISIBLE);
-//        GridLayoutManager linearLayoutManager1 = new GridLayoutManager(context, 3);
-//        mrvLanguage.setLayoutManager(linearLayoutManager1);
+        GridLayoutManager linearLayoutManager1 = new GridLayoutManager(context, 3);
+        mrvLanguage.setLayoutManager(linearLayoutManager1);
         mrvLanguage.setNestedScrollingEnabled(false);
 
 //        mrvLanguage.addItemDecoration(new GridSpacingItemDecoration(3, 10, false));

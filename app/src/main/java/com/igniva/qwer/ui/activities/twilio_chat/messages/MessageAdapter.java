@@ -98,7 +98,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             try {
                 if (object.getAuthor().equalsIgnoreCase
-                        ("" + PreferenceHandler.readInteger(mContext, PreferenceHandler.PREF_KEY_USER_ID, 0))) {
+                        ("" + PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""))) {
                     ((RightViewHolder) holder).mMessage.setText(StringEscapeUtils.unescapeJava(object.getMessageBody()));
                     ((RightViewHolder) holder).mTime.setText(getTime(object.getTimeStamp()));
                     if (!createdAtCurrent.equalsIgnoreCase(createdAt)) {
@@ -138,7 +138,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (mList != null) {
             ChatMessage object = mList.get(position);
             if (object != null) {
-                if (object.getAuthor().equalsIgnoreCase(""+PreferenceHandler.readInteger(mContext, PreferenceHandler.PREF_KEY_USER_ID, 0))) {
+                if (object.getAuthor().equalsIgnoreCase(""+PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""))) {
                     return RIGHT_CHAT;
                 } else {
                     return LEFT_CHAT;

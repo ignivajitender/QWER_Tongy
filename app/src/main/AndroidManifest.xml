@@ -90,7 +90,7 @@
 
             />
         <activity
-            android:name=".ui.activities.VideoActivity"
+            android:name=".ui.activities.twilio_chat.MainChatActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.TwilioVideoActivity"
