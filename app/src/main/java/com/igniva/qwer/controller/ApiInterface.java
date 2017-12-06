@@ -21,6 +21,7 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit.mime.TypedInput;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -179,7 +180,6 @@ public interface ApiInterface {
     @POST("/api/twilios/send-twilio-voice-notification")
     Call<TokenPojo>  sendTwilioVoiceNotification(@Body RequestBody body);
 
-
     //http://tongy.ignivastaging.com/api/users/singleUser?user_id=59
     @GET("/api/users/singleUser")
     Call<OtherUserProfilePojo> getSingleUser(@Query("user_id") int userId);
@@ -207,5 +207,17 @@ public interface ApiInterface {
 
     @GET("/api/state")
     Call<StateResponsePojo>  getStateList(@Query("country_id") String country_id);
+
+    @FormUrlEncoded
+    @POST("/twilios/messages")
+    Call<TokenPojo>  getMessageToken(@FieldMap Map<String, String> params);
+//
+    @FormUrlEncoded
+    @POST("/twilios/create-channel")
+    Call<ResponsePojo> createChannelName(@FieldMap Map<String, String> params);
+//
+
+    @POST("/twilios/messages-notification")
+    Call<ResponsePojo> sendTwilioChatNotification(@Body TypedInput body);
 
 }

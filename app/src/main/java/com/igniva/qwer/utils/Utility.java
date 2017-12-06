@@ -130,7 +130,7 @@ public class Utility {
     /**
      * Display Toast Message
      **/
-    public static void showToastMessageShort(Activity context, String message) {
+    public static void showToastMessageShort(Context context, String message) {
         Toast.makeText(context.getApplicationContext(), message,
                 Toast.LENGTH_SHORT).show();
     }
@@ -138,7 +138,7 @@ public class Utility {
     /**
      * Display Toast Message
      **/
-    public static void showToastMessageLong(Activity context, String message) {
+    public static void showToastMessageLong(Context context, String message) {
         Toast.makeText(context.getApplicationContext(), message,
                 Toast.LENGTH_LONG).show();
     }

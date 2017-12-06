@@ -1,6 +1,7 @@
 package com.igniva.qwer.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +21,9 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.ConnectionPojo;
 import com.igniva.qwer.model.PostDetailPojo;
+import com.igniva.qwer.ui.activities.twilio_chat.MainChatActivity;
 import com.igniva.qwer.ui.adapters.ConnectionRecyclerviewAdapter;
+import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.EndlessRecyclerViewScrollListener;
 import com.igniva.qwer.utils.Global;
 
@@ -138,6 +141,17 @@ public class ConnectionsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
 
+    }
+    private void goToChatActivity(String channel_name, String gcm_id, String userName, int id, String ROOMId, String strROOMTitle) {
+        Intent intent2 = new Intent(getActivity(), MainChatActivity.class);
+        intent2.putExtra(Constants.CHANNEL_NAME, channel_name);
+        intent2.putExtra(Constants.CHAT_GCM_ID, gcm_id);
+        intent2.putExtra(Constants.ROOM_ID, ROOMId);
+        intent2.putExtra(Constants.ROOM_TITLE, strROOMTitle);
+        intent2.putExtra(Constants.ROOM_USER_NAME, userName);
+        intent2.putExtra(Constants.ROOM_USER_ID, id+"");
+        getActivity().startActivity(intent2);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 
     public void setDataInViewObjects(final ConnectionPojo responsePojo) {

@@ -74,6 +74,7 @@ ext {
 dependencies {
     compile 'com.android.support:support-v4:25.2.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('src/main/lib/commons-lang-2.5.jar')
 
     // NATIVE ANDROID
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
@@ -140,6 +141,7 @@ dependencies {
     compile 'com.twilio:client-android:1.2.21'
     compile "com.twilio:chat-android:0.11.2"
     compile 'com.twilio:accessmanager-android:0.1.0'
+    compile 'joda-time:joda-time:2.9.1'
 
     compile 'com.koushikdutta.ion:ion:2.1.7'
 

@@ -49,7 +49,7 @@ public class NetModule {
                             mHandler = new Handler(Looper.getMainLooper()) {
                                 @Override
                                 public void handleMessage(Message message) {
-                                         Utility.showToastMessageLong((Activity) Global.sAppContext, "Your session is expired. Please login again to continue");
+                                         Utility.showToastMessageLong( Global.sAppContext.getApplicationContext(), "Your session is expired. Please login again to continue");
                                     // This is where you do your work in the UI thread.
                                     // Your worker tells you in the message what to do.
                                 }

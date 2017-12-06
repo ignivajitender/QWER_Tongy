@@ -14,12 +14,23 @@ public class Constants {
     public static final String TWILIO_ROOM = "TWILIO_ROOM";
     public static final String VIDEO_CALL_RECEAVER = "VIDEO_CALL_RECEAVER";
     public static final String TWILIO_INCOMMING = "TWILIO_INCOMMING";
+     public static final String CHAT_LIST = "CHAT_LIST";
+    public static final String CHANNEL_NAME = "CHANNEL_NAME";
+    public static final String CHAT_GCM_ID = "gcm_id";
     public static final String TWILIO_SENDER_NAME = "TWILIO_SENDER_NAME";
+    public static final String VOICE_CALL_RECEAVER = "VOICE_CALL_RECEAVER";
+    public static final String TWILIO_RECEAVER_NAME = "TWILIO_RECEAVER_NAME";
+    public static final String ROOM_USER_ID = "ROOM_USER_ID";
     public static final String TWILIO_CALLER_ID = "TWILIO_CALLER_ID";
     public static final String TWILIO_SENDER_ID = "TWILIO_SENDER_ID";
-    public static final String TWILIO_RECEAVER_NAME = "TWILIO_RECEAVER_NAME";
-    public static final String VOICE_CALL_RECEAVER = "VOICE_CALL_RECEAVER";
-    public static final String ROOM_TITLE ="ROOM_TITLE" ;
+    public static final String TWILIO_RECEAVER_IMAGE = "TWILIO_RECEAVER_IMAGE";
+    public static final String TWILIO_PARTICEPENT_DATA= "TWILIO_PARTICEPENT_DATA";
+    public static final String ROOM_ID = "ROOM_id";
+    public static final String ROOM_IS_MEMBER = "ROOM_is_member";
+    public static final String ROOM_TITLE = "ROOM_TITLE";
+    public static final String ROOM_USER_NAME = "ROOM_USER_NAME";
+    public static final String ROOM_CREATOR_ID = "ROOM_CREATOR_ID";
+    public static final String ROOM_MEMBER_COUNT = "ROOM_MEMBER_COUNT";
 
 
     public static final String IS_GUEST_USER = "IS_GUEST_USER";

@@ -118,15 +118,15 @@ public class TwilioVoiceClientIncomingActivity extends AppCompatActivity impleme
 
             TextView clientNameTextView = (TextView) capabilityPropertiesView.findViewById(R.id.client_name_registered_text);
 //            clientNameTextView.setText(MyApplication.clientProfile.getName()+" Calling...");
-
-            TextView outgoingCapabilityTextView = (TextView) capabilityPropertiesView.findViewById(R.id.outgoing_capability_registered_text);
-//            outgoingCapabilityTextView.setText("Outgoing Capability: " + Boolean.toString(TwilioVoiceClientIncomingActivity.this.clientProfile.isAllowOutgoing()));
-
-            TextView incomingCapabilityTextView = (TextView) capabilityPropertiesView.findViewById(R.id.incoming_capability_registered_text);
-//            incomingCapabilityTextView.setText("Incoming Capability: " + Boolean.toString(TwilioVoiceClientIncomingActivity.this.clientProfile.isAllowIncoming()));
-
-            TextView libraryVersionTextView = (TextView) capabilityPropertiesView.findViewById(R.id.library_version_text);
-//            libraryVersionTextView.setText("Library Version: " + Twilio.getVersion());
+//
+//            TextView outgoingCapabilityTextView = (TextView) capabilityPropertiesView.findViewById(R.id.outgoing_capability_registered_text);
+////            outgoingCapabilityTextView.setText("Outgoing Capability: " + Boolean.toString(TwilioVoiceClientIncomingActivity.this.clientProfile.isAllowOutgoing()));
+//
+//            TextView incomingCapabilityTextView = (TextView) capabilityPropertiesView.findViewById(R.id.incoming_capability_registered_text);
+////            incomingCapabilityTextView.setText("Incoming Capability: " + Boolean.toString(TwilioVoiceClientIncomingActivity.this.clientProfile.isAllowIncoming()));
+//
+//            TextView libraryVersionTextView = (TextView) capabilityPropertiesView.findViewById(R.id.library_version_text);
+////            libraryVersionTextView.setText("Library Version: " + Twilio.getVersion());
 
             if(getIntent().hasExtra(Constants.TWILIO_INCOMMING)){
                 //do something

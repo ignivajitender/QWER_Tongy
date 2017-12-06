@@ -20,6 +20,8 @@ import com.igniva.qwer.ui.activities.SetPreferrencesActivity;
 import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.activities.SignUpActivity;
 import com.igniva.qwer.ui.activities.SplashActivity;
+import com.igniva.qwer.ui.activities.twilio_chat.ChatClientManager;
+import com.igniva.qwer.ui.activities.twilio_chat.MainChatFragment;
 import com.igniva.qwer.ui.fragments.ConnectionsFragment;
 import com.igniva.qwer.ui.fragments.HomeFragment;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
@@ -70,4 +72,8 @@ public interface NetComponent {
     void inject(SplashActivity activity);
     void inject(HomeFragment fragment);
     void inject(ConnectionAcceptedActivity activity);
+
+    void inject(ChatClientManager chatClientManager);
+
+    void inject(MainChatFragment mainChatFragment);
 }

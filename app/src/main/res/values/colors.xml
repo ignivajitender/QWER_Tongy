@@ -43,4 +43,9 @@
         <item>@color/text_light_grey</item>
         <item>@color/bg_off_white</item>
     </array>
+
+    <color name="chat_right">#d6a7d6</color>
+    <color name="chat_left">#d8d8d8</color>
+    <color name="chat_center">#cfecff</color>
+
 </resources>

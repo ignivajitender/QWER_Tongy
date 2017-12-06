@@ -16,10 +16,12 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.igniva.qwer.R;
 import com.igniva.qwer.ui.activities.SplashActivity;
 import com.igniva.qwer.ui.activities.TwilioVideoActivity;
-import com.igniva.qwer.ui.activities.VideoActivity;
+import com.igniva.qwer.ui.activities.twilio_chat.MainChatActivity;
 import com.igniva.qwer.ui.activities.voice.TwilioVoiceClientActivity;
 import com.igniva.qwer.utils.Constants;
-import com.igniva.qwer.utils.PreferenceHandler;
+import com.igniva.qwer.utils.Global;
+
+import java.util.Random;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -48,9 +50,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 dialogIntent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
                 dialogIntent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room_name"));
                 dialogIntent.putExtra(Constants.TWILIO_INCOMMING, 1);
-                VideoActivity.TWILIO_ACCESS_TOKEN = remoteMessage.getData().get("token");
-                VideoActivity.TWILIO_ROOM_ID = remoteMessage.getData().get("room_name");
-                startActivity(dialogIntent);
+                 startActivity(dialogIntent);
 //            }
 
         } else if (remoteMessage.getData().containsKey("token") && remoteMessage.getData().get("notification").equalsIgnoreCase("21")) {
@@ -84,6 +84,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             Log.d(TAG, "TWILIO_TOKEN: " + remoteMessage.getData().get("token"));
             Log.d(TAG, "TWILIO_SENDER_NAME: " + remoteMessage.getData().get("reciver_name"));
+        }else if (remoteMessage.getData().get("notification").equals("24")) //request
+        { //invite
+
+            if (remoteMessage.getData().get("channel_name").equalsIgnoreCase(Global.activeChannelName)) {
+                return;
+            } else {
+                Intent intent6 = new Intent(this, MainChatActivity.class);
+                intent6.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent6.putExtra(Constants.CHANNEL_NAME, remoteMessage.getData().get("channel_name"));
+                intent6.putExtra(Constants.ROOM_USER_ID, remoteMessage.getData().get("sender_id"));
+                intent6.putExtra(Constants.ROOM_USER_NAME, remoteMessage.getData().get("sender_name"));
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent6,
+                        PendingIntent.FLAG_ONE_SHOT);
+                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("SkipRoom")
+                        .setContentText(remoteMessage.getData().get("message"))
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(remoteMessage.getData().get("message")))
+                        .setAutoCancel(true)
+                         .setContentIntent(pendingIntent);
+
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                Random random = new Random();
+                int not_id = random.nextInt(10000);
+                notificationManager.notify(not_id, notificationBuilder.build());
+
+            }
         } else
             sendNotification(remoteMessage.getData().get("message"));
     }

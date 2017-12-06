@@ -12,6 +12,7 @@ import com.igniva.qwer.controller.Config;
 import com.igniva.qwer.controller.DaggerNetComponent;
 import com.igniva.qwer.controller.NetComponent;
 import com.igniva.qwer.controller.NetModule;
+import com.igniva.qwer.ui.activities.twilio_chat.ChatClientManager;
 
 
 /**
@@ -20,14 +21,19 @@ import com.igniva.qwer.controller.NetModule;
 
 public class Global extends MultiDexApplication {
     public static FirebaseAnalytics mFirebaseAnalytics;
-    public static Context sAppContext=null;
+    public static Global sAppContext=null;
     private NetComponent mNetComponent;
     private PreferenceHandler prefs;
     public static Location mLastLocation;
 
 
-
-
+    //Twilio Chat
+    private ChatClientManager basicClient;
+    // active channel name
+    public static String activeChannelName = "";
+    public ChatClientManager getChatClientManager() {
+        return this.basicClient;
+    }
 
     @Override
     public void onCreate() {
@@ -43,6 +49,8 @@ public class Global extends MultiDexApplication {
 
         prefs = new PreferenceHandler(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        basicClient = new ChatClientManager(getApplicationContext());
+
     }
 //    void setComponets(Activity context, Object object){
 //        getNetComponent().inject((Activity) context);
@@ -58,8 +66,7 @@ public class Global extends MultiDexApplication {
     }
 
     public static synchronized void intializeFirebase(Context context) {
-        sAppContext = context;
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         setProperty("DeviceType", Utility.getDeviceType(context));
         setProperty("Rooted", Boolean.toString(Utility.isRooted()));
     }

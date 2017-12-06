@@ -19,7 +19,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -44,25 +43,24 @@ import java.util.Map;
 
 public class TwilioVoiceClientActivity extends AppCompatActivity implements DeviceListener, ConnectionListener, DeclinCallback {
 
-    //for showing the connect event
-    private boolean isCallButtonPressed = false;
-
-    private boolean isCallStarted = false;
     private static final String TAG = "TwilioVoiceClient";
-
     private static final int MIC_PERMISSION_REQUEST_CODE = 1;
-
     /*
      * You must provide a publicly accessible server to generate a Capability Token to connect to the Client service
      * Refer to website documentation for additional details: https://www.twilio.com/docs/quickstart/php/android-client
      */
     private static final String TOKEN_SERVICE_URL = "TOKEN_SERVICE_URL";
-
+    Ringtone ringTone;
+    Uri uriRingtone;
+    long pattern[] = {0, 200, 100, 300, 400};
+    TextView tvTitle;
+    //for showing the connect event
+    private boolean isCallButtonPressed = false;
+    private boolean isCallStarted = false;
     /*
      * A Device is the primary entry point to Twilio Services
      */
     private Device clientDevice;
-
     /*
      * A Connection represents a connection between a Device and Twilio Services.
      * Connections are either outgoing or incoming, and not created directly.
@@ -71,43 +69,8 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
      */
     private Connection activeConnection;
     private Connection pendingConnection;
-
     private AudioManager audioManager;
     private int savedAudioMode = AudioManager.MODE_INVALID;
-
-    @Override
-    public void videoCallDecline(boolean result) {
-        finish();
-    }
-
-    /*
-     * A representation of the current properties of a client token
-     */
-    protected class ClientProfile {
-        private String name;
-        private boolean allowOutgoing = true;
-        private boolean allowIncoming = true;
-
-
-        public ClientProfile(String name, boolean allowOutgoing, boolean allowIncoming) {
-            this.name = name;
-            this.allowOutgoing = allowOutgoing;
-            this.allowIncoming = allowIncoming;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public boolean isAllowOutgoing() {
-            return allowOutgoing;
-        }
-
-        public boolean isAllowIncoming() {
-            return allowIncoming;
-        }
-    }
-
     /*
      * Android application UI elements
      */
@@ -121,24 +84,19 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
     private Chronometer chronometer;
     private View callView;
     private View capabilityPropertiesView;
-
     private boolean muteMicrophone;
     private boolean speakerPhone;
-
     private String strClientReceaverName = "null";
     private String strClientName = "null";
     private String strClientToken = "null";
-
     private TextView tvConnecting;
     private ImageView imgReceaverImage;
-
-    Ringtone ringTone;
-    Uri uriRingtone;
     private Vibrator vib;
-    long pattern[]={0,200,100,300,400};
 
-    Toolbar toolbar;
-    TextView tvTitle;
+    @Override
+    public void videoCallDecline(boolean result) {
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,17 +135,13 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
         muteActionFab = (FloatingActionButton) findViewById(R.id.mute_action_fab);
         speakerActionFab = (FloatingActionButton) findViewById(R.id.speaker_action_fab);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        tvTitle = (TextView)findViewById(R.id.tvTitle);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
-//        if(getIntent().hasExtra(Constants.SKIPROOM_TITLE)) {
-//            tvTitle.setText(StringEscapeUtils.unescapeJava(getIntent().getStringExtra(Constants.SKIPROOM_TITLE)));
+        tvTitle = (TextView) findViewById(R.id.client_name_registered_text);
+         if (getIntent().hasExtra(Constants.TWILIO_INCOMMING)) {
+            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));
 //            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.SKIPROOM_TITLE));
-//        }
+        } else {
+            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_NAME));
+        }
 //        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
 //            Picasso.with(this)
 //                    .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
@@ -202,7 +156,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //            }
 //        });
 
-        if(getIntent().hasExtra(Constants.TWILIO_SENDER_NAME)) {
+        if (getIntent().hasExtra(Constants.TWILIO_SENDER_NAME)) {
             Log.d(TAG, "TWILIO_SENDER_NAME: " + getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));
             Log.d(TAG, "TWILIO_TOKEN: " + getIntent().getStringExtra(Constants.TWILIO_TOKEN));
             strClientName = getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME);
@@ -213,11 +167,11 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
         ringTone = RingtoneManager
                 .getRingtone(getApplicationContext(), uriRingtone);
         vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if(getIntent().hasExtra(Constants.TWILIO_INCOMMING)){
+        if (getIntent().hasExtra(Constants.TWILIO_INCOMMING)) {
             ringTone.play();
             vib.vibrate(pattern, 0);
             acceptActionFab.show();
-        }else {
+        } else {
             acceptActionFab.hide();
         }
 
@@ -251,7 +205,6 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
         setCallAction();
     }
 
-
     /*
      * Initialize the Twilio Client SDK
      */
@@ -280,7 +233,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
                     Toast.makeText(TwilioVoiceClientActivity.this, "Failed to initialize the Twilio Client SDK", Toast.LENGTH_LONG).show();
                 }
             });
-        }else {
+        } else {
             retrieveCapabilityToken(clientProfile);
         }
     }
@@ -312,21 +265,20 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             }
 
 
-            TextView clientNameTextView = (TextView) capabilityPropertiesView.findViewById(R.id.client_name_registered_text);
-            clientNameTextView.setText(strClientReceaverName.replace("_"," ")+" Calling...");
+//            clientNameTextView.setText(strClientReceaverName.replace("_", " ") + " Calling...");
+//
+//            TextView outgoingCapabilityTextView = (TextView) capabilityPropertiesView.findViewById(R.id.outgoing_capability_registered_text);
+//            outgoingCapabilityTextView.setText("Outgoing Capability: " + Boolean.toString(TwilioVoiceClientActivity.this.clientProfile.isAllowOutgoing()));
+//
+//            TextView incomingCapabilityTextView = (TextView) capabilityPropertiesView.findViewById(R.id.incoming_capability_registered_text);
+//            incomingCapabilityTextView.setText("Incoming Capability: " + Boolean.toString(TwilioVoiceClientActivity.this.clientProfile.isAllowIncoming()));
+//
+//            TextView libraryVersionTextView = (TextView) capabilityPropertiesView.findViewById(R.id.library_version_text);
+//            libraryVersionTextView.setText("Library Version: " + Twilio.getVersion());
 
-            TextView outgoingCapabilityTextView = (TextView) capabilityPropertiesView.findViewById(R.id.outgoing_capability_registered_text);
-            outgoingCapabilityTextView.setText("Outgoing Capability: " + Boolean.toString(TwilioVoiceClientActivity.this.clientProfile.isAllowOutgoing()));
+            if (getIntent().hasExtra(Constants.TWILIO_INCOMMING)) {
 
-            TextView incomingCapabilityTextView = (TextView) capabilityPropertiesView.findViewById(R.id.incoming_capability_registered_text);
-            incomingCapabilityTextView.setText("Incoming Capability: " + Boolean.toString(TwilioVoiceClientActivity.this.clientProfile.isAllowIncoming()));
-
-            TextView libraryVersionTextView = (TextView) capabilityPropertiesView.findViewById(R.id.library_version_text);
-            libraryVersionTextView.setText("Library Version: " + Twilio.getVersion());
-
-            if(getIntent().hasExtra(Constants.TWILIO_INCOMMING)){
-
-            }else {
+            } else {
                 //call to receaver user
                 // Create an outgoing connection
                 connect(strClientName, false);
@@ -360,20 +312,20 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 
             pendingConnection = incomingConnection;
             pendingConnection.setConnectionListener(this);
-            Log.d(TAG, "onResume: CallSIDKey "+pendingConnection.getParameters().get(Connection.IncomingParameterCallSIDKey));
-            if(isCallButtonPressed){
+            Log.d(TAG, "onResume: CallSIDKey " + pendingConnection.getParameters().get(Connection.IncomingParameterCallSIDKey));
+            if (isCallButtonPressed) {
                 isCallButtonPressed = false;
                 Log.d(TAG, "onResume: HIDE CONNECTING...");
                 tvConnecting.setVisibility(View.GONE);
                 answer();
                 setCallUI();
-            }else {
+            } else {
                 isCallButtonPressed = true;
                 showIncomingDialog();
             }
             Log.d(TAG, "onResume: INCOMING CALL");
-        }else {
-            Log.d(TAG, "onResume: "+"INTENT NULL");
+        } else {
+            Log.d(TAG, "onResume: " + "INTENT NULL");
         }
     }
 
@@ -438,12 +390,13 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             Log.d(TAG, "activeConnection: disconnect");
             activeConnection.disconnect();
             activeConnection = null;
-        }if (clientDevice != null) {
+        }
+        if (clientDevice != null) {
             Log.d(TAG, "disconnect: clientDevice--disconnectAll");
             clientDevice.disconnectAll();
             clientDevice = null;
         }
-        finish();
+//        finish();
     }
 
     /*
@@ -451,7 +404,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
      */
     private void answer() {
         // Only one connection can exist at time, disconnecting any active connection.
-        if( activeConnection != null ){
+        if (activeConnection != null) {
             activeConnection.disconnect();
         }
 
@@ -512,6 +465,17 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
     }
 
     /*
+     * Creates an incoming call UI dialog
+     */
+    private void showIncomingDialog() {
+        hangupActionFab.show();
+        acceptActionFab.show();
+//        callActionFab.hide();
+//        alertDialog = TwilioDialog.createIncomingCallDialog(answerCallClickListener(), cancelCallClickListener(), this);
+//        alertDialog.show();
+    }
+
+    /*
      * Creates an update token UI dialog
      */
 //    private void updateClientProfileDialog() {
@@ -527,15 +491,17 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //        alertDialog.show();
 //    }
 
-    /*
-     * Creates an incoming call UI dialog
-     */
-    private void showIncomingDialog() {
-        hangupActionFab.show();
-        acceptActionFab.show();
-//        callActionFab.hide();
-//        alertDialog = TwilioDialog.createIncomingCallDialog(answerCallClickListener(), cancelCallClickListener(), this);
-//        alertDialog.show();
+    private DialogInterface.OnClickListener cancelCallClickListener() {
+        return new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (pendingConnection != null) {
+                    pendingConnection.reject();
+                }
+                alertDialog.dismiss();
+            }
+        };
     }
 
 //    private DialogInterface.OnClickListener callClickListener() {
@@ -577,19 +543,6 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //            }
 //        };
 //    }
-
-    private DialogInterface.OnClickListener cancelCallClickListener() {
-        return new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (pendingConnection != null) {
-                    pendingConnection.reject();
-                }
-                alertDialog.dismiss();
-            }
-        };
-    }
 
     private View.OnClickListener muteMicrophoneFabClickListener() {
         return new View.OnClickListener() {
@@ -641,14 +594,15 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             }
         };
     }
+
     private View.OnClickListener acceptActionFabClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: "+isCallButtonPressed);
+                Log.d(TAG, "onClick: " + isCallButtonPressed);
                 try {
                     //off the tone
-                    if(ringTone!=null){
+                    if (ringTone != null) {
                         ringTone.stop();
                         vib.cancel();
                         ringTone = null;
@@ -657,13 +611,13 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
                     e.printStackTrace();
                 }
 
-                if(!isCallButtonPressed){
+                if (!isCallButtonPressed) {
                     tvConnecting.setVisibility(View.VISIBLE);
                     Log.d(TAG, "onClick: SHOW CONNECTING....");
                     acceptActionFab.hide();
                     isCallButtonPressed = true;
                     return;
-                }else {
+                } else {
                     acceptActionFab.hide();
                 }
                 answer();
@@ -671,7 +625,6 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             }
         };
     }
-
 
     /* Device Listener */
     @Override
@@ -730,7 +683,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
         Log.d(TAG, "onDisconnected: a" + connection.getParameters().toString());
         Log.d(TAG, "onDisconnected: a" + connection.getState().name());
         // Remote participant may have disconnected an incoming call before the local participant was able to respond, rejecting any existing pendingConnections
-        if( connection == pendingConnection ) {
+        if (connection == pendingConnection) {
             pendingConnection = null;
             resetUI();
 //            alertDialog.dismiss();
@@ -744,9 +697,9 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
                     }
                 });
             }
-             Log.d(TAG, "Disconnect");
+            Log.d(TAG, "Disconnect");
         }
-        if(isCallStarted){
+        if (isCallStarted) {
             finish();
         }
 //
@@ -795,7 +748,6 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             Log.e(TAG, String.format("Connection error: %s", error));
         }
     }
-
 
     private boolean checkPermissionForMicrophone() {
         int resultMic = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
@@ -869,7 +821,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 
         try {
             //off the tone
-            if(ringTone!=null){
+            if (ringTone != null) {
                 ringTone.stop();
                 vib.cancel();
                 ringTone = null;
@@ -878,5 +830,33 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             e.printStackTrace();
         }
         super.onDestroy();
+    }
+
+    /*
+     * A representation of the current properties of a client token
+     */
+    protected class ClientProfile {
+        private String name;
+        private boolean allowOutgoing = true;
+        private boolean allowIncoming = true;
+
+
+        public ClientProfile(String name, boolean allowOutgoing, boolean allowIncoming) {
+            this.name = name;
+            this.allowOutgoing = allowOutgoing;
+            this.allowIncoming = allowIncoming;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public boolean isAllowOutgoing() {
+            return allowOutgoing;
+        }
+
+        public boolean isAllowIncoming() {
+            return allowIncoming;
+        }
     }
 }

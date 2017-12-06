@@ -57,6 +57,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,6 +67,7 @@ import java.util.Map;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit.mime.TypedByteArray;
 import retrofit.mime.TypedInput;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -1333,7 +1335,6 @@ public class ApiControllerClass {
                      "reason":"abuse",
                     “comment”:”text”,
                 }*/
-
                 CallProgressWheel.showLoadingDialog(context, "Loading...");
                 HashMap<String, String> changePasswordHashMap = new HashMap<>();
                 changePasswordHashMap.put("user_id", userId + "");
@@ -1532,19 +1533,102 @@ public class ApiControllerClass {
 
                         @Override
                         public void onFailure(Call<StateResponsePojo> call, Throwable t) {
-
-
                             //CallProgressWheel.dismissLoadingDialog();
+
                         }
                     });
             }
+          } catch (Exception e) {
+            e.printStackTrace();
+        }
+     }
 
+    public static void createChannel(final Retrofit retrofit, final Activity mContext, int toUserId, final String fromUserID) {
+        try {
+            CallProgressWheel.showLoadingDialog(mContext, "Loading...");
+            HashMap<String, String> params = new HashMap<>();
+            params.put("to", "" + toUserId);
+            String channelName=toUserId+"_"+fromUserID;
+            if(Integer.valueOf(toUserId)>Integer.valueOf(fromUserID))
+                channelName=fromUserID+"_"+toUserId;
+            params.put("name",  channelName);
+            Call<ResponsePojo> posts = null;
+            posts = retrofit.create(ApiInterface.class).createChannelName(params);
+            if (posts != null)
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        CallProgressWheel.dismissLoadingDialog();
+//                        String jsonString = new String(((TypedByteArray) response.body()).getBytes());
+//                        android.util.Log.e(TAG, "Success " + jsonString);
+//                        if (responseObjectPojo.status == 200) {
+//                            callBack.isCreated(true,channelName);
+//                        } else if (responseObjectPojo.status == 400
+//                                || responseObjectPojo.status == 600) {
+//                            Utility.logOutTokenExpire(mContext, responseObjectPojo.message);
+//                        } else if (responseObjectPojo.status == 450) {
+//                            Utility.logOutTokenExpire(mContext, responseObjectPojo.message);
+//                        } else if (responseObjectPojo.status == 1000) {
+//                            Utility.logOutTokenExpire(mContext, responseObjectPojo.message);
+//                        } else {
+//                            Utility.showDialogWithSingleButton(mContext, responseObjectPojo.message, "OK", null);
+//                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        //CallProgressWheel.dismissLoadingDialog();
+                        CallProgressWheel.dismissLoadingDialog();
+                    }
+                });
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendTwilioChatNotification(Retrofit retrofit,Activity mainActivity, String s) {
+//        ApiInterface mWebApi = RetrofitClient.createService(ApiInterface.class, mContext);
+//            CallProgressWheel.showLoadingDialog(mContext, "Loading...");
+try {
+        TypedInput in = null;
+         try {
+            in = new TypedByteArray("application/json", s.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
 
+        Call<ResponsePojo> posts = null;
+        posts = retrofit.create(ApiInterface.class).sendTwilioChatNotification(in);
+        if (posts != null)
+            posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                @Override
+                public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                    CallProgressWheel.dismissLoadingDialog();
+//                    String jsonString = new String(((TypedByteArray) response.getBody()).getBytes());
+//                    android.util.Log.e(TAG, "Success " + jsonString);
+//                    if (responseObjectPojo.status == 200) {
+//
+//                    } else if (responseObjectPojo.status == 400
+//                            || responseObjectPojo.status == 600) {
+//                        Utility.showDialogWithSingleButton(mContext, responseObjectPojo.message, "OK", null);
+//                    } else if (responseObjectPojo.status == 1000) {
+//                        Utility.logOutTokenExpire(mContext, responseObjectPojo.message);
+//                    } else {
+//                        Utility.showDialogWithSingleButton(mContext, responseObjectPojo.message, "OK", null);
+//                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                    //CallProgressWheel.dismissLoadingDialog();
+                    CallProgressWheel.dismissLoadingDialog();
+                }
+            });
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+}
 }
 
