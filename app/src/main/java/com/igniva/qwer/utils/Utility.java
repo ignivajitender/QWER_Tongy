@@ -438,19 +438,13 @@ public class Utility {
 //					CallProgressWheel.dismissLoadingDialog();
                 }
             });
-
-
-        } catch (Exception e) {
+         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     private static void showAddress(final ArrayList<predictionsPojo> predictionsPojo, final AutoCompleteTextView mautocomTextviewDeliveryAddress, final Activity context) {
-
-
-        if (languages == null)
+         if (languages == null)
             languages = new ArrayList<>();
         else
             languages.clear();

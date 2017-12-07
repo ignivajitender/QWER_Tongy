@@ -8,8 +8,7 @@
     android:background="@color/bg_off_white"
     android:orientation="vertical"
     tools:ignore="HardcodedText">
-
-    <android.support.design.widget.CoordinatorLayout
+     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

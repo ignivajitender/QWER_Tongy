@@ -487,7 +487,7 @@ public class Validation {
     }
 
 
-    public static boolean validateUpdateProfile(Activity activity, AutoCompleteTextView mEtCountry, EditText mEtPincode, EditText mEtAbout, AutoCompleteTextView mEtCity, EditText mEtAge,EditText mName) {
+    public static boolean validateUpdateProfile(Activity activity, AutoCompleteTextView mEtCountry, EditText mEtPincode, EditText mEtAbout, AutoCompleteTextView mEtCity, EditText mEtAge,EditText mName, String coverImageID) {
 
         if(FieldValidators.isNullOrEmpty(mName)){
             mName.setFocusable(true);
@@ -507,25 +507,30 @@ public class Validation {
             mEtCity.setError(activity.getString(R.string.please_enter_city));
             return false;
         }
-        if(FieldValidators.isNullOrEmpty(mEtPincode)){
+       else if(FieldValidators.isNullOrEmpty(mEtPincode)){
             mEtPincode.setFocusable(true);
             mEtPincode.requestFocus();
             mEtPincode.setError(activity.getString(R.string.please_enter_pincode));
             return false;
         }
-        if(FieldValidators.isNullOrEmpty(mEtAge)){
+       else if(FieldValidators.isNullOrEmpty(mEtAge)){
             mEtAge.setFocusable(true);
             mEtAge.requestFocus();
             mEtAge.setError(activity.getString(R.string.please_enter_age));
             return false;
         }
-        if(FieldValidators.isNullOrEmpty(mEtAbout)){
+       else if(FieldValidators.isNullOrEmpty(mEtAbout)){
             mEtAbout.setFocusable(true);
             mEtAbout.requestFocus();
             mEtAbout.setError(activity.getString(R.string.please_enter_about));
             return false;
         }
+        else if(coverImageID!=null || coverImageID.length()==0)
+        {
+            Utility.showToastMessageLong(activity,activity.getString(R.string.please_upload_atleast_one_image));
+            return false;
 
+        }
 
         return true;
     }

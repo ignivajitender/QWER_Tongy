@@ -7,6 +7,16 @@ public class ResponsePojo {
 
     private int status;
     private String description;
+
+    public String getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(String image_id) {
+        this.image_id = image_id;
+    }
+
+    private String image_id;
     private predictionsCountriesPojo data;
     private ErrorPojo error;
 

@@ -205,6 +205,10 @@ public interface ApiInterface {
     @POST("api/users/requestSend")
     Call<ResponsePojo> requestSend(@Field("request_to") int request_to);
 
+    @FormUrlEncoded
+    @POST("api/users/imageDelete")
+    Call<ResponsePojo> imageDelete(@Field("image_id") String imageID);
+
     @GET("/api/state")
     Call<StateResponsePojo>  getStateList(@Query("country_id") String country_id);
 

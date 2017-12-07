@@ -281,4 +281,5 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="log_out">Log Out</string>
     <string name="permissions_needed">Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.</string>
     <string name="turn_speaker_on">Speaker ON</string>
+    <string name="please_upload_atleast_one_image">Please upload atleast one image</string>
 </resources>

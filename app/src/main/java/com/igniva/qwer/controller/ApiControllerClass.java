@@ -23,6 +23,7 @@ import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
+import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.model.StatePojo;
 import com.igniva.qwer.model.StateResponsePojo;
@@ -1501,15 +1502,82 @@ public class ApiControllerClass {
     }
 
 
+    public static void imageDelete(final int pos, final List<ProfileResponsePojo.UserImageData> imageDataList, Retrofit retrofit, final Context context) {
+        try {
+            if (Utility.isInternetConnection(context)) {
+           /*      {
+                    "post_id":"1",
+                     "reason":"abuse",
+                    “comment”:”text”,
+                }*/
+                ProfileResponsePojo.UserImageData imageData = null;
+                if (imageDataList != null && imageDataList.size() >= pos) {
+                    imageData = imageDataList.get(pos - 1);
+                } else if (imageDataList != null && imageDataList.size() >= pos - 1) {
+                    imageData = imageDataList.get(pos - 2);
+                } else if (imageDataList != null && imageDataList.size() >= 0) {
+                    imageData = imageDataList.get(0);
+                }
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                //Create a retrofit call object
+                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).imageDelete(imageData.getId());
+                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+                        ProfileResponsePojo.UserImageData imageData = null;
+                        if (imageDataList != null && imageDataList.size() >= pos) {
+                            imageData = imageDataList.get(pos - 1);
+                        } else if (imageDataList != null && imageDataList.size() >= pos - 1) {
+                            imageData = imageDataList.get(pos - 2);
+                        } else if (imageDataList != null && imageDataList.size() >= 0) {
+                            imageData = imageDataList.get(0);
+                        }
+
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            ((MyProfileActivity) context).mResponsePojo.getData().getUser_image().remove(imageData);
+                            if (((MyProfileActivity) context).coverIMageID.equals(imageData.getId())) {
+                                ((MyProfileActivity) context).setCoverImage(-1);
+                                ;
+                            }
+                            ((MyProfileActivity) context).setImageOnPosition(pos, null);
+                            ;
+                            Utility.showToastMessageLong((Activity) context, response.body().getDescription());
+
+                        } else if (response.body().getStatus() == 400) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            Toast.makeText(context, response.body().getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+
     public static void callStateListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry, String country_id) {
         try {
             if (Utility.isInternetConnection(activity)) {
-
                 //CallProgressWheel.showLoadingDialog(activity, "Loading...");
-
                 Call<StateResponsePojo> posts = null;
                 posts = retrofit.create(ApiInterface.class).getStateList(country_id);
-
                 if (posts != null)
                     posts.enqueue(new retrofit2.Callback<StateResponsePojo>() {
                         @Override
@@ -1524,7 +1592,6 @@ public class ApiControllerClass {
                                 }
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
                                 ((MyProfileActivity) activity).mautocomTextViewCountry.setAdapter(adapter);
-
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                             } else {
@@ -1559,7 +1626,7 @@ public class ApiControllerClass {
             Call<ResponsePojo> posts = null;
 //            posts = retrofit.create(ApiInterface.class).createChannelName(params);
 
-             if (posts != null)
+            if (posts != null)
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
                     @Override
                     public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {

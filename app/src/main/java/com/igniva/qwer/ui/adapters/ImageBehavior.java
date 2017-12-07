@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.igniva.qwer.R;
-import com.igniva.qwer.utils.Log;
 
 
 public class ImageBehavior extends CoordinatorLayout.Behavior<SimpleDraweeView> {
@@ -116,10 +115,10 @@ public class ImageBehavior extends CoordinatorLayout.Behavior<SimpleDraweeView> 
 
         int result = 0;
         int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        Log.e("resourceI",""+resourceId);
+//        Log.e("resourceI",""+resourceId);
         if (resourceId > 0) {
             result = mContext.getResources().getDimensionPixelSize(resourceId);
-            Log.e("result",""+result);
+//            Log.e("result",""+result);
         }
         return result;
     }

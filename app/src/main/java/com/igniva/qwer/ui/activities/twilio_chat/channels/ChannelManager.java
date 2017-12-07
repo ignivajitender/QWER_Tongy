@@ -190,7 +190,7 @@ public class ChannelManager implements ChatClientListener {
 
     @Override
     public void onConnectionStateChange(ChatClient.ConnectionState connectionState) {
-
+        Log.e("ChannelManager","onConnectionStateChange"+connectionState.getValue());
     }
 
     private Handler setupListenerHandler() {
