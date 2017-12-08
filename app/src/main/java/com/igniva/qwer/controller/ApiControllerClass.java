@@ -1041,7 +1041,7 @@ public class ApiControllerClass {
         }
     }
 
-    public static void getVideoToken(final Context context, Retrofit retrofit, final String roomName, String identity) {
+    public static void getVideoToken(final Context context, Retrofit retrofit, final String roomName, String identity, final String userName, final String userImage) {
         try {
             if (Utility.isInternetConnection(context)) {
                 CallProgressWheel.showLoadingDialog(context, "Loading...");
@@ -1080,7 +1080,10 @@ public class ApiControllerClass {
                                 CallProgressWheel.dismissLoadingDialog();
 //                                VideoActivity.TWILIO_ACCESS_TOKEN=response.body().getToken();
 //                                VideoActivity.TWILIO_ROOM_ID=roomName ;
-                                context.startActivity(new Intent(context, TwilioVideoActivity.class).putExtra(Constants.TWILIO_TOKEN, response.body().getToken()).putExtra(Constants.TWILIO_ROOM, roomName));
+                                context.startActivity(new Intent(context, TwilioVideoActivity.class).putExtra(Constants.TWILIO_TOKEN, response.body().getToken()).putExtra(Constants.TWILIO_ROOM, roomName).putExtra(Constants.TWILIO_RECEAVER_NAME, userName)
+                                        .putExtra(Constants.TWILIO_RECEAVER_IMAGE, userImage))
+                                ;
+
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                             } else {
                                 CallProgressWheel.dismissLoadingDialog();

@@ -29,9 +29,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.TwilioCameraCapturerCompat;
@@ -121,6 +124,9 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
     private Boolean isCallActive = false;
     private Boolean callInitiate = false;
     private int speakerOn = 1;
+    ImageView imgReceaverImage;
+    LinearLayout llCallingView;
+
     // Our handler for received Intents. This will be called whenever an Intent
 // with an action named "custom-event-name" is broadcasted.
 
@@ -154,11 +160,14 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
         btnAccept.setOnClickListener(this);
         btnReject = (FloatingActionButton) findViewById(R.id.btn_reject);
         btnReject.setOnClickListener(this);
+        llCallingView=  (LinearLayout) findViewById(R.id.ll_callingView);
 
         primaryVideoView = (VideoView) findViewById(R.id.primary_video_view_1);
         primaryVideoView = (VideoView) findViewById(R.id.primary_video_view);
         thumbnailVideoView = (VideoView) findViewById(R.id.thumbnail_video_view);
         videoStatusTextView = (TextView) findViewById(R.id.video_status_textview);
+        imgReceaverImage = (ImageView) findViewById(R.id.iv_user_image);
+
 //        toolbar  = (Toolbar)findViewById(R.id.toolbar);
 //        tvTitle = (TextView)findViewById(R.id.tvTitle);
 //        setSupportActionBar(toolbar);
@@ -248,6 +257,21 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
                 btnReject.performClick();
             }
         }.start();
+
+        tvTitle = (TextView) findViewById(R.id.client_name_registered_text);
+        if (getIntent().hasExtra(Constants.TWILIO_INCOMMING)) {
+            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));
+//            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.SKIPROOM_TITLE));
+        } else {
+            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_NAME));
+        }
+
+        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
+            Glide.with(this)
+                    .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
+                    .into(imgReceaverImage);
+            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE));
+        }
 
     }
 
@@ -514,25 +538,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
         };
     }
 
-    /*
-     * The actions performed during disconnect.
-     */
-    private void setDisconnectAction() {
-
-    }
-
-    /*
-     * Creates an connect UI dialog
-     */
-
-    private void showConnectDialog() {
-//        EditText roomEditText = new EditText(this);
-//        alertDialog =  Dialog.createConnectDialog(roomEditText,
-//        connectClickListener(roomEditText), cancelConnectDialogClickListener(), this);
-//        alertDialog.show();
-    }
-
-    /*
+     /*
      * Called when participant joins the room
      */
 
@@ -571,6 +577,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
                 ringTone = null;
             }
         }
+
         //start time for call logs
         chronometer.setVisibility(View.VISIBLE);
         chronometer.setBase(SystemClock.elapsedRealtime());
@@ -581,6 +588,8 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
          */
         intializeUI();
         participant.setListener(participantListener());
+        llCallingView.setVisibility(View.GONE);
+
     }
 
     /*
@@ -943,7 +952,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
               *   Disconnect from room
               */
 
-            if (room != null && member == 0) {
+//            if (room != null && member == 0) {
  //        JSONObject jsonObject = new JSONObject();
 //        try {
 //        jsonObject.put("user_id", AllFollowersTwilioFragment.arrayData);
@@ -971,8 +980,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
                     ringTone = null;
                 }
                 finish();
-
-            }
+ //            }
         }
 
     }

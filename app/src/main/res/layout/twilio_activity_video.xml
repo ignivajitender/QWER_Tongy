@@ -35,26 +35,35 @@
         android:layout_alignParentTop="true"
         tools:ignore="IncludeLayoutParam" />
 
-
-    <!--<ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center|left"
+    android:id="@+id/ll_callingView"
+    android:layout_margin="@dimen/dp_50"
+    android:background="@color/bg_blue"
+      android:orientation="horizontal">
+    <ImageView
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_margin="@dimen/dp5"
+        android:id="@+id/iv_user_image"
         android:layout_above="@+id/ll_bottom"
-        android:layout_marginBottom="@dimen/_8dp"
-        android:layout_marginTop="@dimen/_100dp"
-        android:src="@mipmap/dummy_user" />
+        android:src="@drawable/placeholder" />
 
     <TextView
         android:id="@+id/client_name_registered_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:editable="false"
-        android:gravity="center"
+        android:layout_margin="@dimen/dp5"
+         android:gravity="center"
         android:text="Skiproom Calling..."
-        android:textColor="@color/colorAccent"
-        android:textSize="@dimen/_20sp"
+        android:textColor="@color/bg_white"
+        android:textSize="@dimen/_14sp"
+         />
 
-        />-->
+</LinearLayout>
 
 
     <android.support.design.widget.FloatingActionButton
@@ -83,9 +92,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
-
-        <android.support.design.widget.FloatingActionButton
+         <android.support.design.widget.FloatingActionButton
             android:id="@+id/switch_camera_action_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,7 +134,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:gravity="center"
         android:textColor="@color/bg_white"
-        android:textSize="@dimen/_36sp"
+        android:textSize="@dimen/_24sp"
         android:visibility="visible" />
 
     <LinearLayout

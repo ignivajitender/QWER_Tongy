@@ -93,8 +93,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
     private TextView tvConnecting;
     private ImageView imgReceaverImage;
     private Vibrator vib;
-
-    @Override
+     @Override
     public void videoCallDecline(boolean result) {
         finish();
     }
@@ -124,7 +123,6 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 //            }
 //            AllFollowersTwilioFragment.arrayData = jsonArray;
 //        }
-
         callView = (View) findViewById(R.id.call_layout);
         capabilityPropertiesView = (View) findViewById(R.id.capability_properties);
         imgReceaverImage = (ImageView) findViewById(R.id.iv_user_image);
@@ -143,8 +141,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_NAME));
         }
         if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
-
-            Glide.with(this)
+             Glide.with(this)
                     .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
                      .into(imgReceaverImage);
             Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE));
@@ -290,6 +287,8 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
 
 
         Intent intent = getIntent();
+        Log.e(TAG, "onResume: " + "INTENT ==="+intent);
+
         if (intent != null) {
             /*
              * Determine if the receiving Intent has an extra for the incoming connection. If so,
@@ -318,8 +317,6 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
                 showIncomingDialog();
             }
             Log.d(TAG, "onResume: INCOMING CALL");
-        } else {
-            Log.d(TAG, "onResume: " + "INTENT NULL");
         }
     }
 
@@ -330,6 +327,8 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        Log.e(TAG, "onNewIntent: " + "INTENT ==="+intent);
+
         setIntent(intent);
     }
 
@@ -390,7 +389,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             clientDevice.disconnectAll();
             clientDevice = null;
         }
-//        finish();
+        finish();
     }
 
     /*
@@ -585,6 +584,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             public void onClick(View v) {
                 resetUI();
                 disconnect();
+
             }
         };
     }
@@ -693,9 +693,9 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
             }
             Log.d(TAG, "Disconnect");
         }
-        if (isCallStarted) {
+//        if (isCallStarted) {
             finish();
-        }
+//        }
 //
 //            JSONObject jsonObject = new JSONObject();
 //            try {
@@ -740,6 +740,8 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
                 });
             }
             Log.e(TAG, String.format("Connection error: %s", error));
+            finish();
+
         }
     }
 
@@ -803,16 +805,20 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
                 audioManager.setMode(savedAudioMode);
                 audioManager.abandonAudioFocus(null);
             }
+
         }
     }
 
     @Override
     protected void onDestroy() {
+        if (pendingConnection != null) {
+            pendingConnection.reject();
+        }
+
         if (activeConnection != null) {
             activeConnection.disconnect();
             activeConnection = null;
         }
-
         try {
             //off the tone
             if (ringTone != null) {

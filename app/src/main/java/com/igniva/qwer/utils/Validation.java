@@ -525,12 +525,11 @@ public class Validation {
             mEtAbout.setError(activity.getString(R.string.please_enter_about));
             return false;
         }
-        else if(coverImageID!=null || coverImageID.length()==0)
+        else if(coverImageID==null || coverImageID.length()==0)
         {
             Utility.showToastMessageLong(activity,activity.getString(R.string.please_upload_atleast_one_image));
             return false;
-
-        }
+         }
 
         return true;
     }

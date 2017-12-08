@@ -703,7 +703,7 @@ public class Utility {
 		* */
     }
 
-    public static void goToChatActivity(Activity context, int toUserId, final String fromUserID, String userName) {
+    public static void goToChatActivity(Activity context, int toUserId, final String fromUserID, String userName, String userImage) {
         String channelName = toUserId + "_" + fromUserID;
         if (Integer.valueOf(toUserId) > Integer.valueOf(fromUserID))
             channelName = fromUserID + "_" + toUserId;
@@ -711,6 +711,8 @@ public class Utility {
         Intent intent2 = new Intent(context, MainChatActivity.class);
         intent2.putExtra(Constants.CHANNEL_NAME, channelName);
         intent2.putExtra(Constants.ROOM_USER_NAME, userName);
+        intent2.putExtra(Constants.TWILIO_RECEAVER_IMAGE, userImage);
+
         context.startActivity(intent2);
         context.overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }

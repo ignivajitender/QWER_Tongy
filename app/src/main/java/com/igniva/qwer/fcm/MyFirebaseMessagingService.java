@@ -49,7 +49,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 dialogIntent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
                 dialogIntent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room_name"));
-                dialogIntent.putExtra(Constants.TWILIO_INCOMMING, 1);
+                dialogIntent.putExtra(Constants.TWILIO_RECEAVER_NAME, remoteMessage.getData().get("sender_name"));
+                dialogIntent.putExtra(Constants.TWILIO_RECEAVER_IMAGE, remoteMessage.getData().get("sender_image"));
+
+            dialogIntent.putExtra(Constants.TWILIO_INCOMMING, 1);
+
                  startActivity(dialogIntent);
 //            }
 
@@ -65,7 +69,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent dialogIntent = new Intent(this, TwilioVoiceClientActivity.class);
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             dialogIntent.putExtra(Constants.TWILIO_TOKEN, remoteMessage.getData().get("token"));
-            dialogIntent.putExtra(Constants.TWILIO_SENDER_NAME, remoteMessage.getData().get("sender_name"));
+            dialogIntent.putExtra(Constants.TWILIO_RECEAVER_NAME, remoteMessage.getData().get("sender_name"));
             dialogIntent.putExtra(Constants.TWILIO_RECEAVER_IMAGE, remoteMessage.getData().get("sender_image"));
             dialogIntent.putExtra(Constants.TWILIO_CALLER_ID, remoteMessage.getData().get("caller_id"));
             dialogIntent.putExtra(Constants.TWILIO_SENDER_ID, remoteMessage.getData().get("sender_id"));

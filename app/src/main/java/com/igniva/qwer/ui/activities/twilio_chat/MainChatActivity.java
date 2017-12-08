@@ -76,6 +76,13 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
 
         if(getIntent().hasExtra(Constants.ROOM_USER_NAME)) {
             getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.ROOM_USER_NAME));
+            getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.ROOM_USER_NAME));
+        }
+        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
+//            Glide.with(this)
+//                    .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
+//                    .into(getSupportActionBar.getIMa);
+//            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE));
         }
 
         if (getIntent().hasExtra(Constants.CHANNEL_NAME)) {

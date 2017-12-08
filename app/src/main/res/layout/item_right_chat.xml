@@ -24,12 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:background="@drawable/ic_right_round_corner"
+        android:background="@color/bg_blue"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/_4dp"
-        android:paddingLeft="@dimen/_8dp"
-        android:paddingRight="@dimen/_8dp"
-        android:layout_marginLeft="@dimen/_50dp"
+         android:padding="@dimen/_8dp"
+         android:layout_marginLeft="@dimen/_50dp"
         android:paddingTop="@dimen/_4dp">
 
         <TextView
@@ -37,8 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="HI dkfsjkdfb sdkfjbdasddsadashnasiudnasi"
-            android:textColor="#f93e3e3e"
-            android:textSize="@dimen/_18sp" />
+                android:textColor="@android:color/white"
+            android:textSize="@dimen/_14sp" />
 
         <TextView
             android:id="@+id/tv_time"

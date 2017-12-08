@@ -432,7 +432,7 @@ OtherUserProfilePojo otherUserProfilePojo;
     @OnClick(R.id.iv_videoCall)
     public void onIvVideoCallClicked() {
         try {
-            ApiControllerClass.getVideoToken(OtherUserProfileActivity.this, retrofit, PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""),otherUserProfilePojo.getUsers().getId()+"");
+            ApiControllerClass.getVideoToken(OtherUserProfileActivity.this, retrofit, PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""),otherUserProfilePojo.getUsers().getId()+"",otherUserProfilePojo.getUsers().getName()+"",otherUserProfilePojo.getUsers().getUser_image().get(0).getImage()+"");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -190,8 +190,7 @@ public class PostsListFragment extends BaseFragment {
         if (responsePojo != null && responsePojo.getData() != null && responsePojo.getData().size() > 0) {
              pageNo++;
              if (pageNo >= responsePojo.getLast_page())
-
-            pageNo++;
+             pageNo++;
 
             if (responsePojo.getCurrent_page() >= responsePojo.getLast_page())
                 isLast = true;
@@ -202,7 +201,7 @@ public class PostsListFragment extends BaseFragment {
                 adapter.addAll(responsePojo.getData());
             mrecyclerView.setVisibility(View.VISIBLE);
             mtvNoData.setVisibility(View.GONE);
-        } else {
+        } else if(adapter==null || adapter.getItemCount()==0 ) {
             mrecyclerView.setVisibility(View.GONE);
             mtvNoData.setVisibility(View.VISIBLE);
             isLast = true;

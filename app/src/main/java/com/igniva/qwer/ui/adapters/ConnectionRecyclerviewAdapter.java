@@ -109,7 +109,11 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
         holder.mcvConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utility.goToChatActivity((Activity) mContext,pojo.getId(), PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""),pojo.getName());
+                String userIMage="";
+                if(pojo.getUser_image()!=null && pojo.getUser_image().size()>0 && pojo.getUser_image().get(0)!=null)
+                    userIMage=pojo.getUser_image().get(0).getImage();
+
+                Utility.goToChatActivity((Activity) mContext,pojo.getId(), PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""),pojo.getName(),userIMage);
 //                ApiControllerClass.createChannel(retrofit, mContext, pojo.getId(), PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""));
             }
         });

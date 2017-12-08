@@ -7,36 +7,40 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true"
     tools:showIn="@layout/twilio_activity_video">
+    <!--<FrameLayout-->
+    <!--android:layout_width="96dp"-->
+    <!--android:layout_height="96dp"-->
+    <!--android:layout_gravity="top|end"-->
+    <!--android:layout_margin="16dp"-->
+    <!--android:visibility="visible">-->
 
     <com.twilio.video.VideoView
         android:id="@+id/thumbnail_video_view"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:layout_gravity="bottom|start"
+        android:layout_gravity="top|end"
         android:layout_margin="16dp"
-        android:visibility="gone"
-        app:mirror="true"
+         android:visibility="gone"
+         app:mirror="true"
         app:overlaySurface="true" />
-
+    <!--</FrameLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <com.twilio.video.VideoView
             android:id="@+id/primary_video_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <com.twilio.video.VideoView
             android:id="@+id/primary_video_view_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -45,8 +49,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/video_status_textview"

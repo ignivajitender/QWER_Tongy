@@ -410,8 +410,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 //onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);
             }
         });
-
-    }
+     }
 
     private int getIndex(Spinner spinner, String myString) {
 
@@ -685,6 +684,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     // method for Save Profile
     private void callSaveUpdateProfile() {
         try {
+            Log.e(""+this.getLocalClassName(),"coverIMageID----"+coverIMageID);
             // check validations for save profile input
             if (Validation.validateUpdateProfile(this, mautocomTextViewCountry, mEtPincode, mEtAbout, mEtCity, mEtAge, mtvName, coverIMageID)) {
                 if (Utility.isInternetConnection(this)) {

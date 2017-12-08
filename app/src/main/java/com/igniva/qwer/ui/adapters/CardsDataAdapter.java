@@ -143,7 +143,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                  try {
-                         ApiControllerClass.getVideoToken(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""),users.get(position).id+"");
+                         ApiControllerClass.getVideoToken(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""),users.get(position).id+"",users.get(position).name ,users.get(position).getUser_image().get(0).getImage()+"");
                  }catch (Exception e){
                     Log.e("cardsadapter",e.getMessage());
                 }
