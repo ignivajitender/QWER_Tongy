@@ -14,11 +14,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.ConnectionPojo;
 import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.utils.CircularImageView;
-import com.igniva.qwer.utils.PreferenceHandler;
-import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,8 +111,8 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
                 String userIMage="";
                 if(pojo.getUser_image()!=null && pojo.getUser_image().size()>0 && pojo.getUser_image().get(0)!=null)
                     userIMage=pojo.getUser_image().get(0).getImage();
-
-                Utility.goToChatActivity((Activity) mContext,pojo.getId(), PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""),pojo.getName(),userIMage);
+                ApiControllerClass.getOtherUserProfile(retrofit,(Activity) mContext, pojo.getId(),true);
+ //                Utility.goToChatActivity((Activity) mContext,pojo.getId() ,pojo.getName(),userIMage);
 //                ApiControllerClass.createChannel(retrofit, mContext, pojo.getId(), PreferenceHandler.readString(mContext, PreferenceHandler.PREF_KEY_USER_ID, ""));
             }
         });

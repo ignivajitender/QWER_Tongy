@@ -12,6 +12,7 @@ import com.igniva.qwer.controller.Config;
 import com.igniva.qwer.controller.DaggerNetComponent;
 import com.igniva.qwer.controller.NetComponent;
 import com.igniva.qwer.controller.NetModule;
+import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.ui.activities.twilio_chat.ChatClientManager;
 
 
@@ -25,7 +26,7 @@ public class Global extends MultiDexApplication {
     private NetComponent mNetComponent;
     private PreferenceHandler prefs;
     public static Location mLastLocation;
-
+    public static OtherUserProfilePojo otherUserProfilePojo=null;
 
     //Twilio Chat
     private ChatClientManager basicClient;

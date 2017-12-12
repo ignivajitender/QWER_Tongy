@@ -1,5 +1,6 @@
 package com.igniva.qwer.fcm;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -28,6 +29,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
 
+    @SuppressLint("WrongConstant")
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         //Displaying data in log
@@ -90,7 +92,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "TWILIO_SENDER_NAME: " + remoteMessage.getData().get("reciver_name"));
         }else if (remoteMessage.getData().get("notification").equals("24")) //request
         { //invite
-
             if (remoteMessage.getData().get("channel_name").equalsIgnoreCase(Global.activeChannelName)) {
                 return;
             } else {
@@ -101,12 +102,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 intent6.putExtra(Constants.ROOM_USER_NAME, remoteMessage.getData().get("sender_name"));
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent6,
                         PendingIntent.FLAG_ONE_SHOT);
+                String msg=remoteMessage.getData().get("sender_name")+remoteMessage.getData().get("message");
+
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("SkipRoom")
-                        .setContentText(remoteMessage.getData().get("message"))
+                        .setSmallIcon(R.drawable.tongy_logo)
+                        .setContentTitle("Tongy")
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(remoteMessage.getData().get("message")))
+                                .bigText(msg))
                         .setAutoCancel(true)
                          .setContentIntent(pendingIntent);
                  NotificationManager notificationManager =

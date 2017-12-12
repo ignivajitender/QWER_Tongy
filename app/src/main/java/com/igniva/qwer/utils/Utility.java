@@ -14,6 +14,7 @@ import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,13 +27,20 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,11 +51,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
 import com.igniva.qwer.model.predictionsPojo;
+import com.igniva.qwer.ui.activities.ConnectionAcceptedActivity;
 import com.igniva.qwer.ui.activities.LocationActivity;
 import com.igniva.qwer.ui.activities.LoginActivity;
+import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.ui.activities.SearchActivity;
 import com.igniva.qwer.ui.activities.twilio_chat.MainChatActivity;
 
@@ -189,11 +200,11 @@ public class Utility {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-             } catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
-             return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
 
         } else {
             locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
@@ -203,7 +214,7 @@ public class Utility {
 
     }
 
-    public static void showAlertWithSingleButton(Context context,String title, String message, final OnAlertOkClickListener onAlertOkClickListener) {
+    public static void showAlertWithSingleButton(Context context, String title, String message, final OnAlertOkClickListener onAlertOkClickListener) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
         builder.setTitle(title);
@@ -218,7 +229,8 @@ public class Utility {
         });
         builder.show();
     }
-    public static void showAlertWithCancelButton(Context context,String title, String message, final OnAlertOkClickListener onAlertOkClickListener) {
+
+    public static void showAlertWithCancelButton(Context context, String title, String message, final OnAlertOkClickListener onAlertOkClickListener) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
         builder.setTitle(title);
@@ -234,20 +246,20 @@ public class Utility {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                 dialog.dismiss();
+                dialog.dismiss();
             }
         });
         builder.show();
     }
 
     public static void callSuccessPopUp(final Context context, String message) {
-         // Create custom dialog object
+        // Create custom dialog object
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
-         dialog.setContentView(R.layout.succuess_pop_up);
+        dialog.setContentView(R.layout.succuess_pop_up);
         TextView text_message = (TextView) dialog.findViewById(R.id.tv_success_message);
         text_message.setText(message);
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -259,7 +271,7 @@ public class Utility {
                 ((Activity) context).finish();
             }
         });
-         dialog.setTitle("Custom Dialog");
+        dialog.setTitle("Custom Dialog");
         dialog.show();
     }
 
@@ -400,7 +412,7 @@ public class Utility {
                     latitude = myPlace.getLatLng().latitude;
                     longitude = myPlace.getLatLng().longitude;
                     ((LocationActivity) context).setUpLayout();
-                     places.release();
+                    places.release();
                 } else {
                     Log.e("getLatLngFromPlaceID", "Place not found.");
                 }
@@ -438,13 +450,13 @@ public class Utility {
 //					CallProgressWheel.dismissLoadingDialog();
                 }
             });
-         } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private static void showAddress(final ArrayList<predictionsPojo> predictionsPojo, final AutoCompleteTextView mautocomTextviewDeliveryAddress, final Activity context) {
-         if (languages == null)
+        if (languages == null)
             languages = new ArrayList<>();
         else
             languages.clear();
@@ -474,12 +486,12 @@ public class Utility {
                 mautocomTextviewDeliveryAddress.setSelection(mautocomTextviewDeliveryAddress.getText().length());
 
 //                if (context instanceof LocationActivity) {
-                    getLatLngFromPDI(context);
+                getLatLngFromPDI(context);
 //                    getLatLngFromPlaceID(context, ((LocationActivity) context).mGeoDataClient);
 //                }
                 Log.e("placeid", placeId);
                 /*if (context instanceof HomeActivity)
-					searchCategories(context, null, null, placeId, aaTemp);
+                    searchCategories(context, null, null, placeId, aaTemp);
 */
                 //	Utility.hideKeyboard(context, mautocomTextviewDeliveryAddress);
             }
@@ -503,99 +515,73 @@ public class Utility {
         return myPath;
     }
 
-	/**
-	 * convert date in format
-	 * @param date
-	 * @param activity
-	 * @return
-	 */
+    /**
+     * convert date in format
+     *
+     * @param date
+     * @param activity
+     * @return
+     */
 
-	public static String getTimeAgoPost(String date, Activity activity) {
-		long time = Long.valueOf(date);
-		if (time < 1000000000000L) {
-			// if timestamp given in seconds, convert to millis
-			time *= 1000;
-		}
+    public static String getTimeAgoPost(String date, Activity activity) {
+        long time = Long.valueOf(date);
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
 
-		long now = System.currentTimeMillis();
-		if (time > now || time <= 0) {
-			return "just now";
-		}
+        long now = System.currentTimeMillis();
+        if (time > now || time <= 0) {
+            return "just now";
+        }
 
-		final long diff = now - time;
-		Date date1 = new Date(time);
-		// TODO: localize
+        final long diff = now - time;
+        Date date1 = new Date(time);
+        // TODO: localize
 
-		TimeZone utc = TimeZone.getTimeZone("etc/UTC");
+        TimeZone utc = TimeZone.getTimeZone("etc/UTC");
 
-		Resources r = activity.getResources();
+        Resources r = activity.getResources();
 
-		String prefix = r.getString(R.string.time_ago_prefix);
+        String prefix = r.getString(R.string.time_ago_prefix);
 
-		double seconds = Math.abs(diff) / 1000;
-		double minutes = seconds / 60;
-		double hours = minutes / 60;
-		double days = hours / 24;
-		double years = days / 365;
+        double seconds = Math.abs(diff) / 1000;
+        double minutes = seconds / 60;
+        double hours = minutes / 60;
+        double days = hours / 24;
+        double years = days / 365;
 
-		String words;
-		if (seconds < 45) {
-			words = r.getString(R.string.timeAgoSeconds, Math.round(seconds));
-		} else if (seconds < 90) {
-			words = r.getString(R.string.timeAgoMinute, 1);
-		} else if (minutes < 45) {
-			words = r.getString(R.string.timeAgoMinutes, Math.round(minutes));
-		} else if (minutes < 90) {
-			words = r.getString(R.string.timeAgoHour, 1 );
-		} else if (hours < 24) {
+        String words;
+        if (seconds < 45) {
+            words = r.getString(R.string.timeAgoSeconds, Math.round(seconds));
+        } else if (seconds < 90) {
+            words = r.getString(R.string.timeAgoMinute, 1);
+        } else if (minutes < 45) {
+            words = r.getString(R.string.timeAgoMinutes, Math.round(minutes));
+        } else if (minutes < 90) {
+            words = r.getString(R.string.timeAgoHour, 1);
+        } else if (hours < 24) {
 
-			words =   r.getString(R.string.timeAgoHours, Math.round(hours));;
-		} else if (hours < 42) {
-			words =   "Yesterday " ;
-		}
-        else {
+            words = r.getString(R.string.timeAgoHours, Math.round(hours));
+            ;
+        } else if (hours < 42) {
+            words = "Yesterday ";
+        } else {
             Date date12 = new Date(time);
             return new SimpleDateFormat("MMM dd,yyyy ").format(date12);
             // return diff / DAY_MILLIS + " days ago.";
         }
 
-		StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-		if (prefix != null && prefix.length() > 0) {
-			sb.append(prefix).append(" ");
-		}
-
-		sb.append(words);
-
-
-
-		return sb.toString().trim();
-	}
-
-
-    public void showNoInternetDialog(final Activity mContext) {
-        try {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext,
-                    R.style.AppTheme);
-            builder.setTitle(mContext.getResources().getString(R.string.no_internet_title));
-            builder.setMessage(mContext.getResources().getString(R.string.no_internet));
-            builder.setPositiveButton("OK", new OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    dialog.dismiss();
-                    //((Activity) mContext).finish();
-
-                }
-            });
-
-            builder.show();
-        } catch (Exception e) {
-            showToastMessageLong(mContext,
-                    mContext.getResources().getString(R.string.no_internet));
+        if (prefix != null && prefix.length() > 0) {
+            sb.append(prefix).append(" ");
         }
+
+        sb.append(words);
+
+
+        return sb.toString().trim();
     }
 
     public static void showInvalidSessionDialog(final Context mContext) {
@@ -621,13 +607,9 @@ public class Utility {
             builder.show();
         } catch (Exception e) {
             Log.e(e);
-         }
+        }
     }
 
-
-    public interface OnAlertOkClickListener {
-        void onOkButtonClicked();
-    }
     public static void onChangeClearButtonVisible(final Context context, final EditText editText, final View linearLayout) {
         try {
             editText.addTextChangedListener(new TextWatcher() {
@@ -657,8 +639,8 @@ public class Utility {
                 @Override
                 public void onClick(View view) {
 
-                    if(context instanceof SearchActivity){
-                         ((SearchActivity) context).mtvNoData.setVisibility(View.GONE);
+                    if (context instanceof SearchActivity) {
+                        ((SearchActivity) context).mtvNoData.setVisibility(View.GONE);
                     }
                     editText.setText("");
 
@@ -670,6 +652,7 @@ public class Utility {
             e.printStackTrace();
         }
     }
+
     public static String getDatePostDetail(String date, Activity activity) {
 
         long time = Long.valueOf(date);
@@ -683,15 +666,17 @@ public class Utility {
 
         return new SimpleDateFormat("MMM dd, yyyy").format(date12);
     }
+
     public static String getTimePostDetail(String date, Activity activity) {
         long time = Long.valueOf(date);
         if (time < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
             time *= 1000;
         }
-         Date date12 = new Date(time);
-            return new SimpleDateFormat("hh:mm a").format(date12);
+        Date date12 = new Date(time);
+        return new SimpleDateFormat("hh:mm a").format(date12);
     }
+
     public static String getColoredSpanned(String text, String color) {
         String input = "<font color=" + color + ">" + text + "</font>";
         return input;
@@ -703,17 +688,202 @@ public class Utility {
 		* */
     }
 
-    public static void goToChatActivity(Activity context, int toUserId, final String fromUserID, String userName, String userImage) {
+    public static void goToChatActivity(Activity context, int toUserId, String userName, String userImage) {
+
+        String fromUserID = PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, "");
         String channelName = toUserId + "_" + fromUserID;
         if (Integer.valueOf(toUserId) > Integer.valueOf(fromUserID))
             channelName = fromUserID + "_" + toUserId;
-
         Intent intent2 = new Intent(context, MainChatActivity.class);
         intent2.putExtra(Constants.CHANNEL_NAME, channelName);
         intent2.putExtra(Constants.ROOM_USER_NAME, userName);
         intent2.putExtra(Constants.TWILIO_RECEAVER_IMAGE, userImage);
-
         context.startActivity(intent2);
+        if(context instanceof ConnectionAcceptedActivity)
+            context.finish();
         context.overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
- }
+
+    public static void openBlockMenu(final Activity context, final Retrofit retrofit, String blockUnblock, View mivDotIcon, final int userId) {
+        final PopupWindow popup = new PopupWindow(context);
+        View layout = LayoutInflater.from(context).inflate(R.layout.layout_options_popup, null);
+        //popup.showAtLocation(layout, Gravity.RIGHT, 0, 0);
+        popup.setContentView(layout);
+        // Set content width and height
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        // Closes the popup window when touch outside of it - when looses focus
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        popup.setBackgroundDrawable(new BitmapDrawable());
+
+        LinearLayout layout_block = (LinearLayout) layout.findViewById(R.id.layout_block);
+        LinearLayout layout_report = (LinearLayout) layout.findViewById(R.id.layout_report);
+        LinearLayout layout_remove = (LinearLayout) layout.findViewById(R.id.layout_remove);
+        final TextView mtvBlockUnblock = (TextView) layout.findViewById(R.id.tv_block);
+        mtvBlockUnblock.setText(blockUnblock);
+
+        layout_block.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //popup.dismiss();
+                ApiControllerClass.callblockApi(context, retrofit, userId, popup, mtvBlockUnblock);
+            }
+        });
+        layout_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create custom dialog object
+                final Dialog dialog = new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+
+                dialog.setContentView(R.layout.logout_account_pop_up);
+
+                Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
+                Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
+                TextView mtitle = (TextView) dialog.findViewById(R.id.title);
+                mtitle.setText(context.getResources().getString(R.string.remove_user));
+
+                TextView mMessage = (TextView) dialog.findViewById(R.id.message);
+                mMessage.setText(context.getResources().getString(R.string.remove_user_message));
+
+                mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        popup.dismiss();
+                        ApiControllerClass.callUserAction(context, retrofit, context.getResources().getString(R.string.delete_action), popup, userId, null);
+
+
+                    }
+                });
+                mBtnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setTitle("Custom Dialog");
+                dialog.show();
+
+            }
+        });
+        layout_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openReportUserPopup(context, retrofit, userId, popup);
+
+            }
+        });
+
+        popup.showAsDropDown(mivDotIcon);
+    }
+
+    /**
+     * report user pop up
+     *
+     * @param userId
+     */
+    private static void openReportUserPopup(final Context context, final Retrofit retrofit, final int userId, final PopupWindow popupMenu) {
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+        dialog.setContentView(R.layout.layout_report_abuse);
+        final TextView mtvDialogTitle = (TextView) dialog.findViewById(R.id.tvDialogTitle);
+        mtvDialogTitle.setText(context.getResources().getString(R.string.report_user));
+        final EditText metReason = (EditText) dialog.findViewById(R.id.etReason);
+        final EditText metComment = (EditText) dialog.findViewById(R.id.et_comment);
+        metReason.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu dropDownMenu = new PopupMenu(context, metReason);
+                dropDownMenu.getMenuInflater().inflate(R.menu.drop_down_menu, dropDownMenu.getMenu());
+                //showMenu.setText("DropDown Menu");
+                dropDownMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        //Toast.makeText(mContext, "You have clicked " + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                        metReason.setText(menuItem.getTitle());
+                        metReason.setError(null);
+                        return true;
+                    }
+                });
+                dropDownMenu.show();
+            }
+        });
+        TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
+        mBtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                metReason.setError(null);
+                metComment.setError(null);
+                if (FieldValidators.isNullOrEmpty(metReason)) {
+                    metReason.setFocusable(true);
+                    metReason.requestFocus();
+                    metReason.setError("Please select reason for report");
+                    return;
+                } else if (FieldValidators.isNullOrEmpty(metComment)) {
+                    metComment.setFocusable(true);
+                    metComment.requestFocus();
+                    metComment.setError("Please enter your comment");
+                    return;
+                } else {
+                    dialog.dismiss();
+                    popupMenu.dismiss();
+                    ApiControllerClass.callReportUserApi(context, retrofit, metReason, metComment, userId, dialog);
+                }
+                //((Activity)mContext).finish();
+            }
+        });
+
+        TextView mbtnCancel = (TextView) dialog.findViewById(R.id.btn_cancel);
+        mbtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                //((Activity)mContext).finish();
+            }
+        });
+//         dialog.setTitle("Custom Dialog");
+        dialog.show();
+    }
+
+    public void showNoInternetDialog(final Activity mContext) {
+        try {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext,
+                    R.style.AppTheme);
+            builder.setTitle(mContext.getResources().getString(R.string.no_internet_title));
+            builder.setMessage(mContext.getResources().getString(R.string.no_internet));
+            builder.setPositiveButton("OK", new OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                    //((Activity) mContext).finish();
+
+                }
+            });
+
+            builder.show();
+        } catch (Exception e) {
+            showToastMessageLong(mContext,
+                    mContext.getResources().getString(R.string.no_internet));
+        }
+    }
+
+    public interface OnAlertOkClickListener {
+        void onOkButtonClicked();
+    }
+
+
+}

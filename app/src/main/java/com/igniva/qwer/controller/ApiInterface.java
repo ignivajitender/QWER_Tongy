@@ -21,7 +21,6 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit.mime.TypedInput;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -90,7 +89,7 @@ public interface ApiInterface {
     Call<ResponsePojo> updateProfile(@FieldMap HashMap<String, String> updateProfilePayload);
 
     @GET("/api/country")
-    Call<CountriesResponsePojo>  getCountriesList();
+    Call<CountriesResponsePojo> getCountriesList();
 
     @Multipart
     @POST("/api/users/imageUpload")
@@ -173,12 +172,13 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/api/users/twillo")
     Call<TokenPojo> twillo(@Field("room_name") String room_name, @Field("identity") String identity);
-    @Headers( "Content-Type: application/json; charset=utf-8")
-     @POST("/api/twilios/get-vedio-token")
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("/api/twilios/get-vedio-token")
     Call<TokenPojo> getVideoToken(@Body RequestBody body);
 
     @POST("/api/twilios/send-twilio-voice-notification")
-    Call<TokenPojo>  sendTwilioVoiceNotification(@Body RequestBody body);
+    Call<TokenPojo> sendTwilioVoiceNotification(@Body RequestBody body);
 
     //http://tongy.ignivastaging.com/api/users/singleUser?user_id=59
     @GET("/api/users/singleUser")
@@ -187,7 +187,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/api/users/blockUnblockUser")
     Call<ResponsePojo> blockUnblockUser(@Field("blocked_to") int blocked_to);
-   // http://tongy.ignivastaging.com/api/users/reportUser
+
+    // http://tongy.ignivastaging.com/api/users/reportUser
     @FormUrlEncoded
     @POST("api/users/reportUser")
     Call<ResponsePojo> reportUser(@FieldMap HashMap<String, String> changePasswordHashMap);
@@ -200,7 +201,7 @@ public interface ApiInterface {
     @GET("/api/users/getUsers")
     Call<UsersResponsePojo> getUsers(@Query("lat") double lat, @Query("lng") double lng, @Query("page") int pageNo);
 
-   // http://tongy.ignivastaging.com/api/users/requestSend
+    // http://tongy.ignivastaging.com/api/users/requestSend
     @FormUrlEncoded
     @POST("api/users/requestSend")
     Call<ResponsePojo> requestSend(@Field("request_to") int request_to);
@@ -210,18 +211,20 @@ public interface ApiInterface {
     Call<ResponsePojo> imageDelete(@Field("image_id") String imageID);
 
     @GET("/api/state")
-    Call<StateResponsePojo>  getStateList(@Query("country_id") String country_id);
+    Call<StateResponsePojo> getStateList(@Query("country_id") String country_id);
 
     @FormUrlEncoded
     @POST("/api/twilios/messages")
-    Call<TokenPojo>  getMessageToken(@FieldMap Map<String, String> params);
-//
+    Call<TokenPojo> getMessageToken(@FieldMap Map<String, String> params);
+
+    //
     @FormUrlEncoded
     @POST("/api/twilios/create-channel")
     Call<ResponsePojo> createChannelName(@FieldMap Map<String, String> params);
-//
 
+    //
+    @Headers("Content-Type: application/json; charset=utf-8")
     @POST("/api/twilios/messages-notification")
-    Call<ResponsePojo> sendTwilioChatNotification(@Body TypedInput body);
+    Call<ResponsePojo> sendTwilioChatNotification(@Body RequestBody body);
 
 }

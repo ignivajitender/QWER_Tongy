@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/_6dp"
-        android:background="@color/chat_center"
+        android:background="@drawable/rounded_background_blue"
         android:gravity="center"
         android:padding="@dimen/_4dp"
         android:text="22-Aug-2017"
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:background="@color/bg_blue"
+        android:background="@drawable/rounded_background_sky"
         android:orientation="vertical"
          android:padding="@dimen/_8dp"
          android:layout_marginLeft="@dimen/_50dp"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="HI dkfsjkdfb sdkfjbdasddsadashnasiudnasi"
                 android:textColor="@android:color/white"
-            android:textSize="@dimen/_14sp" />
+            android:textSize="@dimen/_11sp" />
 
         <TextView
             android:id="@+id/tv_time"

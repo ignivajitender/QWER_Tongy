@@ -10,7 +10,6 @@ import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.ui.views.TextViewBold;
 import com.igniva.qwer.utils.CircularImageView;
 import com.igniva.qwer.utils.Global;
-import com.igniva.qwer.utils.Utility;
 
 import javax.inject.Inject;
 
@@ -36,7 +35,9 @@ public class ConnectionAcceptedActivity extends BaseActivity {
 
     @OnClick(R.id.btn_signUp)
     public void openChat(){
-        Utility.showToastMessageLong(ConnectionAcceptedActivity.this,getResources().getString(R.string.coming_soon));
+        ApiControllerClass.getOtherUserProfile(retrofit, ConnectionAcceptedActivity.this, userId,true);
+
+//        Utility.showToastMessageLong(ConnectionAcceptedActivity.this,getResources().getString(R.string.coming_soon));
     }
     @OnClick(R.id.btnHome)
     public void close(){
@@ -56,7 +57,7 @@ public class ConnectionAcceptedActivity extends BaseActivity {
     protected void setUpToolbar() {
 
     }
-
+    int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ((Global) getApplication()).getNetComponent().inject(this);
@@ -68,9 +69,10 @@ public class ConnectionAcceptedActivity extends BaseActivity {
         setDataInViewObjects();
 
         if (getIntent() != null && getIntent().hasExtra("userId")) {
-            int userId = getIntent().getIntExtra("userId", 0);
+              userId = getIntent().getIntExtra("userId", 0);
             ApiControllerClass.getConnectionUserProfile(retrofit, ConnectionAcceptedActivity.this, userId);
         }
+
     }
 
 

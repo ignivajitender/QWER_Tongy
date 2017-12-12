@@ -114,12 +114,8 @@ public class SettingsActivity extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ((Global) getApplication()).getNetComponent().inject(this);
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-
-
         setUpLayout();
         setDataInViewObjects();
         getProfileApiSettings();
@@ -188,7 +184,6 @@ public class SettingsActivity extends BaseActivity {
             Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-
     }
 
     public void callConfirmDeletionPopUp() {
@@ -199,13 +194,10 @@ public class SettingsActivity extends BaseActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
-
         dialog.setContentView(R.layout.delete_account_pop_up);
-
         Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
         Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
        final EditText delete_account_password = (EditText) dialog.findViewById(R.id.delete_account_password);
-
 
 //        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
@@ -437,11 +429,11 @@ public class SettingsActivity extends BaseActivity {
         dialog.setTitle("Custom Dialog");
         dialog.show();
     }
+
     // call logout api
     private void callLogoutMyAccountApi() {
         try {
             if (Utility.isInternetConnection(this)) {
-
                 CallProgressWheel.showLoadingDialog(this, "Loading...");
                 Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).logoutAccount();
                 posts.enqueue(new retrofit2.Callback<ResponsePojo>() {

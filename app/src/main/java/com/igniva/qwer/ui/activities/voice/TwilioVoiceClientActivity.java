@@ -814,7 +814,6 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
         if (pendingConnection != null) {
             pendingConnection.reject();
         }
-
         if (activeConnection != null) {
             activeConnection.disconnect();
             activeConnection = null;

@@ -22,7 +22,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_message_send"
+        android:layout_above="@+id/ll_message_send"
         android:background="@drawable/grey_bg"
         android:backgroundTint="#73f4f0f0"
         android:clipToPadding="false"
@@ -37,34 +37,36 @@
         android:textColor="@color/bg_blue"
         android:textSize="@dimen/_20sp"
         android:visibility="gone" />
-
-    <RelativeLayout
-        android:id="@+id/rl_message_send"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/ll_message_send"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/_4dp"
-        android:background="@color/bg_white"
-        android:padding="@dimen/_8dp">
+        android:padding="@dimen/dp5"
+         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/editTextMessage"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/buttonSend"
-            android:hint="@string/enter_text_here"
+            android:layout_weight="1"
+            android:hint="@string/type_a_message"
+            android:imeOptions="actionDone"
             android:maxLines="4"
-            android:textColor="@android:color/black"
-            android:textCursorDrawable="@android:color/black" />
+            android:paddingLeft="@dimen/dp_10"
+            android:textColor="@color/text_medium_grey"
+            android:textSize="@dimen/_14sp" />
 
         <ImageView
             android:id="@+id/buttonSend"
-             android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-             android:padding="@dimen/dp5"
-            android:src="@drawable/pagination_arrow" />
-    </RelativeLayout>
+            android:layout_gravity="bottom"
+            android:layout_marginRight="@dimen/dp5"
+            android:src="@drawable/tick"
+            android:visibility="visible" />
+    </LinearLayout>
+
 
     <!--<LinearLayout
         android:visibility="gone"

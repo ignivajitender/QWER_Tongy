@@ -6,21 +6,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
+import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.ui.activities.MainActivity;
 import com.igniva.qwer.ui.activities.twilio_chat.accesstoken.AlertDialogHandler;
 import com.igniva.qwer.ui.activities.twilio_chat.channels.ChannelManager;
 import com.igniva.qwer.ui.activities.twilio_chat.listeners.ChannelFindOrCreateListener;
 import com.igniva.qwer.ui.activities.twilio_chat.listeners.TaskCompletionListener;
+import com.igniva.qwer.utils.CircularImageView;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.Global;
+import com.igniva.qwer.utils.PreferenceHandler;
+import com.igniva.qwer.utils.Utility;
 import com.twilio.chat.Channel;
 import com.twilio.chat.ChatClient;
 import com.twilio.chat.ChatClientListener;
@@ -28,20 +34,43 @@ import com.twilio.chat.ErrorInfo;
 import com.twilio.chat.StatusListener;
 import com.twilio.chat.UserInfo;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit2.Retrofit;
+
 public class MainChatActivity extends AppCompatActivity implements ChatClientListener, ChannelFindOrCreateListener {
 
     private static final String TAG = "MainChatActivity";
+    public String type = "Block";
+    @BindView(R.id.ivbackIcon)
+    ImageView mIvbackIcon;
+    @BindView(R.id.iv_user_image)
+    CircularImageView mIvUserImage;
+    @BindView(R.id.tv_user_name)
+    TextView mTvUserName;
+    @BindView(R.id.tv_online_status)
+    TextView mTvOnlineStatus;
+    @BindView(R.id.iv_videoCall)
+    ImageView mIvVideoCall;
+    @BindView(R.id.iv_voiceCall)
+    ImageView mIvVoiceCall;
+    @BindView(R.id.iv_option)
+    ImageView mIvOption;
+    @BindView(R.id.ll_contact)
+    LinearLayout mLlContact;
+    String userId,userName,userImage;
+    @Inject
+    Retrofit retrofit;
     private Context context;
     private Activity mainActivity;
     private ChatClientManager chatClientManager;
     private ChannelManager channelManager;
     private MainChatFragment chatFragment;
     private ProgressDialog progressDialog;
-
     private String channelName;
-//    public String gcmId;
-//    public String ROOMId;
-//    public String userId;
 
     @Override
     protected void onDestroy() {
@@ -50,7 +79,7 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
             @Override
             public void run() {
                 chatClientManager.shutdown();
-                ((Global)getApplicationContext()).getChatClientManager().setChatClient(null);
+                ((Global) getApplicationContext()).getChatClientManager().setChatClient(null);
             }
         });
         Global.activeChannelName = "";
@@ -60,34 +89,51 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chat);
+        ((Global) getApplicationContext()).getNetComponent().inject(this);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
 //        if(getIntent().hasExtra(Constants.ROOM_TITLE)) {
 //            getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.ROOM_TITLE));
 //        }
+        if (getIntent().hasExtra(Constants.ROOM_USER_NAME)) {
+            userName=getIntent().getStringExtra(Constants.ROOM_USER_NAME);
+//            getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.ROOM_USER_NAME));
+            mTvUserName.setText(userName);
 
-        if(getIntent().hasExtra(Constants.ROOM_USER_NAME)) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.ROOM_USER_NAME));
-            getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.ROOM_USER_NAME));
         }
-        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
-//            Glide.with(this)
-//                    .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
-//                    .into(getSupportActionBar.getIMa);
-//            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE));
+        if (getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
+            userImage=getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE);
+            Glide.with(this)
+                    .load(userImage)
+                    .into(mIvUserImage);
+            Log.d(TAG, "onCreate: " + getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE));
         }
 
         if (getIntent().hasExtra(Constants.CHANNEL_NAME)) {
             channelName = getIntent().getStringExtra(Constants.CHANNEL_NAME);
+            userId = channelName.replace(PreferenceHandler.readString(MainChatActivity.this,PreferenceHandler.PREF_KEY_USER_ID,""),"").replace("_","");
+
         }
+        if(Global.otherUserProfilePojo!=null)
+        try {
+
+            if (   Global.otherUserProfilePojo.getUsers().getUser_block().size() > 0) {
+                //openBlockMenu("Unblock");
+                Log.e("size", Global.otherUserProfilePojo.getUsers().getUser_block().size() + "jfjg");
+                type = "Unblock";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 //        if (getIntent().hasExtra(Constants.CHAT_GCM_ID)) {
 //            gcmId = getIntent().getStringExtra(Constants.CHAT_GCM_ID);
 //        }
@@ -95,7 +141,6 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
 //            ROOMId = getIntent().getStringExtra(Constants.ROOM_ID);
 //        }
 //        if (getIntent().hasExtra(Constants.ROOM_USER_ID)) {
-//            userId = getIntent().getStringExtra(Constants.ROOM_USER_ID);
 //        }
 
         chatFragment = new MainChatFragment();
@@ -109,24 +154,22 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
         Global.activeChannelName = channelName;
         checkTwilioClient();
         showActivityIndicator("Please wait...");
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        new CountDownTimer(5000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                //here you can have your logic to set text to edittext
-            }
-
-            public void onFinish() {
-
-            }
-
-        }.start();
-
+//        new CountDownTimer(5000, 1000) {
+//
+//            public void onTick(long millisUntilFinished) {
+//                //here you can have your logic to set text to edittext
+//            }
+//
+//            public void onFinish() {
+//
+//            }
+//
+//        }.start();
     }
 
     @Override
@@ -136,7 +179,8 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
 
     @Override
     public void onBackPressed() {
-        if (isTaskRoot()) {
+        Utility.hideSoftKeyboard(this);
+         if (isTaskRoot()) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
@@ -184,7 +228,7 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
 
     private void checkTwilioClient() {
 
-        chatClientManager = ((Global)getApplicationContext()).getChatClientManager();
+        chatClientManager = ((Global) getApplicationContext()).getChatClientManager();
         if (chatClientManager.getChatClient() == null) {
             initializeClient();
         } else {
@@ -350,4 +394,42 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
             }
         });
     }
+
+    @OnClick(R.id.ivbackIcon)
+    public void onMIvbackIconClicked() {
+        onBackPressed();
+    }
+
+//    @OnClick(R.id.iv_user_image)
+//    public void onMIvUserImageClicked() {
+//         startActivity(new Intent(MainChatActivity.this, OtherUserProfileActivity.class).putExtra("userId", userId));
+//
+//    }
+
+    @OnClick(R.id.iv_videoCall)
+    public void onMIvVideoCallClicked() {
+        try {
+            ApiControllerClass.getVideoToken(MainChatActivity.this, retrofit, PreferenceHandler.readString(MainChatActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""),userId+"",userName+"",userImage+"");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @OnClick(R.id.iv_voiceCall)
+    public void onMIvVoiceCallClicked() {
+        try {
+            ApiControllerClass.sendTwilioVoiceNotification(MainChatActivity.this, retrofit, PreferenceHandler.readString(MainChatActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""),userId+"",userName,userImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @OnClick(R.id.iv_option)
+    public void onMIvOptionClicked() {
+//        if (userId != null && userId.length() > 0)
+            Utility.openBlockMenu(MainChatActivity.this, retrofit, type, mIvOption,  Integer.valueOf(userId.trim()));
+    }
+
 }

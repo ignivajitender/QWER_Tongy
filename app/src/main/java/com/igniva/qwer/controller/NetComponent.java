@@ -21,6 +21,7 @@ import com.igniva.qwer.ui.activities.SettingsActivity;
 import com.igniva.qwer.ui.activities.SignUpActivity;
 import com.igniva.qwer.ui.activities.SplashActivity;
 import com.igniva.qwer.ui.activities.twilio_chat.ChatClientManager;
+import com.igniva.qwer.ui.activities.twilio_chat.MainChatActivity;
 import com.igniva.qwer.ui.activities.twilio_chat.MainChatFragment;
 import com.igniva.qwer.ui.fragments.ConnectionsFragment;
 import com.igniva.qwer.ui.fragments.HomeFragment;
@@ -76,4 +77,6 @@ public interface NetComponent {
     void inject(ChatClientManager chatClientManager);
 
     void inject(MainChatFragment mainChatFragment);
+
+    void inject(MainChatActivity mainChatActivity);
 }

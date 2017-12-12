@@ -257,6 +257,7 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="add_currency_error">Please add currency</string>
     <string name="i_am_from">I am from</string>
     <string name="block">Block</string>
+    <string name="blocked">Blocked!</string>
     <string name="remove">Remove</string>
     <string name="report">Report</string>
     <string name="remove_action">remove</string>
@@ -282,4 +283,6 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="permissions_needed">Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.</string>
     <string name="turn_speaker_on">Speaker ON</string>
     <string name="please_upload_atleast_one_image">Please upload atleast one image</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="user_is_blocked">User is blocked</string>
 </resources>

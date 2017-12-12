@@ -43,19 +43,16 @@ import retrofit2.Retrofit;
  * create an instance of this fragment.
  */
 public class ConnectionsFragment extends BaseFragment {
-
     public int pageNo = 1;
-    View mView;
     @Inject
     public
     Retrofit retrofit;
+    View mView;
     ConnectionRecyclerviewAdapter adapter;
     List<PostDetailPojo.DataPojo> postList = null;
     @BindView(R.id.recyclerView)
     RecyclerView mrecyclerView;
     int mListType;
-
-
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     Boolean isLast = false;
@@ -63,12 +60,8 @@ public class ConnectionsFragment extends BaseFragment {
     TextView mtvNoData;
     @BindView(R.id.menu)
     FloatingActionMenu menuFloating;
-
-
-
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
-
     public static ConnectionsFragment newInstance() {
         ConnectionsFragment fragment = new ConnectionsFragment();
 
@@ -142,6 +135,7 @@ public class ConnectionsFragment extends BaseFragment {
         super.onDestroyView();
 
     }
+
     private void goToChatActivity(String channel_name, String gcm_id, String userName, int id, String ROOMId, String strROOMTitle) {
         Intent intent2 = new Intent(getActivity(), MainChatActivity.class);
         intent2.putExtra(Constants.CHANNEL_NAME, channel_name);
@@ -149,7 +143,7 @@ public class ConnectionsFragment extends BaseFragment {
         intent2.putExtra(Constants.ROOM_ID, ROOMId);
         intent2.putExtra(Constants.ROOM_TITLE, strROOMTitle);
         intent2.putExtra(Constants.ROOM_USER_NAME, userName);
-        intent2.putExtra(Constants.ROOM_USER_ID, id+"");
+        intent2.putExtra(Constants.ROOM_USER_ID, id + "");
         getActivity().startActivity(intent2);
         getActivity().overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
@@ -183,6 +177,6 @@ public class ConnectionsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-       // getConnections();
+        // getConnections();
     }
 }

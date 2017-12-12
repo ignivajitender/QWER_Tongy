@@ -1,28 +1,17 @@
 package com.igniva.qwer.ui.activities;
 
-import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,7 +24,6 @@ import com.igniva.qwer.ui.adapters.MultiImages;
 import com.igniva.qwer.ui.views.TextViewLight;
 import com.igniva.qwer.utils.CircularImageView;
 import com.igniva.qwer.utils.DepthPageTransformer;
-import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
@@ -53,6 +41,8 @@ import retrofit2.Retrofit;
 public class OtherUserProfileActivity extends BaseActivity {
 
 
+    public int NUM_PAGES = 4;
+    public String type = "Block";
     @BindView(R.id.ivbackIcon)
     ImageView mivbackIcon;
     @BindView(R.id.ivDotIcon)
@@ -63,12 +53,10 @@ public class OtherUserProfileActivity extends BaseActivity {
     ViewPager mivUserImage;
     @BindView(R.id.dotsLayout)
     LinearLayout mdotsLayout;
-
     @Inject
     Retrofit retrofit;
     MultiImages multiImages;
     ArrayList mImagesSlidingArray;
-    public int NUM_PAGES = 4;
     boolean isOpaque = true;
     @BindView(R.id.iv_videoCall)
     ImageButton ivVideoCall;
@@ -100,12 +88,11 @@ public class OtherUserProfileActivity extends BaseActivity {
     TextView mtvFrom;
     @BindView(R.id.tvFromDetails)
     TextView mtvFromDetails;
-    private int userId;
-    private int size;
-
     @BindView(R.id.iv_countryImage)
     CircularImageView mivImageCountry;
-    public String type = "Block";
+    OtherUserProfilePojo otherUserProfilePojo;
+    private int userId;
+    private int size;
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
@@ -115,90 +102,8 @@ public class OtherUserProfileActivity extends BaseActivity {
 
     @OnClick(R.id.ivDotIcon)
     public void openOptionsMenu() {
-        openBlockMenu(type);
-
+        Utility.openBlockMenu(OtherUserProfileActivity.this, retrofit, type, mivDotIcon, userId);
     }
-
-    public void openBlockMenu(String blockUnblock) {
-        final PopupWindow popup = new PopupWindow(OtherUserProfileActivity.this);
-        View layout = LayoutInflater.from(OtherUserProfileActivity.this).inflate(R.layout.layout_options_popup, null);
-        //popup.showAtLocation(layout, Gravity.RIGHT, 0, 0);
-        popup.setContentView(layout);
-        // Set content width and height
-        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        // Closes the popup window when touch outside of it - when looses focus
-        popup.setOutsideTouchable(true);
-        popup.setFocusable(true);
-
-
-        popup.setBackgroundDrawable(new BitmapDrawable());
-
-        LinearLayout layout_block = (LinearLayout) layout.findViewById(R.id.layout_block);
-        LinearLayout layout_report = (LinearLayout) layout.findViewById(R.id.layout_report);
-        LinearLayout layout_remove = (LinearLayout) layout.findViewById(R.id.layout_remove);
-        final TextView mtvBlockUnblock = (TextView) layout.findViewById(R.id.tv_block);
-        mtvBlockUnblock.setText(blockUnblock);
-
-        layout_block.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //popup.dismiss();
-                ApiControllerClass.callblockApi(OtherUserProfileActivity.this, retrofit, userId, popup, mtvBlockUnblock);
-            }
-        });
-        layout_remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create custom dialog object
-                final Dialog dialog = new Dialog(OtherUserProfileActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(true);
-
-                dialog.setContentView(R.layout.logout_account_pop_up);
-
-                Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
-                Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
-                TextView mtitle = (TextView) dialog.findViewById(R.id.title);
-                mtitle.setText(getResources().getString(R.string.remove_user));
-
-                TextView mMessage = (TextView) dialog.findViewById(R.id.message);
-                mMessage.setText(getResources().getString(R.string.remove_user_message));
-
-                mBtnConfirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        popup.dismiss();
-                        ApiControllerClass.callUserAction(OtherUserProfileActivity.this, retrofit, getResources().getString(R.string.delete_action), popup, userId, null);
-
-
-                    }
-                });
-                mBtnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.setTitle("Custom Dialog");
-                dialog.show();
-
-            }
-        });
-        layout_report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openReportUserPopup(userId, popup);
-
-            }
-        });
-
-        popup.showAsDropDown(mivDotIcon);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,12 +111,15 @@ public class OtherUserProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_user_profile);
         ButterKnife.bind(this);
-        setUpToolbar();
-        setUpLayout();
-        setDataInViewObjects();
-        ApiControllerClass.getOtherUserProfile(retrofit, OtherUserProfileActivity.this, userId);
+        if (PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, "").equals(getIntent().getIntExtra("userId", 0) + ""))
+            finish();
+        else {
+            setUpToolbar();
+            setUpLayout();
+            setDataInViewObjects();
+            ApiControllerClass.getOtherUserProfile(retrofit, OtherUserProfileActivity.this, userId, false);
+        }
     }
-
 
     @Override
     protected void setUpLayout() {
@@ -297,9 +205,9 @@ public class OtherUserProfileActivity extends BaseActivity {
             }
         }
     }
-OtherUserProfilePojo otherUserProfilePojo;
+
     public void setData(Response<OtherUserProfilePojo> response) {
-        otherUserProfilePojo=response.body();
+        otherUserProfilePojo = response.body();
         mtvAboutDetails.setText(response.body().getUsers().getAbout());
         if (response.body().getUsers().getAge() != null)
             tvAge.setText(response.body().getUsers().getAge() + " Years");
@@ -355,84 +263,10 @@ OtherUserProfilePojo otherUserProfilePojo;
     }
 
 
-    /**
-     * report user pop up
-     *
-     * @param userId
-     */
-    private void openReportUserPopup(final int userId, final PopupWindow popupMenu) {
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(OtherUserProfileActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-
-        dialog.setContentView(R.layout.layout_report_abuse);
-        final TextView mtvDialogTitle = (TextView) dialog.findViewById(R.id.tvDialogTitle);
-        mtvDialogTitle.setText(getResources().getString(R.string.report_user));
-        final EditText metReason = (EditText) dialog.findViewById(R.id.etReason);
-        final EditText metComment = (EditText) dialog.findViewById(R.id.et_comment);
-        metReason.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu dropDownMenu = new PopupMenu(OtherUserProfileActivity.this, metReason);
-                dropDownMenu.getMenuInflater().inflate(R.menu.drop_down_menu, dropDownMenu.getMenu());
-                //showMenu.setText("DropDown Menu");
-                dropDownMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        //Toast.makeText(mContext, "You have clicked " + menuItem.getTitle(), Toast.LENGTH_LONG).show();
-                        metReason.setText(menuItem.getTitle());
-                        metReason.setError(null);
-                        return true;
-                    }
-                });
-                dropDownMenu.show();
-            }
-        });
-        TextView mBtnOk = (TextView) dialog.findViewById(R.id.btn_ok);
-        mBtnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                metReason.setError(null);
-                metComment.setError(null);
-                if (FieldValidators.isNullOrEmpty(metReason)) {
-                    metReason.setFocusable(true);
-                    metReason.requestFocus();
-                    metReason.setError("Please select reason for report");
-                    return;
-                } else if (FieldValidators.isNullOrEmpty(metComment)) {
-                    metComment.setFocusable(true);
-                    metComment.requestFocus();
-                    metComment.setError("Please enter your comment");
-                    return;
-                } else {
-                    dialog.dismiss();
-                    popupMenu.dismiss();
-                    ApiControllerClass.callReportUserApi(OtherUserProfileActivity.this, retrofit, metReason, metComment, userId, dialog);
-                }
-                //((Activity)mContext).finish();
-            }
-        });
-
-        TextView mbtnCancel = (TextView) dialog.findViewById(R.id.btn_cancel);
-        mbtnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                //((Activity)mContext).finish();
-            }
-        });
-//         dialog.setTitle("Custom Dialog");
-        dialog.show();
-    }
-
     @OnClick(R.id.iv_videoCall)
     public void onIvVideoCallClicked() {
         try {
-            ApiControllerClass.getVideoToken(OtherUserProfileActivity.this, retrofit, PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""),otherUserProfilePojo.getUsers().getId()+"",otherUserProfilePojo.getUsers().getName()+"",otherUserProfilePojo.getUsers().getUser_image().get(0).getImage()+"");
+            ApiControllerClass.getVideoToken(OtherUserProfileActivity.this, retrofit, PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""), otherUserProfilePojo.getUsers().getId() + "", otherUserProfilePojo.getUsers().getName() + "", otherUserProfilePojo.getUsers().getUser_image().get(0).getImage() + "");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -442,7 +276,7 @@ OtherUserProfilePojo otherUserProfilePojo;
     @OnClick(R.id.iv_voiceCall)
     public void onIvVoiceCallClicked() {
         try {
-            ApiControllerClass.sendTwilioVoiceNotification(OtherUserProfileActivity.this, retrofit, PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""),otherUserProfilePojo.getUsers().getId()+"",otherUserProfilePojo.getUsers().getName(), otherUserProfilePojo.getUsers().getUser_image());
+            ApiControllerClass.sendTwilioVoiceNotification(OtherUserProfileActivity.this, retrofit, PreferenceHandler.readString(OtherUserProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""), otherUserProfilePojo.getUsers().getId() + "", otherUserProfilePojo.getUsers().getName(), otherUserProfilePojo.getUsers().getUser_image().get(0).getImage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -451,5 +285,11 @@ OtherUserProfilePojo otherUserProfilePojo;
 
     @OnClick(R.id.iv_message)
     public void onIvMessageClicked() {
+        try {
+            Utility.goToChatActivity(OtherUserProfileActivity.this, otherUserProfilePojo.getUsers().getId(), otherUserProfilePojo.getUsers().getName(), otherUserProfilePojo.getUsers().getUser_image().get(0).getImage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

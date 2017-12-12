@@ -28,7 +28,6 @@ import com.igniva.qwer.ui.activities.twilio_chat.messages.LeftStatusMessage;
 import com.igniva.qwer.ui.activities.twilio_chat.messages.MessageAdapter;
 import com.igniva.qwer.ui.activities.twilio_chat.messages.StatusMessage;
 import com.igniva.qwer.utils.Global;
-import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.twilio.chat.CallbackListener;
 import com.twilio.chat.Channel;
@@ -204,8 +203,11 @@ public class MainChatFragment extends Fragment implements ChannelListener {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(messageTextEdit.getText().toString().trim())){
-                    Utility.showToastMessageShort(mainActivity,"Please write some message.");
+                if(!((MainChatActivity)getActivity()).type.equalsIgnoreCase("block")){
+                    Utility.showToastMessageLong(getActivity(),getActivity().getResources().getString(R.string.user_is_blocked));
+                    return;
+                 }else if(TextUtils.isEmpty(messageTextEdit.getText().toString().trim())){
+//                    Utility.showToastMessageShort(mainActivity,"Please write some message.");
                     return;
                 }else {
                     sendMessage();
@@ -258,7 +260,7 @@ public class MainChatFragment extends Fragment implements ChannelListener {
         JSONObject jsonObject = new JSONObject();
         JSONArray array = new JSONArray();
         try {
-            array.put(new JSONObject().put("id", PreferenceHandler.readString(context,PreferenceHandler.PREF_KEY_USER_ID,"")));
+            array.put(new JSONObject().put("id", ((MainChatActivity) getActivity()).userId));
             jsonObject.put("identity", array);
             jsonObject.put("channel_name", currentChannel.getUniqueName());
         } catch (JSONException e) {
@@ -267,20 +269,20 @@ public class MainChatFragment extends Fragment implements ChannelListener {
         ApiControllerClass.sendTwilioChatNotification(retrofit,mainActivity,jsonObject.toString());
     }
 
-    /*private void sendNotification(String messageText) {
+/*
+    private void sendNotification(String messageText) {
 
         JSONObject jsonObject = new JSONObject();
 
         try {
             JSONObject dataObject = new JSONObject();
-            String userName = PreferenceHandler.readString(getActivity(), Constants.PREF_KEY_LOGIN_USER_NAME, "User");
-            dataObject.put("roomId", ((MainChatActivity) getActivity()).skiproomId);
+            String userName = PreferenceHandler.readString(getActivity(), PreferenceHandler.PREF_KEY_USER_NAME, "User");
+            dataObject.put("roomId", ((MainChatActivity) getActivity()).getIntent().getStringExtra(Constants.ROOM_ID));
             dataObject.put("notification", 25);
-            dataObject.put("title", userName + " send you a message");
+            dataObject.put("title", userName + " sent you a message");
             dataObject.put("sender_name", userName);
             dataObject.put("message", messageText);
-
-            jsonObject.put("to", ((MainChatActivity) getActivity()).gcmId);
+             jsonObject.put("to", ((MainChatActivity) getActivity()).gcmId);
             jsonObject.put("data", dataObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -289,7 +291,8 @@ public class MainChatFragment extends Fragment implements ChannelListener {
 
 
         ApiControllerClass.sendFcmNotification(getActivity(), jsonObject.toString());
-    }*/
+    }
+*/
 
     private void setMessageInputEnabled(final boolean enabled) {
         mainActivity.runOnUiThread(new Runnable() {
