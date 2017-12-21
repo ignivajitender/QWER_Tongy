@@ -226,7 +226,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
 
 
         if (users.get(position).getUser_image() != null && users.get(position).getUser_image().size() > 0) {
-            MultiImages multiImages = new MultiImages(context, users.get(position).getUser_image(), users.get(position).getUser_image().get(0).getImage());
+            MultiImages multiImages = new MultiImages(context, users.get(position).getUser_image());
             mViewPager.setAdapter(multiImages);
             buildCircles(users.get(position).getUser_image().size(), mdotsLayout);
             size = users.get(position).getUser_image().size();

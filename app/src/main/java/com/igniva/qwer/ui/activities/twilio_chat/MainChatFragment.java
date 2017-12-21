@@ -94,13 +94,10 @@ public class MainChatFragment extends Fragment implements ChannelListener {
         sendButton = (ImageView) view.findViewById(R.id.buttonSend);
         messagesListView = (ListView) view.findViewById(R.id.listViewMessages);
         messageTextEdit = (EditText) view.findViewById(R.id.editTextMessage);
-
-//        messageAdapter = new MessageAdapterOld(mainActivity);
+ //        messageAdapter = new MessageAdapterOld(mainActivity);
 //        messagesListView.setAdapter(messageAdapter);
         setUpListeners();
         setMessageInputEnabled(false);
-
-
         setupRecycleView();
         return view;
     }
@@ -112,7 +109,6 @@ public class MainChatFragment extends Fragment implements ChannelListener {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
     }
-
 
     public Channel getCurrentChannel() {
         return currentChannel;
@@ -163,7 +159,7 @@ public class MainChatFragment extends Fragment implements ChannelListener {
         });
     }
 
-    private void loadMessages(final StatusListener handler) {
+     private void loadMessages(final StatusListener handler) {
         this.messagesObject = this.currentChannel.getMessages();
 
         if (messagesObject != null) {
@@ -199,11 +195,10 @@ public class MainChatFragment extends Fragment implements ChannelListener {
     }
 
     private void setUpListeners() {
-
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!((MainChatActivity)getActivity()).type.equalsIgnoreCase("block")){
+                 if(!((MainChatActivity)getActivity()).type.equalsIgnoreCase("block")){
                     Utility.showToastMessageLong(getActivity(),getActivity().getResources().getString(R.string.user_is_blocked));
                     return;
                  }else if(TextUtils.isEmpty(messageTextEdit.getText().toString().trim())){
@@ -214,6 +209,7 @@ public class MainChatFragment extends Fragment implements ChannelListener {
                 }
             }
         });
+
         messageTextEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -226,25 +222,23 @@ public class MainChatFragment extends Fragment implements ChannelListener {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "beforeTextChanged: "+charSequence);
             }
-
-            @Override
+             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: "+charSequence);
                 if(TextUtils.isEmpty(charSequence)){
                     Log.d(TAG, "onTextChanged: DISABLE BUTTON");
                     setDesableSendButton();
                 }else {
+                    currentChannel.typing();
                     Log.d(TAG, "onTextChanged: ENABLE BUTTON");
                     setEnableSendButton();
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
 
             }
         });
-
         setDesableSendButton();
     }
 
@@ -324,14 +318,14 @@ public class MainChatFragment extends Fragment implements ChannelListener {
     public void onMemberJoin(Member member) {
         StatusMessage statusMessage = new JoinedStatusMessage(member.getUserInfo().getIdentity());
 //        this.messageAdapter.addStatusMessage(statusMessage);
-        this.mAdapter.addStatusMessage(statusMessage);
+//        this.mAdapter.addStatusMessage(statusMessage);
     }
 
     @Override
     public void onMemberDelete(Member member) {
         StatusMessage statusMessage = new LeftStatusMessage(member.getUserInfo().getIdentity());
 //        this.messageAdapter.addStatusMessage(statusMessage);
-        this.mAdapter.addStatusMessage(statusMessage);
+//        this.mAdapter.addStatusMessage(statusMessage);
     }
 
     @Override

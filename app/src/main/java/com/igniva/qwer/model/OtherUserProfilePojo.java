@@ -138,7 +138,7 @@ public class OtherUserProfilePojo {
 
         public List<UserBlockPojo> user_block;
 
-        private List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> user_image;
+        private List<ProfileResponsePojo.UserImageData> user_image;
 
         public List<UserSpeakPojo> getUser_speak() {
             return user_speak;
@@ -394,11 +394,11 @@ public class OtherUserProfilePojo {
             this.role_id = role_id;
         }
 
-        public List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> getUser_image() {
+        public List<ProfileResponsePojo.UserImageData> getUser_image() {
             return user_image;
         }
 
-        public void setUser_image(List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> user_image) {
+        public void setUser_image(List<ProfileResponsePojo.UserImageData> user_image) {
             this.user_image = user_image;
         }
 

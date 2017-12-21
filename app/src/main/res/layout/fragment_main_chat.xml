@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_light_grey">
 
     <ListView
         android:id="@+id/listViewMessages"
@@ -23,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_message_send"
-        android:background="@drawable/grey_bg"
+        android:layout_below="@id/tv_typing"
         android:backgroundTint="#73f4f0f0"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
@@ -33,17 +34,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/dp_10"
         android:text="typing..."
         android:textColor="@color/bg_blue"
-        android:textSize="@dimen/_20sp"
+        android:textSize="@dimen/_14sp"
         android:visibility="gone" />
+
     <LinearLayout
+        android:id="@+id/ll_message_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_message_send"
         android:layout_alignParentBottom="true"
-        android:padding="@dimen/dp5"
-         android:orientation="horizontal">
+        android:background="@color/bg_white"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp5">
 
         <EditText
             android:id="@+id/editTextMessage"

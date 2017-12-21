@@ -94,7 +94,6 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
     TextInputLayout mTilEmail;
     @BindView(R.id.til_pass)
     TextInputLayout mTilPass;
-
     // facebook helper init
     FacebookHelper mFbHelper;
     private String TAG1="LoginActivity";
@@ -204,14 +203,19 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                     HashMap<String, String> signupHash = new HashMap<>();
                     signupHash.put(Constants.EMAIL, mEtEmail.getText().toString());
                     signupHash.put(Constants.PASSWORD, mEtPassword.getText().toString());
-                    Log.e("token value",PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, "")+ "bgjkhbkjh");
                     if (PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, "").length()>0) {
                         signupHash.put(Constants.DEVICE_ID,PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, ""));
-
-                    } else {
+                        Log.e("token value",PreferenceHandler.readFCM_KEY(LoginActivity.this, Constants.FCM_TOKEN, ""));
+                    } else if(SplashActivity.token!=null && SplashActivity.token.length()>3){
+                        Log.e("token value",SplashActivity.token);
                         signupHash.put(Constants.DEVICE_ID,SplashActivity.token);
+                    }else{
+                        signupHash.put(Constants.DEVICE_ID,"11111111111111");
+
                     }
                     signupHash.put(Constants.DEVICE_TYPE,"android");
+                    Log.e("loginWithoutFacebook---",signupHash.toString());
+
                     //Create a retrofit call object
                     retrofit2.Call<ResponsePojo> posts= retrofit.create(ApiInterface.class).login(signupHash);
 
@@ -225,13 +229,10 @@ public class LoginActivity extends BaseActivity implements FacebookResponse, Uti
                                 PreferenceHandler.writeBoolean(LoginActivity.this, PreferenceHandler.IS_PREF_SET, true);
                                 PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_USER_ID,response.body().getData().id);
                                 for (int i = 0; i < response.headers().size(); i++) {
-
                                         String loginToken = response.headers().get("x-logintoken");
                                         Log.e(TAG1, loginToken);
                                         PreferenceHandler.writeString(LoginActivity.this, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, loginToken);
                                         PreferenceHandler.writeString(LoginActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"false");
-
-
                                 }
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

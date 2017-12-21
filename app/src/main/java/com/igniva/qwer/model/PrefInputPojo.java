@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class PrefInputPojo {
 
-    String  prefered_gender , prefered_area_type;
-    int prefered_age_from,prefered_age_to,area_km;
+    String prefered_gender, prefered_area_type;
+    int prefered_age_from, prefered_age_to, area_km;
     ArrayList<LanguagesProficiency> speak, learn;
 
     public int getPrefered_age_from() {
@@ -82,11 +82,45 @@ public class PrefInputPojo {
         languagesProficiency.setProficiency(lanPro);
         this.speak.add(languagesProficiency);
     }
+    public static class LanguagesBean {
+        /**
+         * id : 26
+         * name : English
+         */
+
+        private int id;
+        private String name;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
 
     public class LanguagesProficiency implements Serializable {
         String language_id;
         String proficiency;
         String name;
+        LanguagesBean languages;
+
+        public LanguagesBean getLanguages() {
+            return languages;
+        }
+
+        public void setLanguages(LanguagesBean languages) {
+            this.languages = languages;
+        }
 
         public String getName() {
             return name;

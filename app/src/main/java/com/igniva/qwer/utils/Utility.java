@@ -38,12 +38,14 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBufferResponse;
@@ -54,11 +56,11 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.controller.ApiInterface;
 import com.igniva.qwer.model.GooglePlaceApiResponsePojo;
+import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.predictionsPojo;
 import com.igniva.qwer.ui.activities.ConnectionAcceptedActivity;
 import com.igniva.qwer.ui.activities.LocationActivity;
 import com.igniva.qwer.ui.activities.LoginActivity;
-import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.ui.activities.SearchActivity;
 import com.igniva.qwer.ui.activities.twilio_chat.MainChatActivity;
 
@@ -113,7 +115,6 @@ public class Utility {
         boolean HaveConnectedWifi = false;
         boolean HaveConnectedMobile = false;
         try {
-
             ConnectivityManager cm = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -885,5 +886,22 @@ public class Utility {
         void onOkButtonClicked();
     }
 
+    public static void setUserImage(Context context,ImageView view,List<ProfileResponsePojo.UserImageData> pojo) {
+        if (pojo != null && pojo.size() > 0) {
+             String coverImage = null;
+            for (ProfileResponsePojo.UserImageData userImageData : pojo
+                    ) {
+                if (userImageData.getIs_cover_image().equals("1")) {
+                    coverImage = userImageData.getImage();
+                    break;
+                }
+            }
+            if(coverImage==null)
+                coverImage= pojo.get(0).getImage();
+
+            Glide.with(context).load(coverImage).into(view);
+
+        }
+    }
 
 }

@@ -26,6 +26,7 @@ import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.PrefInputPojo;
+import com.igniva.qwer.model.PrefsResponsePojo;
 import com.igniva.qwer.ui.adapters.LanguageListAdapter;
 import com.igniva.qwer.ui.callbacks.MyCallBack;
 import com.igniva.qwer.ui.views.TextViewRegular;
@@ -55,11 +56,9 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
 
 
     @BindView(R.id.actv_lang_i_speak)
-    public
-    AutoCompleteTextView mActvLangISpeak;
+    public AutoCompleteTextView mActvLangISpeak;
     @BindView(R.id.actv_lang_i_learn)
-    public
-    AutoCompleteTextView mActvLangILearn;
+    public AutoCompleteTextView mActvLangILearn;
     public ArrayList<LanguagesResponsePojo.LanguagesPojo> mAlLangList;
     @BindView(R.id.iv_male)
     ImageView mIvMale;
@@ -88,8 +87,8 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
     @BindView(R.id.rv_language_to_learn)
     RecyclerView mRvLanguageToLearn;
     Context context = SetPreferrencesActivity.this;
-    ArrayList<PrefInputPojo.LanguagesProficiency> mAlLangListSpeak;
-    ArrayList<PrefInputPojo.LanguagesProficiency> mAlLangListLearn;
+    ArrayList<PrefInputPojo.LanguagesProficiency> mAlLangListSpeak = new ArrayList<>();
+    ArrayList<PrefInputPojo.LanguagesProficiency> mAlLangListLearn = new ArrayList<>();
     LanguageListAdapter mAdapterLangSpeak;
     LanguageListAdapter mAdapterLanLearn;
     @BindView(R.id.tv_lets_learn)
@@ -114,6 +113,13 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
         ButterKnife.bind(this);
         setupSeekbarListerns();
         setUpLayout();
+        ApiControllerClass.getPrefrences(context, retrofit);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -130,9 +136,6 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
             }
 
         }
-        mAlLangListSpeak = new ArrayList<>();
-        mAlLangListLearn = new ArrayList<>();
-
         mActvLangISpeak.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -140,7 +143,6 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
                 onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);
             }
         });
-
         mActvLangILearn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -150,21 +152,15 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
 
             }
         });
-
-
         mAdapterLangSpeak = new LanguageListAdapter(context, mAlLangListSpeak, Constants.LANGUAGE_SPEAK, this);
         mAdapterLanLearn = new LanguageListAdapter(context, mAlLangListLearn, Constants.LANGUAGE_LEARN, this);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-
         mRvLanguageSpeak.setLayoutManager(linearLayoutManager);
         mRvLanguageSpeak.setItemAnimator(new DefaultItemAnimator());
         mRvLanguageSpeak.setAdapter(mAdapterLangSpeak);
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRvLanguageSpeak.getContext(),linearLayoutManager.getOrientation());
 //        mRvLanguageSpeak.addItemDecoration(dividerItemDecoration);
-
-
         mRvLanguageToLearn.setLayoutManager(linearLayoutManager1);
         mRvLanguageToLearn.setItemAnimator(new DefaultItemAnimator());
         mRvLanguageToLearn.setAdapter(mAdapterLanLearn);
@@ -214,7 +210,7 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
         mSeekbarNearbyArea.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
             @Override
             public void valueChanged(Number value) {
-                if (!mTvNearbyAreaValue.getText().toString().replace("km","").equals(value.toString())) {
+                if (!mTvNearbyAreaValue.getText().toString().replace("km", "").equals(value.toString())) {
                     int x = (int) mSeekbarNearbyArea.getLeftThumbRect().left;
                     mTvNearbyAreaValue.setX(x);
                     Log.e("valuepfx", x + "");
@@ -399,8 +395,6 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
     }
 
     Boolean setPref() {
-
-
         if (mAlLangListSpeak == null || mAlLangListSpeak.size() == 0) {
             Utility.showToastMessageLong((Activity) context, context.getResources().getString(R.string.select_atleast_one_speak));
         } else if (mAlLangListSpeak.size() > 4) {
@@ -424,6 +418,64 @@ public class SetPreferrencesActivity extends BaseActivity implements MyCallBack 
             return true;
         }
         return false;
+    }
+
+    public void setupLayout(PrefsResponsePojo prefsResponsePojo) {
+        if (prefsResponsePojo != null && prefsResponsePojo.getPrefrences() != null) {
+            if (prefsResponsePojo.getPrefrences().getPrefered_area_type().equals("nearby")) {
+                 mRbNearbyMe.performClick();
+                 mSeekbarNearbyArea.setMinStartValue(Integer.valueOf(prefsResponsePojo.getPrefrences().getArea_km())).apply();
+             } else {
+                mRbWorldWide.performClick();
+            }
+            if (!prefsResponsePojo.getPrefrences().getPrefered_gender().equalsIgnoreCase("female")) {
+                onViewClicked(mIvMale);
+            } else {
+                onViewClicked(mIvFemale);
+             }
+            mSeekbarPreferredAge.setMinStartValue(Float.valueOf(prefsResponsePojo.getPrefrences().getPrefered_age_from())).setMaxStartValue(Float.valueOf(prefsResponsePojo.getPrefrences().getPrefered_age_to())).apply();
+ //            if (prefsResponsePojo.getLearn() != null)
+//                mAlLangListLearn = prefsResponsePojo.getLearn();
+//            if (prefsResponsePojo.getSpeak() != null)
+//                mAlLangListSpeak = prefsResponsePojo.getSpeak();
+            if (prefsResponsePojo.getLearn() != null && prefsResponsePojo.getLearn().size() > 0) {
+
+                for (PrefInputPojo.LanguagesProficiency learnPojo : prefsResponsePojo.getLearn()
+                        ) {
+                    PrefInputPojo.LanguagesProficiency tempPojo = new PrefInputPojo().new LanguagesProficiency();
+                    if(learnPojo.getProficiency()!=null)
+                    tempPojo.setProficiency(learnPojo.getProficiency());
+                    else
+                        tempPojo.setProficiency(Constants.BEGINNER);
+
+                    tempPojo.setName(learnPojo.getLanguages().getName());
+                    tempPojo.setLanguage_id(learnPojo.getLanguages().getId() + "");
+                    mAlLangListLearn.add(tempPojo);
+                }
+                mRvLanguageToLearn.setVisibility(View.VISIBLE);
+                mAdapterLanLearn.notifyDataSetChanged();
+
+            }
+
+            if (prefsResponsePojo.getSpeak() != null && prefsResponsePojo.getSpeak().size() > 0) {
+
+                for (PrefInputPojo.LanguagesProficiency speakPojo : prefsResponsePojo.getSpeak()
+                        ) {
+                    PrefInputPojo.LanguagesProficiency tempPojo = new PrefInputPojo().new LanguagesProficiency();
+                    if(speakPojo.getProficiency()!=null)
+                    tempPojo.setProficiency(speakPojo.getProficiency());
+                    else
+                        tempPojo.setProficiency(Constants.BEGINNER);
+                    tempPojo.setName(speakPojo.getLanguages().getName());
+                    tempPojo.setLanguage_id(speakPojo.getLanguages().getId() + "");
+                    mAlLangListSpeak.add(tempPojo);
+                }
+                mRvLanguageSpeak.setVisibility(View.VISIBLE);
+                mAdapterLangSpeak.notifyDataSetChanged();
+            }
+
+
+        }
     }
 
     @Override

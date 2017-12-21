@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
-import com.igniva.qwer.model.ConnectionPojo;
+import com.igniva.qwer.model.ProfileResponsePojo;
 
 import java.util.List;
 
@@ -22,19 +22,17 @@ public class MultiImages extends PagerAdapter {
     int id;
     private static final String LOG_TAG = "MultiImages";
     Context context;
-    List<ConnectionPojo.ConnectionDataPojo.UserImagePojo>  mImagesSlidingArray;
-    String path;
-    LayoutInflater mLayoutInflater;
+    List<ProfileResponsePojo.UserImageData>  mImagesSlidingArray;
+     LayoutInflater mLayoutInflater;
     private int[] imagesList= new int[]{R.drawable.login_bg,R.drawable.tongy_logo,R.drawable.login_bg,R.drawable.tongy_logo};
 
 
 
-    public MultiImages(Context context, List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> arr, String pathUrl) {
+    public MultiImages(Context context, List<ProfileResponsePojo.UserImageData> arr) {
         try {
             this.context = context;
             mImagesSlidingArray = arr;
-            path = pathUrl;
-            mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+             mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         } catch (Exception e) {
             e.printStackTrace();

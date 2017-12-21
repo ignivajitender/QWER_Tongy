@@ -133,7 +133,6 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 //        if (getIntent().hasExtra(Constants.CHAT_GCM_ID)) {
 //            gcmId = getIntent().getStringExtra(Constants.CHAT_GCM_ID);
 //        }
@@ -142,7 +141,6 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
 //        }
 //        if (getIntent().hasExtra(Constants.ROOM_USER_ID)) {
 //        }
-
         chatFragment = new MainChatFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatFragment).commit();
 
@@ -150,8 +148,7 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
         mainActivity = this;
 
         channelManager = ChannelManager.getInstance();
-
-        Global.activeChannelName = channelName;
+         Global.activeChannelName = channelName;
         checkTwilioClient();
         showActivityIndicator("Please wait...");
     }
@@ -223,12 +220,12 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
         channelManager.setChannelFindOrCreateListener(this);
 
         channelManager.createOrGetChannel(channelName);
+
     }
 
 
     private void checkTwilioClient() {
-
-        chatClientManager = ((Global) getApplicationContext()).getChatClientManager();
+         chatClientManager = ((Global) getApplicationContext()).getChatClientManager();
         if (chatClientManager.getChatClient() == null) {
             initializeClient();
         } else {
@@ -266,7 +263,6 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
             });
       }
     });*/
-
     }
 
     private void stopActivityIndicator() {
@@ -425,8 +421,7 @@ public class MainChatActivity extends AppCompatActivity implements ChatClientLis
         }
 
     }
-
-    @OnClick(R.id.iv_option)
+     @OnClick(R.id.iv_option)
     public void onMIvOptionClicked() {
 //        if (userId != null && userId.length() > 0)
             Utility.openBlockMenu(MainChatActivity.this, retrofit, type, mIvOption,  Integer.valueOf(userId.trim()));

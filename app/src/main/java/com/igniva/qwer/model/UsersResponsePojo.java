@@ -145,7 +145,7 @@ public class UsersResponsePojo {
             public String created_at;
             public String updated_at;
             public String role_id;
-            public List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> user_image;
+            public List<ProfileResponsePojo.UserImageData> user_image;
             public List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_speak;
             public List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_learn;
 
@@ -440,11 +440,11 @@ public class UsersResponsePojo {
                 this.role_id = role_id;
             }
 
-            public List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> getUser_image() {
+            public List<ProfileResponsePojo.UserImageData> getUser_image() {
                 return user_image;
             }
 
-            public void setUser_image(List<ConnectionPojo.ConnectionDataPojo.UserImagePojo> user_image) {
+            public void setUser_image(List<ProfileResponsePojo.UserImageData> user_image) {
                 this.user_image = user_image;
             }
 
@@ -480,41 +480,6 @@ public class UsersResponsePojo {
                 this.user_send = user_send;
             }
 
-            public static class UserImagePojo {
-                /**
-                 * user_id : 110
-                 * image : http://tongy.ignivastaging.com/images/profile_image/1510055417-5B122607.jpg
-                 * is_cover_image : 0
-                 */
-
-                public String user_id;
-                public String image;
-                public String is_cover_image;
-
-                public String getUser_id() {
-                    return user_id;
-                }
-
-                public void setUser_id(String user_id) {
-                    this.user_id = user_id;
-                }
-
-                public String getImage() {
-                    return image;
-                }
-
-                public void setImage(String image) {
-                    this.image = image;
-                }
-
-                public String getIs_cover_image() {
-                    return is_cover_image;
-                }
-
-                public void setIs_cover_image(String is_cover_image) {
-                    this.is_cover_image = is_cover_image;
-                }
-            }
 
             public static class UserSpeakPojo {
                 /**

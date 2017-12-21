@@ -18,6 +18,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.ConnectionPojo;
 import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.utils.CircularImageView;
+import com.igniva.qwer.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +97,9 @@ public class ConnectionRecyclerviewAdapter extends RecyclerView.Adapter<Connecti
         if (pojo.getUser_country() != null && pojo.getUser_country().getCountry() != null)
             holder.mtvCountryName.setText(pojo.getUser_country().getCountry());
         if (pojo.getUser_image() != null && pojo.getUser_image().size() > 0)
-            Glide.with(mContext).load(pojo.getUser_image().get(0).getImage()).into(holder.mivImage);
+            Utility.setUserImage(mContext,holder.mivImage,pojo.getUser_image());
+
+//            Glide.with(mContext).load(pojo.getUser_image().get(0).getImage()).into(holder.mivImage);
 
         holder.mivImage.setOnClickListener(new View.OnClickListener() {
             @Override

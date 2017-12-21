@@ -87,8 +87,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     private final int RC_CAMERA_PERM = 123;
     public String Gender;
     @BindView(R.id.et_city)
-    public
-    AutoCompleteTextView mEtCity;
+    public AutoCompleteTextView mEtCity;
     @BindView(R.id.autocomTextViewCountry)
     public
     AutoCompleteTextView mautocomTextViewCountry;
@@ -278,8 +277,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
-                    @Override
+                     @Override
                     public void onFailure(Call<ProfileResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
@@ -325,8 +323,6 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                     Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mImageviewPlaceholder);
                  }
              }
-
-
         }else{
             mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
         }
@@ -504,34 +500,33 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             }
         });
 
-        mEtCity.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-               /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
-                    mbtnClearAddress.setVisibility(View.VISIBLE);
-                } else { //not include text
-                    mbtnClearAddress.setVisibility(View.GONE);
-                }*/
-            }
-        });
+//        mEtCity.addTextChangedListener(new TextWatcher() {
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start,
+//                                          int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start,
+//                                      int before, int count) {
+//               /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
+//                    mbtnClearAddress.setVisibility(View.VISIBLE);
+//                } else { //not include text
+//                    mbtnClearAddress.setVisibility(View.GONE);
+//                }*/
+//            }
+//        });
 
     }
 
     public void callSuccessPopUp(final MyProfileActivity myProfileActivity, String description, final boolean isSetPref) {
-
-        // Create custom dialog object
+         // Create custom dialog object
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -564,12 +559,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             }
         });
         dialog.setTitle("Custom Dialog");
-
-
-        dialog.show();
-
-
-    }
+         dialog.show();
+     }
 
     @Override
     protected void setUpToolbar() {
@@ -605,8 +596,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 //                    mCrossIcon4.setVisibility(View.GONE);
 //                    mivaddImage4.setVisibility(View.VISIBLE);
                     ApiControllerClass.imageDelete(4, mResponsePojo.getData().getUser_image(), retrofit, MyProfileActivity.this);
-
-                    break;
+                     break;
                 case iv_edit_profile:
                     if (mResponsePojo != null && mResponsePojo.getData() != null) {
                         if (mResponsePojo.getData().getUser_image().size() > 0) {
@@ -721,8 +711,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 PreferenceHandler.writeBoolean(MyProfileActivity.this, PreferenceHandler.IS_PROFILE_SET, true);
-
-                                if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
+                                 if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
                                     callSuccessPopUp(MyProfileActivity.this, response.body().getDescription(), PreferenceHandler.readBoolean(MyProfileActivity.this, PreferenceHandler.IS_PROFILE_SET, false));
                                 } else {
                                     Intent intent = null;
@@ -735,14 +724,11 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                                     finish();
                                 }
                                 //Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
-
-
-                            } else {
+                             } else {
                                 CallProgressWheel.dismissLoadingDialog();
                                 Toast.makeText(MyProfileActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             }
-
-                        }
+                         }
 
                         @Override
                         public void onFailure(Call<ResponsePojo> call, Throwable t) {
@@ -760,22 +746,17 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         mgenderSpinner.setSelection(position);
         selGender = (String) mgenderSpinner.getSelectedItem();
+     }
 
-
-    }
-
-
-    @Override
+     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
+     }
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
@@ -807,8 +788,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 setImageOnPosition(callFrom, bitmap);
             }
         }
-
-        //user is returning frcountriesListom cropping the image
+         //user is returning frcountriesListom cropping the image
         else if (requestCode == PIC_CROP) {
             //get the returned data
             if (data != null) {
@@ -824,8 +804,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 callUploadPictureApi(outPutFile);
             }
         }
-
-    }
+     }
 
     public void setImageOnPosition(int pos, Bitmap bitmap) {
         if (bitmap != null) {
@@ -847,8 +826,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 mivaddImage4.setVisibility(View.GONE);
             }
         } else {
-
-            if (pos == 1) {
+             if (pos == 1) {
                 mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
                 mCrossIcon1.setVisibility(View.GONE);
                 mivaddImage1.setVisibility(View.VISIBLE);
@@ -865,8 +843,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 mCrossIcon4.setVisibility(View.GONE);
                 mivaddImage4.setVisibility(View.VISIBLE);
             }
-
-        }
+         }
     }
 
     private void callUploadPictureApi(final File outPutFile) {
@@ -892,12 +869,10 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                         userImageData.setUser_id(PreferenceHandler.readString(MyProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""));
                         userImageData.setImage(outPutFile.getAbsolutePath());
                         mResponsePojo.getData().getUser_image().add(userImageData);
-
                         if(coverIMageID==null || coverIMageID.length()==0)
                         {
                             setCoverImage(mResponsePojo.getData().getUser_image().indexOf(userImageData));
                         }
-
                         // callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
                         Utility.showToastMessageShort(MyProfileActivity.this, response.body().getDescription());
                     } else if (response.body().getStatus() == 400) {

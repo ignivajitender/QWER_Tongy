@@ -3,13 +3,13 @@ package com.igniva.qwer.ui.activities;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.ui.views.TextViewBold;
 import com.igniva.qwer.utils.CircularImageView;
 import com.igniva.qwer.utils.Global;
+import com.igniva.qwer.utils.Utility;
 
 import javax.inject.Inject;
 
@@ -81,7 +81,9 @@ public class ConnectionAcceptedActivity extends BaseActivity {
 
         mtvName.setText(response.body().getUsers().getName());
         if(response.body().getUsers().getUser_image()!=null && response.body().getUsers().getUser_image().size()>0)
-        Glide.with(ConnectionAcceptedActivity.this).load(response.body().getUsers().getUser_image().get(0).getImage()).into(mivImage);
+            Utility.setUserImage( ConnectionAcceptedActivity.this, mivImage,response.body().getUsers().getUser_image() );
+
+//        Glide.with(ConnectionAcceptedActivity.this).load(response.body().getUsers().getUser_image().get(0).getImage()).into(mivImage);
 
 
     }

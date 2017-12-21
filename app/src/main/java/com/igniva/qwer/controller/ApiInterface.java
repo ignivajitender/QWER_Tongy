@@ -10,6 +10,7 @@ import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
+import com.igniva.qwer.model.PrefsResponsePojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.model.StateResponsePojo;
@@ -60,6 +61,9 @@ public interface ApiInterface {
 
     @POST("/api/users/prefrences")
     Call<ResponsePojo> setPrefrences(@Body PrefInputPojo params);
+
+     @GET("/api/users/getprefrences")
+    Call<PrefsResponsePojo> getPrefrences();
 
     @FormUrlEncoded
     @POST("/api/users/changeEmail")

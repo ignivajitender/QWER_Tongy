@@ -242,7 +242,7 @@ public class OtherUserProfileActivity extends BaseActivity {
         mrvLanguageSpeaks.setAdapter(adapter1);
 
         if (response.body().getUsers().getUser_image() != null && response.body().getUsers().getUser_image().size() > 0) {
-            multiImages = new MultiImages(OtherUserProfileActivity.this, response.body().getUsers().getUser_image(), response.body().getUsers().getUser_image().get(0).getImage());
+            multiImages = new MultiImages(OtherUserProfileActivity.this, response.body().getUsers().getUser_image());
             mivUserImage.setAdapter(multiImages);
             buildCircles(response.body().getUsers().getUser_image().size());
             size = response.body().getUsers().getUser_image().size();

@@ -131,7 +131,9 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                      holder.mibReport.setBackground(mContext.getResources().getDrawable(R.drawable.report_option));
 
                 if (pojo.getPost_user().getUser_image() != null && pojo.getPost_user().getUser_image().size() > 0) {
-                    Glide.with(mContext).load(pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
+                    Utility.setUserImage(mContext,holder.mIvProfile ,pojo.getPost_user().getUser_image() );
+
+//                    Glide.with(mContext).load(pojo.getPost_user().getUser_image().get(0).getImage()).into(holder.mIvProfile);
                 }
 
                 holder.mTvName.setText(pojo.getPost_user().getName());

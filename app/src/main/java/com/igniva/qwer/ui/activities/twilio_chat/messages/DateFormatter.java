@@ -29,7 +29,7 @@ public class DateFormatter {
       stringDate = today.toString("MMM dd, yyyy-");
     }
 
-    stringDate = stringDate.concat(today.toString("hh:mm a"));
+    stringDate = stringDate.concat(today.toString("HH:mm"));
 
     return stringDate;
   }

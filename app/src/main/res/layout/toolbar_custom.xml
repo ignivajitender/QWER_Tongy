@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_top"
     android:layout_width="match_parent"
-    app:layout_scrollFlags="scroll|enterAlways"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:minHeight="?attr/actionBarSize">
+    android:contentInsetEnd="0dp"
+    android:contentInsetLeft="0dp"
+    android:contentInsetRight="0dp"
+    android:contentInsetStart="0dp"
+    android:minHeight="?attr/actionBarSize"
+    app:contentInsetEnd="0dp"
+    app:contentInsetLeft="0dp"
+    app:contentInsetRight="0dp"
+    app:contentInsetStart="0dp">
 
 
     <ImageView
@@ -14,13 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:layout_margin="0dp"
         android:background="?android:attr/selectableItemBackground"
-        android:paddingBottom="@dimen/_12dp"
-        android:paddingRight="@dimen/_12dp"
-        android:paddingTop="@dimen/_12dp"
-        app:srcCompat="@drawable/setting"
-
-        />
+        android:padding="@dimen/_12dp"
+        app:srcCompat="@drawable/setting" />
 
     <LinearLayout
         android:id="@+id/ll_change_title"
@@ -55,28 +59,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:padding="@dimen/_12dp"
         android:background="?attr/selectableItemBackground"
+        android:padding="@dimen/_12dp"
         android:src="@drawable/notification" />
+
     <ImageView
         android:id="@+id/ivSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
+        android:background="?attr/selectableItemBackground"
         android:padding="@dimen/_12dp"
         android:src="@drawable/search"
-        android:visibility="gone"
-        android:background="?attr/selectableItemBackground"
-        />
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/edit_pref_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:padding="@dimen/_12dp"
-        android:src="@drawable/filter"
         android:background="?attr/selectableItemBackground"
-        />
+        android:padding="@dimen/_12dp"
+        android:src="@drawable/filter" />
 
 
 </android.support.v7.widget.Toolbar>

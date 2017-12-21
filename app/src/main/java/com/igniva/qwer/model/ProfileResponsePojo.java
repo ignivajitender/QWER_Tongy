@@ -87,7 +87,7 @@ public class ProfileResponsePojo {
 
     public static class ProfileDataPojo {
 
-       public String name;
+        public String name;
         public String email;
         public String secondary_email;
         public String gender;
@@ -97,6 +97,10 @@ public class ProfileResponsePojo {
         public String pincode;
         public int is_voicecall;
         public int is_videocall;
+        public int is_push_notification;
+        public List<UserImageData> user_image;
+        public String about;
+        private UserRoleBean user_role;
 
         public int isIs_voicecall() {
             return is_voicecall;
@@ -122,8 +126,6 @@ public class ProfileResponsePojo {
             this.is_push_notification = is_push_notification;
         }
 
-        public int is_push_notification;
-
         public UserRoleBean getUser_role() {
             return user_role;
         }
@@ -132,7 +134,6 @@ public class ProfileResponsePojo {
             this.user_role = user_role;
         }
 
-        private UserRoleBean user_role;
         public List<UserImageData> getUser_image() {
             return user_image;
         }
@@ -141,7 +142,6 @@ public class ProfileResponsePojo {
             this.user_image = user_image;
         }
 
-        public List<UserImageData> user_image;
         public String getName() {
             return name;
         }
@@ -214,17 +214,16 @@ public class ProfileResponsePojo {
             this.about = about;
         }
 
-        public String about;
-
     }
 
     public static class UserImageData implements Serializable {
 
-//        "user_image":[{"id":17,"user_id":"82","image":"1508997738-E7540774.png","is_cover_image":"0"},
+        //        "user_image":[{"id":17,"user_id":"82","image":"1508997738-E7540774.png","is_cover_image":"0"},
 //          {"id":16,"user_id":"82","image":"1508923747-07D68753.jpg","is_cover_image":"0"}]
         public String id;
         public String user_id;
         public String image;
+        public String is_cover_image;
 
         public String getId() {
             return id;
@@ -257,8 +256,6 @@ public class ProfileResponsePojo {
         public void setIs_cover_image(String is_cover_image) {
             this.is_cover_image = is_cover_image;
         }
-
-        public String is_cover_image;
 
     }
 

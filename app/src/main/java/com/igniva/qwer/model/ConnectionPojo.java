@@ -153,11 +153,10 @@ public class ConnectionPojo {
              * country : null
              * user_image : []
              */
-
-            private int id;
+             private int id;
             private String name;
             private String country;
-            private List<UserImagePojo> user_image;
+            private List<ProfileResponsePojo.UserImageData> user_image;
 
             public UserCountryPojo getUser_country() {
                 return user_country;
@@ -192,69 +191,15 @@ public class ConnectionPojo {
                 this.country = country;
             }
 
-            public List<UserImagePojo> getUser_image() {
+            public List<ProfileResponsePojo.UserImageData> getUser_image() {
                 return user_image;
             }
 
-            public void setUser_image(List<UserImagePojo> user_image) {
+            public void setUser_image(List<ProfileResponsePojo.UserImageData> user_image) {
                 this.user_image = user_image;
             }
         }
-        public static class UserImagePojo {
-
-       /*     "user_image":[{"id":30,"user_id":"98",
-                    "image":"http:\/\/tongy.ignivastaging.com\/images\/profile_image\/1509428842-965B1263.jpg",
-                    "is_cover_image":"0","created_at":"1509428842"}*/
-
-       String id;
-            String user_id;
-            String image;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getUser_id() {
-                return user_id;
-            }
-
-            public void setUser_id(String user_id) {
-                this.user_id = user_id;
-            }
-
-            public String getImage() {
-                return image;
-            }
-
-            public void setImage(String image) {
-                this.image = image;
-            }
-
-            public String getIs_cover_image() {
-                return is_cover_image;
-            }
-
-            public void setIs_cover_image(String is_cover_image) {
-                this.is_cover_image = is_cover_image;
-            }
-
-            public String getCreated_at() {
-                return created_at;
-            }
-
-            public void setCreated_at(String created_at) {
-                this.created_at = created_at;
-            }
-
-            String is_cover_image;
-            String created_at;
-
-        }
-        public static class UserCountryPojo {
+         public static class UserCountryPojo {
 
        /*     "user_image":[{"id":30,"user_id":"98",
                     "image":"http:\/\/tongy.ignivastaging.com\/images\/profile_image\/1509428842-965B1263.jpg",

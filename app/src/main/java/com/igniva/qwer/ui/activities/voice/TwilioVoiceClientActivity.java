@@ -134,12 +134,13 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
         speakerActionFab = (FloatingActionButton) findViewById(R.id.speaker_action_fab);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         tvTitle = (TextView) findViewById(R.id.client_name_registered_text);
-         if (getIntent().hasExtra(Constants.TWILIO_INCOMMING)) {
-            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));
-//            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.SKIPROOM_TITLE));
-        } else {
-            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_NAME));
-        }
+//         if (getIntent().hasExtra(Constants.TWILIO_INCOMMING)) {
+//            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));
+////            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.SKIPROOM_TITLE));
+//        } else {
+        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_NAME))
+             tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_NAME));
+//        }
         if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
              Glide.with(this)
                     .load(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_IMAGE))
@@ -649,7 +650,7 @@ public class TwilioVoiceClientActivity extends AppCompatActivity implements Devi
     /* Device Listener */
     @Override
     public void onPresenceChanged(Device device, PresenceEvent presenceEvent) {
-        Log.d(TAG, "onPresenceChanged: ");
+        Log.d(TAG, "onPresenceChanged: "+presenceEvent.getName());
     }
 
     /* Connection Listener */

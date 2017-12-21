@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.NotificationPojo;
 import com.igniva.qwer.ui.activities.NotificationActivity;
@@ -137,7 +136,9 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
        });
 
        if(dataPojo.getSender_profile()!=null && dataPojo.getSender_profile().size()>0)
-           Glide.with(mContext).load(dataPojo.getSender_profile().get(0).getImage()).into(holder.mivImage);
+           Utility.setUserImage(mContext,holder.mivImage,dataPojo.getSender_profile());
+
+//        Glide.with(mContext).load(dataPojo.getSender_profile().get(0).getImage()).into(holder.mivImage);
         else
             holder.mivImage.setImageResource(R.drawable.login_bg);
         }

@@ -23,6 +23,7 @@ import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.model.PostDetailPojo;
 import com.igniva.qwer.model.PostPojo;
 import com.igniva.qwer.model.PrefInputPojo;
+import com.igniva.qwer.model.PrefsResponsePojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.model.StatePojo;
@@ -325,6 +326,38 @@ public class ApiControllerClass {
 
                     @Override
                     public void onFailure(Call<LanguagesResponsePojo> call, Throwable t) {
+                        CallProgressWheel.dismissLoadingDialog();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            CallProgressWheel.dismissLoadingDialog();
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    // call get prefs api
+    public static void getPrefrences(final Context context, Retrofit retrofit) {
+        try {
+            if (Utility.isInternetConnection(context)) {
+                CallProgressWheel.showLoadingDialog(context, "Loading...");
+                Call<PrefsResponsePojo> posts = retrofit.create(ApiInterface.class).getPrefrences();
+                posts.enqueue(new retrofit2.Callback<PrefsResponsePojo>() {
+                    @Override
+                    public void onResponse(Call<PrefsResponsePojo> call, retrofit2.Response<PrefsResponsePojo> response) {
+                        if (response.body().getStatus() == 200) {
+                            CallProgressWheel.dismissLoadingDialog();
+                            ((SetPreferrencesActivity) context).setupLayout(response.body());
+                         } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                            // Log.e("profile",responsePojo.getDescription());
+                            //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<PrefsResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }

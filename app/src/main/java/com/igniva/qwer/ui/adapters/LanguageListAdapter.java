@@ -72,8 +72,7 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
                     break;
                 case Constants.PROFESSIONAL:
                     holder.mIvBanner.setImageDrawable(mContext.getResources().getDrawable(R.drawable.professional));
-
-                    break;
+                     break;
             }
             holder.mIvRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,7 +80,6 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
                     switch (type) {
                         case Constants.LANGUAGE_SPEAK:
                             Log.e("pos", position + "");
-                            ;
                             callBack.removeItem(Constants.LANGUAGE_SPEAK , position);
                             break;
                         case Constants.LANGUAGE_LEARN:

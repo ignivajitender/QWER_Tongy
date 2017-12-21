@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.CommentPojo;
 import com.igniva.qwer.utils.Utility;
@@ -96,7 +95,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
             holder.tvComment.setText(pojo.getComment());
             if(pojo.getComment_by_user()!=null){
                 if (pojo.getComment_by_user().getUser_image() != null && pojo.getComment_by_user().getUser_image().size() > 0) {
-                    Glide.with(mContext).load(pojo.getComment_by_user().getUser_image().get(0).getImage()).into(holder.ivUserImage);
+ //                    Glide.with(mContext).load(pojo.getComment_by_user().getUser_image().get(0).getImage()).into(holder.ivUserImage);
+
+                    Utility.setUserImage(mContext,holder.ivUserImage,pojo.getComment_by_user().getUser_image());
                 }
                 holder.tvName.setText(pojo.getComment_by_user().getName());
             }

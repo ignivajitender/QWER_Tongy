@@ -259,12 +259,13 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
         }.start();
 
         tvTitle = (TextView) findViewById(R.id.client_name_registered_text);
-        if (getIntent().hasExtra(Constants.TWILIO_INCOMMING)) {
-            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));
-//            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.SKIPROOM_TITLE));
-        } else {
+//        if (getIntent().hasExtra(Constants.TWILIO_INCOMMING)) {
+//            tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_SENDER_NAME));
+////            Log.d(TAG, "onCreate: "+getIntent().getStringExtra(Constants.SKIPROOM_TITLE));
+//        } else {
+        if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_NAME))
             tvTitle.setText(getIntent().getStringExtra(Constants.TWILIO_RECEAVER_NAME));
-        }
+//        }
 
         if(getIntent().hasExtra(Constants.TWILIO_RECEAVER_IMAGE)) {
             Glide.with(this)
@@ -543,19 +544,16 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
      */
 
     private void addParticipant(Participant participant) {
-
         countDownTimer.cancel();
         /*
          * This app only displays video for one additional participant per Room
          */
-
         if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
             Utility.showToastMessageShort((Activity) mContext, "Multiple participants are not currently support in this UI");
             return;
         }
         participantIdentity = participant.getIdentity();
         videoStatusTextView.setText("Participant " + participantIdentity + " joined");
-
         /*
          * Add participant renderer
          */
@@ -632,7 +630,6 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
         if (!participant.getIdentity().equals(participantIdentity)) {
             return;
         }
-
         /*
          * Remove participant renderer
          */
@@ -646,6 +643,14 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
                     break;
             }
         }
+        Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnReject.performClick();
+                    }
+                }, 2000);
+
         moveLocalVideoToPrimaryView();
     }
 
@@ -678,6 +683,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
      */
     private Room.Listener roomListener() {
         return new Room.Listener() {
+
             @Override
             public void onConnected(Room room) {
                 Log.e(TAG, "Connected");
@@ -702,6 +708,14 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
                 Log.e(TAG, "Failed to connect");
                 videoStatusTextView.setText("Failed to connect");
                 configureAudio(false);
+                                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnReject.performClick();
+                    }
+                }, 2000);
+
             }
 
             @Override
@@ -738,8 +752,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
                     e.printStackTrace();
                 }
                 addParticipant(participant);
-
-            }
+             }
 
             @Override
             public void onParticipantDisconnected(Room room, Participant participant) {
@@ -753,8 +766,7 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
                         btnReject.performClick();
                     }
                 }, 2000);
-
-            }
+             }
 
             @Override
             public void onRecordingStarted(Room room) {
@@ -937,7 +949,6 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         if (view == btnAccept) {
-            Log.e("Tag", "Maraj connect");
             if (ringTone != null) {
                 ringTone.stop();
                 vib.cancel();
@@ -974,7 +985,11 @@ public class TwilioVideoActivity extends AppCompatActivity implements View.OnCli
 //        ApiControllerClass.saveDeclineNotification(TwilioVideoActivity.this, jsonObject.toString(), this);
 //        }
 //
-                if (ringTone != null) {
+
+            if (room != null) {
+                room.disconnect();
+            }
+            if (ringTone != null) {
                     ringTone.stop();
                     vib.cancel();
                     ringTone = null;

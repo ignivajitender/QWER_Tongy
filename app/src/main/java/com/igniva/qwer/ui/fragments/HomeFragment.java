@@ -38,7 +38,7 @@ import retrofit2.Retrofit;
 public class HomeFragment extends BaseFragment {
 
     View mView;
-     ViewPager viewPager;
+    ViewPager viewPager;
     @Inject
     Retrofit retrofit;
     int pageNo = 1;
@@ -145,7 +145,7 @@ public class HomeFragment extends BaseFragment {
                     return true;
                 else
                     return false;
-               // return true;
+                // return true;
             }
 
             @Override
@@ -167,22 +167,21 @@ public class HomeFragment extends BaseFragment {
                 String swiped_card_text = responsePojo.body().getUsers().getData().get(swiped_card_postion).getName();
 
                 if (direction == 1) {
-
-                   // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
-
+                    // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
                 } else if (direction == 0) {
-
-                   // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
                     ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id, null);
                 } else {
 
                     //Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
 
                 }
-                Log.e("mIndex",mIndex+"");
+                Log.e("mIndex", mIndex + "");
                 if (mIndex == 10 && responsePojo.body().getUsers().getCurrent_page() <= responsePojo.body().getUsers().getLast_page()) {
-                    getUsersApi(responsePojo.body().getUsers().getCurrent_page()+1);
-                }
+                    getUsersApi(responsePojo.body().getUsers().getCurrent_page() + 1);
+                }else if(mIndex==responsePojo.body().getUsers().getData().size() &&   responsePojo.body().getUsers().getCurrent_page() == responsePojo.body().getUsers().getLast_page()){
+                    mtvNoData.setVisibility(View.VISIBLE);
+                 }
             }
 
             @Override

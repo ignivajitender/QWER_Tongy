@@ -53,10 +53,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 dialogIntent.putExtra(Constants.TWILIO_ROOM, remoteMessage.getData().get("room_name"));
                 dialogIntent.putExtra(Constants.TWILIO_RECEAVER_NAME, remoteMessage.getData().get("sender_name"));
                 dialogIntent.putExtra(Constants.TWILIO_RECEAVER_IMAGE, remoteMessage.getData().get("sender_image"));
-
-            dialogIntent.putExtra(Constants.TWILIO_INCOMMING, 1);
-
-                 startActivity(dialogIntent);
+                dialogIntent.putExtra(Constants.TWILIO_INCOMMING, 1);
+                startActivity(dialogIntent);
 //            }
 
         } else if (remoteMessage.getData().containsKey("token") && remoteMessage.getData().get("notification").equalsIgnoreCase("21")) {
@@ -87,7 +85,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON +
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
             startActivity(dialogIntent);
-
             Log.d(TAG, "TWILIO_TOKEN: " + remoteMessage.getData().get("token"));
             Log.d(TAG, "TWILIO_SENDER_NAME: " + remoteMessage.getData().get("reciver_name"));
         }else if (remoteMessage.getData().get("notification").equals("24")) //request
@@ -118,17 +115,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 int not_id = random.nextInt(10000);
                 notificationManager.notify(not_id, notificationBuilder.build());
              }
-        } else
+        }else if (remoteMessage.getData().get("notification").equals("25")) //request
+        { //online MainActivity
+
+
+
+         } else
             sendNotification(remoteMessage.getData().get("message"));
     }
 
     //This method is only generating push notification
     //It is same as we did in earlier posts
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, SplashActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        Intent baseIntent = new Intent(this, SplashActivity.class);
+        baseIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -136,12 +136,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle("Tongy")
                 .setContentText(messageBody)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setSound(defaultSoundUri);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+////                stackBuilder.addParentStack(NotificationActivity.class);
+//        stackBuilder.addNextIntent(new Intent(this, NotificationActivity.class));
+//        stackBuilder.addNextIntent(baseIntent);
+//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
+
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, baseIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+//        notificationBuilder.setContentIntent(resultPendingIntent);
+        notificationBuilder.setContentIntent(pendingIntent);
         notificationManager.notify(0, notificationBuilder.build());
     }
 }
