@@ -94,6 +94,7 @@ public class ProfileResponsePojo {
         public String city;
         public String age;
         public String country;
+        public String country_id;
         public String pincode;
         public int is_voicecall;
         public int is_videocall;

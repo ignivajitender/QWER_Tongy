@@ -88,7 +88,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     public String Gender;
     @BindView(R.id.et_city)
     public EditText mEtCity;
-     public ArrayList<CountriesPojo> mAlLangList;
+     public ArrayList<CountriesPojo> mCountryList;
     public ArrayList<StatePojo> mAllStateList;
     public ProfileResponsePojo mResponsePojo = null;
     public String coverIMageID = "";
@@ -242,16 +242,14 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         setContentView(R.layout.activity_my_profile);
         ButterKnife.bind(this);
         setUpLayout();
-        getProfileApi();
-        setDataInViewObjects();
         ApiControllerClass.callCountriesListApi(MyProfileActivity.this, retrofit, mEtCountry);
     }
 
     // call get profile api
-    private void getProfileApi() {
+    public void getProfileApi() {
         try {
             if (Utility.isInternetConnection(this)) {
-                CallProgressWheel.showLoadingDialog(this, "Loading...");
+//                CallProgressWheel.showLoadingDialog(this, "Loading...");
                 Call<ProfileResponsePojo> posts = retrofit.create(ApiInterface.class).getProfile();
                 posts.enqueue(new Callback<ProfileResponsePojo>() {
                     @Override
@@ -295,7 +293,15 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mEtAbout.setText(responsePojo.getData().about);
         mEtAge.setText(responsePojo.getData().age);
         mEtCity.setText(responsePojo.getData().city);
-        mEtCountry.setText(responsePojo.getData().country);
+        country_id=responsePojo.getData().country_id;
+        if(responsePojo.getData().country_id!=null && responsePojo.getData().country_id.length()>0)
+        for (CountriesPojo countriesPojo:mCountryList)
+        {
+            if(countriesPojo.getId().equals(responsePojo.getData().country_id)){
+                mEtCountry.setText(countriesPojo.getCountry());
+                break;
+            }
+        }
         // mEtGender.setText(responsePojo.getData().gender);
         mEtPincode.setText(responsePojo.getData().pincode);
         mtvName.setText(responsePojo.getData().getName());
@@ -330,6 +336,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         if (Gender != null) {
             Log.e("Gender", Gender);
             mgenderSpinner.setSelection(getIndex(mgenderSpinner, Gender));
+
         }
     }
 
@@ -392,7 +399,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                String selection = (String) adapterView.getItemAtPosition(i);
-//                country_id = mAlLangList.get(i).getId();
+//                country_id = mCountryList.get(i).getId();
 //                Log.e("countryid", country_id);
 //                ApiControllerClass.callStateListApi(MyProfileActivity.this, retrofit, mEtCity, country_id);
 //                //onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);

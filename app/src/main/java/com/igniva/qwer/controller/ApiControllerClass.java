@@ -9,7 +9,6 @@ import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -1183,7 +1182,7 @@ public class ApiControllerClass {
         try {
             if (Utility.isInternetConnection(activity)) {
 
-                //CallProgressWheel.showLoadingDialog(activity, "Loading...");
+                CallProgressWheel.showLoadingDialog(activity, "Loading...");
 
                 Call<CountriesResponsePojo> posts = null;
                 posts = retrofit.create(ApiInterface.class).getCountriesList();
@@ -1194,10 +1193,12 @@ public class ApiControllerClass {
                         public void onResponse(Call<CountriesResponsePojo> call, retrofit2.Response<CountriesResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 //CallProgressWheel.dismissLoadingDialog();
-                                 ((MyProfileActivity) activity).mAlLangList = response.body().getData();
+                                 ((MyProfileActivity) activity).mCountryList = response.body().getData();
                                 // ((MyProfileActivity)activity).countriesList(response.body().getData());
  //                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.layout_country_item, R.id.tvName, tempArr);
                                 activity.mCountryPicker.setCountriesList(response.body().getData());
+                                activity.getProfileApi();
+
 //                                ((MyProfileActivity) activity).etCountry.setAdapter(adapter);
 
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
@@ -1212,9 +1213,7 @@ public class ApiControllerClass {
 
                         @Override
                         public void onFailure(Call<CountriesResponsePojo> call, Throwable t) {
-
-
-                            //CallProgressWheel.dismissLoadingDialog();
+                             CallProgressWheel.dismissLoadingDialog();
                         }
                     });
             }
@@ -1601,6 +1600,7 @@ public class ApiControllerClass {
                                 new MaterialDialog.Builder(activity)
                                         .title(R.string.choose_state)
                                         .items(tempArr)
+                                        .cancelable(false)
                                         .itemsCallback(new MaterialDialog.ListCallback() {
                                             @Override
                                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {

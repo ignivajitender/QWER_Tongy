@@ -217,8 +217,7 @@
             android:inputType="none"
             android:maxLines="1"
              android:singleLine="true"
-            android:text="Vogar"
-            android:textColor="@color/text_dark_grey"
+             android:textColor="@color/text_dark_grey"
             android:textCursorDrawable="@drawable/color_cursor" />
 
         <com.igniva.qwer.ui.views.TextViewRegular
@@ -241,8 +240,7 @@
             android:inputType="number"
             android:maxLength="15"
             android:maxLines="1"
-            android:text="123-459"
-            android:textColor="@color/text_dark_grey"
+             android:textColor="@color/text_dark_grey"
             android:textCursorDrawable="@drawable/color_cursor" />
 
         <LinearLayout
@@ -276,8 +274,7 @@
                     android:maxLength="2"
                     android:maxLines="1"
 
-                    android:text="23"
-                    android:textColor="@color/text_dark_grey"
+                     android:textColor="@color/text_dark_grey"
                     android:textCursorDrawable="@drawable/color_cursor" />
 
             </LinearLayout>
@@ -347,8 +344,7 @@
             android:inputType="textMultiLine"
             android:isScrollContainer="true"
             android:maxLength="500"
-            android:text="lorame loram lorama loramloa  loar mloaoo rlooer, lomem loow looowmkklioow loooo alllllia llooo"
-            android:textColor="@color/text_dark_grey"
+             android:textColor="@color/text_dark_grey"
             android:textCursorDrawable="@drawable/color_cursor" />
 
 
