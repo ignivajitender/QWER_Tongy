@@ -4,7 +4,7 @@ package com.igniva.qwer.model;
  * Created by igniva-android13 on 26/10/17.
  */
 
-public class predictionsCountriesPojo {
+public class CountriesPojo {
    /* {
         "status": 200,
             "description": "Countries fetch successfully.",

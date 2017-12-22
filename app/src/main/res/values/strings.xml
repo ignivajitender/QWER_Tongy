@@ -285,4 +285,5 @@ This marks the start of what we know now as a “Privacy Policy”. While the na
     <string name="please_upload_atleast_one_image">Please upload atleast one image</string>
     <string name="type_a_message">Type a message</string>
     <string name="user_is_blocked">User is blocked</string>
+    <string name="choose_state">Choose a state</string>
 </resources>

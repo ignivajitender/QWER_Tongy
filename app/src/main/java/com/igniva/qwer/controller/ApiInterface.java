@@ -184,9 +184,9 @@ public interface ApiInterface {
     @POST("/api/twilios/send-twilio-voice-notification")
     Call<TokenPojo> sendTwilioVoiceNotification(@Body RequestBody body);
 
-    //http://tongy.ignivastaging.com/api/users/singleUser?user_id=59
+    //http://tongy.ignivastaging.com/api/users/singleUser?user_id=59//view=1
     @GET("/api/users/singleUser")
-    Call<OtherUserProfilePojo> getSingleUser(@Query("user_id") int userId);
+    Call<OtherUserProfilePojo> getSingleUser(@Query("user_id") int userId, @Query("view") int view);
 
     @FormUrlEncoded
     @POST("/api/users/blockUnblockUser")

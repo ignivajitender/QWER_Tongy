@@ -9,7 +9,7 @@ public class CountriesResponsePojo {
 
     private int status;
     private String description;
-    private ArrayList<predictionsCountriesPojo> data;
+    private ArrayList<CountriesPojo> data;
     private ErrorPojo error;
 
     public String getMessage() {
@@ -38,11 +38,11 @@ public class CountriesResponsePojo {
         this.status = status;
     }
 
-    public ArrayList<predictionsCountriesPojo> getData() {
+    public ArrayList<CountriesPojo> getData() {
         return data;
     }
 
-    public void setData(ArrayList<predictionsCountriesPojo> data) {
+    public void setData(ArrayList<CountriesPojo> data) {
         this.data = data;
     }
 

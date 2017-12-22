@@ -14,8 +14,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -37,10 +35,10 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.igniva.qwer.R;
 import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.controller.ApiInterface;
+import com.igniva.qwer.model.CountriesPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.model.StatePojo;
-import com.igniva.qwer.model.predictionsCountriesPojo;
 import com.igniva.qwer.ui.adapters.CountriesAdapter;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Constants;
@@ -49,6 +47,8 @@ import com.igniva.qwer.utils.ImagePicker;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 import com.igniva.qwer.utils.Validation;
+import com.igniva.qwer.utils.country.CountryPicker;
+import com.igniva.qwer.utils.country.CountryPickerListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -87,11 +87,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     private final int RC_CAMERA_PERM = 123;
     public String Gender;
     @BindView(R.id.et_city)
-    public AutoCompleteTextView mEtCity;
-    @BindView(R.id.autocomTextViewCountry)
-    public
-    AutoCompleteTextView mautocomTextViewCountry;
-    public ArrayList<predictionsCountriesPojo> mAlLangList;
+    public EditText mEtCity;
+     public ArrayList<CountriesPojo> mAlLangList;
     public ArrayList<StatePojo> mAllStateList;
     public ProfileResponsePojo mResponsePojo = null;
     public String coverIMageID = "";
@@ -161,9 +158,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     Spinner mgenderSpinner;
     @Inject
     Retrofit retrofit;
-    @BindView(R.id.rvCountries)
-    RecyclerView mrvCountries;
-    private File outPutFile;
+     private File outPutFile;
     private int callFrom;
     private String selGender;
     private String[] gender = {"Male", "Female"};
@@ -185,7 +180,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     @OnClick(R.id.iv_edit_profile)
     public void edit() {
-        mautocomTextViewCountry.setEnabled(true);
+        mEtCountry.setEnabled(true);
         mEtCity.setEnabled(true);
         mEtPincode.setEnabled(true);
         mEtAge.setEnabled(true);
@@ -249,7 +244,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         setUpLayout();
         getProfileApi();
         setDataInViewObjects();
-        ApiControllerClass.callCountriesListApi(MyProfileActivity.this, retrofit, mautocomTextViewCountry);
+        ApiControllerClass.callCountriesListApi(MyProfileActivity.this, retrofit, mEtCountry);
     }
 
     // call get profile api
@@ -277,7 +272,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                     @Override
+
+                    @Override
                     public void onFailure(Call<ProfileResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
                         Toast.makeText(MyProfileActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
@@ -292,20 +288,23 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     }
 
+    public CountryPicker mCountryPicker;
+
     private void setDataInView(ProfileResponsePojo responsePojo) {
         mResponsePojo = responsePojo;
         mEtAbout.setText(responsePojo.getData().about);
         mEtAge.setText(responsePojo.getData().age);
         mEtCity.setText(responsePojo.getData().city);
-        mautocomTextViewCountry.setText(responsePojo.getData().country);
+        mEtCountry.setText(responsePojo.getData().country);
         // mEtGender.setText(responsePojo.getData().gender);
         mEtPincode.setText(responsePojo.getData().pincode);
         mtvName.setText(responsePojo.getData().getName());
         mTextviewTitle.setText(responsePojo.getData().getName());
+
         if (responsePojo.getData().getUser_image() != null && responsePojo.getData().getUser_image().size() > 0) {
             for (ProfileResponsePojo.UserImageData userImageData :
                     responsePojo.getData().getUser_image()) {
-                 if (responsePojo.getData().getUser_image().indexOf(userImageData) == 0) {
+                if (responsePojo.getData().getUser_image().indexOf(userImageData) == 0) {
                     Glide.with(this).load(userImageData.getImage()).into(mIvProilePic1);
                 } else if (responsePojo.getData().getUser_image().indexOf(userImageData) == 1) {
                     Glide.with(this).load(userImageData.getImage()).into(mIvProilePic2);
@@ -319,11 +318,11 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 if (userImageData.getIs_cover_image().equals("1")) {
                     coverIMageID = userImageData.getId();
                     Glide.with(this).load(userImageData.getImage()).into(mImageviewPlaceholder);
-                }else if(coverIMageID.equals("") && responsePojo.getData().getUser_image().indexOf(userImageData)==responsePojo.getData().getUser_image().size()-1){
+                } else if (coverIMageID.equals("") && responsePojo.getData().getUser_image().indexOf(userImageData) == responsePojo.getData().getUser_image().size() - 1) {
                     Glide.with(this).load(responsePojo.getData().getUser_image().get(0).getImage()).into(mImageviewPlaceholder);
-                 }
-             }
-        }else{
+                }
+            }
+        } else {
             mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
         }
 
@@ -337,6 +336,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     @Override
     protected void setUpLayout() {
         getLocation();
+        mCountryPicker = CountryPicker.newInstance("Select Country");
         if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
             mIvEditProfile.setVisibility(View.VISIBLE);
 //            Glide.with(this).load(R.drawable.pp4).into(mIvProilePic1);
@@ -348,7 +348,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             mTvLetsStart.setVisibility(View.GONE);
 //            Glide.with(this).load(R.drawable.pp4).into(mImageviewPlaceholder);
             mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
-            mautocomTextViewCountry.setEnabled(false);
+            mEtCountry.setEnabled(false);
             mEtCity.setEnabled(false);
             mEtPincode.setEnabled(false);
             mEtAge.setEnabled(false);
@@ -388,22 +388,25 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         mgenderSpinner.setAdapter(adapter_state);
         mgenderSpinner.setOnItemSelectedListener(this);
 
-        mautocomTextViewCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        mEtCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                String selection = (String) adapterView.getItemAtPosition(i);
+//                country_id = mAlLangList.get(i).getId();
+//                Log.e("countryid", country_id);
+//                ApiControllerClass.callStateListApi(MyProfileActivity.this, retrofit, mEtCity, country_id);
+//                //onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);
+//            }
+//        });
+        mCountryPicker.setListener(new CountryPickerListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selection = (String) adapterView.getItemAtPosition(i);
-                country_id = mAlLangList.get(i).getId();
-                Log.e("countryid", country_id);
+            public void onSelectCountry(String name, String code, String flagDrawableResID) {
+                Utility.hideSoftKeyboard(MyProfileActivity.this);
+                mEtCountry.setText(name);
+                country_id=code;
                 ApiControllerClass.callStateListApi(MyProfileActivity.this, retrofit, mEtCity, country_id);
-                //onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);
-            }
-        });
+                mCountryPicker.dismiss();
 
-        mEtCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selection = (String) adapterView.getItemAtPosition(i);
-                //onLangItemClick(mActvLangISpeak, selection, Constants.LANGUAGE_SPEAK);
             }
         });
      }
@@ -449,7 +452,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
             if (mIsTheTitleVisible) {
                 startAlphaAnimation(mTextviewTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
- //                startAlphaAnimation(mToolbarRating, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+                //                startAlphaAnimation(mToolbarRating, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
 //                startAlphaAnimation(mTvRating, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
 //                startAlphaAnimation(toolbar1, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
                 mIsTheTitleVisible = false;
@@ -477,56 +480,10 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     @Override
     protected void setDataInViewObjects() {
-        mautocomTextViewCountry.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-               /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
-                    mbtnClearAddress.setVisibility(View.VISIBLE);
-                } else { //not include text
-                    mbtnClearAddress.setVisibility(View.GONE);
-                }*/
-            }
-        });
-
-//        mEtCity.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start,
-//                                          int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start,
-//                                      int before, int count) {
-//               /* if (!mautocomTextviewAddress.getText().toString().equals("")) { //if edittext include text
-//                    mbtnClearAddress.setVisibility(View.VISIBLE);
-//                } else { //not include text
-//                    mbtnClearAddress.setVisibility(View.GONE);
-//                }*/
-//            }
-//        });
-
-    }
+     }
 
     public void callSuccessPopUp(final MyProfileActivity myProfileActivity, String description, final boolean isSetPref) {
-         // Create custom dialog object
+        // Create custom dialog object
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -559,8 +516,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             }
         });
         dialog.setTitle("Custom Dialog");
-         dialog.show();
-     }
+        dialog.show();
+    }
 
     @Override
     protected void setUpToolbar() {
@@ -596,7 +553,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 //                    mCrossIcon4.setVisibility(View.GONE);
 //                    mivaddImage4.setVisibility(View.VISIBLE);
                     ApiControllerClass.imageDelete(4, mResponsePojo.getData().getUser_image(), retrofit, MyProfileActivity.this);
-                     break;
+                    break;
                 case iv_edit_profile:
                     if (mResponsePojo != null && mResponsePojo.getData() != null) {
                         if (mResponsePojo.getData().getUser_image().size() > 0) {
@@ -674,9 +631,9 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     // method for Save Profile
     private void callSaveUpdateProfile() {
         try {
-            Log.e(""+this.getLocalClassName(),"coverIMageID----"+coverIMageID);
+            Log.e("" + this.getLocalClassName(), "coverIMageID----" + coverIMageID);
             // check validations for save profile input
-            if (Validation.validateUpdateProfile(this, mautocomTextViewCountry, mEtPincode, mEtAbout, mEtCity, mEtAge, mtvName, coverIMageID)) {
+            if (Validation.validateUpdateProfile(this, mEtCountry, mEtPincode, mEtAbout, mEtCity, mEtAge, mtvName, coverIMageID)) {
                 if (Utility.isInternetConnection(this)) {
                     CallProgressWheel.showLoadingDialog(this, "Loading...");
                            /*
@@ -687,7 +644,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             }
                             */
                     HashMap<String, String> updateProfilePayload = new HashMap<>();
-                    updateProfilePayload.put("country", "101");
+                    updateProfilePayload.put("country",country_id);
                     updateProfilePayload.put("city", mEtCity.getText().toString().trim());
                     updateProfilePayload.put("gender", selGender);
                     updateProfilePayload.put("pincode", mEtPincode.getText().toString().trim());
@@ -711,7 +668,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 PreferenceHandler.writeBoolean(MyProfileActivity.this, PreferenceHandler.IS_PROFILE_SET, true);
-                                 if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
+                                if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
                                     callSuccessPopUp(MyProfileActivity.this, response.body().getDescription(), PreferenceHandler.readBoolean(MyProfileActivity.this, PreferenceHandler.IS_PROFILE_SET, false));
                                 } else {
                                     Intent intent = null;
@@ -724,11 +681,11 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                                     finish();
                                 }
                                 //Utility.showToastMessageShort(MyProfileActivity.this,responsePojo.getDescription());
-                             } else {
+                            } else {
                                 CallProgressWheel.dismissLoadingDialog();
                                 Toast.makeText(MyProfileActivity.this, response.body().getDescription(), Toast.LENGTH_SHORT).show();
                             }
-                         }
+                        }
 
                         @Override
                         public void onFailure(Call<ResponsePojo> call, Throwable t) {
@@ -752,11 +709,11 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         mgenderSpinner.setSelection(position);
         selGender = (String) mgenderSpinner.getSelectedItem();
-     }
+    }
 
-     @Override
+    @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-     }
+    }
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
@@ -788,7 +745,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 setImageOnPosition(callFrom, bitmap);
             }
         }
-         //user is returning frcountriesListom cropping the image
+        //user is returning frcountriesListom cropping the image
         else if (requestCode == PIC_CROP) {
             //get the returned data
             if (data != null) {
@@ -804,7 +761,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 callUploadPictureApi(outPutFile);
             }
         }
-     }
+    }
 
     public void setImageOnPosition(int pos, Bitmap bitmap) {
         if (bitmap != null) {
@@ -826,7 +783,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 mivaddImage4.setVisibility(View.GONE);
             }
         } else {
-             if (pos == 1) {
+            if (pos == 1) {
                 mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
                 mCrossIcon1.setVisibility(View.GONE);
                 mivaddImage1.setVisibility(View.VISIBLE);
@@ -843,7 +800,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                 mCrossIcon4.setVisibility(View.GONE);
                 mivaddImage4.setVisibility(View.VISIBLE);
             }
-         }
+        }
     }
 
     private void callUploadPictureApi(final File outPutFile) {
@@ -869,8 +826,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                         userImageData.setUser_id(PreferenceHandler.readString(MyProfileActivity.this, PreferenceHandler.PREF_KEY_USER_ID, ""));
                         userImageData.setImage(outPutFile.getAbsolutePath());
                         mResponsePojo.getData().getUser_image().add(userImageData);
-                        if(coverIMageID==null || coverIMageID.length()==0)
-                        {
+                        if (coverIMageID == null || coverIMageID.length() == 0) {
                             setCoverImage(mResponsePojo.getData().getUser_image().indexOf(userImageData));
                         }
                         // callSuccessPopUp(MyProfileActivity.this, responsePojo.getDescription());
@@ -894,13 +850,12 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         }
     }
 
-    public void countriesList(ArrayList<predictionsCountriesPojo> data) {
-        LinearLayoutManager manager = new LinearLayoutManager(MyProfileActivity.this, LinearLayoutManager.VERTICAL, false);
-        mrvCountries.setLayoutManager(manager);
-        CountriesAdapter mcountriesAdapter = new CountriesAdapter(MyProfileActivity.this, data);
-        mrvCountries.setAdapter(mcountriesAdapter);
-    }
 
+    @OnClick(R.id.et_country)
+    public void onViewClicked() {
+        if(!mCountryPicker.isVisible())
+        mCountryPicker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+    }
 }
 
 

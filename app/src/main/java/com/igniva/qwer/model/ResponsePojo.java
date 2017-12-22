@@ -17,7 +17,7 @@ public class ResponsePojo {
     }
 
     private String image_id;
-    private predictionsCountriesPojo data;
+    private CountriesPojo data;
     private ErrorPojo error;
 
     public String getMessage() {
@@ -46,11 +46,11 @@ public class ResponsePojo {
         this.status = status;
     }
 
-    public predictionsCountriesPojo getData() {
+    public CountriesPojo getData() {
         return data;
     }
 
-    public void setData(predictionsCountriesPojo data) {
+    public void setData(CountriesPojo data) {
         this.data = data;
     }
 

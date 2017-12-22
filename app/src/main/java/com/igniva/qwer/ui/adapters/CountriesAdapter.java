@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.igniva.qwer.R;
-import com.igniva.qwer.model.predictionsCountriesPojo;
+import com.igniva.qwer.model.CountriesPojo;
 import com.igniva.qwer.ui.callbacks.MyCallBack;
 
 import java.util.ArrayList;
@@ -24,14 +24,14 @@ import butterknife.ButterKnife;
  */
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.ViewHolder> {
-    ArrayList<predictionsCountriesPojo> mLangList;
+    ArrayList<CountriesPojo> mLangList;
     Context mContext;
 
     String type;
     MyCallBack callBack;
 
 
-    public CountriesAdapter(Context mContext, ArrayList<predictionsCountriesPojo> mHashmapLangList) {
+    public CountriesAdapter(Context mContext, ArrayList<CountriesPojo> mHashmapLangList) {
         this.mLangList = mHashmapLangList;
         this.mContext = mContext;
 
@@ -47,7 +47,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        predictionsCountriesPojo pojo=mLangList.get(position);
+        CountriesPojo pojo=mLangList.get(position);
         holder.tvName.setText(pojo.getCountry());
         Glide.with(mContext).load(pojo.getCountry_flag()).into(holder.ivImage);
 

@@ -68,18 +68,15 @@ public class ConnectionAcceptedActivity extends BaseActivity {
         setUpLayout();
         setDataInViewObjects();
 
-        if (getIntent() != null && getIntent().hasExtra("userId")) {
+         if (getIntent() != null && getIntent().hasExtra("userId")) {
               userId = getIntent().getIntExtra("userId", 0);
-            ApiControllerClass.getConnectionUserProfile(retrofit, ConnectionAcceptedActivity.this, userId);
+            ApiControllerClass.getOtherUserProfile(retrofit, ConnectionAcceptedActivity.this, userId,false);
         }
-
-    }
+     }
 
 
     public void setData(Response<OtherUserProfilePojo> response) {
-
-
-        mtvName.setText(response.body().getUsers().getName());
+         mtvName.setText(response.body().getUsers().getName());
         if(response.body().getUsers().getUser_image()!=null && response.body().getUsers().getUser_image().size()>0)
             Utility.setUserImage( ConnectionAcceptedActivity.this, mivImage,response.body().getUsers().getUser_image() );
 

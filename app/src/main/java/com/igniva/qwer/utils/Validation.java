@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -487,7 +486,7 @@ public class Validation {
     }
 
 
-    public static boolean validateUpdateProfile(Activity activity, AutoCompleteTextView mEtCountry, EditText mEtPincode, EditText mEtAbout, AutoCompleteTextView mEtCity, EditText mEtAge,EditText mName, String coverImageID) {
+    public static boolean validateUpdateProfile(Activity activity, EditText mEtCountry, EditText mEtPincode, EditText mEtAbout, EditText mEtCity, EditText mEtAge,EditText mName, String coverImageID) {
 
         if(FieldValidators.isNullOrEmpty(mName)){
             mName.setFocusable(true);

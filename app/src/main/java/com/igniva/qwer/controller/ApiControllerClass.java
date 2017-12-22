@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.ConnectionPojo;
 import com.igniva.qwer.model.CountriesResponsePojo;
@@ -30,12 +32,12 @@ import com.igniva.qwer.model.StatePojo;
 import com.igniva.qwer.model.StateResponsePojo;
 import com.igniva.qwer.model.TokenPojo;
 import com.igniva.qwer.model.UsersResponsePojo;
-import com.igniva.qwer.model.predictionsCountriesPojo;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.CommentsActivity;
 import com.igniva.qwer.ui.activities.ConnectionAcceptedActivity;
 import com.igniva.qwer.ui.activities.CreateOtherPostActivity;
 import com.igniva.qwer.ui.activities.CreateTeachingPostActivity;
+import com.igniva.qwer.ui.activities.MainActivity;
 import com.igniva.qwer.ui.activities.MyProfileActivity;
 import com.igniva.qwer.ui.activities.OtherUserProfileActivity;
 import com.igniva.qwer.ui.activities.PostDetailActivity;
@@ -350,12 +352,13 @@ public class ApiControllerClass {
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             ((SetPreferrencesActivity) context).setupLayout(response.body());
-                         } else {
+                        } else {
                             CallProgressWheel.dismissLoadingDialog();
                             // Log.e("profile",responsePojo.getDescription());
                             //Toast.makeText(MyProfileActivity.this, responsePojo.getDescription(), Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void onFailure(Call<PrefsResponsePojo> call, Throwable t) {
                         CallProgressWheel.dismissLoadingDialog();
@@ -1062,7 +1065,8 @@ public class ApiControllerClass {
                                 //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
                         }
-                         @Override
+
+                        @Override
                         public void onFailure(Call<TokenPojo> call, Throwable t) {
                             CallProgressWheel.dismissLoadingDialog();
                         }
@@ -1175,7 +1179,7 @@ public class ApiControllerClass {
 
     }
 
-    public static void callCountriesListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry) {
+    public static void callCountriesListApi(final MyProfileActivity activity, Retrofit retrofit, EditText mautocomTextViewCountry) {
         try {
             if (Utility.isInternetConnection(activity)) {
 
@@ -1190,16 +1194,11 @@ public class ApiControllerClass {
                         public void onResponse(Call<CountriesResponsePojo> call, retrofit2.Response<CountriesResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 //CallProgressWheel.dismissLoadingDialog();
-                                ArrayList<String> tempArr = new ArrayList<>();
-                                ((MyProfileActivity) activity).mAlLangList = response.body().getData();
+                                 ((MyProfileActivity) activity).mAlLangList = response.body().getData();
                                 // ((MyProfileActivity)activity).countriesList(response.body().getData());
-                                for (predictionsCountriesPojo languagesPojo : response.body().getData()
-                                        ) {
-                                    tempArr.add(languagesPojo.country);
-                                }
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.layout_country_item, R.id.tvName, tempArr);
-
-                                ((MyProfileActivity) activity).mautocomTextViewCountry.setAdapter(adapter);
+ //                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.layout_country_item, R.id.tvName, tempArr);
+                                activity.mCountryPicker.setCountriesList(response.body().getData());
+//                                ((MyProfileActivity) activity).etCountry.setAdapter(adapter);
 
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
@@ -1230,27 +1229,34 @@ public class ApiControllerClass {
 
 
     public static void getOtherUserProfile(Retrofit retrofit, final Activity activity, final int userId, final boolean goToChat) {
-
+        int view = 0;
         try {
+            if (activity instanceof MainActivity)
+                view = 1;
             if (Utility.isInternetConnection(activity)) {
 
                 CallProgressWheel.showLoadingDialog(activity, "Loading...");
 
                 Call<OtherUserProfilePojo> posts = null;
-                posts = retrofit.create(ApiInterface.class).getSingleUser(userId);
+                posts = retrofit.create(ApiInterface.class).getSingleUser(userId, view);
 
                 if (posts != null)
                     posts.enqueue(new retrofit2.Callback<OtherUserProfilePojo>() {
                         @Override
                         public void onResponse(Call<OtherUserProfilePojo> call, retrofit2.Response<OtherUserProfilePojo> response) {
-                            if (response.body().getStatus() == 200) {
-                                Global.otherUserProfilePojo=response.body();
-                                if(goToChat)
-                                    Utility.goToChatActivity(activity,userId,response.body().getUsers().getName(),response.body().getUsers().getUser_image().get(0).getImage());
-                                 CallProgressWheel.dismissLoadingDialog();
+                            CallProgressWheel.dismissLoadingDialog();
+                             if (response.body().getStatus() == 200) {
+                                Global.otherUserProfilePojo = response.body();
                                 if (activity instanceof OtherUserProfileActivity)
                                     ((OtherUserProfileActivity) activity).setData(response);
-                                //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                  if (activity instanceof ConnectionAcceptedActivity)
+                                    ((ConnectionAcceptedActivity) activity).setData(response);
+
+
+                                 if (goToChat)
+                                     Utility.goToChatActivity(activity, userId, response.body().getUsers().getName(), response.body().getUsers().getUser_image().get(0).getImage());
+
+                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                             } else {
 
@@ -1276,48 +1282,6 @@ public class ApiControllerClass {
 
     }
 
-    public static void getConnectionUserProfile(Retrofit retrofit, final ConnectionAcceptedActivity activity, int userId) {
-
-        try {
-            if (Utility.isInternetConnection(activity)) {
-
-                CallProgressWheel.showLoadingDialog(activity, "Loading...");
-
-                Call<OtherUserProfilePojo> posts = null;
-                posts = retrofit.create(ApiInterface.class).getSingleUser(userId);
-
-                if (posts != null)
-                    posts.enqueue(new retrofit2.Callback<OtherUserProfilePojo>() {
-                        @Override
-                        public void onResponse(Call<OtherUserProfilePojo> call, retrofit2.Response<OtherUserProfilePojo> response) {
-                            if (response.body().getStatus() == 200) {
-                                CallProgressWheel.dismissLoadingDialog();
-                                activity.setData(response);
-                                //callSuccessPopUp((Activity)context, response.body().getDescription());
-                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
-                            } else {
-
-                                CallProgressWheel.dismissLoadingDialog();
-                                //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<OtherUserProfilePojo> call, Throwable t) {
-
-
-                            CallProgressWheel.dismissLoadingDialog();
-                        }
-                    });
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public static void callblockApi(final Activity activity, Retrofit retrofit, int userId, final PopupWindow popup, final TextView mtvBlockUnblock) {
         try {
@@ -1613,7 +1577,7 @@ public class ApiControllerClass {
     }
 
 
-    public static void callStateListApi(final MyProfileActivity activity, Retrofit retrofit, AutoCompleteTextView mautocomTextViewCountry, String country_id) {
+    public static void callStateListApi(final MyProfileActivity activity, Retrofit retrofit, final EditText textView, String country_id) {
         try {
             if (Utility.isInternetConnection(activity)) {
                 //CallProgressWheel.showLoadingDialog(activity, "Loading...");
@@ -1627,12 +1591,23 @@ public class ApiControllerClass {
                                 //CallProgressWheel.dismissLoadingDialog();
                                 ArrayList<String> tempArr = new ArrayList<>();
                                 ((MyProfileActivity) activity).mAllStateList = response.body().getData();
-                                for (StatePojo languagesPojo : response.body().getData()
+                                for (StatePojo statePojo : response.body().getData()
                                         ) {
-                                    tempArr.add(languagesPojo.name);
+                                    tempArr.add(statePojo.name);
                                 }
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
-                                ((MyProfileActivity) activity).mautocomTextViewCountry.setAdapter(adapter);
+                                Log.e("","callStateListApi---"+tempArr.toString());
+//                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
+//                                mautocomTextView.setAdapter(adapter);
+                                new MaterialDialog.Builder(activity)
+                                        .title(R.string.choose_state)
+                                        .items(tempArr)
+                                        .itemsCallback(new MaterialDialog.ListCallback() {
+                                            @Override
+                                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                                textView.setText(text);
+                                            }
+                                        })
+                                        .show();
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                             } else {

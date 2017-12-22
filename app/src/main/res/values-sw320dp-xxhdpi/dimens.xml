@@ -29,6 +29,8 @@
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_68">68dp</dimen>
 <dimen name="dp_250">250dp</dimen>
+<dimen name="dp_200">200dp</dimen>
+<dimen name="dp_300">300dp</dimen>
     <dimen name="dp_46">46dp</dimen>
 
 </resources>
