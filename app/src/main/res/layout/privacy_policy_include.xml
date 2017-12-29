@@ -4,13 +4,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/ll_DeleteAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_12dp"
+        android:layout_marginRight="@dimen/_12dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:padding="@dimen/_10dp">
+
+        <com.igniva.qwer.ui.views.TextViewRegular
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+            android:id="@+id/tv_DeleteAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:drawablePadding="@dimen/_4dp"
+            android:drawableRight="@drawable/setting_account"
+            android:text="@string/deactivateAccount"
+            android:textColor="@color/text_color"
+            />
+     </LinearLayout>
+
     <TextView
         android:id="@+id/tv_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="@dimen/_30dp"
-        android:padding="@dimen/_15dp"
+         android:padding="@dimen/_15dp"
         android:text="@string/textdata"
         android:textAlignment="textStart"
         android:textColor="#000000" />

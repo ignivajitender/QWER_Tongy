@@ -73,16 +73,15 @@ public class PostDetailActivity extends BaseActivity {
 
     @BindView(R.id.view)
     View mView;
+    @Inject
+    Retrofit retrofit;
+    PostDetailPojo.DataPojo mPostDetail = null;
 
     @OnClick(R.id.ivbackIcon)
     public void back() {
         Utility.hideSoftKeyboard(PostDetailActivity.this);
         onBackPressed();
     }
-
-    @Inject
-    Retrofit retrofit;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +120,7 @@ public class PostDetailActivity extends BaseActivity {
     protected void setUpToolbar() {
         mtvTitle.setText(getResources().getString(R.string.post_details));
     }
-    PostDetailPojo.DataPojo mPostDetail =null;
+
     /**
      * set post detail data coming from server
      *
@@ -129,7 +128,7 @@ public class PostDetailActivity extends BaseActivity {
      */
     public void setData(final PostDetailPojo.DataPojo data) {
         if (data != null) {
-mPostDetail=data;
+            mPostDetail = data;
             if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.meeting))) {
                 mtvPostType.setBackgroundColor(getResources().getColor(R.color.bg_blue));
                 mtvPostType.setText(data.getPost_type());
@@ -175,9 +174,7 @@ mPostDetail=data;
                     });
                 } else
                     mtvTypeOfClassOrPresenter.setText("Type of Class\n" + data.getClass_type());
-
                 mView.setVisibility(View.VISIBLE);
-
             }
             if (data.getPost_type().equalsIgnoreCase(getResources().getString(R.string.other))) {
                 mtvPostType.setBackgroundColor(getResources().getColor(R.color.other_red_color));
@@ -192,11 +189,10 @@ mPostDetail=data;
                 mtvTypeOfClassOrPresenter.setVisibility(View.GONE);
                 mView.setVisibility(View.GONE);
             }
-
             if (data.getPost_user().getUser_image() != null && data.getPost_user().getUser_image().size() > 0)
-                Utility.setUserImage( PostDetailActivity.this,mivProfile ,data.getPost_user().getUser_image() );
+                Utility.setUserImage(PostDetailActivity.this, mivProfile, data.getPost_user().getUser_image());
 
-                //                Glide.with(PostDetailActivity.this).load(data.getPost_user().getUser_image().get(0).getImage()).into(mivProfile);
+            //                Glide.with(PostDetailActivity.this).load(data.getPost_user().getUser_image().get(0).getImage()).into(mivProfile);
             if (data.getPost_comment_count() != null && data.getPost_comment_count().size() > 0)
                 mibChat.setText(data.getPost_comment_count().get(0).getCount());
             else
@@ -230,8 +226,8 @@ mPostDetail=data;
 
     @OnClick(R.id.iv_profile)
     public void onViewClicked() {
-        if(mPostDetail!=null)
-         startActivity(new Intent(PostDetailActivity.this, OtherUserProfileActivity.class).putExtra("userId",Integer.valueOf(mPostDetail.getUser_id())));
+//        if(mPostDetail!=null)
+//         startActivity(new Intent(PostDetailActivity.this, OtherUserProfileActivity.class).putExtra("userId",Integer.valueOf(mPostDetail.getUser_id())));
 
     }
 }

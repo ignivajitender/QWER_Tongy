@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,9 +14,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.igniva.qwer.R;
 import com.igniva.qwer.model.ConnectionPojo;
+import com.igniva.qwer.model.CountriesPojo;
 import com.igniva.qwer.model.CountriesResponsePojo;
 import com.igniva.qwer.model.LanguagesResponsePojo;
 import com.igniva.qwer.model.OtherUserProfilePojo;
@@ -27,7 +26,6 @@ import com.igniva.qwer.model.PrefInputPojo;
 import com.igniva.qwer.model.PrefsResponsePojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
-import com.igniva.qwer.model.StatePojo;
 import com.igniva.qwer.model.StateResponsePojo;
 import com.igniva.qwer.model.TokenPojo;
 import com.igniva.qwer.model.UsersResponsePojo;
@@ -1193,13 +1191,18 @@ public class ApiControllerClass {
                         public void onResponse(Call<CountriesResponsePojo> call, retrofit2.Response<CountriesResponsePojo> response) {
                             if (response.body().getStatus() == 200) {
                                 //CallProgressWheel.dismissLoadingDialog();
-                                 ((MyProfileActivity) activity).mCountryList = response.body().getData();
+                                ((MyProfileActivity) activity).mCountryList = new ArrayList<>();
                                 // ((MyProfileActivity)activity).countriesList(response.body().getData());
- //                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.layout_country_item, R.id.tvName, tempArr);
-                                activity.mCountryPicker.setCountriesList(response.body().getData());
-                                activity.getProfileApi();
+                                //                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.layout_country_item, R.id.tvName, tempArr);
+                                for (CountriesPojo countriesPojo : response.body().getData()
+                                        ) {
+                                    if (countriesPojo.getCountry_flag().length() > 0)
+                                        ((MyProfileActivity) activity).mCountryList.add(countriesPojo);
 
-//                                ((MyProfileActivity) activity).etCountry.setAdapter(adapter);
+                                }
+                                activity.mCountryPicker.setCountriesList(((MyProfileActivity) activity).mCountryList);
+                                activity.getProfileApi();
+                                //                             ((MyProfileActivity) activity).etCountry.setAdapter(adapter);
 
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
@@ -1213,7 +1216,7 @@ public class ApiControllerClass {
 
                         @Override
                         public void onFailure(Call<CountriesResponsePojo> call, Throwable t) {
-                             CallProgressWheel.dismissLoadingDialog();
+                            CallProgressWheel.dismissLoadingDialog();
                         }
                     });
             }
@@ -1244,18 +1247,18 @@ public class ApiControllerClass {
                         @Override
                         public void onResponse(Call<OtherUserProfilePojo> call, retrofit2.Response<OtherUserProfilePojo> response) {
                             CallProgressWheel.dismissLoadingDialog();
-                             if (response.body().getStatus() == 200) {
+                            if (response.body().getStatus() == 200) {
                                 Global.otherUserProfilePojo = response.body();
                                 if (activity instanceof OtherUserProfileActivity)
                                     ((OtherUserProfileActivity) activity).setData(response);
-                                  if (activity instanceof ConnectionAcceptedActivity)
+                                if (activity instanceof ConnectionAcceptedActivity)
                                     ((ConnectionAcceptedActivity) activity).setData(response);
 
 
-                                 if (goToChat)
-                                     Utility.goToChatActivity(activity, userId, response.body().getUsers().getName(), response.body().getUsers().getUser_image().get(0).getImage());
+                                if (goToChat)
+                                    Utility.goToChatActivity(activity, userId, response.body().getUsers().getName(), response.body().getUsers().getUser_image().get(0).getImage());
 
-                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
+                                //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                             } else {
 
@@ -1536,7 +1539,6 @@ public class ApiControllerClass {
                         } else if (imageDataList != null && imageDataList.size() >= 0) {
                             imageData = imageDataList.get(0);
                         }
-
                         if (response.body().getStatus() == 200) {
                             CallProgressWheel.dismissLoadingDialog();
                             ((MyProfileActivity) context).mResponsePojo.getData().getUser_image().remove(imageData);
@@ -1590,26 +1592,7 @@ public class ApiControllerClass {
                                 //CallProgressWheel.dismissLoadingDialog();
                                 ArrayList<String> tempArr = new ArrayList<>();
                                 ((MyProfileActivity) activity).mAllStateList = response.body().getData();
-                                for (StatePojo statePojo : response.body().getData()
-                                        ) {
-                                    tempArr.add(statePojo.name);
-                                }
-                                Log.e("","callStateListApi---"+tempArr.toString());
-//                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.auto_complete_tv_item, R.id.tv_languagename, tempArr);
-//                                mautocomTextView.setAdapter(adapter);
-                                new MaterialDialog.Builder(activity)
-                                        .title(R.string.choose_state)
-                                        .items(tempArr)
-                                        .cancelable(false)
-                                        .itemsCallback(new MaterialDialog.ListCallback() {
-                                            @Override
-                                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                                textView.setText(text);
-                                            }
-                                        })
-                                        .show();
-                                //callSuccessPopUp((Activity)context, response.body().getDescription());
-                                // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
+                                textView.performClick();
                             } else {
 
                                 //CallProgressWheel.dismissLoadingDialog();

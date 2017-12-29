@@ -16,11 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igniva.qwer.R;
-import com.igniva.qwer.ui.adapters.FragmentViewPagerAdapter;
 import com.igniva.qwer.ui.fragments.ConnectionsFragment;
 import com.igniva.qwer.ui.fragments.HomeFragment;
 import com.igniva.qwer.ui.fragments.PostsListFragment;
 import com.igniva.qwer.utils.Constants;
+import com.igniva.qwer.utils.Global;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,8 +51,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.framelayout_main)
     FrameLayout framelayoutMain;
     private TabLayout tab_layout;
-    FragmentViewPagerAdapter pagerAdapter;
-    private Fragment currentFrag;
+     private Fragment currentFrag;
 
     @BindView(R.id.ivSearch)
     ImageView mivSearch;
@@ -62,8 +61,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        setUpLayout();
+         setUpLayout();
     }
 
     @Override
@@ -185,13 +183,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void replaceFragment(Fragment fragment) {
-        currentFrag = fragment;
+        if(fragment instanceof HomeFragment)
+            Global.setHomeFrag((HomeFragment)fragment);
+
+         currentFrag = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayout_main, fragment);
         ft.commit();
-
-
-    }
+     }
 
     public void isshowSearch(boolean val){
         if(val){

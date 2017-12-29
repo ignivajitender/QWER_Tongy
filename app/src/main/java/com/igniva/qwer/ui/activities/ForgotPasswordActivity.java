@@ -64,6 +64,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_password);
         ButterKnife.bind(this);
+        Utility.hideSoftKeyboard(ForgotPasswordActivity.this);
     }
 
     @Override

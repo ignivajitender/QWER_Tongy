@@ -1,5 +1,7 @@
 package com.igniva.qwer.controller;
 
+import com.igniva.qwer.fcm.MyFirebaseMessagingService;
+import com.igniva.qwer.ui.activities.AboutTongyActivity;
 import com.igniva.qwer.ui.activities.ChangeEmailActivity;
 import com.igniva.qwer.ui.activities.ChangePasswordActivity;
 import com.igniva.qwer.ui.activities.CommentsActivity;
@@ -79,4 +81,8 @@ public interface NetComponent {
     void inject(MainChatFragment mainChatFragment);
 
     void inject(MainChatActivity mainChatActivity);
+
+    void inject(MyFirebaseMessagingService myFirebaseMessagingService);
+
+    void inject(AboutTongyActivity aboutTongyActivity);
 }

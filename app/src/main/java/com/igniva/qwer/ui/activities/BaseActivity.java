@@ -128,6 +128,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     }
                 });
     }
+
     /**
      * check run time camera permissions
      */

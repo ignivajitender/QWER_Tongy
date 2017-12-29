@@ -40,30 +40,28 @@ import retrofit2.Retrofit;
 public class NotificationActivity extends BaseActivity {
 
 
+    @BindView(R.id.tvNoData)
+    public TextView mtvNoData;
+    public int pageNo = 1;
     @BindView(R.id.tv_tap_to_rename)
     TextView mtvTitle;
-
-    @OnClick(R.id.ivbackIcon)
-    public void back() {
-        onBackPressed();
-    }
-
     @Inject
     Retrofit retrofit;
     NotificationRecyclerViewAdapter adapter;
     @BindView(R.id.rvNotification)
     RecyclerView mrecyclerView;
-    @BindView(R.id.tvNoData)
-    public TextView mtvNoData;
-
     Boolean isLast = false;
-    public int pageNo = 1;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     private Paint p = new Paint();
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
+
+    @OnClick(R.id.ivbackIcon)
+    public void back() {
+        onBackPressed();
+    }
 
     @Override
     protected void setUpLayout() {
@@ -101,7 +99,6 @@ public class NotificationActivity extends BaseActivity {
     protected void setDataInViewObjects() {
 
 
-
     }
 
     @Override
@@ -117,7 +114,7 @@ public class NotificationActivity extends BaseActivity {
         ButterKnife.bind(this);
         setUpToolbar();
         setUpLayout();
-      //  setDataInViewObjects();
+        //  setDataInViewObjects();
         getNotifications();
         initSwipe();
     }
@@ -156,7 +153,6 @@ public class NotificationActivity extends BaseActivity {
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
                             } else {
                                 setDataInViewObjects(null);
-
                                 CallProgressWheel.dismissLoadingDialog();
                                 //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
@@ -165,7 +161,7 @@ public class NotificationActivity extends BaseActivity {
 
                         @Override
                         public void onFailure(Call<NotificationPojo> call, Throwable t) {
-                             setDataInViewObjects(null);
+                            setDataInViewObjects(null);
 
                             CallProgressWheel.dismissLoadingDialog();
                         }
@@ -182,19 +178,21 @@ public class NotificationActivity extends BaseActivity {
 
     private void setDataInViewObjects(NotificationPojo data) {
         if (data != null && data.getData().size() > 0) {
+            mrecyclerView.setVisibility(View.VISIBLE);
+            mtvNoData.setVisibility(View.GONE);
+
             pageNo++;
             if (pageNo >= data.getLast_page())
                 isLast = true;
 
+            if (adapter == null) {
+                adapter = new NotificationRecyclerViewAdapter(NotificationActivity.this, (ArrayList<NotificationPojo.NotificationDataPojo>) data.getData(), retrofit);
+                mrecyclerView.setAdapter(adapter);
+            } else {
+                adapter.addAll((ArrayList<NotificationPojo.NotificationDataPojo>) data.getData());
+            }
 
-            adapter = new NotificationRecyclerViewAdapter(NotificationActivity.this, (ArrayList<NotificationPojo.NotificationDataPojo>) data.getData(), retrofit);
-            mrecyclerView.setAdapter(adapter);
-            mrecyclerView.setVisibility(View.VISIBLE);
-            mtvNoData.setVisibility(View.GONE);
-
-        }
-
-        else {
+        } else {
             mrecyclerView.setVisibility(View.GONE);
             mtvNoData.setVisibility(View.VISIBLE);
             isLast = true;
@@ -207,7 +205,7 @@ public class NotificationActivity extends BaseActivity {
      */
     private void initSwipe() {
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -278,10 +276,9 @@ public class NotificationActivity extends BaseActivity {
                     if (response.body().getStatus() == 200) {
                         listData.remove(position);
                         adapter.notifyDataSetChanged();
-                        Utility.showToastMessageLong(NotificationActivity.this,response.body().getDescription());
-                    } else
-                    {
-                        Utility.showToastMessageLong(NotificationActivity.this,response.body().getDescription());
+                        Utility.showToastMessageLong(NotificationActivity.this, response.body().getDescription());
+                    } else {
+                        Utility.showToastMessageLong(NotificationActivity.this, response.body().getDescription());
                     }
                 }
 

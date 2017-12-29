@@ -63,6 +63,7 @@ import com.igniva.qwer.ui.activities.LocationActivity;
 import com.igniva.qwer.ui.activities.LoginActivity;
 import com.igniva.qwer.ui.activities.SearchActivity;
 import com.igniva.qwer.ui.activities.twilio_chat.MainChatActivity;
+import com.igniva.qwer.ui.views.CallProgressWheel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,7 +99,7 @@ public class Utility {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
     public static ArrayList<String> languages = new ArrayList<>();
-    public static String aaTemp;
+//    public static String aaTemp;
     public static String placeId = "";
     public static String place__Id = "";
     public static double latitude = 0.0;
@@ -360,6 +361,7 @@ public class Utility {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                CallProgressWheel.showLoadingDialog(context,"");
             }
 
             @Override
@@ -396,8 +398,11 @@ public class Utility {
 
 
                 } catch (JSONException e) {
+                    getLatLngFromPDI(context);
                     e.printStackTrace();
-                }
+                }finally {
+                    CallProgressWheel.dismissLoadingDialog();
+                 }
             }
         }.execute();
     }
@@ -420,9 +425,9 @@ public class Utility {
             }
         });
     }
-
+    public static ApiInterface googleService;
     public static void callGoogleApi(final Activity context, final AutoCompleteTextView mautocomTextviewDeliveryAddress, String address, OkHttpClient okHttpClient, Gson gson) {
-
+        if(googleService==null)
         try {
             placeId = null;
 //			CallProgressWheel.showLoadingDialog(context, "Loading...");
@@ -431,11 +436,11 @@ public class Utility {
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(okHttpClient)
                     .build();
-            ApiInterface service = retrofit1.create(ApiInterface.class);
+            googleService = retrofit1.create(ApiInterface.class);
 
             String types = "", input = mautocomTextviewDeliveryAddress.getText().toString().trim(), location = "", key = "AIzaSyALGUNJ_BwsxSHkXtokTVZsFv9QYDRnuhY";
             int radius = 0;
-            service.getCityResults(types, input, location, radius, key).enqueue(new Callback<GooglePlaceApiResponsePojo>() {
+            googleService.getCityResults(types, input, location, radius, key).enqueue(new Callback<GooglePlaceApiResponsePojo>() {
                 @Override
                 public void onResponse(Call<GooglePlaceApiResponsePojo> call, Response<GooglePlaceApiResponsePojo> response) {
                     GooglePlaceApiResponsePojo places = response.body();
@@ -443,16 +448,20 @@ public class Utility {
                     //getEmaildata(response.body().getPredictions(), mautocomTextviewDeliveryAddress, context);
 //					CallProgressWheel.dismissLoadingDialog();
                     showAddress(response.body().getPredictions(), mautocomTextviewDeliveryAddress, context);
+                    googleService=null;
                 }
 
                 @Override
                 public void onFailure(Call<GooglePlaceApiResponsePojo> call, Throwable t) {
-                    t.printStackTrace();
+                    googleService=null;
+                     t.printStackTrace();
 //					CallProgressWheel.dismissLoadingDialog();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+            googleService=null;
+
         }
     }
 
@@ -474,26 +483,24 @@ public class Utility {
         mautocomTextviewDeliveryAddress.setAdapter(dataAdapter);
         dataAdapter.notifyDataSetChanged();
         mautocomTextviewDeliveryAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 address = mautocomTextviewDeliveryAddress.getText().toString().trim();
                 placeId = predictionsPojo.get(arg2).getPlace_id();
-                aaTemp = predictionsPojo.get(arg2).getDescription();
-                place__Id = predictionsPojo.get(arg2).getId();
+//                aaTemp = predictionsPojo.get(arg2).getDescription();
+//                place__Id = predictionsPojo.get(arg2).getId();
                 latitude = 0.0;
                 longitude = 0.0;
                 //type = 1;
-                mautocomTextviewDeliveryAddress.setSelection(mautocomTextviewDeliveryAddress.getText().length());
-
-//                if (context instanceof LocationActivity) {
                 getLatLngFromPDI(context);
+//                mautocomTextviewDeliveryAddress.setSelection(mautocomTextviewDeliveryAddress.getText().length());
+//                if (context instanceof LocationActivity) {
 //                    getLatLngFromPlaceID(context, ((LocationActivity) context).mGeoDataClient);
 //                }
                 Log.e("placeid", placeId);
                 /*if (context instanceof HomeActivity)
                     searchCategories(context, null, null, placeId, aaTemp);
-*/
+                    */
                 //	Utility.hideKeyboard(context, mautocomTextviewDeliveryAddress);
             }
         });
@@ -689,7 +696,7 @@ public class Utility {
 		* */
     }
 
-    public static void goToChatActivity(Activity context, int toUserId, String userName, String userImage) {
+    public static void goToChatActivity(Context context, int toUserId, String userName, String userImage) {
 
         String fromUserID = PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, "");
         String channelName = toUserId + "_" + fromUserID;
@@ -700,9 +707,10 @@ public class Utility {
         intent2.putExtra(Constants.ROOM_USER_NAME, userName);
         intent2.putExtra(Constants.TWILIO_RECEAVER_IMAGE, userImage);
         context.startActivity(intent2);
-        if(context instanceof ConnectionAcceptedActivity)
-            context.finish();
-        context.overridePendingTransition(R.anim.right_in, R.anim.right_out);
+        if(context instanceof ConnectionAcceptedActivity){
+            ((ConnectionAcceptedActivity)context).finish();
+            ((ConnectionAcceptedActivity)context).overridePendingTransition(R.anim.right_in, R.anim.right_out);
+        }
     }
 
     public static void openBlockMenu(final Activity context, final Retrofit retrofit, String blockUnblock, View mivDotIcon, final int userId) {

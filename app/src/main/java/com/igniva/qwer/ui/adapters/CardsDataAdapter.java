@@ -26,6 +26,7 @@ import com.igniva.qwer.controller.ApiControllerClass;
 import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.model.UsersResponsePojo;
 import com.igniva.qwer.ui.fragments.HomeFragment;
+import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 
@@ -37,46 +38,60 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
 
     ViewPager mViewPager;
     Context context;
-   // FragmentViewPagerAdapter pagerAdapter;
+    // FragmentViewPagerAdapter pagerAdapter;
     FragmentManager fragmentManagerChild;
-   /* int[] mResources = {
-            R.drawable.busesgallery03,
-            R.drawable.e,
-            R.drawable.busesgallery03,
-            R.drawable.busesgallery03,
-            R.drawable.busesgallery03,
-            R.drawable.f,
-            R.drawable.g,
-            R.drawable.busesgallery03,
-            R.drawable.g,
-            R.drawable.f
-    };*/
+    List<UsersResponsePojo.UsersPojo.UserDataPojo> users;
+    int NUM_PAGES = 4;
+    boolean isOpaque = true;
+    Retrofit retrofit;
+    HomeFragment fragment;
+    /* int[] mResources = {
+             R.drawable.busesgallery03,
+             R.drawable.e,
+             R.drawable.busesgallery03,
+             R.drawable.busesgallery03,
+             R.drawable.busesgallery03,
+             R.drawable.f,
+             R.drawable.g,
+             R.drawable.busesgallery03,
+             R.drawable.g,
+             R.drawable.f
+     };*/
     private TabLayout tabLayoutLangage;
     private FloatingActionButton fab;
     private FloatingActionButton fab2;
     private FloatingActionButton fab1;
     private Boolean isFabOpen = false;
-    List<UsersResponsePojo.UsersPojo.UserDataPojo> users;
-    int NUM_PAGES = 4;
-    boolean isOpaque = true;
-
     private int size;
-    Retrofit retrofit;
-    HomeFragment fragment;
 
     public CardsDataAdapter(Context context, FragmentManager childFragmentManager, List<UsersResponsePojo.UsersPojo.UserDataPojo> users, Retrofit retrofit, HomeFragment homeFragment) {
-
         super(context, R.layout.card_content);
         this.context = context;
         this.fragmentManagerChild = childFragmentManager;
         this.users = users;
         this.retrofit = retrofit;
-        this.fragment=homeFragment;
+        this.fragment = homeFragment;
     }
 
     @Override
     public int getCount() {
         return this.users.size();
+    }
+
+    public void updateOnline(int pos, Boolean isOnline, final String view_id) {
+        if (users.size()>pos &&String.valueOf(users.get(pos).getId()).equals(view_id) && Global.homeFrag != null && Global.homeFrag.mPos == pos) {
+            Log.e("", pos + "updateOnline----" + users.get(pos).getId() + "----" + view_id);
+             if (isOnline == null) {
+                if (users.get(pos).isOnline)
+                    Global.homeFrag.mCardStack.discardTop(1);
+            } else if (isOnline) {
+                users.get(pos).view_id = PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, "");
+                 notifyDataSetChanged();
+                 Global.homeFrag.callHandler();
+             } else {
+                Global.homeFrag.mCardStack.discardTop(1);
+            }
+        }
     }
 
     @Override
@@ -85,12 +100,10 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
         TextView mTvAge = (TextView) (contentView.findViewById(R.id.tv_age));
         TextView mTvRadius = (TextView) (contentView.findViewById(R.id.tv_radius));
 
-
         mtvName.setText(users.get(position).name);
         mTvAge.setText(users.get(position).getAge() + " Years");
         String beforeFirstDot = users.get(position).getDistance().split("\\.")[0];
-        mTvRadius.setText(beforeFirstDot+" km away");
-
+        mTvRadius.setText(beforeFirstDot + " km away");
         final RecyclerView mrvLanguage = (RecyclerView) (contentView.findViewById(R.id.rvLanguages));
         final TextView mtvAboutDetails = (TextView) (contentView.findViewById(R.id.tvAboutDetails));
         final LinearLayout mdotsLayout = (LinearLayout) (contentView.findViewById(R.id.dotsLayout));
@@ -98,6 +111,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
         tabLayoutLangage = (TabLayout) contentView.findViewById(R.id.tab_layout_language);
         mViewPager = (ViewPager) contentView.findViewById(R.id.view_pager);
         final ImageButton iv_request = (ImageButton) contentView.findViewById(R.id.iv_request);
+        final ImageView iv_online = (ImageView) contentView.findViewById(R.id.iv_online);
         final ImageButton iv_videoCall = (ImageButton) contentView.findViewById(R.id.iv_videoCall);
         final LinearLayout ll_contact = (LinearLayout) contentView.findViewById(R.id.ll_contact);
         final ImageButton iv_voiceCall = (ImageButton) contentView.findViewById(R.id.iv_voiceCall);
@@ -106,56 +120,76 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
                 AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.right_in);
         ll_contact.startAnimation(animation1);
 
-
-       // if(users.get(position).getUser_recieve()!=null && users.get(position).getUser_recieve().get(0).getStatus()==0)
-        if(users.get(position).getUser_recieve().size()!=0 &&users.get(position).getUser_recieve().get(0).getStatus()==0){
+        // if(users.get(position).getUser_recieve()!=null && users.get(position).getUser_recieve().get(0).getStatus()==0)
+        if (users.get(position).getUser_recieve().size() != 0 && users.get(position).getUser_recieve().get(0).getStatus() == 0) {
             iv_request.setImageResource(R.drawable.requested);
-        }else
-        {
+        } else {
             iv_request.setImageResource(R.drawable.request);
         }
 
+        if (users.get(position).view_id.equals(PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""))) {
+            if (System.currentTimeMillis() / 1000 - Integer.valueOf(users.get(position).getUpdated_at()) < 200)
+                users.get(position).isOnline = true;
+            else
+                users.get(position).isOnline = false;
+        } else
+            users.get(position).isOnline = false;
 
 
-            iv_request.setOnClickListener(new View.OnClickListener() {
+        if (users.get(position).isOnline) {
+            Log.e("", position + "isOnline----" + users.get(position).getId());
+            ll_contact.startAnimation(animation1);
+            ll_contact.setVisibility(View.VISIBLE);
+            iv_online.setVisibility(View.VISIBLE);
+
+        } else {
+            ll_contact.setVisibility(View.GONE);
+            iv_online.setVisibility(View.GONE);
+        }
+
+        iv_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ll_contact.startAnimation(animation1);
-                ll_contact.setVisibility(View.VISIBLE);
                 try {
-                 if (users.get(position).getUser_recieve().size()==0 && users.get(position).getUser_send().size()==0) {
-                     ApiControllerClass.callAddContactApi(users.get(position).id, retrofit, context,users,position,fragment);
-                 }
-                   else if(users.get(position).getUser_send().size()!=0)
-                 {
-                     Utility.showToastMessageLong((Activity) context,"Request already sent.");
-                 }
-                 else if(users.get(position).getUser_recieve().get(0).getStatus()==0)
-                        ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(position).getRequest_from(),fragment);
-                }catch (Exception e){
-                    Log.e("cardsadapter",e.getMessage());
+                    if (users.get(position).getUser_recieve().size() == 0 && users.get(position).getUser_send().size() == 0) {
+                        ApiControllerClass.callAddContactApi(users.get(position).id, retrofit, context, users, position, fragment);
+                    } else if (users.get(position).getUser_send().size() != 0) {
+                        Utility.showToastMessageLong((Activity) context, "Request already sent.");
+                    } else if (users.get(position).getUser_recieve().get(0).getStatus() == 0)
+                        ApiControllerClass.callUserAction(context, retrofit, "accept", null, users.get(position).getUser_recieve().get(position).getRequest_from(), fragment);
+                } catch (Exception e) {
+                    Log.e("cardsadapter", e.getMessage());
                 }
             }
         });
 
-
         iv_videoCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 try {
-                         ApiControllerClass.getVideoToken(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""),users.get(position).id+"",users.get(position).name ,users.get(position).getUser_image().get(0).getImage()+"");
-                 }catch (Exception e){
-                    Log.e("cardsadapter",e.getMessage());
+                try {
+                    ApiControllerClass.getVideoToken(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""), users.get(position).id + "", users.get(position).name, users.get(position).getUser_image().get(0).getImage() + "");
+                } catch (Exception e) {
+                    Log.e("cardsadapter", e.getMessage());
                 }
             }
         });
         iv_voiceCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 try {
-                          ApiControllerClass.sendTwilioVoiceNotification(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""),users.get(position).id+"",users.get(position).name,users.get(position).getUser_image().get(0).getImage());
-                 }catch (Exception e){
-                    Log.e("cardsadapter",e.getMessage());
+                try {
+                    ApiControllerClass.sendTwilioVoiceNotification(context, retrofit, PreferenceHandler.readString(context, PreferenceHandler.PREF_KEY_USER_ID, ""), users.get(position).id + "", users.get(position).name, users.get(position).getUser_image().get(0).getImage());
+                } catch (Exception e) {
+                    Log.e("cardsadapter", e.getMessage());
+                }
+            }
+        });
+        iv_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Utility.goToChatActivity(context, users.get(position).id, users.get(position).name, users.get(position).getUser_image().get(0).getImage());
+                } catch (Exception e) {
+                    Log.e("cardsadapter", e.getMessage());
                 }
             }
         });
@@ -173,8 +207,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
                     showRecyclerViewList(users.get(position).getUser_learn(), mrvLanguage, mtvAboutDetails, "learn");
                 } else if (tab.getPosition() == 2) {
                     //replaceFragment(new PostsListFragment());
-                    showAbout(users.get(position).getAbout(), mtvAboutDetails, mrvLanguage,users.get(position));
-
+                    showAbout(users.get(position).getAbout(), mtvAboutDetails, mrvLanguage, users.get(position));
                 }
 
             }
@@ -189,6 +222,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
                 Log.d("CardsDataAdapter", "onTabReselected: ");
             }
         });
+
 
 
        /* CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(context);
@@ -224,7 +258,6 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             }
         });
 
-
         if (users.get(position).getUser_image() != null && users.get(position).getUser_image().size() > 0) {
             MultiImages multiImages = new MultiImages(context, users.get(position).getUser_image());
             mViewPager.setAdapter(multiImages);
@@ -235,17 +268,16 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             mViewPager.setBackgroundResource(R.drawable.imgpsh_dummy);
         }
 
-
         return contentView;
     }
 
     private void showAbout(String about, TextView mtvAboutDetails, RecyclerView mrvLanguage, UsersResponsePojo.UsersPojo.UserDataPojo userDataPojo) {
         mrvLanguage.setVisibility(View.GONE);
         mtvAboutDetails.setVisibility(View.VISIBLE);
-        if(userDataPojo.getUser_country()!=null)
-        mtvAboutDetails.setText(Html.fromHtml("<b>"+Utility.getColoredSpanned(context.getResources().getString(R.string.i_am_from).toUpperCase(),"#767676")+" "+Utility.getColoredSpanned(userDataPojo.getUser_country().getCountry(),"#90cbf6")+"</b>"+"<br>"+Utility.getColoredSpanned(about,"#000000")));
+        if (userDataPojo.getUser_country() != null)
+            mtvAboutDetails.setText(Html.fromHtml("<b>" + Utility.getColoredSpanned(context.getResources().getString(R.string.i_am_from).toUpperCase(), "#767676") + " " + Utility.getColoredSpanned(userDataPojo.getUser_country().getCountry(), "#90cbf6") + "</b>" + "<br>" + Utility.getColoredSpanned(about, "#000000")));
         else
-            mtvAboutDetails.setText(Html.fromHtml(Utility.getColoredSpanned(about,"#000000")));
+            mtvAboutDetails.setText(Html.fromHtml(Utility.getColoredSpanned(about, "#000000")));
     }
 
     private void showRecyclerViewList(List<OtherUserProfilePojo.UsersPojo.UserSpeakPojo> user_speak, RecyclerView mrvLanguage, TextView mtvAboutDetails, String type) {
@@ -261,7 +293,7 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
             mrvLanguage.setAdapter(adapter1);
 
         } else {
-            LanguageSpeakAdapter adapter = new LanguageSpeakAdapter(context, user_speak,"learn");
+            LanguageSpeakAdapter adapter = new LanguageSpeakAdapter(context, user_speak, "learn");
             mrvLanguage.setAdapter(adapter);
         }
 
@@ -330,11 +362,12 @@ public class CardsDataAdapter extends ArrayAdapter<String> {
         if (index < size) {
             for (int i = 0; i < size; i++) {
                 ImageView circle = (ImageView) mdotsLayout.getChildAt(i);
-                if (i == index) {
-                    circle.setColorFilter(context.getResources().getColor(android.R.color.white));
-                } else {
-                    circle.setColorFilter(context.getResources().getColor(R.color.text_medium_grey));
-                }
+                if (circle != null)
+                    if (i == index) {
+                        circle.setColorFilter(context.getResources().getColor(R.color.bg_white));
+                    } else {
+                        circle.setColorFilter(context.getResources().getColor(R.color.text_dark_grey));
+                    }
             }
         }
     }

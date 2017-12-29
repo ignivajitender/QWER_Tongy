@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
@@ -37,6 +38,13 @@ import retrofit2.Retrofit;
  */
 public class HomeFragment extends BaseFragment {
 
+    final Handler mHandler = new Handler();
+      int swiped_card_postion;
+    public int mPos;
+    public CardStack mCardStack;
+    public CardsDataAdapter mCardAdapter;
+    public String viewID = "";
+    public Runnable mRunnable;
     View mView;
     ViewPager viewPager;
     @Inject
@@ -44,8 +52,6 @@ public class HomeFragment extends BaseFragment {
     int pageNo = 1;
     @BindView(R.id.tvNoData)
     TextView mtvNoData;
-    private CardStack mCardStack;
-    private CardsDataAdapter mCardAdapter;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -76,6 +82,7 @@ public class HomeFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         ((Global) getActivity().getApplicationContext()).getNetComponent().inject(this);
+
     }
 
     private void getUsersApi(int pageNo) {
@@ -94,6 +101,8 @@ public class HomeFragment extends BaseFragment {
                             if (response.body().getStatus() == 200) {
                                 CallProgressWheel.dismissLoadingDialog();
                                 setDatainCards(response);
+                                if (response.body().getUsers().getData().size() > 0)
+                                    ApiControllerClass.getOtherUserProfile(retrofit, getActivity(), response.body().getUsers().getData().get(0).getId(), false);
                                 // setDataInViewObjects(response.body().getData());
                                 //callSuccessPopUp((Activity)context, response.body().getDescription());
                                 // Utility.showToastMessageShort(ChangePasswordActivity.this,responsePojo.getDescription());
@@ -104,7 +113,6 @@ public class HomeFragment extends BaseFragment {
                                 mtvNoData.setVisibility(View.VISIBLE);
                                 //  mCardStack.setVisibility(View.GONE);
                                 CallProgressWheel.dismissLoadingDialog();
-
                                 //Utility.showToastMessageShort((Activity) context, response.body().getDescription());
                             }
                         }
@@ -124,6 +132,43 @@ public class HomeFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateCard(final Boolean isOnline, final String view_id) {
+        if(mHandler!=null && mRunnable!=null){
+            mHandler.removeCallbacks(mRunnable);
+            mHandler.removeCallbacksAndMessages(null);
+        }
+
+        Log.e("", "updateCard---" + mPos);
+        if (mCardAdapter != null && mCardStack != null && mCardAdapter.getCount() > mPos) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    viewID = view_id;
+                    mCardAdapter.updateOnline(mPos, isOnline, view_id);
+                }
+            });
+        }
+    }
+
+    public void callHandler() {
+        if(mHandler!=null && mRunnable!=null){
+            mHandler.removeCallbacks(mRunnable);
+            mHandler.removeCallbacksAndMessages(null);
+        }
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                if (Global.homeFrag != null)
+                    Global.homeFrag.mCardStack.discardTop(1);
+
+                mCardAdapter.updateOnline(swiped_card_postion + 1, null, "");
+             }
+        };
+
+        mHandler.postDelayed(mRunnable, 120000);
 
     }
 
@@ -135,13 +180,15 @@ public class HomeFragment extends BaseFragment {
         mCardStack.setStackMargin(20);
         mCardAdapter = new CardsDataAdapter(getActivity(), getFragmentManager(), responsePojo.body().getUsers().getData(), retrofit, HomeFragment.this);
         mCardStack.setAdapter(mCardAdapter);
-
-
+        mPos=0;
+        if (mCardAdapter.getCount() > 0) {
+            callHandler();
+            swiped_card_postion = 0;
+         }
         mCardStack.setListener(new CardStack.CardEventListener() {
             @Override
             public boolean swipeEnd(int section, float distance) {
                 if (section == 0 || section == 1)
-
                     return true;
                 else
                     return false;
@@ -160,28 +207,35 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void discarded(int mIndex, int direction) {
-                int swiped_card_postion = mIndex - 1;
+                if(mHandler!=null && mRunnable!=null){
+                    mHandler.removeCallbacks(mRunnable);
+                    mHandler.removeCallbacksAndMessages(null);
+                }
 
+                swiped_card_postion = mIndex - 1;
                 //getting the string attached with the card
+//                UsersResponsePojo.UsersPojo.UserDataPojo userDataPojo = responsePojo.body().getUsers().getData().get(swiped_card_postion);
 
-                String swiped_card_text = responsePojo.body().getUsers().getData().get(swiped_card_postion).getName();
-
+                mPos=mIndex;
+                if (direction == 0 || direction == 1) {
+                    if (responsePojo.body().getUsers().getData().size() > mIndex)
+                        ApiControllerClass.getOtherUserProfile(retrofit, getActivity(), responsePojo.body().getUsers().getData().get(mIndex).getId(), false);
+                }
+//
                 if (direction == 1) {
                     // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Right", Toast.LENGTH_SHORT).show();
-                } else if (direction == 0) {
+                } else if (direction == 0 && responsePojo.body().getUsers().getData().size() > swiped_card_postion) {
                     // Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Left", Toast.LENGTH_SHORT).show();
                     ApiControllerClass.callUserAction(getContext(), retrofit, "reject", null, responsePojo.body().getUsers().getData().get(swiped_card_postion).id, null);
                 } else {
-
                     //Toast.makeText(getApplicationContext(), swiped_card_text + " Swipped to Bottom", Toast.LENGTH_SHORT).show();
-
                 }
                 Log.e("mIndex", mIndex + "");
                 if (mIndex == 10 && responsePojo.body().getUsers().getCurrent_page() <= responsePojo.body().getUsers().getLast_page()) {
                     getUsersApi(responsePojo.body().getUsers().getCurrent_page() + 1);
-                }else if(mIndex==responsePojo.body().getUsers().getData().size() &&   responsePojo.body().getUsers().getCurrent_page() == responsePojo.body().getUsers().getLast_page()){
+                } else if (mIndex == responsePojo.body().getUsers().getData().size() && responsePojo.body().getUsers().getCurrent_page() == responsePojo.body().getUsers().getLast_page()) {
                     mtvNoData.setVisibility(View.VISIBLE);
-                 }
+                }
             }
 
             @Override
@@ -232,6 +286,11 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(mHandler!=null && mRunnable!=null){
+            mHandler.removeCallbacks(mRunnable);
+            mHandler.removeCallbacksAndMessages(null);
+        }
+        Global.setHomeFrag(null);
     }
 
 }

@@ -136,6 +136,7 @@
                 android:layout_marginLeft="@dimen/_12dp"
                 android:layout_marginRight="@dimen/_12dp"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:padding="@dimen/_10dp">
 
                 <com.igniva.qwer.ui.views.TextViewRegular
@@ -145,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_4dp"
                     android:drawableRight="@drawable/setting_account"
-                    android:text="@string/deleteAccount"
+                    android:text="@string/deactivateAccount"
                     android:textColor="@color/text_color"
                     />
 

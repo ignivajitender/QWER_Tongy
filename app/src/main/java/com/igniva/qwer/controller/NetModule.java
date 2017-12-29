@@ -1,11 +1,9 @@
 package com.igniva.qwer.controller;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -16,6 +14,7 @@ import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
 
 import java.io.IOException;
+import java.util.TimerTask;
 
 import javax.inject.Singleton;
 
@@ -34,26 +33,33 @@ public class NetModule {
 
     // Nexus
 
-//    eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OWNhMDcyN2JhODhkNzY5Y2Q3NWFhNTAiLCJlbWFpbCI6InRlc3Rlci5pZ25pdmE0QGdtYWlsLmNvbSIsImlhdCI6MTUwNzkwMDE3NX0.EOZl2KilFt_-Dbs3ZA2teaDQo9Hz8wCVCEKjYC5SvGW0W45d1TNQ1oNEFpOBwaO4LaCCedwq8hew1sFJsIA70A
-     private static final HttpLoggingInterceptor loggingInterceptor =
+    //    eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OWNhMDcyN2JhODhkNzY5Y2Q3NWFhNTAiLCJlbWFpbCI6InRlc3Rlci5pZ25pdmE0QGdtYWlsLmNvbSIsImlhdCI6MTUwNzkwMDE3NX0.EOZl2KilFt_-Dbs3ZA2teaDQo9Hz8wCVCEKjYC5SvGW0W45d1TNQ1oNEFpOBwaO4LaCCedwq8hew1sFJsIA70A
+    private static final HttpLoggingInterceptor loggingInterceptor =
             new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 Handler mHandler;
+
                 @Override
                 public void log(String message) {
 //                    {"status":"warning","statusCode":324,"message":"Your session is expired. Please login again to continue"}
                     Log.e("NetModule-----", "--" + message);
                     if (message != null && message.contains("Token Expired")) {
+                        Runnable task = new TimerTask() {
+                            @Override
+                            public void run() {
+
+                            }
+                        };
                         try {
                             Global.sAppContext.startActivity(new Intent(Global.sAppContext, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             PreferenceHandler.getEditor(Global.sAppContext).clear().commit();
-                            mHandler = new Handler(Looper.getMainLooper()) {
+                            mHandler = new Handler(Looper.getMainLooper());
+                            mHandler.post(new Runnable() {
                                 @Override
-                                public void handleMessage(Message message) {
-                                         Utility.showToastMessageLong( Global.sAppContext.getApplicationContext(), "Your session is expired. Please login again to continue");
-                                    // This is where you do your work in the UI thread.
-                                    // Your worker tells you in the message what to do.
-                                }
-                            };
+                                public void run() {
+                                    //TODO execeute code
+                                    Utility.showToastMessageLong(Global.sAppContext.getApplicationContext(), "Your session is expired. Please login again to continue.");
+                                 }
+                            });
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -61,6 +67,7 @@ public class NetModule {
                     }
                 }
             });
+
 
     static {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -102,7 +109,7 @@ public class NetModule {
             public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
                 Request original = chain.request();
                 String token = PreferenceHandler.readString(Global.sAppContext, PreferenceHandler.PREF_KEY_LOGIN_USER_TOKEN, null);
-                 if (token != null && token.trim().length() > 0) {
+                if (token != null && token.trim().length() > 0) {
                     Log.e("NetModule--login token-", "--" + token);
                     Request request = original.newBuilder()
                             .header("x-logintoken", token)

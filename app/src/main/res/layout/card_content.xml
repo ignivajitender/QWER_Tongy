@@ -18,8 +18,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-           >
+            android:layout_weight="1">
+
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
@@ -28,17 +28,24 @@
                 android:layout_margin="@dimen/_8dp">
 
             </android.support.v4.view.ViewPager>
-
-            <LinearLayout
+            <ImageView
+                android:id="@+id/iv_online"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                android:layout_margin="@dimen/dp_22"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:background="@drawable/green_circle"/>
+             <LinearLayout
                 android:id="@+id/dotsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|left"
+                android:layout_marginBottom="@dimen/_5dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="@dimen/dp_10"
-                android:layout_marginBottom="@dimen/_5dp"
-                />
+                android:padding="@dimen/dp_10" />
 
             <LinearLayout
                 android:id="@+id/ll_contact"
@@ -49,7 +56,7 @@
                 android:layout_marginRight="72dp"
                 android:animateLayoutChanges="true"
                 android:orientation="horizontal"
-                 android:visibility="gone">
+                android:visibility="gone">
 
                 <ImageButton
                     android:id="@+id/iv_videoCall"
@@ -90,11 +97,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center_horizontal|left"
             android:layout_marginBottom="@dimen/_8dp"
             android:layout_marginLeft="@dimen/_8dp"
             android:layout_marginRight="@dimen/_8dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
 
@@ -111,10 +118,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
                 android:layout_marginTop="@dimen/_5dp"
-                >
+
+                android:orientation="horizontal">
 
                 <com.igniva.qwer.ui.views.TextViewLight
                     android:id="@+id/tv_age_heading"
@@ -124,9 +130,9 @@
                     android:drawableLeft="@drawable/male"
                     android:drawablePadding="@dimen/_4dp"
                     android:text="Age: "
-                    android:textSize="@dimen/_10sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/text_dark_grey"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:textSize="@dimen/_10sp" />
 
                 <com.igniva.qwer.ui.views.TextViewLight
                     android:id="@+id/tv_age"
@@ -134,17 +140,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="24 Years"
-                    android:textSize="@dimen/_10sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/text_dark_grey"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:textSize="@dimen/_10sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/text_medium_grey"
                     android:layout_marginLeft="@dimen/_5dp"
+                    android:background="@color/text_medium_grey"
 
                     />
+
                 <com.igniva.qwer.ui.views.TextViewLight
                     android:id="@+id/tv_radius"
                     android:layout_width="wrap_content"
@@ -152,18 +159,17 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingLeft="@dimen/_5dp"
                     android:text="39 km away"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/text_dark_grey"
-                    android:textSize="@dimen/_10sp"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:textSize="@dimen/_10sp" />
 
             </LinearLayout>
 
             <View
-                android:layout_marginTop="@dimen/_5dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bg_light_grey"
-                />
+                android:layout_marginTop="@dimen/_5dp"
+                android:background="@color/bg_light_grey" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout_language"
@@ -178,43 +184,42 @@
                 app:tabTextColor="@color/text_medium_grey" />
 
             <View
-                android:layout_marginTop="-1dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bg_light_grey"
-                />
-            <LinearLayout
-            android:id="@+id/ll_language"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+                android:layout_marginTop="-1dp"
+                android:background="@color/bg_light_grey" />
 
-            <android.support.v7.widget.RecyclerView
+            <LinearLayout
+                android:id="@+id/ll_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/rvLanguages"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/_10dp"
-                ></android.support.v7.widget.RecyclerView>
+                android:orientation="vertical">
 
-            <com.igniva.qwer.ui.views.TextViewRegular
-                android:id="@+id/tvAboutDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvLanguages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
-                android:text="@string/dummyText"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/black"
+                <com.igniva.qwer.ui.views.TextViewRegular
+                    android:id="@+id/tvAboutDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-                android:layout_marginTop="@dimen/_10dp"
-                android:textSize="@dimen/_10sp"
-                android:visibility="gone"
-                android:maxLines="3"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
 
-                android:ellipsize="end"
+                    android:text="@string/dummyText"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_10sp"
 
-                />
-        </LinearLayout>
+                    android:visibility="gone"
+
+                    />
+            </LinearLayout>
 
 
         </LinearLayout>

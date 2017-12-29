@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +18,6 @@ import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -29,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -39,7 +37,6 @@ import com.igniva.qwer.model.CountriesPojo;
 import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.model.StatePojo;
-import com.igniva.qwer.ui.adapters.CountriesAdapter;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Constants;
 import com.igniva.qwer.utils.Global;
@@ -88,10 +85,11 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     public String Gender;
     @BindView(R.id.et_city)
     public EditText mEtCity;
-     public ArrayList<CountriesPojo> mCountryList;
+    public ArrayList<CountriesPojo> mCountryList;
     public ArrayList<StatePojo> mAllStateList;
     public ProfileResponsePojo mResponsePojo = null;
     public String coverIMageID = "";
+    public CountryPicker mCountryPicker;
     @BindView(R.id.imageview_placeholder)
     ImageView mImageviewPlaceholder;
     @BindView(R.id.linearlayout_title)
@@ -158,7 +156,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
     Spinner mgenderSpinner;
     @Inject
     Retrofit retrofit;
-     private File outPutFile;
+    private File outPutFile;
     private int callFrom;
     private String selGender;
     private String[] gender = {"Male", "Female"};
@@ -286,22 +284,19 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     }
 
-    public CountryPicker mCountryPicker;
-
     private void setDataInView(ProfileResponsePojo responsePojo) {
         mResponsePojo = responsePojo;
         mEtAbout.setText(responsePojo.getData().about);
         mEtAge.setText(responsePojo.getData().age);
         mEtCity.setText(responsePojo.getData().city);
-        country_id=responsePojo.getData().country_id;
-        if(responsePojo.getData().country_id!=null && responsePojo.getData().country_id.length()>0)
-        for (CountriesPojo countriesPojo:mCountryList)
-        {
-            if(countriesPojo.getId().equals(responsePojo.getData().country_id)){
-                mEtCountry.setText(countriesPojo.getCountry());
-                break;
+        country_id = responsePojo.getData().country_id;
+        if (responsePojo.getData().country_id != null && responsePojo.getData().country_id.length() > 0)
+            for (CountriesPojo countriesPojo : mCountryList) {
+                if (countriesPojo.getId().equals(responsePojo.getData().country_id)) {
+                    mEtCountry.setText(countriesPojo.getCountry());
+                    break;
+                }
             }
-        }
         // mEtGender.setText(responsePojo.getData().gender);
         mEtPincode.setText(responsePojo.getData().pincode);
         mtvName.setText(responsePojo.getData().getName());
@@ -310,17 +305,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         if (responsePojo.getData().getUser_image() != null && responsePojo.getData().getUser_image().size() > 0) {
             for (ProfileResponsePojo.UserImageData userImageData :
                     responsePojo.getData().getUser_image()) {
-                if (responsePojo.getData().getUser_image().indexOf(userImageData) == 0) {
-                    Glide.with(this).load(userImageData.getImage()).into(mIvProilePic1);
-                } else if (responsePojo.getData().getUser_image().indexOf(userImageData) == 1) {
-                    Glide.with(this).load(userImageData.getImage()).into(mIvProilePic2);
-                }
-                if (responsePojo.getData().getUser_image().indexOf(userImageData) == 2) {
-                    Glide.with(this).load(userImageData.getImage()).into(mIvProilePic3);
-                }
-                if (responsePojo.getData().getUser_image().indexOf(userImageData) == 3) {
-                    Glide.with(this).load(userImageData.getImage()).into(mIvProilePic4);
-                }
+
+                setUserImages(userImageData, responsePojo.getData().getUser_image());
                 if (userImageData.getIs_cover_image().equals("1")) {
                     coverIMageID = userImageData.getId();
                     Glide.with(this).load(userImageData.getImage()).into(mImageviewPlaceholder);
@@ -340,10 +326,26 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         }
     }
 
+    private void setUserImages(ProfileResponsePojo.UserImageData userImageData, List<ProfileResponsePojo.UserImageData> lUserImages) {
+        if (lUserImages.indexOf(userImageData) == 0) {
+            Glide.with(this).load(userImageData.getImage()).into(mIvProilePic1);
+        } else if (lUserImages.indexOf(userImageData) == 1) {
+            Glide.with(this).load(userImageData.getImage()).into(mIvProilePic2);
+        }
+        if (lUserImages.indexOf(userImageData) == 2) {
+            Glide.with(this).load(userImageData.getImage()).into(mIvProilePic3);
+        }
+        if (lUserImages.indexOf(userImageData) == 3) {
+            Glide.with(this).load(userImageData.getImage()).into(mIvProilePic4);
+        }
+    }
+
     @Override
     protected void setUpLayout() {
         getLocation();
         mCountryPicker = CountryPicker.newInstance("Select Country");
+        mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
+
         if (getIntent().hasExtra(Constants.MYPROFILEEDITABLE)) {
             mIvEditProfile.setVisibility(View.VISIBLE);
 //            Glide.with(this).load(R.drawable.pp4).into(mIvProilePic1);
@@ -353,8 +355,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 //            mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.pp1));
 //            mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.pp2));
             mTvLetsStart.setVisibility(View.GONE);
-//            Glide.with(this).load(R.drawable.pp4).into(mImageviewPlaceholder);
-            mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
+            //            Glide.with(this).load(R.drawable.pp4).into(mImageviewPlaceholder);
             mEtCountry.setEnabled(false);
             mEtCity.setEnabled(false);
             mEtPincode.setEnabled(false);
@@ -363,13 +364,16 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             mEtAbout.setEnabled(false);
             mtvName.setEnabled(false);
         } else {
-            mIvEditProfile.setVisibility(View.GONE);
             mIvProilePic1.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
             mIvProilePic2.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
             mIvProilePic3.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
             mIvProilePic4.setImageDrawable(getResources().getDrawable(R.drawable.image_placeholder));
+            mIvEditProfile.performClick();
             mLlLetsStart.setVisibility(View.VISIBLE);
-            mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
+            mivaddImage1.setVisibility(View.VISIBLE);
+            mivaddImage2.setVisibility(View.VISIBLE);
+            mivaddImage3.setVisibility(View.VISIBLE);
+            mivaddImage4.setVisibility(View.VISIBLE);
         }
         mToolbar.setTitle("");
         mAppbar.addOnOffsetChangedListener(this);
@@ -410,13 +414,15 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
             public void onSelectCountry(String name, String code, String flagDrawableResID) {
                 Utility.hideSoftKeyboard(MyProfileActivity.this);
                 mEtCountry.setText(name);
-                country_id=code;
+
+                mEtCity.setText("");
+                country_id = code;
                 ApiControllerClass.callStateListApi(MyProfileActivity.this, retrofit, mEtCity, country_id);
                 mCountryPicker.dismiss();
 
             }
         });
-     }
+    }
 
     private int getIndex(Spinner spinner, String myString) {
 
@@ -487,7 +493,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     @Override
     protected void setDataInViewObjects() {
-     }
+    }
 
     public void callSuccessPopUp(final MyProfileActivity myProfileActivity, String description, final boolean isSetPref) {
         // Create custom dialog object
@@ -588,8 +594,8 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             mivaddImage4.setVisibility(View.VISIBLE);
                         }
                     }
-
-                    mTvSave.setVisibility(View.VISIBLE);
+                    if (mTvLetsStart.getVisibility() == View.GONE)
+                        mTvSave.setVisibility(View.VISIBLE);
                     break;
                 case R.id.tv_save:
                     // callSuccessPopUp();
@@ -602,20 +608,22 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
                     break;
                 case R.id.iv_proile_pic1:
-                    setCoverImage(0);
+                    if (mivaddImage1.getVisibility() == View.GONE)
+                        setCoverImage(0);
 
                     break;
                 case R.id.iv_proile_pic2:
-                    setCoverImage(1);
-
-
+                    if (mivaddImage2.getVisibility() == View.GONE)
+                        setCoverImage(1);
                     break;
                 case R.id.iv_proile_pic3:
-                    setCoverImage(2);
+                    if (mivaddImage3.getVisibility() == View.GONE)
+                        setCoverImage(2);
 
                     break;
                 case R.id.iv_proile_pic4:
-                    setCoverImage(3);
+                    if (mivaddImage4.getVisibility() == View.GONE)
+                        setCoverImage(3);
                     break;
                 default:
                     break;
@@ -629,7 +637,9 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
         if (i == -1) {
             mImageviewPlaceholder.setImageDrawable(getResources().getDrawable(R.drawable.blue_skyline));
             coverIMageID = "";
-        } else if ((mTvSave.getVisibility() == View.VISIBLE || mTvLetsStart.getVisibility() == View.VISIBLE) && mResponsePojo != null && mResponsePojo.getData() != null && mResponsePojo.getData().getUser_image() != null && mResponsePojo.getData().getUser_image().size() > i) {
+        } else if ((mTvSave.getVisibility() == View.VISIBLE || mTvLetsStart.getVisibility() == View.VISIBLE) && mResponsePojo != null && mResponsePojo.getData() != null && mResponsePojo.getData().getUser_image() != null && mResponsePojo.getData().getUser_image().size() > 0) {
+            if (mResponsePojo.getData().getUser_image().size() <= i)
+                i = mResponsePojo.getData().getUser_image().size() - 1;
             Glide.with(this).load(mResponsePojo.getData().getUser_image().get(i).getImage()).into(mImageviewPlaceholder);
             coverIMageID = mResponsePojo.getData().getUser_image().get(i).getId();
         }
@@ -651,7 +661,7 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
                             }
                             */
                     HashMap<String, String> updateProfilePayload = new HashMap<>();
-                    updateProfilePayload.put("country",country_id);
+                    updateProfilePayload.put("country", country_id);
                     updateProfilePayload.put("city", mEtCity.getText().toString().trim());
                     updateProfilePayload.put("gender", selGender);
                     updateProfilePayload.put("pincode", mEtPincode.getText().toString().trim());
@@ -860,8 +870,31 @@ public class MyProfileActivity extends BaseActivity implements AppBarLayout.OnOf
 
     @OnClick(R.id.et_country)
     public void onViewClicked() {
-        if(!mCountryPicker.isVisible())
-        mCountryPicker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+        if (!mCountryPicker.isVisible())
+            mCountryPicker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+    }
+
+    @OnClick(R.id.et_city)
+    public void onCityClicked() {
+        if (mAllStateList != null && mAllStateList.size() > 0) {
+            ArrayList<String> tempArr = new ArrayList<>();
+            for (StatePojo statePojo : mAllStateList
+                    ) {
+                tempArr.add(statePojo.name);
+            }
+            new MaterialDialog.Builder(MyProfileActivity.this)
+                    .title(R.string.choose_state)
+                    .items(tempArr)
+                    .cancelable(false)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            mEtCity.setText(text);
+                        }
+                    })
+                    .show();
+        }
+
     }
 }
 

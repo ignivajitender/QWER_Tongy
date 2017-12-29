@@ -16,11 +16,10 @@
         <AutoCompleteTextView
             android:hint="@string/search"
             android:drawableLeft="@drawable/search"
-
-            android:layout_weight="1"
+             android:layout_weight="1"
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:paddingLeft="@dimen/_10dp"
+            android:padding="@dimen/dp5"
             android:background="@null"
             android:id="@+id/autoCompleteSearch"
             android:layout_width="match_parent"

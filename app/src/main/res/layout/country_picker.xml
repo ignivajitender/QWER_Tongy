@@ -8,13 +8,14 @@
         android:id="@+id/country_code_picker_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:drawableLeft="@drawable/search"
+        android:layout_margin="@dimen/dp_22"
+         android:backgroundTint="@color/text_light_grey"
         android:hint="@string/search"
-        android:textColorHint="@color/text_dark_grey"
-        android:drawableTint="@color/text_dark_grey"
-        android:imeOptions="actionSearch"
-        android:maxLines="1"/>
+         android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:drawableLeft="@drawable/search"
+        android:drawableTint="@color/text_light_grey"
+        />
 
     <ListView
         android:id="@+id/country_code_picker_listview"

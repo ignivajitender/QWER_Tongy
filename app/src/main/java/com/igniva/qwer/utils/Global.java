@@ -14,6 +14,7 @@ import com.igniva.qwer.controller.NetComponent;
 import com.igniva.qwer.controller.NetModule;
 import com.igniva.qwer.model.OtherUserProfilePojo;
 import com.igniva.qwer.ui.activities.twilio_chat.ChatClientManager;
+import com.igniva.qwer.ui.fragments.HomeFragment;
 
 
 /**
@@ -27,11 +28,16 @@ public class Global extends MultiDexApplication {
     private PreferenceHandler prefs;
     public static Location mLastLocation;
     public static OtherUserProfilePojo otherUserProfilePojo=null;
-
+    public static HomeFragment homeFrag;
     //Twilio Chat
     private ChatClientManager basicClient;
     // active channel name
     public static String activeChannelName = "";
+
+    public static void setHomeFrag(HomeFragment homeFrag) {
+        Global.homeFrag = homeFrag;
+    }
+
     public ChatClientManager getChatClientManager() {
         return this.basicClient;
     }

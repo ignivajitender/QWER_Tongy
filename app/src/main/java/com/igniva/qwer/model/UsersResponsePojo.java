@@ -114,9 +114,18 @@ public class UsersResponsePojo {
              * user_recieve : []
              * user_send : []
              */
-
-            public int id;
+             public int id;
             public String name;
+
+            public String getView_id() {
+                return view_id;
+            }
+
+            public void setView_id(String view_id) {
+                this.view_id = view_id;
+            }
+
+            public String view_id;
             public String email;
             public Object secondary_email;
             public String password;
@@ -138,6 +147,7 @@ public class UsersResponsePojo {
             public String device_id;
             public String device_type;
             public String status;
+            public Boolean isOnline=false;
             public String pref_status;
             public String is_push_notification;
             public String is_voicecall;

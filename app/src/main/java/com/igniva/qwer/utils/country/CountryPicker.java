@@ -78,7 +78,6 @@ public class CountryPicker extends DialogFragment {
                 }
             }
         });
-
         searchEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -94,8 +93,13 @@ public class CountryPicker extends DialogFragment {
                 search(s.toString());
             }
         });
-
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        searchEditText.setText("");
     }
 
     public void setListener(CountryPickerListener listener) {

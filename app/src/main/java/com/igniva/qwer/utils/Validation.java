@@ -495,15 +495,17 @@ public class Validation {
             return false;
         }
         if(FieldValidators.isNullOrEmpty(mEtCountry)){
-            mEtCountry.setFocusable(true);
-            mEtCountry.requestFocus();
-            mEtCountry.setError(activity.getString(R.string.please_enter_country));
+//            mEtCountry.setFocusable(true);
+//            mEtCountry.requestFocus();
+//            mEtCountry.setError(activity.getString(R.string.please_enter_country));
+            Utility.showToastMessageLong(activity,activity.getString(R.string.please_enter_country));
+
             return false;
         }
        else if(FieldValidators.isNullOrEmpty(mEtCity)){
-            mEtCity.setFocusable(true);
-            mEtCity.requestFocus();
-            mEtCity.setError(activity.getString(R.string.please_enter_city));
+//            mEtCity.setFocusable(true);
+//            mEtCity.requestFocus();
+            Utility.showToastMessageLong(activity,activity.getString(R.string.please_enter_city));
             return false;
         }
        else if(FieldValidators.isNullOrEmpty(mEtPincode)){

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,12 +24,9 @@ import com.igniva.qwer.model.ProfileResponsePojo;
 import com.igniva.qwer.model.ResponsePojo;
 import com.igniva.qwer.ui.views.CallProgressWheel;
 import com.igniva.qwer.utils.Constants;
-import com.igniva.qwer.utils.FieldValidators;
 import com.igniva.qwer.utils.Global;
 import com.igniva.qwer.utils.PreferenceHandler;
 import com.igniva.qwer.utils.Utility;
-
-import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -186,104 +182,104 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    public void callConfirmDeletionPopUp() {
-
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setContentView(R.layout.delete_account_pop_up);
-        Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
-        Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
-       final EditText delete_account_password = (EditText) dialog.findViewById(R.id.delete_account_password);
-
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
-        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               if(FieldValidators.isNullOrEmpty(delete_account_password)){
-                   delete_account_password.setError("Please enter password");
-                   delete_account_password.setFocusable(true);
-
-               }
-               else {
-                   Log.e("Tag", "Here----------" + delete_account_password.getText().toString());
-                   if (!delete_account_password.getText().toString().isEmpty() && delete_account_password.getText().toString().length() > 0) {
-                       dialog.dismiss();
-                       HashMap<String, String> deleteAccount = new HashMap<>();
-                       deleteAccount.put(com.igniva.qwer.utils.Constants.PASSWORD, delete_account_password.getText().toString());
-                       callDeleteMyAccountApi(deleteAccount);
-                   }
-               }
-            }
-        });
-        mBtnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-
-
-            }
-        });
-        dialog.setTitle("Custom Dialog");
-
-
-        dialog.show();
-
-
-    }
-
-    /**
-     * Call Delete my account api
-     *
-     * @param password
-     */
-
-    private void callDeleteMyAccountApi(HashMap<String, String> password) {
-
-        try {
-            if (Utility.isInternetConnection(this)) {
-
-                CallProgressWheel.showLoadingDialog(this, "Loading...");
-                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).deleteAccount(password);
-                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
-                    @Override
-                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
-                        if(response.body().getStatus() == 200){
-                            finishAffinity();
-                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.PreferenceHandler.IS_ALREADY_LOGIN, false);
-                            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        }
-                        else
-                        {
-                            CallProgressWheel.dismissLoadingDialog();
-                            Utility.showToastMessageLong(SettingsActivity.this,response.body().getDescription());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
-                        CallProgressWheel.dismissLoadingDialog();
-                        Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-            }
-
-        } catch (Exception e) {
-            CallProgressWheel.dismissLoadingDialog();
-            Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-
-
-    }
-
+//    public void callConfirmDeletionPopUp() {
+//
+//        // Create custom dialog object
+//        final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.setCancelable(true);
+//        dialog.setCanceledOnTouchOutside(true);
+//        dialog.setContentView(R.layout.delete_account_pop_up);
+//        Button mBtnConfirm = (Button) dialog.findViewById(R.id.btn_confirm);
+//        Button mBtnCancel = (Button) dialog.findViewById(R.id.btn_cancel);
+//       final EditText delete_account_password = (EditText) dialog.findViewById(R.id.delete_account_password);
+//
+////        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//
+//        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//               if(FieldValidators.isNullOrEmpty(delete_account_password)){
+//                   delete_account_password.setError("Please enter password");
+//                   delete_account_password.setFocusable(true);
+//
+//               }
+//               else {
+//                   Log.e("Tag", "Here----------" + delete_account_password.getText().toString());
+//                   if (!delete_account_password.getText().toString().isEmpty() && delete_account_password.getText().toString().length() > 0) {
+//                       dialog.dismiss();
+//                       HashMap<String, String> deleteAccount = new HashMap<>();
+//                       deleteAccount.put(com.igniva.qwer.utils.Constants.PASSWORD, delete_account_password.getText().toString());
+//                       callDeleteMyAccountApi(deleteAccount);
+//                   }
+//               }
+//            }
+//        });
+//        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//
+//
+//            }
+//        });
+//        dialog.setTitle("Custom Dialog");
+//
+//
+//        dialog.show();
+//
+//
+//    }
+//
+//    /**
+//     * Call Delete my account api
+//     *
+//     * @param password
+//     */
+//
+//    private void callDeleteMyAccountApi(HashMap<String, String> password) {
+//
+//        try {
+//            if (Utility.isInternetConnection(this)) {
+//
+//                CallProgressWheel.showLoadingDialog(this, "Loading...");
+//                Call<ResponsePojo> posts = retrofit.create(ApiInterface.class).deleteAccount(password);
+//                posts.enqueue(new retrofit2.Callback<ResponsePojo>() {
+//                    @Override
+//                    public void onResponse(Call<ResponsePojo> call, retrofit2.Response<ResponsePojo> response) {
+//                        if(response.body().getStatus() == 200){
+//                            finishAffinity();
+//                            PreferenceHandler.writeBoolean(SettingsActivity.this, com.igniva.qwer.utils.PreferenceHandler.IS_ALREADY_LOGIN, false);
+//                            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+//                            startActivity(intent);
+//                        }
+//                        else
+//                        {
+//                            CallProgressWheel.dismissLoadingDialog();
+//                            Utility.showToastMessageLong(SettingsActivity.this,response.body().getDescription());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResponsePojo> call, Throwable t) {
+//                        CallProgressWheel.dismissLoadingDialog();
+//                        Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                });
+//
+//            }
+//
+//        } catch (Exception e) {
+//            CallProgressWheel.dismissLoadingDialog();
+//            Toast.makeText(SettingsActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
+//
     @Override
     protected void setUpLayout() {
         String isSocialLogin=PreferenceHandler.readString(SettingsActivity.this,PreferenceHandler.PREF_KEY_IS_SOCIAL_LOGIN,"false");
@@ -295,7 +291,7 @@ public class SettingsActivity extends BaseActivity {
     else {
         mLlChangePassword.setVisibility(View.VISIBLE);
         mLlChangeEmail.setVisibility(View.VISIBLE);
-        mLlDeleteAccount.setVisibility(View.VISIBLE);
+        mLlDeleteAccount.setVisibility(View.GONE);
     }
     }
 
@@ -335,7 +331,7 @@ public class SettingsActivity extends BaseActivity {
                 startActivity(intentAbout);
                 break;
             case R.id.ll_DeleteAccount:
-                callConfirmDeletionPopUp();
+//                callConfirmDeletionPopUp();
                 break;
             case R.id.ll_contactUs:
                    startActivity(new Intent(this,ContactUsActivity.class));

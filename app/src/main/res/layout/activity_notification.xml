@@ -24,8 +24,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/no_data"
-            android:textColor="@android:color/black"
-            android:visibility="gone" />
+             android:visibility="gone" />
         <!-- TODO: Update blank fragment layout -->
         <FrameLayout
             android:layout_width="match_parent"
