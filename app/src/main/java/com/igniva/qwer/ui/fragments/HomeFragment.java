@@ -39,12 +39,12 @@ import retrofit2.Retrofit;
 public class HomeFragment extends BaseFragment {
 
     final Handler mHandler = new Handler();
-      int swiped_card_postion;
     public int mPos;
     public CardStack mCardStack;
     public CardsDataAdapter mCardAdapter;
     public String viewID = "";
     public Runnable mRunnable;
+    int swiped_card_postion;
     View mView;
     ViewPager viewPager;
     @Inject
@@ -135,7 +135,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void updateCard(final Boolean isOnline, final String view_id) {
-        if(mHandler!=null && mRunnable!=null){
+        if (mHandler != null && mRunnable != null) {
             mHandler.removeCallbacks(mRunnable);
             mHandler.removeCallbacksAndMessages(null);
         }
@@ -153,7 +153,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void callHandler() {
-        if(mHandler!=null && mRunnable!=null){
+        if (mHandler != null && mRunnable != null) {
             mHandler.removeCallbacks(mRunnable);
             mHandler.removeCallbacksAndMessages(null);
         }
@@ -165,7 +165,7 @@ public class HomeFragment extends BaseFragment {
                     Global.homeFrag.mCardStack.discardTop(1);
 
                 mCardAdapter.updateOnline(swiped_card_postion + 1, null, "");
-             }
+            }
         };
 
         mHandler.postDelayed(mRunnable, 120000);
@@ -180,11 +180,8 @@ public class HomeFragment extends BaseFragment {
         mCardStack.setStackMargin(20);
         mCardAdapter = new CardsDataAdapter(getActivity(), getFragmentManager(), responsePojo.body().getUsers().getData(), retrofit, HomeFragment.this);
         mCardStack.setAdapter(mCardAdapter);
-        mPos=0;
-        if (mCardAdapter.getCount() > 0) {
-            callHandler();
-            swiped_card_postion = 0;
-         }
+        mPos = 0;
+        swiped_card_postion = 0;
         mCardStack.setListener(new CardStack.CardEventListener() {
             @Override
             public boolean swipeEnd(int section, float distance) {
@@ -207,7 +204,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void discarded(int mIndex, int direction) {
-                if(mHandler!=null && mRunnable!=null){
+                if (mHandler != null && mRunnable != null) {
                     mHandler.removeCallbacks(mRunnable);
                     mHandler.removeCallbacksAndMessages(null);
                 }
@@ -216,7 +213,7 @@ public class HomeFragment extends BaseFragment {
                 //getting the string attached with the card
 //                UsersResponsePojo.UsersPojo.UserDataPojo userDataPojo = responsePojo.body().getUsers().getData().get(swiped_card_postion);
 
-                mPos=mIndex;
+                mPos = mIndex;
                 if (direction == 0 || direction == 1) {
                     if (responsePojo.body().getUsers().getData().size() > mIndex)
                         ApiControllerClass.getOtherUserProfile(retrofit, getActivity(), responsePojo.body().getUsers().getData().get(mIndex).getId(), false);
@@ -286,7 +283,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mHandler!=null && mRunnable!=null){
+        if (mHandler != null && mRunnable != null) {
             mHandler.removeCallbacks(mRunnable);
             mHandler.removeCallbacksAndMessages(null);
         }
